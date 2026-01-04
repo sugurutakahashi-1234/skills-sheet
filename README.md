@@ -1,6 +1,6 @@
 # スキルシート
 
-- このスキルシートのリンク - https://github.com/sugurutakahashi-1234/skillsheet
+- このスキルシートのリンク - https://github.com/sugurutakahashi-1234/skills-sheet
 
 ## サマリー
 

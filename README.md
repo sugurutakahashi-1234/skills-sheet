@@ -234,9 +234,9 @@
     - APIクライアント: [@hey-api/client-fetch](https://github.com/hey-api/openapi-ts), [openapi-fetch](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-fetch), [openapi-react-query](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-react-query), [axios](https://github.com/axios/axios)
     - フロントエンド: [React](https://github.com/facebook/react), [TanStack Query](https://github.com/TanStack/query)
     - モックサーバー: [Prism](https://github.com/stoplightio/prism)
-- **[css-learning](https://github.com/sugurutakahashi-1234/css-learning):**
-  - 7つの異なる CSS ライブラリを用いて、同一のブログアプリケーションを実装・比較検証するプロジェクト
-  - CRUD（新規作成、一覧/詳細表示、更新、削除）機能を持つ単一のブログ API をバックエンドとし、各 CSS ライブラリでフロントエンドを実装することで、それぞれの特徴を実践的に比較検証
+- **[styling-learning](https://github.com/sugurutakahashi-1234/styling-learning):**
+  - 7つの異なるスタイリングライブラリを用いて、同一のブログアプリケーションを実装・比較検証するプロジェクト
+  - CRUD（新規作成、一覧/詳細表示、更新、削除）機能を持つ単一のブログ API をバックエンドとし、各スタイリングライブラリでフロントエンドを実装することで、それぞれの特徴を実践的に比較検証
   - 使用技術：
     - フロントエンド: [React](https://github.com/facebook/react), [TanStack Query](https://github.com/TanStack/query), [TanStack Router](https://github.com/TanStack/router), [Vite](https://github.com/vitejs/vite)
     - スタイリング: [Tailwind CSS v4](https://github.com/tailwindlabs/tailwindcss), [shadcn/ui](https://github.com/shadcn-ui/ui), [DaisyUI](https://github.com/saadeghi/daisyui), [Headless UI](https://github.com/tailwindlabs/headlessui), [HeroUI](https://github.com/heroui-inc/heroui), [cva](https://github.com/joe-bell/cva), [Tailwind Variants](https://github.com/nextui-org/tailwind-variants)

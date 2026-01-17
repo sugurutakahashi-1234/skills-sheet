@@ -114,7 +114,7 @@
 ### フリーランス (2021年07月 - 現在)
 
 - 2025年
-  - [No.12] ショートドラマアプリ開発 - React Native エンジニア（エンタメ業界 G社）（現在参画中）
+  - [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）（現在参画中）
   - [No.11] TypeScript 製 OSS 開発・技術学習 - 個人開発（TypeScript）
   - [No.10] NFT ゲームアプリ開発 - Flutter リードエンジニア（WEB3 特化 SIer F社）
 - 2024年
@@ -140,9 +140,9 @@
 
 ---
 
-<details><summary>[No.12] ショートドラマアプリ開発 - React Native エンジニア（React Native）</summary>
+<details><summary>[No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）</summary>
 
-## [No.12] ショートドラマアプリ開発 - React Native エンジニア（React Native）
+## [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）
 
 #### チーム体制
 

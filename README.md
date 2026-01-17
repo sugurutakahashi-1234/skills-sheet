@@ -6,7 +6,8 @@
 
 ### 強み
 
-- **モバイルアプリ開発**：Swift を中心に Flutter や React Native のクロスプラットフォーム開発の経験
+- **モバイルアプリ開発**：Swift を中心に Flutter や React Native (Expo) によるクロスプラットフォーム開発の経験
+- **フルスタック開発**：Web（Next.js）、サーバーサイド（Hono）、インフラ（Terraform）まで対応可能
 - **リードエンジニア実績**：0 → 1 フェーズでのリードエンジニア経験（4件）
 - **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
 - **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
@@ -17,11 +18,11 @@
 
 - **言語**: Swift, TypeScript, Dart, PHP, Java
 - **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
-- **Web クライアント**: React, Next.js, TanStack Query
+- **Web アプリ開発**: React, Next.js, TanStack Query
 - **サーバーサイド**: TypeScript (Hono), REST API 設計, GraphQL 設計, Node.js, Express, PHP, Java
 - **アーキテクチャ**: Clean Architecture, VIPER, MVVM, Redux, Riverpod
 - **データベース**: テーブル定義設計, Prisma ORM, PostgreSQL, MySQL, Firestore
-- **クラウド**: Firebase, AWS (Amplify, AppSync, Cognito, S3), Google Cloud (Cloud Run)
+- **クラウド**: Firebase, AWS (Amplify, AppSync, Cognito, S3), Google Cloud (Cloud Run), Terraform
 - **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise
 - **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
 - **AI活用**: Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携
@@ -37,7 +38,7 @@
 
 ## スキルセット
 
-### モバイルアプリ開発
+### アプリ開発
 
 - **Swift (7年)**
   - SwiftUI, Combine, Swift Concurrency, Swift Package Manager といった Swift のモダンな技術を活用した実装
@@ -45,10 +46,16 @@
 - **Flutter**
   - Flutter による iOS / Android のクロスプラットフォームアプリの開発
   - Riverpod を用いた状態管理
-- **React Native**
-  - React Native（Expo）による iOS / Android のクロスプラットフォームアプリの開発
-  - Solito を用いたモバイル / Web のコード共有
+- **React Native (Expo) / Next.js**
+  - Swift 7年の経験を経て、生成AI時代の開発効率を重視し React Native に移行（[Zenn 記事](https://zenn.dev/ikuraikura/articles/2025-12-21-native)）
+  - React Native（Expo）/ Next.js によるモバイル・Web の同時開発
+  - Next.js（App Router）による SSR を活用した Web アプリケーション開発
+  - Solito によるモバイル・Web 間のナビゲーション統一とコード共有
   - TanStack Query による状態管理
+- **フルスタック TypeScript**
+  - フロントエンド（React）、バックエンド（Hono）、データベース（Prisma）までを TypeScript で統一したフルスタック開発
+  - OpenAPI 仕様から型安全な API クライアントを生成するスキーマ駆動開発
+  - bun workspaces / pnpm workspaces によるモノレポ管理
 - **アーキテクチャ**
   - Clean Architecture, VIPER, MVVM, Redux, Riverpod + Hooks などの様々なアーキテクチャの経験
   - Swift Package Manager を使用したマルチモジュールアプリの設計・実装
@@ -63,26 +70,11 @@
     - Cloud Storage, Cloud Run, Google Maps API, Google Cloud API Key の活用
 - **CI/CD**
   - Xcode Cloud, Bitrise, GitHub Actions, Codemagic などを利用した CI/CD 環境の構築
-
-### TypeScript
-
-- **Next.js (React)**
-  - Next.js（App Router）による Web アプリケーション開発
-  - Server Components を活用した SSR による初期表示の最適化
-  - Tamagui を用いた React Native / Web 統一 UI の実装
-  - Solito によるモバイル（Expo）/ Web（Next.js）間のコード共有
-- **フルスタック TypeScript**
-  - フロントエンド（React）、バックエンド（Hono）、データベース（Prisma）までを TypeScript で統一したフルスタック開発を経験
-  - OpenAPI 仕様から型安全な API クライアントを生成し、サーバー・クライアント間での型安全性を保証するスキーマ駆動開発の実践
-- **モダンな技術スタックの習得**
-  - TanStack Router/Query、Hono、Prisma ORM などの最新ライブラリを実践的に活用
-  - bun workspaces および pnpm workspaces によるモノレポ管理
-- **アーキテクチャ設計**
-  - Clean Architecture、レイヤードアーキテクチャを TypeScript に適用した実装・設計の経験
-  - スタイリングライブラリ、OpenAPI生成ツールなど、プロジェクトに応じたライブラリ選定の経験
-- **開発環境の構築**
-  - GitHub Actions による CI/CD パイプライン、release-please による自動リリースの経験
   - Biome、Knip、Renovate を活用した継続的なコード品質向上の仕組みの構築
+- **インフラ / IaC**
+  - Terraform による AWS インフラの構築
+  - AWS CLI による AWS リソースの操作
+  - AWS Organizations によるマルチアカウント環境（prod / stg / dev）の構築
 - **OSS 開発**
   - **[ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)**:
     - ChatGPT や Claude のチャット履歴を Markdown 変換するツール（npm, Homebrew）
@@ -111,7 +103,10 @@
 
 - **コーディング支援AIツールの実践的活用**
   - Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP 連携などの複数の AI ツールを活用
-  - Zenn で 100 いいね以上を獲得した技術記事を執筆:
+  - Figma MCP を活用したデザインからの UI 実装
+  - Google DevTools MCP / Playwright MCP を活用した UI の自動検証
+  - AWS MCP Servers を活用した予算見積もり、構成図作成、ベストプラクティスの情報収集
+  - Zenn で 140 いいね以上を獲得した技術記事を執筆:
     - [無職が Claude Code を使って 3 週間かけて OSS ライブラリを開発したけど誰も使ってくれなかった話](https://zenn.dev/ikuraikura/articles/2025-08-02-oss)
 
 ## 職務経歴

@@ -6,24 +6,24 @@
 
 ### 強み
 
-- **モバイルアプリ開発**：Swift を中心に Flutter や React Native などのクロスプラットフォーム開発も経験
+- **モバイルアプリ開発**：Swift を中心に Flutter や React Native のクロスプラットフォーム開発の経験
 - **リードエンジニア実績**：0 → 1 フェーズでのリードエンジニア経験（4件）
 - **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
 - **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
 - **チーム開発**：PdM、デザイナー、他の開発チームとの要件や仕様の調整、チームの進捗管理、開発プロセスの改善
-- **OSS開発**：4つの TypeScript 製 CLI ツール 開発、npm / Homebrew / GitHub Actions Marketplace にて配布
+- **OSS開発**：TypeScript 製 CLI ツール 開発、npm / Homebrew / GitHub Actions Marketplace での配布経験
 
 ### 技術スタック
 
-- **言語**: Swift (7年), Dart, TypeScript, JavaScript, PHP, Java
-- **モバイルアプリ開発**: SwiftUI, UIKit, Swift Package Manager, Flutter, React Native
-- **Web クライアント**: React, TanStack Router/Query, Tailwind CSS, shadcn/ui
+- **言語**: Swift, TypeScript, Dart, PHP, Java
+- **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
+- **Web クライアント**: React, Next.js, TanStack Query
 - **サーバーサイド**: TypeScript (Hono), REST API 設計, GraphQL 設計, Node.js, Express, PHP, Java
 - **アーキテクチャ**: Clean Architecture, VIPER, MVVM, Redux, Riverpod
 - **データベース**: テーブル定義設計, Prisma ORM, PostgreSQL, MySQL, Firestore
-- **クラウド**: Firebase, AWS Amplify (AppSync, Cognito, S3), GCP
+- **クラウド**: Firebase, AWS (Amplify, AppSync, Cognito, S3), Google Cloud (Cloud Run)
 - **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise
-- **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub)
+- **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
 - **AI活用**: Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携
 
 ## 基本情報
@@ -44,8 +44,11 @@
   - Swift について多数のブログ記事の投稿 → Zenn: https://zenn.dev/ikuraikura
 - **Flutter**
   - Flutter による iOS / Android のクロスプラットフォームアプリの開発
+  - Riverpod を用いた状態管理
 - **React Native**
-  - React Native による iOS / Android のクロスプラットフォームアプリの開発
+  - React Native（Expo）による iOS / Android のクロスプラットフォームアプリの開発
+  - Solito を用いたモバイル / Web のコード共有
+  - TanStack Query による状態管理
 - **アーキテクチャ**
   - Clean Architecture, VIPER, MVVM, Redux, Riverpod + Hooks などの様々なアーキテクチャの経験
   - Swift Package Manager を使用したマルチモジュールアプリの設計・実装
@@ -53,16 +56,33 @@
   - ドローンなどのハードウェア機器の制御や、インカメラを使った視線分析、感情分析といった高度な実装スキルを要するライブラリの組み込み
 - **mBaaS 連携**
   - **Firebase**
-    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution など Firebase SDK を利用した実装
+    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config など Firebase SDK を利用した実装
   - **AWS**
     - AppSync, Cognito, S3, Pinpoint などの AWS サービスを Amplify SDK を利用して連携
-  - **GCP**
-    - Cloud Storage, Google Maps API, Google Cloud API Key の活用
+  - **Google Cloud**
+    - Cloud Storage, Cloud Run, Google Maps API, Google Cloud API Key の活用
 - **CI/CD**
   - Xcode Cloud, Bitrise, GitHub Actions, Codemagic などを利用した CI/CD 環境の構築
 
 ### TypeScript
 
+- **Next.js (React)**
+  - Next.js（App Router）による Web アプリケーション開発
+  - Server Components を活用した SSR による初期表示の最適化
+  - Tamagui を用いた React Native / Web 統一 UI の実装
+  - Solito によるモバイル（Expo）/ Web（Next.js）間のコード共有
+- **フルスタック TypeScript**
+  - フロントエンド（React）、バックエンド（Hono）、データベース（Prisma）までを TypeScript で統一したフルスタック開発を経験
+  - OpenAPI 仕様から型安全な API クライアントを生成し、サーバー・クライアント間での型安全性を保証するスキーマ駆動開発の実践
+- **モダンな技術スタックの習得**
+  - TanStack Router/Query、Hono、Prisma ORM などの最新ライブラリを実践的に活用
+  - bun workspaces および pnpm workspaces によるモノレポ管理
+- **アーキテクチャ設計**
+  - Clean Architecture、レイヤードアーキテクチャを TypeScript に適用した実装・設計の経験
+  - スタイリングライブラリ、OpenAPI生成ツールなど、プロジェクトに応じたライブラリ選定の経験
+- **開発環境の構築**
+  - GitHub Actions による CI/CD パイプライン、release-please による自動リリースの経験
+  - Biome、Knip、Renovate を活用した継続的なコード品質向上の仕組みの構築
 - **OSS 開発**
   - **[ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)**:
     - ChatGPT や Claude のチャット履歴を Markdown 変換するツール（npm, Homebrew）
@@ -72,18 +92,6 @@
     - コミットメッセージ、ブランチ名から GitHub Issue への参照を検証するツール（npm, GitHub Actions Marketplace）
   - **[readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)**:
     - README の翻訳版と原文の構造的一貫性を検証するツール（npm）
-- **フルスタック TypeScript**
-  - フロントエンド（React）、バックエンド（Hono）、データベース（Prisma）までを TypeScript で統一したフルスタック開発を経験
-  - OpenAPI 仕様から型安全な API クライアントを生成し、サーバー・クライアント間での型安全性を保証するスキーマ駆動開発の実践
-- **モダンな技術スタックの習得**
-  - TanStack Router/Query、Hono、Prisma ORM などの最新ライブラリを実践的に活用
-  - bun workspaces および pnpm workspaces によるモノレポ管理
-- **アーキテクチャ設計**
-  - Clean Architecture、レイヤードアーキテクチャを TypeScript に適用した実装・設計の経験
-  - CSS ライブラリやルーティングライブラリ、OpenAPI生成ツールなど、プロジェクトに応じたライブラリ選定の経験
-- **開発環境の構築**
-  - GitHub Actions による CI/CD パイプライン、release-please による自動リリースの経験
-  - Biome、Knip、Renovate を活用した継続的なコード品質向上の仕組みの構築
 
 ### チーム開発
 
@@ -95,7 +103,7 @@
   - PdM、デザイナー、サーバーサイドエンジニアとの仕様調整の経験
 - **アジャイル開発**
   - スクラム、カンバンなどの手法を用いたアジャイル開発の経験
-  - Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog などのプロジェクト管理ツールの経験
+  - Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear などのプロジェクト管理ツールの経験
 - **Scrum Master**
   - Scrum Master として、スプリント計画、実行、レトロスペクティブのファシリテーション、スクラムボードの設計の経験
 
@@ -141,7 +149,106 @@
 
 ## [No.12] ショートドラマアプリ開発 - React Native エンジニア（React Native）
 
-現在参画中のプロジェクトです。詳細は追って記載します。
+#### チーム体制
+
+- 案件全体人数 : 6名
+  - フロントエンド（Web + モバイル） : 2名（担当）
+
+#### 案件概要・担当業務
+
+- 0 → 1 直後のグロースフェーズにおけるショートドラマアプリの開発
+- React Native（Expo）による iOS / Android 同時開発を担当し、並行して Next.js による Web 版の開発も実施
+
+#### 新たに習得した技術
+
+- **React Native / Expo**
+  - Expo による iOS / Android クロスプラットフォーム開発
+  - Expo SDK のメジャーバージョンアップ対応（52→53、53→54）
+  - Solito によるモバイル（Expo）/ Web（Next.js）間のコード共有
+  - Tamagui を用いたプラットフォーム間の UI 統一
+  - expo-iap によるアプリ内課金の実装
+  - expo-tracking-transparency による ATT（App Tracking Transparency）対応
+  - Rive を用いたアニメーションの組み込みの実装
+- **Next.js**
+  - Next.js による Web アプリケーション開発
+- **状態管理・データフェッチング**
+  - TanStack Query による状態管理
+- **開発体験向上の取り組み**
+  - Maestro による E2E テスト
+  - Storybook によるコンポーネントカタログ・UI テスト
+  - Mise によるツールバージョン管理
+
+#### 経験できたこと・貢献できたこと
+
+- **グロース施策の企画・実装**
+  - 課金導線の改善による ARPU 向上への貢献
+  - ガチャ・ボーナス画面のリテンション向上施策の設計・実装
+  - オファーウォール連携による収益化施策の実装
+  - 高速な PDCA サイクル（施策立案から1週間でリリース、効果検証、改善または削除）
+- **クロスプラットフォーム開発**
+  - 2 名体制での効率的なモバイル・Web 並行開発
+  - Monorepo 構成によるモバイル・Web 間のコード共有
+  - Tamagui を用いたプラットフォーム間の UI 統一
+- **デザイナーとの協業**
+  - デザイン意図や背景を確認しながらの実装
+  - 文言、遷移方法、コンポーネントの色や配置など UI/UX の改善案の提案
+  - Figma MCP を活用した Figma デザインからの実装
+  - Storybook でコンポーネントを作成し、Google DevTools MCP / Playwright MCP で Claude Code による検証
+- **技術的な取り組み**
+  - Expo SDK のメジャーバージョンアップ対応（52→53、53→54）と依存関係の解決
+  - Expo Modules API による Swift / Kotlin でのネイティブモジュール開発（動画プレイヤー）
+  - TanStack Query によるキャッシュ戦略、楽観的更新（Optimistic Update）、キャッシュインバリデートの実装
+  - expo-iap によるサブスクリプション・消費型課金の両方の実装
+  - Rive によるガチャ演出のアニメーション実装
+  - ATT（App Tracking Transparency）の実装
+  - Maestro による E2E テストの導入
+- **コードレビュー**
+  - チーム内でのコードレビュー
+  - GitHub Actions による Claude Code 自動レビューの仕組みの構築
+- **新技術のキャッチアップ**
+  - React Native / Next.js 初の実務案件で Claude Code を活用して効率的にキャッチアップ
+  - 隔週の社内 LT 会で Claude Code のアップデート情報などを共有
+
+### 開発環境
+
+#### 技術スタック
+
+- React Native (Expo), Next.js, TypeScript
+- Tamagui, Solito, TanStack Query, Valibot, ts-proto
+- Expo Modules API（Swift / Kotlin）
+
+#### 開発ツール
+
+- ESLint, Prettier, Vitest, Storybook, Maestro
+
+#### Firebase / Google Cloud
+
+- Firebase（Auth, Distribution, Remote Config, Analytics）
+- Google Cloud（Cloud Run）
+
+#### 分析ツール
+
+- BytePlus DI, Adjust, AppLovin, Looker Studio
+
+#### CI/CD
+
+- GitHub Actions
+
+#### プロジェクト管理
+
+- GitHub Projects, Linear, Notion
+
+#### デザインツール
+
+- Figma
+
+#### 開発ツール
+
+- VSCode, Android Studio, Xcode, Mise
+
+#### AI 活用
+
+- Claude Code, Gemini, GitHub Copilot, Codex
 
 </details>
 

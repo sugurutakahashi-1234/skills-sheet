@@ -183,24 +183,14 @@
 - **クロスプラットフォーム開発**
   - 2 名体制での効率的なモバイル・Web 並行開発
   - Monorepo 構成によるモバイル・Web 間のコード共有
-  - Tamagui を用いたプラットフォーム間の UI 統一
 - **デザイナーとの協業**
   - デザイン意図や背景を確認しながらの実装
   - 文言、遷移方法、コンポーネントの色や配置など UI/UX の改善案の提案
   - Figma MCP を活用した Figma デザインからの実装
   - Storybook でコンポーネントを作成し、Google DevTools MCP / Playwright MCP で Claude Code による検証
-- **技術的な取り組み**
-  - Expo SDK のメジャーバージョンアップ対応（52→53、53→54）と依存関係の解決
-  - Expo Modules API による Swift / Kotlin でのネイティブモジュール開発（動画プレイヤー）
-  - TanStack Query によるキャッシュ戦略、楽観的更新（Optimistic Update）、キャッシュインバリデートの実装
-  - expo-iap によるサブスクリプション・消費型課金の両方の実装
-  - Rive によるガチャ演出のアニメーション実装
-  - ATT（App Tracking Transparency）の実装
-  - Maestro による E2E テストの導入
-- **コードレビュー**
+- **コードレビュー・ナレッジ共有**
   - チーム内でのコードレビュー
   - GitHub Actions による Claude Code 自動レビューの仕組みの構築
-- **新技術のキャッチアップ**
   - React Native / Next.js 初の実務案件で Claude Code を活用して効率的にキャッチアップ
   - 隔週の社内 LT 会で Claude Code のアップデート情報などを共有
 
@@ -212,7 +202,7 @@
 - Tamagui, Solito, TanStack Query, Valibot, ts-proto
 - Expo Modules API（Swift / Kotlin）
 
-#### 開発ツール
+#### コード品質・テスト
 
 - ESLint, Prettier, Vitest, Storybook, Maestro
 
@@ -233,17 +223,9 @@
 
 - GitHub Projects, Linear, Notion
 
-#### デザインツール
-
-- Figma
-
 #### 開発ツール
 
-- VSCode, Android Studio, Xcode, Mise
-
-#### AI 活用
-
-- Claude Code, Gemini, GitHub Copilot, Codex
+- VSCode, Android Studio, Xcode, Mise, Figma, Claude Code, GitHub Copilot
 
 </details>
 

@@ -41,40 +41,39 @@
 ### アプリ開発
 
 - **Swift (7年)**
-  - SwiftUI, Combine, Swift Concurrency, Swift Package Manager といった Swift のモダンな技術を活用した実装
-  - Swift について多数のブログ記事の投稿 → Zenn: https://zenn.dev/ikuraikura
-- **Flutter**
-  - Flutter による iOS / Android のクロスプラットフォームアプリの開発
-  - Riverpod を用いた状態管理
+  - SwiftUI, Combine, Swift Concurrency を活用した宣言的 UI・非同期処理の実装
+  - Swift Package Manager を使用したマルチモジュール構成の設計・実装
+  - Swift について多数のブログ記事を投稿 → Zenn: https://zenn.dev/ikuraikura
 - **React Native (Expo) / Next.js**
-  - Swift 7年の経験を経て、生成AI時代の開発効率を重視し React Native に移行（[Zenn 記事](https://zenn.dev/ikuraikura/articles/2025-12-21-native)）
-  - React Native（Expo）/ Next.js によるモバイル・Web の同時開発
-  - Next.js（App Router）による SSR を活用した Web アプリケーション開発
-  - Solito によるモバイル・Web 間のナビゲーション統一とコード共有
+  - Expo による iOS / Android / Web のクロスプラットフォーム開発
+  - Monorepo 構成 + Solito によるモバイル・Web 間のナビゲーション統一とコード共有
   - TanStack Query による状態管理
-- **サーバーサイド開発**
-  - REST API の設計・開発（PHP, Java）
-  - MySQL でのデータベース設計
-  - OAuth2.0 での認証・認可の実装
-  - OpenAPI (Swagger) でのインターフェース設計・共有
+- **Flutter**
+  - Riverpod + Hooks を用いた状態管理
+  - go_router によるルーティング、OpenAPI Generator による API クライアント自動生成
 - **アーキテクチャ**
-  - Clean Architecture, VIPER, MVVM, Redux, Riverpod + Hooks などの様々なアーキテクチャの経験
-  - Swift Package Manager を使用したマルチモジュールアプリの設計・実装
-- **ライブラリの組み込み**
-  - ドローンなどのハードウェア機器の制御や、インカメラを使った視線分析、感情分析といった高度な実装スキルを要するライブラリの組み込み
-- **mBaaS 連携**
+  - Clean Architecture, VIPER, MVVM, Redux などプロジェクト特性に応じた設計選定
+  - レガシーコードのアーキテクチャ刷新・段階的リファクタリング
+- **CI/CD**
+  - Xcode Cloud, Bitrise, GitHub Actions, Codemagic による TestFlight / Firebase App Distribution への自動配信
+  - Renovate による依存関係の自動更新
+  - release-please によるリリース自動化
+- **サーバーサイド開発**
+  - OpenAPI (Swagger) でのインターフェース設計
+  - REST API の設計・開発（TypeScript, PHP）
+  - RDB のテーブル設計
+- **ハードウェア連携 SDK の組み込み**
+  - ドローン SDK によるリアルタイム飛行制御
+  - インカメラ連携による視線分析・感情分析の実装
+- **クラウド連携**
   - **Firebase**
     - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config など Firebase SDK を利用した実装
   - **AWS**
     - AppSync, Cognito, S3, Pinpoint などの AWS サービスを Amplify SDK を利用して連携
   - **Google Cloud**
     - Cloud Storage, Cloud Run, Google Maps API, Google Cloud API Key の活用
-- **CI/CD**
-  - Xcode Cloud, Bitrise, GitHub Actions, Codemagic などを利用した CI/CD 環境の構築
-  - Biome、Knip、Renovate を活用した継続的なコード品質向上の仕組みの構築
 - **インフラ / IaC**
   - Terraform による AWS インフラの構築
-  - AWS CLI による AWS リソースの操作
   - AWS Organizations によるマルチアカウント環境（prod / stg / dev）の構築
 - **OSS 開発**
   - **[ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)**:
@@ -558,7 +557,7 @@
 - **サードパーティ製 SDK:**
   - SwiftProtobuf, Firebase, Amplify, Nimble/Quick, LicensesPlugin, PhoneNumberKit, DeviceKit, SwiftFormat, SwiftGen, Lottie, Mockolo, Mint, Periphery
 
-#### mBaaS
+#### クラウド連携
 
 - **AWS Amplify:**
   - AppSync (GraphQL), Cognito, S3, Pinpoint
@@ -619,7 +618,7 @@
 - **サードパーティ製 SDK:**
   - Carbon, VueFlux, ReactiveSwift, XcodeGen, Quick/Nimble, APIKit, CocoaPods, Carthage, Lottie
 
-#### mBaaS
+#### クラウド連携
 
 - **Firebase:**
   - Crashlytics
@@ -701,7 +700,7 @@
 - **サードパーティ製 SDK:**
   - Realm, Quick/Nimble, APIKit, CocoaPods, Carthage
 
-#### mBaaS
+#### クラウド連携
 
 - **Firebase:**
   - Crashlytics, Analytics
@@ -735,7 +734,7 @@
 #### 案件概要・担当業務
 
 - Flutter での iOS・Android クロスプラットフォーム開発を採用したショッピングアプリのデモアプリの開発を担当
-- Flutter でのフロントエンド実装から Firebase の mBaaS を活用したバックエンド実装まで、すべて一人で行った
+- Flutter でのフロントエンド実装から Firebase を活用したバックエンド実装まで、すべて一人で行った
 
 #### 経験した技術
 
@@ -764,7 +763,7 @@
 
 - Provider
 
-#### mBaaS
+#### クラウド連携
 
 - Firebase:
   - Authentication, Firestore, Storage, Crashlytics, App Distribution, Analytics

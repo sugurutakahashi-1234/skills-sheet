@@ -55,7 +55,7 @@
   - Clean Architecture, VIPER, MVVM, Redux などプロジェクト特性に応じた設計選定
   - レガシーコードのアーキテクチャ刷新・段階的リファクタリング
 - **CI/CD**
-  - Xcode Cloud, Bitrise, GitHub Actions, Codemagic による TestFlight / Firebase App Distribution への自動配信
+  - Xcode Cloud, Bitrise, GitHub Actions による TestFlight / Firebase App Distribution への自動配信
   - Renovate による依存関係の自動更新
   - release-please によるリリース自動化
 - **サーバーサイド開発**
@@ -67,9 +67,9 @@
   - インカメラ連携による視線分析・感情分析の実装
 - **クラウド連携**
   - **Firebase**
-    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config など Firebase SDK を利用した実装
+    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config などを利用した実装
   - **AWS**
-    - AppSync, Cognito, S3, Pinpoint などの AWS サービスを Amplify SDK を利用して連携
+    - AppSync, Cognito, S3, Pinpoint などの AWS サービスを Amplify SDK 経由での活用
   - **Google Cloud**
     - Cloud Storage, Cloud Run, Google Maps API, Google Cloud API Key の活用
 - **インフラ / IaC**
@@ -97,7 +97,7 @@
   - スクラム、カンバンなどの手法を用いたアジャイル開発の経験
   - Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear などのプロジェクト管理ツールの経験
 - **Scrum Master**
-  - Scrum Master として、スプリント計画、実行、レトロスペクティブのファシリテーション、スクラムボードの設計の経験
+  - Scrum Master としてスプリントのプランニング、リファインメント、レトロスペクティブの実施やスクラムボードの設計の経験
 
 ### 生成AI活用
 
@@ -114,7 +114,7 @@
 ### フリーランス (2021年07月 - 現在)
 
 - 2025年
-  - [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）（現在参画中）
+  - [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）**（現在参画中）**
   - [No.11] OSS 開発 - 個人開発（TypeScript）
   - [No.10] NFT ゲームアプリ開発 - Flutter リードエンジニア（WEB3 特化 SIer F社）
 - 2024年

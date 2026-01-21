@@ -7,7 +7,7 @@
 ### 強み
 
 - **モバイルアプリ開発**：Swift を中心に Flutter や React Native (Expo) によるクロスプラットフォーム開発の経験
-- **フルスタック開発**：Web（Next.js）、サーバーサイド（Hono）、インフラ（Terraform）まで対応可能
+- **フルスタック開発**：モバイル、Web、サーバーサイドまで幅広い開発経験
 - **リードエンジニア実績**：0 → 1 フェーズでのリードエンジニア経験（4件）
 - **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
 - **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
@@ -19,7 +19,7 @@
 - **言語**: Swift, TypeScript, Dart, PHP, Java
 - **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
 - **Web アプリ開発**: React, Next.js, TanStack Query
-- **サーバーサイド**: TypeScript (Hono), REST API 設計, GraphQL 設計, Node.js, Express, PHP, Java
+- **サーバーサイド**: REST API 設計, GraphQL 設計, データベース設計, Node.js, Express, PHP, Java
 - **アーキテクチャ**: Clean Architecture, VIPER, MVVM, Redux, Riverpod
 - **データベース**: テーブル定義設計, Prisma ORM, PostgreSQL, MySQL, Firestore
 - **クラウド**: Firebase, AWS (Amplify, AppSync, Cognito, S3), Google Cloud (Cloud Run), Terraform
@@ -52,10 +52,11 @@
   - Next.js（App Router）による SSR を活用した Web アプリケーション開発
   - Solito によるモバイル・Web 間のナビゲーション統一とコード共有
   - TanStack Query による状態管理
-- **フルスタック TypeScript**
-  - フロントエンド（React）、バックエンド（Hono）、データベース（Prisma）までを TypeScript で統一したフルスタック開発
-  - OpenAPI 仕様から型安全な API クライアントを生成するスキーマ駆動開発
-  - bun workspaces / pnpm workspaces によるモノレポ管理
+- **サーバーサイド開発**
+  - REST API の設計・開発（PHP, Java）
+  - MySQL でのデータベース設計
+  - OAuth2.0 での認証・認可の実装
+  - OpenAPI (Swagger) でのインターフェース設計・共有
 - **アーキテクチャ**
   - Clean Architecture, VIPER, MVVM, Redux, Riverpod + Hooks などの様々なアーキテクチャの経験
   - Swift Package Manager を使用したマルチモジュールアプリの設計・実装
@@ -99,7 +100,7 @@
 - **Scrum Master**
   - Scrum Master として、スプリント計画、実行、レトロスペクティブのファシリテーション、スクラムボードの設計の経験
 
-### AI活用
+### 生成AI活用
 
 - **コーディング支援AIツールの実践的活用**
   - Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP 連携などの複数の AI ツールを活用
@@ -115,7 +116,7 @@
 
 - 2025年
   - [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）（現在参画中）
-  - [No.11] TypeScript 製 OSS 開発・技術学習 - 個人開発（TypeScript）
+  - [No.11] OSS 開発 - 個人開発（TypeScript）
   - [No.10] NFT ゲームアプリ開発 - Flutter リードエンジニア（WEB3 特化 SIer F社）
 - 2024年
   - [No.9] SNS アプリ開発 - iOS リードエンジニア（SIer E社）
@@ -225,14 +226,13 @@
 
 ---
 
-<details><summary>[No.11] TypeScript 製 OSS 開発・技術学習 - 個人開発（TypeScript）</summary>
+<details><summary>[No.11] OSS 開発 - 個人開発（TypeScript）</summary>
 
-## [No.11] TypeScript 製 OSS 開発・技術学習 - 個人開発（TypeScript）
+## [No.11] OSS 開発 - 個人開発（TypeScript）
 
 #### 概要
 
 - TypeScript 製の OSS ライブラリ開発（実用的な CLI ツール）
-- モダンな TypeScript 技術の包括的な学習・比較検証のためのリポジトリ群
 
 #### OSS ライブラリ開発
 
@@ -286,56 +286,11 @@
     - CI/CD: GitHub Actions, [release-please](https://github.com/googleapis/release-please)
     - コード品質: [Biome](https://github.com/biomejs/biome), [husky](https://github.com/typicode/husky), [Codecov](https://github.com/codecov/codecov-action), [Renovate](https://github.com/renovatebot/renovate), [Knip](https://github.com/webpro-nl/knip), [commitlint](https://github.com/conventional-changelog/commitlint), [@elsikora/git-branch-lint](https://github.com/elsikora/git-branch-lint)
 
-#### 技術検証リポジトリ
-
-- **[hono-learning](https://github.com/sugurutakahashi-1234/hono-learning):**
-  - Hono フレームワークを軸に、フロントエンド・REST API・データベースアクセスまでを全て TypeScript で実装する、型安全なフルスタック開発の学習プロジェクト
-  - pnpm workspace によるモノレポ管理によって各パッケージ（shared / database / server / web-client / api-client）を適切な依存関係での連携
-  - Hono を用いて型安全な OpenAPI 仕様を生成し、その仕様から型安全な API クライアントとレスポンスの型定義を自動生成
-  - 使用技術：
-    - モノレポ管理: [pnpm workspace](https://pnpm.io/workspaces)
-    - データベース: [Prisma](https://github.com/prisma/prisma), PostgreSQL
-    - サーバーサイド: [Hono](https://github.com/honojs/hono), [@hono/zod-openapi](https://github.com/honojs/middleware/tree/main/packages/zod-openapi)
-    - APIクライアント: [openapi-typescript](https://github.com/openapi-ts/openapi-typescript), [openapi-fetch](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-fetch), [openapi-react-query](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-react-query)
-    - フロントエンド: [React](https://github.com/facebook/react), [TanStack Query](https://github.com/TanStack/query), [Vite](https://github.com/vitejs/vite)
-    - テスト: [Vitest](https://github.com/vitest-dev/vitest), [Playwright](https://github.com/microsoft/playwright), [Storybook](https://github.com/storybookjs/storybook)
-    - 環境変数: [dotenvx](https://github.com/dotenvx/dotenvx), [@t3-oss/env-core](https://github.com/t3-oss/t3-env)
-    - コード品質: [Biome](https://github.com/biomejs/biome), [Knip](https://github.com/webpro-nl/knip), [husky](https://github.com/typicode/husky), [commitlint](https://github.com/conventional-changelog/commitlint)
-    - CI/CD: GitHub Actions, [git-cliff](https://github.com/orhun/git-cliff), [Renovate](https://github.com/renovatebot/renovate)
-- **[openapi-gen-learning](https://github.com/sugurutakahashi-1234/openapi-gen-learning):**
-  - 単一の OpenAPI 仕様から異なるTypeScriptクライアント生成ツールを比較検証するリポジトリ
-  - OpenAPIコード生成ツール（Hey API、openapi-typescript、Orval、openapi-zod-client）の実装比較と詳細な技術ドキュメンテーション
-  - 生成されたクライアントコードを実際に React と TanStack Query で使用し、ブラウザ上で動作確認
-  - 使用技術：
-    - モノレポ管理: [pnpm workspace](https://pnpm.io/workspaces)
-    - OpenAPIコード生成: [@hey-api/openapi-ts](https://github.com/hey-api/openapi-ts), [openapi-typescript](https://github.com/openapi-ts/openapi-typescript), [Orval](https://github.com/orval-labs/orval), [openapi-zod-client](https://github.com/astahmer/openapi-zod-client)
-    - APIクライアント: [@hey-api/client-fetch](https://github.com/hey-api/openapi-ts), [openapi-fetch](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-fetch), [openapi-react-query](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-react-query), [axios](https://github.com/axios/axios)
-    - フロントエンド: [React](https://github.com/facebook/react), [TanStack Query](https://github.com/TanStack/query)
-    - モックサーバー: [Prism](https://github.com/stoplightio/prism)
-- **[styling-learning](https://github.com/sugurutakahashi-1234/styling-learning):**
-  - 7つの異なるスタイリングライブラリを用いて、同一のブログアプリケーションを実装・比較検証するプロジェクト
-  - CRUD（新規作成、一覧/詳細表示、更新、削除）機能を持つ単一のブログ API をバックエンドとし、各スタイリングライブラリでフロントエンドを実装することで、それぞれの特徴を実践的に比較検証
-  - 使用技術：
-    - フロントエンド: [React](https://github.com/facebook/react), [TanStack Query](https://github.com/TanStack/query), [TanStack Router](https://github.com/TanStack/router), [Vite](https://github.com/vitejs/vite)
-    - スタイリング: [Tailwind CSS v4](https://github.com/tailwindlabs/tailwindcss), [shadcn/ui](https://github.com/shadcn-ui/ui), [DaisyUI](https://github.com/saadeghi/daisyui), [Headless UI](https://github.com/tailwindlabs/headlessui), [HeroUI](https://github.com/heroui-inc/heroui), [cva](https://github.com/joe-bell/cva), [Tailwind Variants](https://github.com/nextui-org/tailwind-variants)
-    - APIクライアント: [openapi-typescript](https://github.com/openapi-ts/openapi-typescript), [openapi-fetch](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-fetch), [openapi-react-query](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-react-query)
-    - モックサーバー: [Prism](https://github.com/stoplightio/prism)
-- **[router-learning](https://github.com/sugurutakahashi-1234/router-learning):**
-  - React Router v7 と TanStack Router の 2 つのルーティングライブラリを比較検証するプロジェクト
-  - 比較記事を Zenn に投稿 → [React Router v7 / TanStack Router x File-Based / Code-Based 4パターン実装比較](https://zenn.dev/ikuraikura/articles/2025-06-25-router)
-  - 使用技術：
-    - フロントエンド: [React](https://github.com/facebook/react), [TanStack Query](https://github.com/TanStack/query), [Vite](https://github.com/vitejs/vite)
-    - ルーティング: [React Router v7](https://github.com/remix-run/react-router), [TanStack Router](https://github.com/TanStack/router)
-    - APIクライアント: [openapi-typescript](https://github.com/openapi-ts/openapi-typescript), [openapi-fetch](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-fetch), [openapi-react-query](https://github.com/openapi-ts/openapi-typescript/tree/main/packages/openapi-react-query)
-    - モックサーバー: [Prism](https://github.com/stoplightio/prism)
-
 #### 取り組み・貢献
 
 - **実用的な OSS ライブラリの開発・運用**
   - 2つの CLI ツールを npm パッケージとして公開し、実際のユーザーに利用される OSS を運用した
   - Homebrew tap や GitHub Actions Marketplace など、複数の配布チャネルを確立した
-- **技術選定の判断基準の確立**
-  - 複数の技術選択肢を比較検証し、プロジェクトに最適な技術を選定する判断基準を確立した
 
 </details>
 

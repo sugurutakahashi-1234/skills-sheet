@@ -158,17 +158,17 @@
 
 - **React Native (Expo) / Next.js**
   - Monorepo 構成による iOS / Android / Web のクロスプラットフォーム開発
-  - Expo SDK のメジャーバージョンアップ対応（52→53、53→54）
+  - Expo SDK のメジャーバージョンアップ対応（v52→v53、v53→v54）
   - Solito によるモバイル（Expo）/ Web（Next.js）間のコード共有
   - Tamagui を用いたプラットフォーム間の UI 統一
   - expo-iap によるアプリ内課金の実装
   - Rive を用いたアニメーションの組み込み
   - Next.js による Web アプリケーション開発
   - TanStack Query によるデータフェッチング・キャッシング
-- **開発体験向上の取り組み**
-  - Mise の導入により開発環境のセットアップを簡略化し、バージョンを統一した
-  - Maestro による E2E テスト
-  - Storybook によるコンポーネントカタログ・UI テスト
+- **開発プロセス改善**
+  - Storybook による UI コンポーネントカタログの作成
+  - Maestro によるモバイルアプリでの E2E テストの導入
+  - Mise の導入による開発環境のセットアップの簡略化とバージョンの統一
 - **AI・MCP活用**
   - Figma MCP を活用した Figma デザインからの実装
   - Storybook でコンポーネントを作成し、Google DevTools MCP / Playwright MCP で Claude Code による検証
@@ -179,7 +179,7 @@
 - **グロース施策の企画・実装**
   - 課金導線を改善し、サブスク購入ユーザー数・買い切り商品の購入回数を増加させた
   - ガチャ・ボーナス画面を設計・実装し、主要KPIの改善に貢献した
-  - オファーウォールを導入し、収益構造を多角化した
+  - オファーウォール連携を導入し、収益チャネルを拡大した
   - 高速な PDCA サイクル（施策立案から1週間でリリース、効果検証、改善または削除）を回した
 - **デザイナーとの協業**
   - 仮実装を素早く共有し、デザイナーからのフィードバックを得ながらリリース前に何度もブラッシュアップを重ねた
@@ -187,19 +187,14 @@
 
 ### 開発環境
 
-#### アーキテクチャ
+#### React Native (Expo) / Next.js
 
-- Monorepo 構成（Expo + Next.js）
-
-#### 技術スタック
-
-- React Native (Expo), Next.js, TypeScript
-- Tamagui, Solito, TanStack Query, Valibot, ts-proto
-- Expo Modules API（Swift / Kotlin）
-
-#### コード品質・テスト
-
-- ESLint, Prettier, Vitest, Storybook, Maestro
+- **アーキテクチャ:**
+  - Monorepo 構成（Expo + Next.js）
+- **主要ライブラリ:**
+  - Tamagui, Solito, TanStack Query, ts-proto, Expo Modules API（Swift / Kotlin）
+- **コード品質・テスト:**
+  - ESLint, Prettier, Vitest, Storybook, Maestro
 
 #### Firebase / Google Cloud
 
@@ -220,7 +215,7 @@
 
 #### 開発ツール
 
-- VSCode, Android Studio, Xcode, Mise, Claude Code, GitHub Copilot
+- VSCode, Android Studio, Xcode, GitHub Copilot, Claude Code, Codex, Gemini
 
 #### デザインツール
 
@@ -332,7 +327,7 @@
   - `pedantic_mono` によるコード品質の向上
   - `ThemeData` よりデザインシステムの実装
   - `fvm` による Flutter バージョンの管理
-- **開発体験向上の取り組み**
+- **開発プロセス改善**
   - `Prism` を活用した API モックサーバーの構築
   - [`Lefthook`](https://github.com/evilmartians/lefthook) による pre-commit 時の静的解析実行
 
@@ -398,7 +393,7 @@
   - Xcode 16 Beta での Strict Concurrency を含む Swift 6 対応
   - AVFoundation を活用した録音/再生の機能実装
   - [WhisperKit](https://github.com/argmaxinc/WhisperKit), [Speech](https://developer.apple.com/documentation/speech/) SDK を活用した音声データの文字起こしの実装
-- **開発体験向上の取り組み**
+- **開発プロセス改善**
   - [Swift OpenAPI Generator](https://github.com/apple/swift-openapi-generator) による API 通信処理の自動生成の GitHub Actions パイプラインの構築
   - [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) を用いた API 仕様書の自動生成の GitHub Actions パイプラインの構築
   - [tbls](https://github.com/k1LoW/tbls) を用いた MySQL のテーブル定義書の自動生成の GitHub Actions パイプラインの構築
@@ -406,7 +401,7 @@
 
 #### 取り組み・貢献
 
-- **アジャイルな取り組み**
+- **アジャイル開発**
   - テスタブルなアーキテクチャの導入:
     - モックにより API のレスポンスを差し替えられるアーキテクチャを導入し、サーバーサイドチームからの API 提供前から View やビジネスロジックの実装を可能にした
   - デバッグ画面の作成:
@@ -425,7 +420,7 @@
     - 環境構築手順、ライブラリ選定理由、アーキテクチャ、CI/CD 構成図、ブランチ戦略などを README に記載した
   - プロジェクト管理:
     - リリースノート、タグ、マイルストーン、GitHub Projects を整備し、タスクの進捗を時系列で振り返れるように管理した
-- **実装・最新技術への取り組み**
+- **実装・最新技術**
   - 実装:
     - ワイヤフレーム段階でのデザインを基に iOS アプリを実装し、実装の課題や仕様の課題を早期発見し、チームへ共有した
   - コード生成:
@@ -535,7 +530,7 @@
   - ReplayKit を用いた画面のレコーディング
   - 視線や感情の時系列データの Combine を用いたハンドリング
   - JavaScript を用いたアプリ内 WebView のイベントハンドリング
-- **開発体験向上の取り組み**
+- **開発プロセス改善**
   - GitHub Actions によるリリース tag の生成、リリースノートの作成、PR のレビューワー追加、マイルストーン追加、ラベル追加の自動化の Workflow の実装
   - [Renovate](https://github.com/renovatebot/renovate) によるライブラリの自動更新 PR の作成の環境構築
   - [Periphery](https://github.com/peripheryapp/periphery) による Swift コードの不要なコードの静的解析

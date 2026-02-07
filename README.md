@@ -177,8 +177,8 @@
 #### 取り組み・貢献
 
 - **グロース施策の企画・実装**
-  - 課金導線を改善し、サブスク購入ユーザー数・買い切り商品の購入回数を増加させた
-  - ガチャ・ボーナス画面を設計・実装し、主要KPIの改善に貢献した
+  - 課金導線を改善し、サブスクの契約者数や課金アイテムの購入数を増加させた
+  - ガチャ・ミッション機能・無料開放施策などの設計・実装を通じて、主要KPIの改善に貢献した
   - オファーウォール連携を導入し、収益チャネルを拡大した
 - **高速な PDCA サイクルの実践**
   - 施策立案から1週間でリリースする高速な PDCA サイクルをスプリントごとに繰り返し回した
@@ -194,9 +194,9 @@
 - **アーキテクチャ:**
   - Monorepo 構成（Expo + Next.js）
 - **主要ライブラリ:**
-  - Tamagui, Solito, TanStack Query, ts-proto, Expo Modules API（Swift / Kotlin）
+  - TanStack Query, ts-proto, Tamagui, Solito, Expo Modules API（Swift / Kotlin）
 - **コード品質・テスト:**
-  - ESLint, Prettier, Vitest, Storybook, Maestro
+  - Storybook, ESLint, Prettier, Vitest, Maestro
 
 #### Firebase / Google Cloud
 
@@ -205,7 +205,7 @@
 
 #### 分析ツール
 
-- BytePlus DI, Adjust, AppLovin, Looker Studio
+- BytePlus DI, Looker Studio, Adjust
 
 #### CI/CD
 
@@ -213,7 +213,7 @@
 
 #### プロジェクト管理
 
-- GitHub Projects, Linear, Notion
+- GitHub Projects, Notion, Linear 
 
 #### 開発ツール
 

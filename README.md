@@ -171,7 +171,7 @@
 
 - **React Native (Expo) / Next.js**
   - Monorepo 構成による iOS / Android / Web のクロスプラットフォーム開発
-  - Expo SDK のメジャーバージョンアップ対応（v52→v53、v53→v54）
+  - Expo SDK のメジャーバージョンアップ対応（v52→v53、v53→v54、v54→v55）
   - Solito によるモバイル（Expo）/ Web（Next.js）間のコード共有
   - Tamagui を用いたプラットフォーム間の UI 統一
   - expo-iap によるアプリ内課金の実装

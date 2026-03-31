@@ -6,8 +6,8 @@
 
 ### 強み
 
-- **モバイルアプリ開発**：Swift を中心に Flutter や React Native (Expo) によるクロスプラットフォーム開発の経験
-- **フルスタック開発**：モバイル、Web、サーバーサイドまで幅広い開発経験
+- **フロントエンド開発**：React Native (Expo) / Next.js / Swift / Flutter によるモバイル・Web 開発
+- **フルスタック開発**：REST API / GraphQL の設計・開発、テーブル設計、クラウドインフラの設計・構築
 - **リードエンジニア経験**：0 → 1 フェーズでのリードエンジニア経験（4件）
 - **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
 - **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
@@ -16,7 +16,7 @@
 
 ### 技術スタック
 
-- **言語**: Swift, TypeScript, Dart, PHP, Java
+- **言語**: TypeScript, Swift, Dart, PHP, Java
 - **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
 - **Web アプリ開発**: React, Next.js, TanStack Query
 - **サーバーサイド**: REST API 設計, GraphQL 設計, データベース設計, Node.js, Express, PHP, Java
@@ -40,14 +40,14 @@
 
 ### アプリ開発
 
+- **React Native (Expo) / Next.js**
+  - Expo による iOS / Android / Web のクロスプラットフォーム開発
+  - Monorepo 構成によるモバイル・Web 間のコード共有
+  - TanStack Query によるデータフェッチング・キャッシング
 - **Swift (7年)**
   - SwiftUI, Combine, Swift Concurrency を活用した宣言的 UI・非同期処理の実装
   - Swift Package Manager を使用したマルチモジュール構成の設計・実装
   - Swift について多数のブログ記事を投稿 → Zenn: https://zenn.dev/ikuraikura
-- **React Native (Expo) / Next.js**
-  - Expo による iOS / Android / Web のクロスプラットフォーム開発
-  - Monorepo 構成 + Solito によるモバイル・Web 間のナビゲーション統一とコード共有
-  - TanStack Query によるデータフェッチング・キャッシング
 - **Flutter**
   - Riverpod + Hooks を用いた状態管理
   - go_router によるルーティング、OpenAPI Generator による API クライアント自動生成
@@ -178,6 +178,7 @@
   - Rive を用いたアニメーションの組み込み
   - Next.js による Web アプリケーション開発
   - TanStack Query によるデータフェッチング・キャッシング
+  - Crisp SDK を用いたカスタマーサポート用チャット機能の実装
 - **開発プロセス改善**
   - Storybook による UI コンポーネントカタログの作成
   - Maestro によるモバイルアプリでの E2E テストの導入

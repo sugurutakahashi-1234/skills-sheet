@@ -147,7 +147,7 @@
 
 <details><summary>[No.13] 株式会社 ZENSHIN - CTO（SIer）</summary>
 
-※ 後ほど記載
+※ 詳細は追って記載予定
 
 </details>
 

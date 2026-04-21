@@ -6,9 +6,12 @@
 
 ### 強み
 
-- **フロントエンド開発**：React Native (Expo) / Next.js / Swift / Flutter によるモバイル・Web 開発
+- **フロントエンド開発**：React Native (Expo) / Next.js / Swift / Flutter / Astro によるモバイル・Web 開発
 - **フルスタック開発**：REST API / GraphQL の設計・開発、テーブル設計、クラウドインフラの設計・構築
 - **リードエンジニア経験**：0 → 1 フェーズでのリードエンジニア経験（4件）
+- **CTO 経験**：創業フェーズのスタートアップでコーポレートサイトと社内インフラを単独で構築・運用
+- **SEO / Core Web Vitals 改善**：Lighthouse 100/100 を維持するコーポレートサイトの設計・運用経験
+- **IaC / マルチクラウド運用**：Terraform による GCP / Cloudflare / AWS の横断管理、Zero Trust / OIDC の導入経験
 - **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
 - **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
 - **チーム開発**：PdM、デザイナー、他の開発チームとの要件や仕様の調整、チームの進捗管理、開発プロセスの改善
@@ -18,12 +21,14 @@
 
 - **言語**: TypeScript, Swift, Dart, PHP, Java
 - **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
-- **Web アプリ開発**: React, Next.js, TanStack Query
+- **Web アプリ開発**: React, Next.js, Astro, TanStack Query, Tailwind CSS
 - **サーバーサイド**: REST API 設計, GraphQL 設計, データベース設計, Node.js, Express, PHP, Java
 - **アーキテクチャ**: Clean Architecture, VIPER, MVVM, Redux, Riverpod
 - **データベース**: テーブル定義設計, Prisma ORM, PostgreSQL, MySQL, Firestore
-- **クラウド**: Firebase, AWS (Amplify, AppSync, Cognito, S3), Google Cloud (Cloud Run), Terraform
-- **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise
+- **クラウド**: AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Pages, DNS, Turnstile, Access), Firebase
+- **インフラ / IaC**: Terraform, tflint, dotenvx, OIDC
+- **SEO / パフォーマンス**: JSON-LD, OGP, satori, Core Web Vitals, Google Search Console
+- **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
 - **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
 - **AI活用**: Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携
 
@@ -73,7 +78,10 @@
   - **Google Cloud**
     - Cloud Storage, Cloud Run, Google Maps API, Google Cloud API Key の活用
 - **インフラ / IaC**
-  - Terraform による AWS インフラの構築
+  - Terraform によるマルチクラウド（GCP / Cloudflare / AWS）の IaC 構築・運用
+  - GCS Remote Backend による Terraform state の一元管理
+  - Workload Identity Federation (OIDC) による GitHub Actions → GCP の鍵レス認証（Service Account Key の発行不要）
+  - Cloudflare Access（Zero Trust）+ Google OAuth による環境へのドメイン認証アクセス制限
   - AWS Organizations によるマルチアカウント環境（prod / stg / dev）の構築
 - **OSS 開発**
   - **[ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)**:
@@ -147,7 +155,169 @@
 
 <details><summary>[No.13] 株式会社 ZENSHIN - CTO（SIer）</summary>
 
-※ 詳細は追って記載予定
+## [No.13] 株式会社 ZENSHIN - CTO（SIer）
+
+#### チーム体制
+
+- CTO として、提案活動・コーポレートサイト開発・社内インフラ管理を一人で担当
+
+#### 案件概要・担当業務
+
+- 創業フェーズの株式会社 ZENSHIN の CTO として、以下 3 つの業務を並行して推進
+  - **業務 1: 提案活動** — AI ツールを活用したデモ・プロトタイプ・提案書作成
+  - **業務 2: コーポレートサイト開発** — https://www.zenshin-inc.co.jp/ の設計・構築・運用
+  - **業務 3: 社内インフラ管理** — Terraform によるマルチクラウド IaC
+
+---
+
+### 業務 1: 提案活動
+
+#### 概要
+
+- システム構築案件の提案フェーズにおいて、AI ツールを活用したデモ・プロトタイプ作成と提案書の作成を主導
+- CEO や営業と同席し、お客様との要件ヒアリングから提案までを技術面でリード
+
+#### 経験した技術
+
+- **AI ツールを活用したデモ / プロトタイプ / 提案書・見積書の作成**
+  - v0 (Vercel) / Replit / Lovable / Google AI Studio による UI・アプリの高速プロトタイピング
+  - Claude Code / Codex による実装レベルのデモ作成
+  - Google Stitch / Figma によるデザインモックアップ作成
+  - プロトタイプを組み込んだ提案書・見積書の作成
+
+#### 取り組み・貢献
+
+- **課題起点のヒアリング重視の提案**
+  - お客様の提示するシステム要件をそのまま受けず、「何に困っているか」「理想の姿」を深掘りするヒアリングを実施
+  - お客様の当初の構成案が最適でないケースも多いため、課題定義から提案し直すことを心がけた
+- **提案前の技術検証と実装先行**
+  - AI 開発ツールを活用し、商談前の段階で 1〜2 日でプロトタイプを作成して実現可能性を事前報告
+  - 商談中に不明点があればその場で AI を使って調査し、回答まで完結させた
+- **CEO・営業との提案方針のすり合わせ**
+  - 提案内容・方針・見積もりを事前に CEO・営業と合意してから提案に臨む
+  - 設計まで完了させた上で A / B / C の複数案を準備し、お客様の反応に応じて即座に出し分け
+- **技術的実現性と見積もりによる商談推進**
+  - 技術的な実現可能性、期間、想定工数の見積もりを自分が事前に詰めておくことで、精度・具体性の高い提案を実現
+- **提案書・見積書の作成方針**
+  - お客様の課題がどう解決されるかをシンプルに伝えることを重視
+  - 自社予算での費用対効果（投資回収の見込み）まで含めて、意思決定材料となる提案書・見積書を作成
+
+---
+
+### 業務 2: コーポレートサイト開発（Astro + Cloudflare Pages）
+
+#### 概要
+
+- 株式会社 ZENSHIN のコーポレートサイト（ https://www.zenshin-inc.co.jp/ ）を Astro + Cloudflare Pages 構成で設計・構築・運用
+
+#### 経験した技術
+
+- **Astro / Cloudflare Pages**
+  - Astro 6 による SSG + Cloudflare Pages Functions による問い合わせ API の実装
+  - Tailwind CSS v4 による UI 実装、ブランドカラーの設計
+  - Astro Content Collections による blog / news / works / services のコンテンツ管理
+  - Cloudflare Turnstile + Slack Bot Token による問い合わせフォームのスパム対策と通知連携
+  - `astro:env` による下書き記事の環境別可視化
+- **SEO / 構造化データ / Core Web Vitals**
+  - Schema.org（Organization / ProfessionalService / BreadcrumbList）の JSON-LD 埋め込み
+  - OGP / Twitter Card / canonical URL / `robots: noindex` のページ別制御
+  - satori + sharp による OG 画像の動的生成（記事ごとに 1200x630 PNG）
+  - `@astrojs/sitemap` による sitemap.xml 自動生成
+  - CSS インライン化と画像最適化による LCP 改善
+  - Google Search Console / PageSpeed Insights による計測と継続的改善
+- **CI/CD / テスト / 品質**
+  - GitHub Actions による Preview / Staging / Snapshot / Production の多段デプロイパイプライン
+  - `release-please` による Conventional Commits ベースの自動リリース
+  - Vitest / Playwright / `@axe-core/playwright` による単体・E2E・アクセシビリティ検証
+  - oxlint / oxfmt / knip / lefthook による静的解析・フォーマット自動化
+- **生成 AI 活用**
+  - Claude Code Managed Agents（Web 版 Claude Code）のセットアップ
+  - Chrome DevTools MCP を活用したブラウザ動作検証
+  - GitHub Actions による Claude Code 自動レビューの仕組み
+
+#### 取り組み・貢献
+
+- **CEO・経営陣と連携したサイト構築**
+  - 掲載内容・デザイン方針を CEO や経営陣と相談しながら決定
+  - Staging 環境を整備し、段階的に経営陣の意見を取り込む CI/CD サイクルで開発を進めた
+- **SEO / Core Web Vitals 改善**
+  - CSS インライン化・画像最適化・構造化データ実装により Lighthouse 100/100 を達成・維持
+  - Google Search Console と PageSpeed Insights をダッシュボードとして運用し、継続的に改善
+- **技術ブログの立ち上げ・運営による採用・ブランディング貢献**
+  - タグ / 月別アーカイブ、記事ごとの OGP 自動生成、執筆規約を整備
+  - 技術選定・CMS 選定・Astro OGP 生成などの記事を自ら執筆し、採用・ブランディングに活用
+
+---
+
+### 業務 3: 社内インフラ管理（Terraform マルチクラウド）
+
+#### 概要
+
+- GCP / Cloudflare / AWS を横断管理する Terraform モノレポを構築・運用
+- コーポレートサイトのホスティング基盤、DNS、Zero Trust アクセス制限、アカウント・通知設定などを IaC 化
+
+#### 経験した技術
+
+- **Terraform / マルチクラウド**
+  - GCP / Cloudflare / AWS を対象としたマルチモジュール構成の IaC 管理
+  - GCS Remote Backend による Terraform state の一元管理
+  - Workload Identity Federation (OIDC) による GitHub Actions → GCP の鍵レス認証
+  - Cloudflare Access（Zero Trust）+ Google OAuth による Staging 環境へのアクセス制限
+  - dotenvx による各モジュールの `.env` 暗号化コミットと CI 復号
+- **Cloudflare のセキュリティ / パフォーマンス機能**
+  - Smart Tiered Cache / 0-RTT 接続再開 / Speed Brain / Page Shield の Terraform 管理化
+  - apex→www 301 Redirect Rules による URL 正規化
+  - WAF Custom Rule の導入検討と「現時点では設定しない」意思決定の文書化
+- **CI/CD（Terraform）/ ガバナンス**
+  - GitHub Actions による PR 時の `terraform plan` 自動実行と `tfcmt` による PR コメント
+  - tflint + lefthook による pre-commit / pre-push の自動検査
+  - Renovate によるプロバイダ・依存の自動更新
+  - Gmail フィルタ + Slack Email App による通知の Slack 集約
+  - GitHub Organization のチーム構成・権限設計
+
+#### 取り組み・貢献
+
+- **属人化の排除と継続運用の仕組み化**
+  - 属人的になりがちな社内インフラ構成を徹底的に Terraform で IaC 化
+  - Terraform で表現できない設定は README に明示し、CTO が不在でも運用が回る仕組みを整備
+- **インフラ 100% IaC 化による安全なワークフロー**
+  - コード変更 → PR → `terraform plan` CI → マージ → ローカル `apply` の一連のフローを確立
+- **DNS 移行プロジェクトの遂行**
+  - AWS Route 53 → Cloudflare DNS への段階的移行を Phase 管理で実施し、無停止で本番切替
+- **技術的意思決定の文書化**
+  - 採用しなかった選択肢（WAF、Cache Rules など）とその理由もリポジトリに残す文化を形成
+
+---
+
+### 開発環境
+
+#### フロントエンド
+
+- Astro 6, TypeScript, Tailwind CSS v4, Bun, Astro Content Collections, satori, sharp
+
+#### クラウド / インフラ
+
+- Cloudflare (Pages, Pages Functions, DNS, Turnstile, Access), GCP (Workload Identity Federation, GCS, IAM), Terraform, tflint, dotenvx, mise
+
+#### CI/CD
+
+- GitHub Actions, release-please, Wrangler, tfcmt, Renovate
+
+#### テスト / 品質
+
+- Vitest, Playwright, @axe-core/playwright, oxlint, oxfmt, knip, lefthook
+
+#### AI ツール（提案活動・開発）
+
+- v0 (Vercel), Replit, Lovable, Google AI Studio, Google Stitch, Claude Code, Codex, Claude Code Managed Agents, Chrome DevTools MCP, GitHub Copilot
+
+#### 分析 / モニタリング
+
+- Google Search Console, PageSpeed Insights, Cloudflare Analytics
+
+#### 開発ツール
+
+- VSCode, Figma
 
 </details>
 

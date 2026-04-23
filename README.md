@@ -10,7 +10,7 @@
 - **フルスタック開発**：REST API / GraphQL の設計・開発、テーブル設計、クラウドインフラの設計・構築
 - **リードエンジニア経験**：0 → 1 フェーズでのリードエンジニア経験（4件）
 - **CTO 経験**：創業フェーズのスタートアップでコーポレートサイトと社内インフラを単独で構築・運用
-- **SEO / Core Web Vitals 改善**：Lighthouse 100/100 を維持するコーポレートサイトの設計・運用経験
+- **SEO / パフォーマンス改善**：Lighthouse 100/100 を維持するコーポレートサイトの設計・運用経験
 - **IaC / マルチクラウド運用**：Terraform による GCP / Cloudflare / AWS の横断管理、Zero Trust / OIDC の導入経験
 - **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
 - **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
@@ -27,7 +27,7 @@
 - **データベース**: テーブル定義設計, Prisma ORM, PostgreSQL, MySQL, Firestore
 - **クラウド**: AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Pages, DNS, Turnstile, Access), Firebase
 - **インフラ / IaC**: Terraform, tflint, dotenvx, OIDC
-- **SEO / パフォーマンス**: JSON-LD, OGP, satori, Core Web Vitals, Google Search Console
+- **SEO / パフォーマンス**: Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
 - **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
 - **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
 - **AI活用**: Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携

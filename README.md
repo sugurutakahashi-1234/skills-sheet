@@ -2,20 +2,25 @@
 
 - このスキルシートのリンク - https://github.com/sugurutakahashi-1234/skills-sheet
 
+## 基本情報
+
+- **所在**: 東京
+- **エンジニア歴**: 10年（2017年〜）
+- **外部リンク**:
+  - GitHub - https://github.com/sugurutakahashi-1234
+  - X - https://twitter.com/ikuraikuraaaaaa
+  - Qiita - https://qiita.com/sugurutakahashi12345
+  - Zenn - https://zenn.dev/ikuraikura
+
 ## サマリー
 
 ### 強み
 
-- **フロントエンド開発**：React Native (Expo) / Next.js / Swift / Flutter / Astro によるモバイル・Web 開発
-- **フルスタック開発**：REST API / GraphQL の設計・開発、テーブル設計、クラウドインフラの設計・構築
-- **リードエンジニア経験**：0 → 1 フェーズでのリードエンジニア経験（4件）
 - **CTO 経験**：創業フェーズのスタートアップでコーポレートサイトと社内インフラを単独で構築・運用
-- **SEO / パフォーマンス改善**：Lighthouse 100/100 を維持するコーポレートサイトの設計・運用経験
-- **IaC / マルチクラウド運用**：Terraform による GCP / Cloudflare / AWS の横断管理、Zero Trust / OIDC の導入経験
-- **開発基盤の構築**：ライブラリの選定、アーキテクチャの設計、CI/CD 環境の構築
-- **高度な技術の実装経験**：Clean Architecture の適用, IoT 連携、視線・感情分析 SDK の組み込み
-- **チーム開発**：PdM、デザイナー、他の開発チームとの要件や仕様の調整、チームの進捗管理、開発プロセスの改善
-- **OSS開発**：TypeScript 製 CLI ツール 開発、npm / Homebrew / GitHub Actions Marketplace での配布経験
+- **0 → 1 リードエンジニア経験（4件）**：アーキテクチャ選定・CI/CD 構築・チーム運用を含む立ち上げ経験
+- **クロスプラットフォーム開発**：Swift（7年）/ React Native / Flutter / Next.js / Astro による iOS・Android・Web 開発
+- **IaC / マルチクラウド運用**：Terraform による GCP / Cloudflare / AWS の横断管理、Zero Trust / OIDC 導入経験
+- **OSS 開発・技術発信**：npm / Homebrew / GitHub Actions Marketplace での配布、Zenn で 150 いいね獲得
 
 ### 技術スタック
 
@@ -25,25 +30,19 @@
 - **サーバーサイド**: REST API 設計, GraphQL 設計, データベース設計, Node.js, Express, PHP, Java
 - **アーキテクチャ**: Clean Architecture, VIPER, MVVM, Redux, Riverpod
 - **データベース**: テーブル定義設計, Prisma ORM, PostgreSQL, MySQL, Firestore
+- **テスト**: Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
+- **コード品質**: Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
+- **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
 - **クラウド**: AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Pages, DNS, Turnstile, Access), Firebase
+- **認証 / 認可**: OAuth 2.0, JWT, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
 - **インフラ / IaC**: Terraform, tflint, dotenvx, OIDC
 - **SEO / パフォーマンス**: Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
-- **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
 - **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
-- **AI活用**: Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携
-
-## 基本情報
-
-- **所在**: 東京
-- **外部リンク**:
-  - GitHub - https://github.com/sugurutakahashi-1234
-  - X - https://twitter.com/ikuraikuraaaaaa
-  - Qiita - https://qiita.com/sugurutakahashi12345
-  - Zenn - https://zenn.dev/ikuraikura
+- **生成AI活用**: Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携
 
 ## スキルセット
 
-### アプリ開発
+### 開発
 
 - **React Native (Expo) / Next.js**
   - Expo による iOS / Android / Web のクロスプラットフォーム開発
@@ -52,7 +51,8 @@
 - **Swift (7年)**
   - SwiftUI, Combine, Swift Concurrency を活用した宣言的 UI・非同期処理の実装
   - Swift Package Manager を使用したマルチモジュール構成の設計・実装
-  - Swift について多数のブログ記事を投稿 → Zenn: https://zenn.dev/ikuraikura
+  - Swift に関する技術記事を Zenn で多数投稿:
+    - [Swift 7年書いてきたけど React Native に賭けてみようと思う](https://zenn.dev/ikuraikura/articles/2025-12-21-native)（63 いいね）
 - **Flutter**
   - Riverpod + Hooks を用いた状態管理
   - go_router によるルーティング、OpenAPI Generator による API クライアント自動生成
@@ -63,11 +63,11 @@
   - Xcode Cloud, Bitrise, GitHub Actions による TestFlight / Firebase App Distribution への自動配信
   - Renovate による依存関係の自動更新
   - release-please によるリリース自動化
-- **サーバーサイド開発**
+- **サーバーサイド**
   - OpenAPI (Swagger) でのインターフェース設計
   - REST API の設計・開発（TypeScript, PHP）
   - RDB のテーブル設計
-- **ハードウェア連携 SDK の組み込み**
+- **ハードウェア連携**
   - ドローン SDK によるリアルタイム飛行制御
   - インカメラ連携による視線分析・感情分析の実装
 - **クラウド連携**
@@ -114,7 +114,7 @@
   - Figma MCP を活用したデザインからの UI 実装
   - Google DevTools MCP / Playwright MCP を活用した UI の自動検証
   - AWS MCP Servers を活用した予算見積もり、構成図作成、ベストプラクティスの情報収集
-  - Zenn で 140 いいね以上を獲得した技術記事を執筆:
+  - 生成 AI 活用に関する技術記事を Zenn で執筆:
     - [無職が Claude Code を使って 3 週間かけて OSS ライブラリを開発したけど誰も使ってくれなかった話](https://zenn.dev/ikuraikura/articles/2025-08-02-oss)
 
 ## 職務経歴

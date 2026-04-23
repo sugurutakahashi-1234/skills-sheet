@@ -119,10 +119,10 @@
 
 ## 職務経歴
 
-### 株式会社 ZENSHIN (2026年04月 - 現在)
+### 株式会社ZENSHIN (2026年04月 - 現在)
 
 - 2026年
-  - [No.13] [株式会社 ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO（SIer）
+  - [No.13] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO（SIer）
 
 ### フリーランス (2021年07月 - 2026年03月)
 
@@ -153,9 +153,9 @@
 
 ---
 
-<details><summary>[No.13] 株式会社 ZENSHIN - CTO（SIer）</summary>
+<details><summary>[No.13] 株式会社ZENSHIN - CTO（SIer）</summary>
 
-## [No.13] 株式会社 ZENSHIN - CTO（SIer）
+## [No.13] 株式会社ZENSHIN - CTO（SIer）
 
 #### チーム体制
 
@@ -163,7 +163,7 @@
 
 #### 案件概要・担当業務
 
-- 創業フェーズの株式会社 ZENSHIN の CTO として、以下 3 つの業務を並行して推進
+- 創業フェーズの株式会社ZENSHIN の CTO として、以下 3 つの業務を並行して推進
   - **業務 1: 提案活動** — AI ツールを活用したデモ・プロトタイプ・提案書作成
   - **業務 2: コーポレートサイト開発** — https://www.zenshin-inc.co.jp/ の設計・構築・運用
   - **業務 3: 社内インフラ管理** — Terraform によるマルチクラウド IaC
@@ -208,7 +208,7 @@
 
 #### 概要
 
-- 株式会社 ZENSHIN のコーポレートサイト（ https://www.zenshin-inc.co.jp/ ）を Astro + Cloudflare Pages 構成で設計・構築・運用
+- 株式会社ZENSHIN のコーポレートサイト（ https://www.zenshin-inc.co.jp/ ）を Astro + Cloudflare Pages 構成で設計・構築・運用
 
 #### 経験した技術
 

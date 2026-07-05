@@ -5,41 +5,41 @@
 ## 基本情報
 
 - **所在**: 東京
-- **現在のポジション**: AI コンサルタント / FDE / CTO
+- **現在のポジション**: AI コンサルタント / FDE (Forward Deployed Engineer) / CTO
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
   - GitHub - https://github.com/sugurutakahashi-1234
-  - X - https://twitter.com/ikuraikuraaaaaa
+  - X - https://x.com/ikuraikuraaaaaa
   - Qiita - https://qiita.com/sugurutakahashi12345
   - Zenn - https://zenn.dev/ikuraikura
 
 ## サマリー
 
-エンジニア歴 10 年目のフルスタック実装力（IaC / サーバーサイド / Web・モバイルフロントエンド）を土台に、現在は AI コンサルタント / FDE / CTO として活動。AI 活用の相談・提案（プリセールス）から、RAG・MCP・AI エージェント基盤の設計・実装・導入、プロダクト開発の推進までを一気通貫で担う。
+エンジニア歴 10 年目。Web・モバイルのフロントエンドからサーバーサイド、マルチクラウド・IaC までの実装経験あり。現在は創業フェーズの [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) の CTO を務めながら、AI コンサルタント / FDE として AI 活用の相談・提案（プリセールス）から、RAG・MCP・AI エージェント基盤の設計・実装・導入、プロダクト開発の推進までを一気通貫で担当。
 
 ### 強み
 
 - **AI コンサルティング〜FDE**：月額顧問型 AI 相談サービス・提案活動（プリセールス）を推進。助言で終わらせず、FDE として実装・導入まで自ら担える体制
-- **AI システム開発（業務組み込み型 AI）**：Cloudflare 上での RAG・MCP サーバー・AI エージェント基盤のフルスタック開発。非エンジニアの営業が Claude Code / Codex で実業務を回す仕組みを実運用
+- **AI システム開発（RAG / MCP / AI エージェント）**：人材マッチングや開発案件の自動評価など、業務プロセスに AI を組み込んだ社内プロダクトを Cloudflare 上に複数フルスタック開発。非エンジニアの営業が Claude Code / Codex で実業務を回す仕組みを実運用
 - **CTO 経験**：創業フェーズのスタートアップで提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
 - **0 → 1 リードエンジニア経験（5件）**：アーキテクチャ選定・CI/CD 構築・チーム運用に加え、KPI 起点のグロース施策の企画・検証まで含む PdM 的な立ち上げ経験
-- **フルスタック実装力**：IaC / マルチクラウド（Terraform, GCP / Cloudflare / AWS, Zero Trust / OIDC）からサーバーサイド、iOS・Android・Web のフロントエンド（Swift 7年 / React Native / Flutter / Next.js / Astro）まで単独で実装可能
-- **OSS 開発・技術発信**：npm / Homebrew / GitHub Actions Marketplace での配布、Zenn で 150 いいね獲得
+- **フルスタック実装力**：iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
+- **OSS 開発・技術発信**：npm / Homebrew / GitHub Actions Marketplace での配布、Zenn での技術記事の継続発信
 
 ### 技術スタック
 
 - **AIコンサルティング**: 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE として実装・導入まで対応可能な体制
-- **AIシステム開発**: RAG (エンベディング検索, Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), AI Gateway, Vision LLM 活用, Cloudflare Workflows / Queues による AI パイプライン構築, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama)
-- **生成AI活用**: Claude Code (Skills / MCP / エージェント運用), Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP連携
+- **AIシステム開発**: RAG (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
+- **生成AI活用**: Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
 - **言語**: TypeScript, Swift, Dart, PHP, Java
-- **クラウド**: AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, DNS, Turnstile, Access), Firebase
+- **クラウド**: AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, DNS, Turnstile, Access), Firebase
 - **インフラ / IaC**: Terraform, tflint, dotenvx, OIDC
 - **サーバーサイド**: REST API 設計, GraphQL 設計, データベース設計, Node.js, Hono, oRPC, Express, PHP, Java
 - **データベース**: テーブル定義設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
 - **認証 / 認可**: OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
 - **Web アプリ開発**: React, Next.js, Astro, TanStack Query, Tailwind CSS
 - **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
-- **アーキテクチャ**: Clean Architecture, VIPER, MVVM, Redux, Riverpod
+- **アーキテクチャ**: モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
 - **テスト**: Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
 - **コード品質**: Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
 - **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
@@ -54,19 +54,18 @@
   - 月額顧問型「AI 相談サービス」による顧客企業の AI 活用支援
   - LLM ツール（ChatGPT / Claude / Gemini）の使い分け指導、プロンプト・ツール設定の改善
   - MCP 化・Skills 設計の方針策定、システム化の進め方の伴走支援
-  - コンサルティングにとどまらず、FDE（Forward Deployed Engineer）として実装・導入まで一気通貫で対応できる体制（自社 AI システムを単独でフルスタック開発・運用している実装力が裏付け）
+  - コンサルティングにとどまらず、FDE（Forward Deployed Engineer）として実装・導入まで対応できる体制（自社 AI システムのフルスタック開発・運用が裏付け）
 - **AI システム開発（RAG / MCP / エージェント基盤）**
-  - Cloudflare Workers + Vectorize + Workers AI（bge-m3 エンベディング）による RAG・ベクトル検索システムの構築
-  - Better Auth（OAuth）による認証付き MCP サーバー（40+ ツール）の設計・実装
-  - 非エンジニア（営業）が Claude Code / Codex から MCP 経由で実業務を行える仕組みの構築・実運用
-  - Cloudflare Workflows / Queues による LLM 多段パイプライン（構造化 → エンベディング → マッチング）の構築
-  - Claude Code Skills（33 スキル）+ 定期ルーチンによる業務自動化・AI エージェント運用基盤の整備
-  - ユースケース別の LLM モデル選定（Kimi K2 / gpt-oss / GLM / Llama を比較検証し、精度・レイテンシ・コストのバランスで使い分け）
-- **コーディング支援AIツールの活用**
-  - Claude Code, Gemini CLI, Codex CLI, GitHub Copilot, Devin, MCP 連携などの複数の AI ツールを活用
-  - Figma MCP を活用したデザインからの UI 実装
-  - Google DevTools MCP / Playwright MCP を活用した UI の自動検証
-  - AWS MCP Servers を活用した予算見積もり、構成図作成、ベストプラクティスの情報収集
+  - Cloudflare Workers + Vectorize + Workers AI による RAG・ベクトル検索システムの構築
+  - Better Auth（OAuth）認証付き MCP サーバー（40+ ツール）の設計・実装と、非エンジニア（営業）が Claude Code / Codex から実業務を行える仕組みの実運用
+  - Cloudflare Workflows / Queues による LLM 多段パイプラインの構築、Claude Code Skills + 定期ルーチンによる業務自動化
+  - ユースケース別の LLM モデル選定（Kimi K2 / gpt-oss / GLM / Llama、精度・レイテンシ・コストのバランスで使い分け）
+  - プロンプトのバージョン管理と、本番データでの「AI 判定 vs 人間判断」の乖離分析によるデータ駆動のプロンプト改善運用
+- **AI エージェント / コーディング支援ツールの活用**
+  - Claude Code / Codex を中心に、Skills・CLAUDE.md / AGENTS.md・MCP・定期ルーチンを整備し、コーディング支援にとどまらず業務自動化までエージェントを活用
+  - GitHub Actions による Claude Code 自動レビュー、Claude Code Managed Agents（Web 版）の運用
+  - Cloudflare MCP（本番 Worker のログ調査・D1 / KV の参照・デプロイ調査・公式ドキュメント検索）、gcloud MCP（GCP 運用）、Slack MCP（運用調査）を日常の開発・運用に組み込み
+  - Figma MCP（デザインからの UI 実装）、Chrome DevTools MCP / Playwright MCP（UI の自動検証・本番の認証越し動作確認）、AWS MCP Servers（予算見積もり・構成図・ベストプラクティス収集）の活用
   - 生成 AI 活用に関する技術記事を Zenn で執筆:
     - [無職が Claude Code を使って 3 週間かけて OSS ライブラリを開発したけど誰も使ってくれなかった話](https://zenn.dev/ikuraikura/articles/2025-08-02-oss)
 
@@ -144,7 +143,7 @@
 
 - 2026年
   - [No.13] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（SIer）
-    - AI コンサルティング / AI マッチングシステム開発（RAG・MCP・AI エージェント）/ コーポレートサイト開発 / 社内インフラ管理
+    - AI コンサルティング / 人材マッチング・案件自動評価などの社内 AI システム開発（RAG・MCP・AI エージェント）/ コーポレートサイト・資料共有基盤の開発 / 社内インフラ管理
 
 ### フリーランス (2021年07月 - 2026年03月)
 
@@ -181,15 +180,17 @@
 
 #### チーム体制
 
-- CTO として、AI コンサルティング / 提案活動（FDE）・AI マッチングシステム開発・コーポレートサイト開発・社内インフラ管理を一人で担当
+- CTO として、AI コンサルティング / 提案活動（FDE）から社内 AI プロダクト・コーポレートサイト・社内インフラの開発・運用までを一人で担当
 
 #### 案件概要・担当業務
 
-- 創業フェーズの株式会社ZENSHIN の CTO として、以下 4 つの業務を並行して推進
+- 創業フェーズの株式会社ZENSHIN の CTO として、以下 6 つの業務を並行して推進
   - **業務 1: AI コンサルティング / 提案活動** — AI 活用相談・システム構築提案を推進。FDE として実装・導入まで担える体制で支援
   - **業務 2: AI マッチングシステム開発** — Cloudflare フルスタック構成での RAG / MCP / AI エージェント基盤の開発・運用
   - **業務 3: コーポレートサイト開発** — https://www.zenshin-inc.co.jp/ の設計・構築・運用
   - **業務 4: 社内インフラ管理** — Terraform によるマルチクラウド IaC
+  - **業務 5: AI 案件選別システム開発** — 外部案件を LLM で自動評価し、応募判断を支援する社内 AI システムの開発・運用
+  - **業務 6: 社外向け資料共有基盤の開発** — Cloudflare Access 認証付きの顧客向け資料配信基盤の開発・運用
 
 ---
 
@@ -221,18 +222,16 @@
   - お客様の当初の構成案が最適でないケースも多いため、課題定義から提案し直すことを心がけた
 - **提案前の技術検証と実装先行**
   - AI 開発ツールを活用し、商談前の段階で 1〜2 日でプロトタイプを作成して実現可能性を事前報告
+  - 実現可能性・期間・想定工数の見積もりも事前に詰めておくことで、精度・具体性の高い提案を実現
   - 商談中に不明点があればその場で AI を使って調査し、回答まで完結させた
 - **CEO・営業との提案方針のすり合わせ**
   - 提案内容・方針・見積もりを事前に CEO・営業と合意してから提案に臨む
   - 設計まで完了させた上で A / B / C の複数案を準備し、お客様の反応に応じて即座に出し分け
-- **技術的実現性と見積もりによる商談推進**
-  - 技術的な実現可能性、期間、想定工数の見積もりを自分が事前に詰めておくことで、精度・具体性の高い提案を実現
 - **提案書・見積書の作成方針**
   - お客様の課題がどう解決されるかをシンプルに伝えることを重視
   - 自社予算での費用対効果（投資回収の見込み）まで含めて、意思決定材料となる提案書・見積書を作成
 - **実践知に基づくコンサルティング**
-  - 自社の AI マッチングシステム開発・AI エージェント運用で日々実践した知見を、そのままコンサルティングに還元する実践型のスタイルを確立
-- **相談者の立場に合わせた支援**
+  - 自社の AI マッチングシステム開発・AI エージェント運用で日々実践した知見を、そのままコンサルティングに還元
   - 経営層には投資対効果・方針レベル、実装担当者にはプロンプト・ツール設定レベルと、相談者のレイヤーに応じて支援内容を出し分け
 - **コンサルから実装まで一気通貫の FDE スタイル**
   - 助言・提案で終わらせず、MCP サーバー構築・Claude Code Skills 整備・AI ワークフロー構築まで自ら実装して届ける前提でサービスを設計
@@ -289,14 +288,12 @@
   - MCP ツール設計・スキル整備・権限制御により、エンジニアを介さず営業自身が AI エージェントを日常業務で使いこなす状態を実現
 - **ユースケース別 LLM モデル選定によるコスト最適化**
   - 複数系統のモデル（Kimi K2 / gpt-oss / GLM / Llama）を比較検証し、シーンごとにコストパフォーマンスの良いモデルを選定することで、精度と運用コストを両立
-- **非構造データの全自動パイプライン化**
-  - LINE で届く営業メールの転送テキスト・添付スキルシートを、LLM 構造化 → ベクトル検索 → AI 採点まで自動処理する仕組みを構築し、営業のマッチング業務を省力化
-- **AI エージェントの業務オペレーション組み込み**
+- **業務プロセス全体への AI 組み込み・自動化**
+  - LINE で届く営業メールの転送テキスト・添付スキルシートを、LLM 構造化 → ベクトル検索 → AI 採点まで自動処理する仕組みを構築
   - スキル + MCP + 定期ルーチンの組み合わせで、朝のマッチングレポート配信や要員の自動採点など、人手を介さない定常運用を実現
-- **低コストなフルサーバーレス構成**
-  - インフラを Cloudflare のみで完結させ、小規模チームでも維持できる運用コスト・構成を実現
-- **信頼性設計**
-  - Queues + cron 監視で発生していたサイレント障害を Workflows の durable execution へ移行して根治するなど、非同期処理の信頼性を継続的に改善
+- **低コスト・高信頼な運用設計**
+  - インフラを Cloudflare のみで完結させ、小規模チームでも維持できる運用コストを実現
+  - サイレント障害が起きていた非同期処理を Workflows の durable execution へ移行して根治するなど、信頼性を継続的に改善
 
 ---
 
@@ -385,17 +382,71 @@
 
 ---
 
+### 業務 5: AI 案件選別システム開発（Cloudflare + LLM）
+
+#### 概要
+
+- 外部の受発注マッチングプラットフォームから届く新着案件を LLM で自動評価し、応募可否の判断材料（スコア・判定理由・応募文ドラフト）を Slack / Web に配信する社内システムを単独で設計・開発・運用
+- 営業・経営層の「どの案件に応募すべきか」の判断を AI で支援し、最終判断のみ人間が行う設計
+
+#### 経験した技術
+
+- **LLM パイプライン**
+  - Slack Events → Cloudflare Queues（DLQ 付き）→ Workflows（durable execution）の 3 段非同期パイプラインによる案件処理
+  - 案件ページのスクレイピングと決定論的な DOM パース（構造化に AI を使わずコスト・不確実性を排除）、セッション Cookie の KV キャッシュ
+  - Workers AI（Kimi K2.6）+ AI Gateway による 1 コールでのスコアリング・応募文ドラフト・自己推薦文の同時生成（トークン・レイテンシ削減）
+  - PDF / Office ファイルの Markdown 変換（Workers AI toMarkdown）、Browser Rendering による SPA 参考サイトの取得
+- **プロンプト運用**
+  - プロンプトのバージョン管理（20 回超の改修サイクル）と、本番データでの「AI 判定 vs 人間判断」の乖離分析によるデータ駆動の継続改善
+  - Claude Code / Codex 向けの自作スキルによる、プロンプトチューニング・未対応案件の一括選別の半自動化
+  - AI による実績の捏造を防ぐネガティブリストなどのガードレール設計
+- **フルスタック / 運用**
+  - Hono + oRPC による型安全な API、React 19 + TanStack Router / Query による SPA、Drizzle ORM + D1
+  - Slack のボタン・モーダルによる判断記録（HMAC 署名検証）、Cron Triggers による日次リマインド・ステータス監視
+  - GitHub Actions による CI/CD（D1 マイグレーション自動適用・Worker Secrets 同期）
+
+#### 取り組み・貢献
+
+- **案件選別業務の自動化**
+  - 案件メールの受信から評価・応募文ドラフト生成までを全自動化し、営業の案件選別を「全件読む」から「判断するだけ」に省力化
+  - エントリー送信はあえて自動化せず、人間の最終判断を挟む安全設計とした
+- **データ駆動のプロンプト改善運用**
+  - プロンプト改修の履歴・観点をリポジトリに記録し、本番の判定結果と人間の判断の乖離から判定精度を継続的に改善する運用を確立
+
+---
+
+### 業務 6: 社外向け資料共有基盤の開発（Cloudflare Workers）
+
+#### 概要
+
+- 提案書などの社外向け資料を Cloudflare Access 認証付きで顧客に配信する資料共有基盤を、Cloudflare Workers + Static Assets で単独開発・運用
+- 案件担当者はディレクトリに資料を置くだけで顧客への URL 共有が完結する仕組み
+
+#### 経験した技術
+
+- Worker の HTMLRewriter による共通フレーム挿入と Markdown の実行時 HTML 化（ビルドレス設計）
+- GitHub App（RS256 JWT + installation token）による別リポジトリ資料の allowlist 型ライブ proxy、Cache API の stale-while-revalidate
+- access 設定ファイルを SSoT とした Cloudflare Access ポリシーの GitHub Actions 自動同期
+- 誤公開を防ぐ二重の機械的チェック（fail-safe 設計）、機密設定ファイルの配信禁止・ダウンロード機能の非搭載など認証境界の多重防御
+- git 履歴からの目次メタデータ自動生成、Cloudflare Observability MCP / Chrome DevTools MCP による本番ログ調査・Access 越しの UI 検証
+
+#### 取り組み・貢献
+
+- 顧客資料の共有を「URL を渡すだけ」に統一し、認証・公開範囲の管理を IaC 的に機械強制することで、非エンジニアの案件担当者でも安全に使える基盤を実現
+
+---
+
 ### 開発環境
 
 #### フロントエンド
 
-- Astro 6, React 19, TanStack Router, TanStack Query, TypeScript, Tailwind CSS v4, Bun, Astro Content Collections, satori, sharp
+- Astro 6, React 19, TanStack Router, TanStack Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun, Astro Content Collections, satori, sharp
 
 #### バックエンド / AI システム
 
 - Hono, oRPC, Drizzle ORM, Zod, Better Auth, @modelcontextprotocol/sdk (MCP サーバー開発)
-- Cloudflare Workers AI (bge-m3), AI Gateway, Vectorize, Workflows, Queues, Browser Rendering (Puppeteer)
-- LINE Messaging API, Slack API, Google Drive API
+- Cloudflare Workers AI (bge-m3, Kimi K2.6, toMarkdown), AI Gateway, Vectorize, Workflows, Queues, Browser Rendering (Puppeteer), Email Routing, HTMLRewriter
+- LINE Messaging API, Slack API (Events / ボタン・モーダル), Google Drive API, GitHub App 連携
 
 #### クラウド / インフラ
 
@@ -411,7 +462,7 @@
 
 #### AI ツール（提案活動・開発）
 
-- v0 (Vercel), Replit, Lovable, Google AI Studio, Google Stitch, Claude Code (Skills / MCP / 定期ルーチン), Codex, Claude Code Managed Agents, Chrome DevTools MCP, GitHub Copilot
+- v0 (Vercel), Replit, Lovable, Google AI Studio, Google Stitch, Claude Code (Skills / MCP / 定期ルーチン), Codex, Claude Code Managed Agents, Chrome DevTools MCP
 
 #### 分析 / モニタリング
 

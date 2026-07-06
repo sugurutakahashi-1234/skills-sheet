@@ -24,50 +24,15 @@
 - **AI システム開発（RAG / MCP / AI エージェント）**
   - 人材マッチングや開発案件の自動評価など、業務プロセスに AI を組み込んだ社内プロダクトを Cloudflare 上に複数フルスタック開発。非エンジニアの営業が Claude Code / Codex で実業務を回す仕組みを実運用
 - **CTO 経験**
-  - 創業フェーズのスタートアップで提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
+  - 創業フェーズの AI コンサルティング会社で提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
 - **0 → 1 リードエンジニア経験（5件）**
-  - アーキテクチャ選定・CI/CD 構築・チーム運用に加え、KPI 起点のグロース施策の企画・検証まで含む PdM 的な立ち上げ経験
+  - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、プロジェクト立ち上げの技術リードを担当（現職 CTO でのプロダクト立ち上げを含む）
+- **KPI 起点のグロース施策**
+  - グロースフェーズのアプリ開発で、ビジネス KPI（ARPU・LTV・CTR）を基点とした施策の企画・A/B テスト検証・実装までを一気通貫で推進
 - **フルスタック実装力**
   - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
 - **OSS 開発・技術発信**
   - npm / Homebrew / GitHub Actions Marketplace での配布、Zenn での技術記事の継続発信
-
-### 技術スタック
-
-- **AIコンサルティング**
-  - 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE として実装・導入まで対応可能な体制
-- **AIシステム開発**
-  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
-- **生成AI活用**
-  - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
-- **言語**
-  - TypeScript, Swift, Dart, PHP, Java
-- **クラウド**
-  - AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, DNS, Turnstile, Access), Firebase
-- **インフラ / IaC**
-  - Terraform, tflint, dotenvx, OIDC
-- **サーバーサイド**
-  - REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, Express, PHP, Java
-- **データベース**
-  - RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
-- **認証 / 認可**
-  - OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
-- **Web アプリ開発**
-  - React, Next.js, Astro, TanStack Query, Tailwind CSS
-- **モバイルアプリ開発**
-  - React Native (Expo), Swift (SwiftUI, UIKit), Flutter
-- **アーキテクチャ**
-  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
-- **テスト**
-  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
-- **コード品質**
-  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
-- **CI/CD**
-  - Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
-- **SEO / パフォーマンス**
-  - Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
-- **プロジェクト管理**
-  - Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
 
 ## スキルセット
 
@@ -156,12 +121,49 @@
   - **[readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)**:
     - README の翻訳版と原文の構造的一貫性を検証するツール（npm）
 
+## 技術スタック
+
+- **AIコンサルティング**
+  - 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE として実装・導入まで対応可能な体制
+- **AIシステム開発**
+  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
+- **生成AI活用**
+  - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
+- **言語**
+  - TypeScript, Swift, Dart, PHP, Java
+- **クラウド**
+  - AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, DNS, Turnstile, Access), Firebase
+- **インフラ / IaC**
+  - Terraform, tflint, dotenvx, OIDC
+- **サーバーサイド**
+  - REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, Express, PHP, Java
+- **データベース**
+  - RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
+- **認証 / 認可**
+  - OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
+- **Web アプリ開発**
+  - React, Next.js, Astro, TanStack Query, Tailwind CSS
+- **モバイルアプリ開発**
+  - React Native (Expo), Swift (SwiftUI, UIKit), Flutter
+- **アーキテクチャ**
+  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
+- **テスト**
+  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
+- **コード品質**
+  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
+- **CI/CD**
+  - Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
+- **SEO / パフォーマンス**
+  - Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
+- **プロジェクト管理**
+  - Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
+
 ## 職務経歴
 
 ### 株式会社ZENSHIN (2026年04月 - 現在)
 
 - 2026年
-  - [No.13] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（SIer）
+  - [No.13] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
     - AI コンサルティング / 人材マッチング・案件自動評価などの社内 AI システム開発（RAG・MCP・AI エージェント）/ コーポレートサイト・資料共有基盤の開発 / 社内インフラ管理
 
 ### フリーランス (2021年07月 - 2026年03月)
@@ -193,9 +195,9 @@
 
 ---
 
-<details><summary>[No.13] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（SIer）</summary>
+<details><summary>[No.13] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）</summary>
 
-## [No.13] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（SIer）
+## [No.13] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
 
 #### チーム体制
 

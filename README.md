@@ -19,32 +19,55 @@
 
 ### 強み
 
-- **AI コンサルティング〜FDE**：月額顧問型 AI 相談サービス・提案活動（プリセールス）を推進。助言で終わらせず、FDE として実装・導入まで自ら担える体制
-- **AI システム開発（RAG / MCP / AI エージェント）**：人材マッチングや開発案件の自動評価など、業務プロセスに AI を組み込んだ社内プロダクトを Cloudflare 上に複数フルスタック開発。非エンジニアの営業が Claude Code / Codex で実業務を回す仕組みを実運用
-- **CTO 経験**：創業フェーズのスタートアップで提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
-- **0 → 1 リードエンジニア経験（5件）**：アーキテクチャ選定・CI/CD 構築・チーム運用に加え、KPI 起点のグロース施策の企画・検証まで含む PdM 的な立ち上げ経験
-- **フルスタック実装力**：iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
-- **OSS 開発・技術発信**：npm / Homebrew / GitHub Actions Marketplace での配布、Zenn での技術記事の継続発信
+- **AI コンサルティング〜FDE**
+  - 月額顧問型 AI 相談サービス・提案活動（プリセールス）を推進。助言で終わらせず、FDE として実装・導入まで自ら担える体制
+- **AI システム開発（RAG / MCP / AI エージェント）**
+  - 人材マッチングや開発案件の自動評価など、業務プロセスに AI を組み込んだ社内プロダクトを Cloudflare 上に複数フルスタック開発。非エンジニアの営業が Claude Code / Codex で実業務を回す仕組みを実運用
+- **CTO 経験**
+  - 創業フェーズのスタートアップで提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
+- **0 → 1 リードエンジニア経験（5件）**
+  - アーキテクチャ選定・CI/CD 構築・チーム運用に加え、KPI 起点のグロース施策の企画・検証まで含む PdM 的な立ち上げ経験
+- **フルスタック実装力**
+  - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
+- **OSS 開発・技術発信**
+  - npm / Homebrew / GitHub Actions Marketplace での配布、Zenn での技術記事の継続発信
 
 ### 技術スタック
 
-- **AIコンサルティング**: 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE として実装・導入まで対応可能な体制
-- **AIシステム開発**: RAG (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
-- **生成AI活用**: Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
-- **言語**: TypeScript, Swift, Dart, PHP, Java
-- **クラウド**: AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, DNS, Turnstile, Access), Firebase
-- **インフラ / IaC**: Terraform, tflint, dotenvx, OIDC
-- **サーバーサイド**: REST API 設計, GraphQL 設計, データベース設計, Node.js, Hono, oRPC, Express, PHP, Java
-- **データベース**: テーブル定義設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
-- **認証 / 認可**: OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
-- **Web アプリ開発**: React, Next.js, Astro, TanStack Query, Tailwind CSS
-- **モバイルアプリ開発**: React Native (Expo), Swift (SwiftUI, UIKit), Flutter
-- **アーキテクチャ**: モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
-- **テスト**: Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
-- **コード品質**: Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
-- **CI/CD**: Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
-- **SEO / パフォーマンス**: Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
-- **プロジェクト管理**: Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
+- **AIコンサルティング**
+  - 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE として実装・導入まで対応可能な体制
+- **AIシステム開発**
+  - RAG (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
+- **生成AI活用**
+  - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
+- **言語**
+  - TypeScript, Swift, Dart, PHP, Java
+- **クラウド**
+  - AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, DNS, Turnstile, Access), Firebase
+- **インフラ / IaC**
+  - Terraform, tflint, dotenvx, OIDC
+- **サーバーサイド**
+  - REST API 設計, GraphQL 設計, データベース設計, Node.js, Hono, oRPC, Express, PHP, Java
+- **データベース**
+  - テーブル定義設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
+- **認証 / 認可**
+  - OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
+- **Web アプリ開発**
+  - React, Next.js, Astro, TanStack Query, Tailwind CSS
+- **モバイルアプリ開発**
+  - React Native (Expo), Swift (SwiftUI, UIKit), Flutter
+- **アーキテクチャ**
+  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
+- **テスト**
+  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
+- **コード品質**
+  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
+- **CI/CD**
+  - Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
+- **SEO / パフォーマンス**
+  - Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
+- **プロジェクト管理**
+  - Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
 
 ## スキルセット
 
@@ -109,11 +132,11 @@
   - Expo による iOS / Android / Web のクロスプラットフォーム開発
   - Monorepo 構成によるモバイル・Web 間のコード共有
   - TanStack Query によるデータフェッチング・キャッシング
-- **Swift (7年)**
+- **Swift**
   - SwiftUI, Combine, Swift Concurrency を活用した宣言的 UI・非同期処理の実装
   - Swift Package Manager を使用したマルチモジュール構成の設計・実装
   - Swift に関する技術記事を Zenn で多数投稿:
-    - [Swift 7年書いてきたけど React Native に賭けてみようと思う](https://zenn.dev/ikuraikura/articles/2025-12-21-native)（63 いいね）
+    - [Swift 7年書いてきたけど React Native に賭けてみようと思う](https://zenn.dev/ikuraikura/articles/2025-12-21-native)
 - **Flutter**
   - Riverpod + Hooks を用いた状態管理
   - go_router によるルーティング、OpenAPI Generator による API クライアント自動生成

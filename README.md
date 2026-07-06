@@ -20,9 +20,9 @@
 ### 強み
 
 - **AI コンサルティング〜FDE**
-  - 月額顧問型 AI 相談サービス・提案活動（プリセールス）を推進。助言で終わらせず、FDE として実装・導入まで自ら担える体制
+  - 経営層から実装担当者まで、相手のレイヤーに応じた AI 活用の相談・提案（プリセールス）を担当。助言で終わらせず、FDE として実装・導入まで自ら担える
 - **AI システム開発（RAG / MCP / AI エージェント）**
-  - 人材マッチングや開発案件の自動評価など、業務プロセスに AI を組み込んだ社内プロダクトを Cloudflare 上に複数フルスタック開発。非エンジニアの営業が Claude Code / Codex で実業務を回す仕組みを実運用
+  - 業務プロセスに AI を組み込んだシステムを、設計から実装・実運用まで単独でフルスタック開発できる。実際に人材マッチングや開発案件の自動評価のシステムを Cloudflare 上に開発し、非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入した経験
 - **CTO 経験**
   - 創業フェーズの AI コンサルティング会社で提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
 - **0 → 1 リードエンジニア経験（5件）**
@@ -32,7 +32,7 @@
 - **フルスタック実装力**
   - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
 - **OSS 開発・技術発信**
-  - npm / Homebrew / GitHub Actions Marketplace での配布、Zenn での技術記事の継続発信
+  - 自作 OSS（TypeScript 製 CLI ツール）を npm / Homebrew / GitHub Actions Marketplace で配布し、Zenn で技術記事を継続発信
 
 ## スキルセット
 

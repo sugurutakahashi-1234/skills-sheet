@@ -89,9 +89,6 @@
   - GitHub Actions による Claude Code 自動レビュー、Claude Code Managed Agents（Web 版）の運用
   - Cloudflare MCP（本番 Worker のログ調査・D1 / KV の参照・デプロイ調査・公式ドキュメント検索）、gcloud MCP（GCP 運用）、Slack MCP（運用調査）を日常の開発・運用に組み込み
   - Figma MCP（デザインからの UI 実装）、Chrome DevTools MCP / Playwright MCP（UI の自動検証・本番の認証越し動作確認）、AWS MCP Servers（予算見積もり・構成図・ベストプラクティス収集）の活用
-  - 生成 AI 活用に関する技術記事を Zenn で執筆:
-    - [無職が Claude Code を使って 3 週間かけて OSS ライブラリを開発したけど誰も使ってくれなかった話](https://zenn.dev/ikuraikura/articles/2025-08-02-oss)
-
 ### プロジェクト推進 / チーム開発
 
 - **PdM / ビジネスサイド**
@@ -135,8 +132,6 @@
 - **Swift**
   - SwiftUI, Combine, Swift Concurrency を活用した宣言的 UI・非同期処理の実装
   - Swift Package Manager を使用したマルチモジュール構成の設計・実装
-  - Swift に関する技術記事を Zenn で多数投稿:
-    - [Swift 7年書いてきたけど React Native に賭けてみようと思う](https://zenn.dev/ikuraikura/articles/2025-12-21-native)
 - **Flutter**
   - Riverpod + Hooks を用いた状態管理
   - go_router によるルーティング、OpenAPI Generator による API クライアント自動生成

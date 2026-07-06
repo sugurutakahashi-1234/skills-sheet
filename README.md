@@ -89,6 +89,7 @@
   - GitHub Actions による Claude Code 自動レビュー、Claude Code Managed Agents（Web 版）の運用
   - Cloudflare MCP（本番 Worker のログ調査・D1 / KV の参照・デプロイ調査・公式ドキュメント検索）、gcloud MCP（GCP 運用）、Slack MCP（運用調査）を日常の開発・運用に組み込み
   - Figma MCP（デザインからの UI 実装）、Chrome DevTools MCP / Playwright MCP（UI の自動検証・本番の認証越し動作確認）、AWS MCP Servers（予算見積もり・構成図・ベストプラクティス収集）の活用
+
 ### プロジェクト推進 / チーム開発
 
 - **PdM / ビジネスサイド**

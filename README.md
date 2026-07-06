@@ -37,7 +37,7 @@
 - **AIコンサルティング**
   - 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE として実装・導入まで対応可能な体制
 - **AIシステム開発**
-  - RAG (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
+  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
 - **生成AI活用**
   - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
 - **言語**
@@ -47,9 +47,9 @@
 - **インフラ / IaC**
   - Terraform, tflint, dotenvx, OIDC
 - **サーバーサイド**
-  - REST API 設計, GraphQL 設計, データベース設計, Node.js, Hono, oRPC, Express, PHP, Java
+  - REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, Express, PHP, Java
 - **データベース**
-  - テーブル定義設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
+  - RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
 - **認証 / 認可**
   - OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
 - **Web アプリ開発**
@@ -263,31 +263,31 @@
 #### 概要
 
 - Excel の手作業・キーワード検索に依存していた SES 事業のマッチング業務（要員 × 案件）を AI システム化し、Cloudflare Workers 上にフルスタック構成で単独開発・運用
-- LINE で届く非構造の要員・案件情報を LLM で構造化し、エンベディング検索（RAG）でマッチング候補を抽出、AI エージェントが採点する多層パイプラインを構築
+- LINE で届く非構造の要員・案件情報を LLM で構造化し、ベクトル検索（RAG）でマッチング候補を抽出、AI エージェントが採点する多層パイプラインを構築
 - IT 知識のない営業メンバーが、OAuth 認証付きの MCP 接続を通じて Claude Code / Codex からシステムを直接操作し、マッチングした人材の紹介までを実業務として運用
 - 「AI にチャットで聞く」で終わらせず、業務プロセスそのものに AI を組み込んだ業務システムとして設計
 
 #### 経験した技術
 
-- **RAG / エンベディング検索**
-  - Workers AI（bge-m3, 1024 次元・多言語対応）によるエンベディング生成と Cloudflare Vectorize によるコサイン類似度検索
+- **RAG / Embedding / ベクトル検索**
+  - Workers AI（bge-m3, 1024 次元・多言語対応）による Embedding 生成と Cloudflare Vectorize によるコサイン類似度検索
   - メタデータフィルタによる検索母集団の絞り込みと、検索結果の D1 保存によるマッチング候補管理
   - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の多層マッチングパイプライン設計
-  - エンベディング粒度（entity 単位 vs project 単位）のコスト・精度トレードオフ検証と再設計
+  - Embedding 粒度（entity 単位 vs project 単位）のコスト・精度トレードオフ検証と再設計
 - **MCP サーバー開発**
   - @modelcontextprotocol/sdk による 40+ ツールを持つ MCP サーバーの実装（Cloudflare Workers 上）
   - Better Auth（Google OAuth）による MCP OAuth 認証・セッション管理で、業務データへのアクセスをユーザー単位でセキュアに制御
   - Claude Code / Codex の両 AI エージェントから同一の MCP サーバーを利用できるマルチエージェント対応（スキル定義も両エージェント向けに整備）
 - **Cloudflare AI / サーバーレス基盤**
-  - AI Gateway 経由の LLM 統一呼び出し（構造化抽出・Vision 解析・エンベディングを同一バインディングで管理）
-  - Cloudflare Workflows による durable execution（LLM 抽出 → 構造化 → エンベディング → マッチング検索の step 単位リトライ）
+  - AI Gateway 経由の LLM 統一呼び出し（構造化抽出・Vision 解析・Embedding を同一バインディングで管理）
+  - Cloudflare Workflows による durable execution（LLM 抽出 → 構造化 → Embedding → マッチング検索の step 単位リトライ）
   - Cloudflare Queues + DLQ による非同期マッチング検索、R2 によるベクトルデータ退避（Queue メッセージサイズ上限対策）
   - Browser Rendering + Puppeteer によるスキルシート PDF の画像化 → Vision LLM でのスキルシート解析
   - D1（SQLite）+ Drizzle ORM による 100+ マイグレーション管理、KV によるアクセストークンキャッシュ
   - Cron Triggers による定期処理（受信メッセージのグループ化、日次レポート、監視 watchdog）
 - **ユースケース別の LLM モデル選定**
   - Kimi K2 系 / gpt-oss 系 / GLM 系 / Llama 系など Workers AI 提供モデルを実タスクで比較検証
-  - 「常に最高性能のモデルを使う」のではなく、構造化抽出・Vision 解析・エンベディングなどのシーンごとに精度・レイテンシ・コストのバランスでモデルを使い分け
+  - 「常に最高性能のモデルを使う」のではなく、構造化抽出・Vision 解析・Embedding などのシーンごとに精度・レイテンシ・コストのバランスでモデルを使い分け
   - モデル定数の一元管理により、用途別のモデル差し替えを容易にする設計
 - **AI エージェント運用基盤（Claude Code Skills）**
   - 33 の Claude Code スキル + 定期ルーチンによる業務自動化（要員・案件の取り込み、マッチング採点、Slack への日次レポート配信）
@@ -301,7 +301,7 @@
 
 - **Excel 手作業のシステム化と「キーワード検索を超える」マッチングの実現**
   - 従来は Excel 台帳の手作業と「Java」などのキーワード一致検索に依存していたマッチング業務を、構造化データとベクトル検索によるシステムへ置き換え
-  - スキルシートの内容まで LLM で構造化し、要約文のエンベディング（RAG）による意味ベースの類似検索を導入することで、キーワード一致ではヒットしない要員 × 案件のマッチングを発見できるように
+  - スキルシートの内容まで LLM で構造化し、要約文の Embedding（RAG）による意味ベースの類似検索を導入することで、キーワード一致ではヒットしない要員 × 案件のマッチングを発見できるように
 - **非エンジニアの営業が AI エージェントで実業務を回す仕組みの実現**
   - Better Auth の OAuth 認証によるセキュアな MCP 接続を整備し、IT 知識のない営業メンバーが Claude Code / Codex から自然言語で要員検索・マッチング確認・人材紹介までの実業務を完結できる体制を構築
   - MCP ツール設計・スキル整備・権限制御により、エンジニアを介さず営業自身が AI エージェントを日常業務で使いこなす状態を実現

@@ -9,7 +9,7 @@
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
   - GitHub - https://github.com/sugurutakahashi-1234
-  - X - https://x.com/ikuraikuraaaaaa
+  - X - https://x.com/suguru_takaha4
   - Qiita - https://qiita.com/sugurutakahashi12345
   - Zenn - https://zenn.dev/ikuraikura
 

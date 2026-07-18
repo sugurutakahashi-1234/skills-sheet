@@ -1,5 +1,2 @@
 # Claude settings
 .claude/settings.local.json
-
-# Generated files
-*.pdf

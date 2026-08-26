@@ -18,66 +18,42 @@
 
 ## サマリー
 
-エンジニア歴 10年目。Web・モバイルのフロントエンドからサーバーサイド、マルチクラウド・IaC までの実装経験あり。現在は創業フェーズの [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) の CTO を務めながら、AI コンサルタント / FDE として、案件獲得の営業・商談から AI 活用の提案、顧客向け AI ツールの実装・導入、プロダクト開発の推進までを一気通貫で担当。自社では案件 1,000 件 × エンジニア 1,000 名の規模から 5 分以内に適切なマッチングを提示する AI マッチングシステム（RAG・MCP・AI エージェント）を、toC・toB・社内向けのマルチプロダクト構成で単独開発・運用。
+エンジニア歴 10年目。Web・モバイルのフロントエンドからサーバーサイド、マルチクラウド・IaC までの実装経験あり。現在は創業フェーズの [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) の CTO を務めながら、AI コンサルタント / FDE として、案件獲得の営業・商談から AI 活用の提案、顧客向け AI ツールの実装・導入、プロダクト開発の推進までを一気通貫で担当。
+
+自社では、案件 1,000 件 × エンジニア 1,000 名の規模から 5 分以内に適切なマッチングを提示する AI マッチングシステム（RAG・MCP・AI エージェント）を、toC・toB・社内向けのマルチプロダクト構成で単独開発・運用。
 
 ### 強み
 
-- **AI コンサルティング〜FDE**
-  - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案を担当。案件獲得の営業・商談から、顧客業務に入り込んだ AI ツールの実装・導入までを一気通貫で担当した経験
-- **AI システム開発（RAG / MCP / AI エージェント）**
-  - 業務プロセスに AI を組み込んだシステムを、設計から実装・実運用まで単独でフルスタック開発できる。人材マッチング（toC サービス・toB マルチテナント SaaS・社内管理画面のマルチプロダクト構成）や開発案件の自動評価のシステムを Cloudflare 上に開発（案件 1,000 件 × エンジニア 1,000 名の規模から 5 分以内にマッチングを提示）
-  - 非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入し、AI 判定と人間判断の乖離を本番データで分析してプロンプトを継続改善する運用ループを確立
-- **0 → 1 リードエンジニア経験（5件）**
-  - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、プロジェクト立ち上げの技術リードを担当（現職 CTO でのプロダクト立ち上げを含む）
-- **KPI 起点のグロース施策**
-  - グロースフェーズのアプリ開発で、ビジネス KPI（ARPU・LTV・CTR）を基点とした施策の企画・A/B テスト検証・実装までを一気通貫で推進
-- **フルスタック実装力**
-  - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
-- **OSS 開発・技術発信**
-  - 自作 OSS（TypeScript 製 CLI ツール）を npm / Homebrew / GitHub Actions Marketplace で配布。独自 iOS アーキテクチャ「FIA」の考案・スライド / YouTube での公開や、Zenn での技術記事発信を継続
+| 強み | 内容 |
+| --- | --- |
+| **AI コンサルティング〜FDE** | 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案を担当。案件獲得の営業・商談から、顧客業務に入り込んだ AI ツールの実装・導入までを一気通貫で担当した経験 |
+| **AI システム開発**<br>（RAG / MCP / AI エージェント） | 人材マッチング（toC サービス・toB マルチテナント SaaS・社内管理画面）や開発案件の自動評価のシステムを、設計から実運用まで単独でフルスタック開発（案件 1,000 件 × エンジニア 1,000 名の規模から 5 分以内にマッチングを提示）。<br>非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入し、AI 判定と人間判断の乖離を本番データで分析してプロンプトを継続改善する運用ループを確立 |
+| **0 → 1 リードエンジニア**<br>（5件） | アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、プロジェクト立ち上げの技術リードを担当（現職 CTO でのプロダクト立ち上げを含む） |
+| **KPI 起点のグロース施策** | グロースフェーズのアプリ開発で、ビジネス KPI（ARPU・LTV・CTR）を基点とした施策の企画・A/B テスト検証・実装までを一気通貫で推進 |
+| **フルスタック実装力** | iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能 |
+| **OSS 開発・技術発信** | 自作 OSS（TypeScript 製 CLI ツール）を npm / Homebrew / GitHub Actions Marketplace で配布。独自 iOS アーキテクチャ「FIA」の考案・スライド / YouTube での公開や、Zenn での技術記事発信を継続 |
 
 ## 技術スタック
 
-- **AI システム開発**
-  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk v2, Better Auth OAuth), WebMCP, Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama, 自作評価スクリプトで比較検証), プロンプト運用 (バージョン管理・本番データでの継続改善)
-- **生成 AI 活用**
-  - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
-- **言語**
-  - TypeScript, Swift, Dart, Python, PHP, Java
-- **クラウド**
-  - **Cloudflare**: Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, Email Sending, DNS, Turnstile, Access
-  - **Google Cloud**: Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
-  - **AWS**: Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
-  - **Firebase**: Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
-- **インフラ / IaC**
-  - Terraform, tflint, dotenvx, OIDC
-- **サーバーサイド**
-  - REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, PHP, Java
-- **データベース**
-  - RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
-- **認証 / 認可**
-  - OAuth 2.0, JWT, Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
-- **Web アプリ開発**
-  - React, Next.js, Astro, TanStack Start, TanStack Router, TanStack Query, shadcn/ui, Tailwind CSS
-- **モバイルアプリ開発**
-  - React Native (Expo), Swift (SwiftUI, UIKit), Flutter
-- **アーキテクチャ**
-  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
-  - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
-- **テスト**
-  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, MSW, @axe-core/playwright
-- **コード品質**
-  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, dependency-cruiser, commitlint, lefthook, husky, Renovate
-- **CI/CD**
-  - Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
-- **SEO / パフォーマンス**
-  - Core Web Vitals, Lighthouse, PageSpeed Insights, Google Search Console, 構造化データ (JSON-LD / Schema.org), OGP 自動生成 (satori / sharp), sitemap / RSS / canonical
-  - AI クローラー対応 (llms.txt, Content-Signal 対応 robots.txt), Pagefind (静的サイト内全文検索)
-- **プロジェクト管理**
-  - Scrum Master 経験, アジャイル開発 (Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear)
-- **OSS 開発（自作 CLI ツール）**
-  - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）, [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）, [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）, [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
-  - npm / Homebrew / GitHub Actions Marketplace / 実行バイナリで配布し、release-please による CI/CD・Codecov などの品質管理を全ツールで統一
+| カテゴリ | 内容 |
+| --- | --- |
+| **AI システム開発** | RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk v2, Better Auth OAuth), WebMCP, Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama, 自作評価スクリプトで比較検証), プロンプト運用 (バージョン管理・本番データでの継続改善) |
+| **生成 AI 活用** | Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents |
+| **言語** | TypeScript, Swift, Dart, Python, PHP, Java |
+| **クラウド** | **Cloudflare**: Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, Email Sending, DNS, Turnstile, Access<br>**Google Cloud**: Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation<br>**AWS**: Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53<br>**Firebase**: Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config |
+| **インフラ / IaC** | Terraform, tflint, dotenvx, OIDC |
+| **サーバーサイド** | REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, PHP, Java |
+| **データベース** | RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize) |
+| **認証 / 認可** | OAuth 2.0, JWT, Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC) |
+| **Web アプリ開発** | React, Next.js, Astro, TanStack Start, TanStack Router, TanStack Query, shadcn/ui, Tailwind CSS |
+| **モバイルアプリ開発** | React Native (Expo), Swift (SwiftUI, UIKit), Flutter |
+| **アーキテクチャ** | モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod<br>独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)） |
+| **テスト** | Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, MSW, @axe-core/playwright |
+| **コード品質** | Biome, oxlint, oxfmt, ESLint, Prettier, knip, dependency-cruiser, commitlint, lefthook, husky, Renovate |
+| **CI/CD** | Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler |
+| **SEO / パフォーマンス** | Core Web Vitals, Lighthouse, PageSpeed Insights, Google Search Console, 構造化データ (JSON-LD / Schema.org), OGP 自動生成 (satori / sharp), sitemap / RSS / canonical<br>AI クローラー対応 (llms.txt, Content-Signal 対応 robots.txt), Pagefind (静的サイト内全文検索) |
+| **プロジェクト管理** | Scrum Master 経験, アジャイル開発 (Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear) |
+| **OSS 開発**<br>（自作 CLI ツール） | [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）, [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）, [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）, [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）<br>npm / Homebrew / GitHub Actions Marketplace / 実行バイナリで配布し、release-please による CI/CD・Codecov などの品質管理を全ツールで統一 |
 
 ## 職務経歴
 

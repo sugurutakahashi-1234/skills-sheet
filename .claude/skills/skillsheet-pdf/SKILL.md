@@ -28,7 +28,7 @@ bun run pdf
 5. 内容の機械検証（`uv run scripts/verify-pdf.py`: 展開漏れ・文言混入・ページ数）
 6. 同じ命名規則の旧版を削除し、最新版 1 件だけを残す（`scripts/keep-latest-pdf.ts`）
 
-依存は `package.json`（bun）と PEP 723 インラインメタデータ（uv）で管理。ランタイムは mise.toml で指定。
+依存は `package.json`（bun）と `pyproject.toml`（uv, `uv sync` で `.venv` 作成）で管理。ランタイムは mise.toml で指定。
 
 ## 自動実行（lefthook）
 

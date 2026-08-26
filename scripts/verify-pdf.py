@@ -1,7 +1,3 @@
-# /// script
-# requires-python = ">=3.11"
-# dependencies = ["pypdf"]
-# ///
 """生成したスキルシート PDF の内容を検証する。
 
 使い方: uv run scripts/verify-pdf.py <PDF パス>

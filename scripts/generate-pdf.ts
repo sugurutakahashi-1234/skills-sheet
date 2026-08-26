@@ -38,7 +38,29 @@ const cleaned = md.replace(/^※ 各案件の詳細は以下のプルダウン�
 await Bun.write(EXPANDED, FRONTMATTER + cleaned);
 
 // 3. PDF 生成（リポジトリローカルの md-to-pdf を使用。npx は使わない）
-await $`./node_modules/.bin/md-to-pdf ${EXPANDED}`;
+// Chromium の起動がまれに無応答になるため、タイムアウト付きで最大 3 回リトライする
+async function generateWithRetry(attempts = 3, timeoutMs = 60_000): Promise<void> {
+  for (let i = 1; i <= attempts; i++) {
+    const proc = Bun.spawn(["./node_modules/.bin/md-to-pdf", EXPANDED], {
+      stdout: "inherit",
+      stderr: "inherit",
+    });
+    const timedOut = await Promise.race([
+      proc.exited.then(() => false),
+      Bun.sleep(timeoutMs).then(() => true),
+    ]);
+    if (timedOut) {
+      proc.kill();
+      await proc.exited;
+      console.warn(`md-to-pdf が ${timeoutMs / 1000} 秒応答なし（${i}/${attempts} 回目）。リトライします`);
+      continue;
+    }
+    if (proc.exitCode === 0) return;
+    throw new Error(`md-to-pdf が失敗しました (exit ${proc.exitCode})`);
+  }
+  throw new Error("md-to-pdf が繰り返しタイムアウトしました");
+}
+await generateWithRetry();
 
 // 4. 実行日付（ローカルタイムゾーン）のファイル名でリポジトリ直下へ配置
 const today = new Date().toLocaleDateString("sv-SE");
@@ -52,7 +74,10 @@ if (size < 100_000) {
   throw new Error(`PDF が小さすぎます (${size} bytes)。展開に失敗している可能性`);
 }
 
-// 6. 検証済みの最新版だけを残す
+// 6. 内容の検証（展開漏れ・Web 向け文言の混入・ページ数）
+await $`uv run scripts/verify-pdf.py ${out}`;
+
+// 7. 検証済みの最新版だけを残す
 await $`bun .claude/skills/skillsheet-pdf/scripts/keep-latest-pdf.ts ${out}`;
 
 console.log(`生成: ${out} (${Math.round(size / 1024)} KB)`);

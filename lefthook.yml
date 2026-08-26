@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    skillsheet-pdf:
+      glob: "README.md"
+      run: bun run pdf && git add -A -- '*_高橋俊スキルシート.pdf'

@@ -9,82 +9,44 @@ description: スキルシートやその他の Markdown を、<details>/<summary
 
 ## なぜこのスキルが必要か
 
-PDF 変換ツール `md-to-pdf` は Chromium でページをレンダリングして PDF 化する。`<details>` は HTML の折りたたみ要素なので、Chromium 上では**閉じた状態**で描画され、中身が PDF に一切出力されない。スキルシートは各案件の詳細をすべて `<details>` の中に入れているため、何も対策せずに変換すると本文の大半（全案件の詳細）が消え、冒頭のサマリーだけの数ページになってしまう。
+PDF 変換ツール `md-to-pdf` は Chromium でページをレンダリングして PDF 化する。`<details>` は HTML の折りたたみ要素なので、Chromium 上では**閉じた状態**で描画され、中身が PDF に一切出力されない。スキルシートは各案件の詳細をすべて `<details>` の中に入れているため、何も対策せずに変換すると本文の大半が消えてしまう。そこで、変換前に折りたたみタグを除去して中身を本文として露出させる。
 
-そこで、変換前に折りたたみタグを除去して中身を本文として露出させる。各 `<details>` は `<summary>` の直後に同じ内容の `## 見出し` が重複している構造なので、`<summary>` を消しても見出しは本文側に残り、情報は失われない。
+## 基本の使い方（これだけでよい）
 
-## 前提
-
-- 変換は `npx md-to-pdf` を使う。`bunx md-to-pdf` は Puppeteer の Chromium を Bun 側に持たず取得で固まることがあるため、Chromium を備える `npx` 経由が確実（実測で 2 秒ほどで完了）。展開スクリプトは TypeScript で、`bun` が直接実行する。
-- スタイルは md-to-pdf のデフォルトをそのまま使う（専用の CSS デザインファイルは持たない）。
-- 変換対象はリポジトリ直下の `README.md` が既定。別ファイルを変換したい場合はそのパスを使う。
-- **出力先はリポジトリ直下**で、ファイル名は `<日付>_高橋俊スキルシート.pdf`（例: `2026-06-02_高橋俊スキルシート.pdf`）。日付は変換実行日とする。
-- PDF は Git の追跡対象とする。新しい PDF の生成と検証が完了した後、同じ命名規則の旧版を削除し、最新版 1 件だけを残す。
-
-## 手順
-
-スキルディレクトリを `SKILL_DIR` とする（このファイルのある場所）。カレントはリポジトリ直下を前提とする。以下は対象が `README.md` の例。
-
-### 1. 折りたたみを展開した中間 Markdown を生成する
+リポジトリ直下で:
 
 ```bash
-bun "$SKILL_DIR/scripts/expand-details.ts" README.md /tmp/skillsheet.expanded.md
+bun run pdf
 ```
 
-`<summary>...</summary>`、`<details ...>`、`</details>` を除去し、余分な空行を整えた Markdown を出力する。
+`scripts/generate-pdf.ts` が以下をすべて行う:
 
-### 2. PDF を生成し、日付付きの名前でリポジトリ直下に配置する
+1. `<details>`/`<summary>` を展開した中間 Markdown を生成（`scripts/expand-details.ts`）
+2. 展開漏れの機械検証（`<details>` が残っていたらエラー）
+3. リポジトリローカルの `md-to-pdf`（`node_modules/.bin/`）で PDF 生成
+4. `<実行日>_高橋俊スキルシート.pdf` としてリポジトリ直下へ配置
+5. ファイルサイズ検証（小さすぎたらエラー）
+6. 同じ命名規則の旧版を削除し、最新版 1 件だけを残す（`scripts/keep-latest-pdf.ts`）
+
+依存は `package.json` で管理（`bun install` でセットアップ、バージョンは mise.toml で固定）。
+
+## 自動実行（lefthook）
+
+`lefthook.yml` の pre-commit フックにより、**README.md をコミットすると自動で PDF が再生成されてステージされる**。手動で `bun run pdf` を呼ぶのは、README 以外のファイルを変換したいときだけでよい。
+
+## 注意事項
+
+- **`npx md-to-pdf` は使わない**。npx はレジストリ解決で頻繁にハングする（2026-08 に恒常化）。必ずローカルの `node_modules/.bin/md-to-pdf` を経由すること（`bun run pdf` はそうなっている）。
+- `bunx md-to-pdf` も Puppeteer の Chromium 取得で固まるため使わない。
+- サンドボックス環境で foreground 実行すると Chromium 起動が固まることがある。ハングしたら background 実行で再試行する。
+- PDF は Git の追跡対象。生成・検証後に旧版の削除と新版の追加を一緒にコミットする。
+- より詳細な内容検証をしたい場合は pypdf でテキスト抽出して確認できるが、フォントのグリフ抽出が一部の漢字を康熙部首（例: 工 → ⼯）で返すため、文字列一致は空白・字形を正規化してから行うこと。
+
+## 別ファイルを変換する場合
 
 ```bash
-npx --yes md-to-pdf /tmp/skillsheet.expanded.md
-OUT="$(date +%Y-%m-%d)_高橋俊スキルシート.pdf"
-mv /tmp/skillsheet.expanded.pdf "$OUT"
-echo "生成: $OUT"
+bun .claude/skills/skillsheet-pdf/scripts/expand-details.ts <入力.md> /tmp/expanded.md
+./node_modules/.bin/md-to-pdf /tmp/expanded.md
 ```
 
-`npx md-to-pdf` は `/tmp/skillsheet.expanded.pdf` を生成するので、それを実行日付つきのファイル名でリポジトリ直下へ移動する。
-
-### 3. 中身を検証する（重要）
-
-折りたたみが正しく展開されたかを必ず確認する。展開漏れがあると詳細が消えたことに気づけない。`<details>` 内にしか登場しないキーワードが PDF テキストに含まれるか、ページ数が妥当か（サマリーだけだと数ページ、全展開なら大幅に増える）を確認する。
-
-```bash
-python3 - "$OUT" <<'PY'
-import sys
-from pypdf import PdfReader  # 無ければ: pip3 install pypdf -q
-r = PdfReader(sys.argv[1])
-txt = "\n".join(p.extract_text() or "" for p in r.pages)
-print("ページ数:", len(r.pages))
-# 折りたたみの中身にしか出てこない語が含まれていれば展開成功
-for kw in ["チーム体制", "案件概要", "経験した技術"]:
-    print(f"  '{kw}':", "○" if kw in txt else "× 欠落（展開失敗の可能性）")
-PY
-```
-
-### 4. 検証済みの最新版だけを残す
-
-検証がすべて成功してから、旧版を削除する。生成前や検証前には実行しないこと。`keep-latest-pdf.ts` は、リポジトリ直下にある `YYYY-MM-DD_高橋俊スキルシート.pdf` のうち、指定した最新版以外だけを削除する。
-
-```bash
-bun "$SKILL_DIR/scripts/keep-latest-pdf.ts" "$OUT"
-```
-
-削除後、最新版 1 件だけが残っていることを確認する。
-
-```bash
-find . -maxdepth 1 -type f -name '*_高橋俊スキルシート.pdf' -print
-```
-
-### 5. 後片付け
-
-中間ファイルを削除する。
-
-```bash
-rm -f /tmp/skillsheet.expanded.md
-```
-
-## 補足
-
-- 生成される PDF（`*_高橋俊スキルシート.pdf`）は Git の追跡対象。更新時は、新しい PDF の追加と旧 PDF の削除を一緒に確認する。
-- **別の入力ファイル**を変換する場合は手順のパスを差し替えるだけでよい。
-- 見た目（フォント・余白・改ページなど）は md-to-pdf のデフォルトに従う。調整が必要になった場合は、中間 Markdown の先頭に md-to-pdf の frontmatter（`pdf_options` や `css`）を加える方法がある。
+見た目の調整が必要な場合は、中間 Markdown の先頭に md-to-pdf の frontmatter（`pdf_options` や `css`）を加える。

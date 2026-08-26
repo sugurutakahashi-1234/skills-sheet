@@ -1,0 +1,13 @@
+{
+  "name": "skills-sheet",
+  "private": true,
+  "scripts": {
+    "pdf": "bun scripts/generate-pdf.ts",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "lefthook": "^2.1.10",
+    "md-to-pdf": "^5.2.5"
+  },
+  "trustedDependencies": ["puppeteer", "lefthook"]
+}

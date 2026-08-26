@@ -17,6 +17,26 @@ if (md.includes("<details") || md.includes("<summary")) {
   throw new Error("展開漏れ: 中間 Markdown に <details>/<summary> が残っています");
 }
 
+// 2.5. GitHub 風フォント指定の frontmatter を注入
+// md-to-pdf のデフォルトは github-markdown-css だが、日本語フォントはシステム任せになるため
+// GitHub と同じゴシック系サンセリフを明示する
+const FRONTMATTER = `---
+pdf_options:
+  format: A4
+  margin: 18mm 16mm
+css: |-
+  .markdown-body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+  }
+---
+
+`;
+
+// 2.6. PDF では意味を持たない Web 向けの文言を除去（プルダウン＝折りたたみは展開済みのため）
+const cleaned = md.replace(/^※ 各案件の詳細は以下のプルダウンから確認可能。\n?/m, "");
+
+await Bun.write(EXPANDED, FRONTMATTER + cleaned);
+
 // 3. PDF 生成（リポジトリローカルの md-to-pdf を使用。npx は使わない）
 await $`./node_modules/.bin/md-to-pdf ${EXPANDED}`;
 

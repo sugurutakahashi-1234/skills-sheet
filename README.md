@@ -145,7 +145,7 @@
 #### 経験した技術
 
 - **AI コンサルティング / FDE（業務1）**
-  - v0 / Replit / Google AI Studio などによる商談前の高速プロトタイピング
+  - v0 や Claude Code による商談前の高速プロトタイピング
   - LLM ツールの使い分け指導、プロンプト改善、MCP 化・Skills 設計の方針策定
   - 建設業向けに施工計画書の AI 作成支援システムを開発し、実案件データで運用
 - **RAG / ベクトル検索マッチング（業務2）**
@@ -209,11 +209,11 @@
 
 #### AI ツール（提案活動・開発）
 
-- Claude Code, Codex, Claude Code Managed Agents, v0, Replit, Lovable, Google AI Studio, Chrome DevTools MCP
+- Claude Code, Codex, v0, Chrome DevTools MCP
 
 #### 分析 / 開発ツール
 
-- Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode, Figma
+- Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode
 
 </details>
 

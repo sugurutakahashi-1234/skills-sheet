@@ -142,341 +142,78 @@
   - **[業務5] AI 案件選別システム開発** — 外部案件を LLM で自動評価する社内システム
   - **[業務6] 社外向け資料共有基盤の開発** — Cloudflare Access 認証付きの資料配信基盤
 
----
-
-### [業務1] AI コンサルティング / 提案活動（FDE）
-
-#### 概要
-
-- システム構築案件の提案活動と、顧問型の「[AI 活用伴走サービス](https://www.zenshin-inc.co.jp/services/ai-consultation/)」を一体で推進
-- 外部の受発注マッチングプラットフォーム経由の案件獲得も自ら担当し、アポ獲得から商談・提案・見積もりまでを実施
-- 提案では AI ツールを活用したデモ・プロトタイプと提案書の作成を主導
-- CEO や営業と同席し、要件ヒアリングから提案までを技術面でリード
-- 伴走サービスでは、経営者や DX 推進担当者を対象に月 2〜4 回のオンライン相談で支援
-- 相談・提案で終わらせず、FDE として実装・導入まで自ら支援
-- 建設業の実案件では、顧客業務に入り込んだ AI ツールを開発し定着まで伴走
-
 #### 経験した技術
 
-- **AI ツールを活用したデモ / プロトタイプ / 提案書・見積書の作成**
-  - v0 (Vercel) / Replit / Lovable / Google AI Studio による UI・アプリの高速プロトタイピング
-  - Claude Code / Codex による実装レベルのデモ作成
-  - Google Stitch / Figma によるデザインモックアップ作成
-  - プロトタイプを組み込んだ提案書・見積書の作成
-- **AI コンサルティング（AI 活用伴走サービス）**
-  - 現状ヒアリングと課題整理、業務に適した AI 活用方法の提案
-  - ChatGPT / Claude / Gemini などの LLM ツールの使い分け指導、プロンプト・ツール設定の改善支援
-  - MCP 化や Claude Code Skills 設計の方針策定支援
-- **FDE 実案件でのツール開発・導入**
-  - 建設業向けに、詳細施工計画書（全 12 章）を Claude Code と共同作成する AI 支援システムを開発し、実案件データで運用
-  - Markdown を正本に、pandoc + LibreOffice で Word / PDF を自動生成
-  - CAD 図面・Excel などの資料読み取りツール群も整備
-
-#### 取り組み・貢献
-
-- **課題起点の提案**
-  - お客様の提示するシステム要件をそのまま受けず、「何に困っているか」「理想の姿」を深掘りし、課題定義から提案し直す
-  - 提案書・見積書は、課題がどう解決されるかと費用対効果（投資回収の見込み）まで含めた意思決定材料として作成
-- **実装先行の提案スタイル**
-  - 商談前に 1〜2 日でプロトタイプを作成し、実現可能性・工数まで詰めた具体性の高い提案を実現
-  - 商談中の不明点は、その場で AI を使って調査・回答
-  - 提案方針・見積もりは CEO・営業と事前に合意し、複数案（A / B / C）を準備してお客様の反応に応じて出し分け
-- **実践知に基づく一気通貫の FDE スタイル**
-  - 自社の AI システム開発・エージェント運用で日々実践した知見をコンサルティングに還元
-  - 経営層には投資対効果、実装担当者にはプロンプト・ツール設定と、相手のレイヤーで出し分け
-  - 助言・提案で終わらせず、MCP サーバー構築・Claude Code Skills 整備・AI ワークフロー構築まで自ら実装して顧客に届ける
-
----
-
-### [業務2] AI マッチングシステム開発（Cloudflare フルスタック AI 基盤）
-
-#### 概要
-
-- Excel 手作業とキーワード検索に依存していた SES のマッチング業務（要員 × 案件）を AI システム化
-- Cloudflare Workers 上のフルスタック構成で単独開発・運用
-- 案件 1,000 件 × エンジニア 1,000 名の規模から、ベクトル検索と AI 採点により適切なマッチング候補を 5 分以内に提示
-- LINE で届く非構造の要員・案件情報を LLM で構造化
-- ベクトル検索（RAG）で候補を抽出し、AI エージェントが採点する多層パイプラインを構築
-- IT 知識のない営業メンバーが、MCP 経由で Claude Code / Codex からシステムを直接操作
-- マッチングした人材の紹介までを、営業の実業務として運用
-- 「AI にチャットで聞く」で終わらせず、業務プロセスそのものに AI を組み込んだ業務システムとして設計
-- 社内スタッフ向け管理画面に加え、toC 向け公開サービスと toB 向けマルチテナント SaaS を同一モノレポで立ち上げ、1 人でマルチプロダクトを開発・運用
-  - toC: https://zenshin-freelance.com/ （LINE 公式アカウントを顧客接点に、登録〜案件提案〜状況確認までを自動化）
-  - toB: https://zenshin-engineer-match.com/
-
-#### 経験した技術
-
-- **RAG / Embedding / ベクトル検索**
-  - Workers AI（bge-m3, 1024 次元・多言語対応）による Embedding 生成と Cloudflare Vectorize によるコサイン類似度検索
-  - メタデータフィルタによる検索母集団の絞り込みと、検索結果の D1 保存によるマッチング候補管理
-  - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の多層マッチングパイプライン設計
-- **MCP サーバー開発**
-  - MCP TypeScript SDK（v2）による 70+ ツールを持つ MCP サーバーの実装（Cloudflare Workers 上）
-  - Better Auth（Google OAuth）による MCP OAuth 認証・セッション管理で、業務データへのアクセスをユーザー単位でセキュアに制御
-  - organization / admin plugin によるマルチテナント認可（ロール階層・招待の許可ドメイン制限）
-  - 無人自動化用サービストークンの設計
+- **AI コンサルティング / FDE（業務1）**
+  - v0 / Replit / Google AI Studio などによる商談前の高速プロトタイピング
+  - LLM ツールの使い分け指導、プロンプト改善、MCP 化・Skills 設計の方針策定
+  - 建設業向けに施工計画書の AI 作成支援システムを開発し、実案件データで運用
+- **RAG / ベクトル検索マッチング（業務2）**
+  - Workers AI（bge-m3）+ Vectorize による意味ベースの類似検索
+  - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の多層パイプライン設計
+  - 自作の評価スクリプトで LLM モデルを比較検証し、シーンごとに使い分け
+- **MCP サーバー / AI エージェント運用（業務2）**
+  - 70+ ツールの MCP サーバー開発（MCP TypeScript SDK v2, Better Auth OAuth 認証・マルチテナント認可）
   - WebMCP（ブラウザ内 MCP）の Origin Trial 先行導入
-  - SPA 自身が API 呼び出しを MCP ツールとしてブラウザセッションに公開する構成
-  - Claude Code / Codex の両エージェントから同一の MCP サーバーを利用できるマルチエージェント対応
-- **Cloudflare AI / サーバーレス基盤**
-  - AI Gateway 経由の LLM 統一呼び出し（構造化抽出・Vision 解析・Embedding を同一バインディングで管理）
-  - Cloudflare Workflows による durable execution（LLM 抽出 → 構造化 → Embedding → マッチング検索の step 単位リトライ）
-  - Cloudflare Queues + DLQ による非同期マッチング検索
-  - Browser Rendering + Puppeteer によるスキルシート PDF の画像化 → Vision LLM でのスキルシート解析
-  - D1（SQLite）+ Drizzle ORM による 160+ マイグレーション管理、KV によるアクセストークンキャッシュ
-- **ユースケース別の LLM モデル選定**
-  - モデル評価用のスクリプト群を自作し、Kimi K2 / gpt-oss / GLM / Llama 系を実タスクの精度・コストで比較検証
-  - 採否の判断根拠をコードに明文化
-  - 構造化抽出・Vision 解析・Embedding などのシーンごとに、精度・レイテンシ・コストのバランスでモデルを使い分け
-- **AI エージェント運用基盤（Claude Code Skills）**
-  - 50+ の Claude Code スキル + 定期ルーチンによる業務自動化（要員・案件の取り込み、マッチング採点、Slack への日次レポート配信）
-  - CLAUDE.md / SKILL.md による判断ルール・業務フローの SSoT 化
-  - テンプレートを正本に両エージェント向けの指示書を自動生成し、drift を検知
-  - 定期実行ジョブを Git 管理の台帳で IaC 的に運用し、実行監査などで自動化を安全に運用
-- **LINE 公式アカウントによる候補者コミュニケーション基盤**
-  - LINE Login と Messaging API の userId 同一性を活かした、友だち紐付け不要の本人アカウント連携
-  - スタッフ向けの双方向チャット（インボックス・返信待ちキュー・Slack ミラー）
-  - AI 採点で高スコアの案件提案を本人の LINE へ自動配信し、マイページでの本人回答までつなぐ
-  - 採点の静穏待ち・送信時間帯・連投抑制などの配慮設計
-  - Quick Reply による稼働状況の定期ヒアリング自動化
-  - 自由文を LLM に解釈させず、ボタン回答からステージ遷移・営業メモ追記まで決定論的に処理
-  - MCP 経由で AI エージェントが候補者への返信・案件提案の配信まで実行できる設計
-  - 自由文の返信は人間の承認を挟み、送信の監査記録を残す運用
-  - LINE の配信障害を検知する不在 watchdog（営業時間帯の受信ゼロ監視）
-  - webhook の冪等化・多重リトライによるメッセージの取りこぼし防止
-- **フルスタック開発**
-  - Hono + oRPC による型安全な API、React 19 + TanStack Router / Query による SPA
-  - TanStack Start（SSR）による公開サイト。API 用 Worker へは Service Binding（Workers 間の内部直接通信）で接続
-  - Slack API、Google Drive API との連携
-  - Playwright E2E（隔離 D1 + 実 API モード）、Storybook + MSW、PostHog によるイベント計測と LP の A/B テスト基盤
-  - Bun workspace によるモノレポ管理（dependency-cruiser によるレイヤー依存の機械強制）
+  - 50+ の Claude Code スキル + 定期ルーチンによる業務自動化（Claude Code / Codex 両対応）
+- **LINE 公式アカウント基盤（業務2）**
+  - 友だち紐付け不要の本人アカウント連携と、スタッフ向けの双方向チャット
+  - 高スコア案件の本人 LINE への自動提案、Quick Reply による稼働状況の定期ヒアリング
+  - MCP 経由で AI エージェントが候補者への返信・提案配信まで実行（人間の承認・監査記録付き）
+- **Cloudflare フルスタック（業務2・3・5・6）**
+  - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
+  - Hono + oRPC + React 19 / TanStack Start による Web アプリ、Astro によるコーポレートサイト（Lighthouse 100 を維持）
+  - Email Sending + Slack Interactive による採用応募対応の自動化、Access 認証付きの資料配信
+- **マルチクラウド IaC（業務4）**
+  - GCP / Cloudflare / AWS / Google Workspace を Terraform で横断管理
+  - Workload Identity Federation (OIDC) による鍵レス認証、差分ベースの terraform plan CI
 
 #### 取り組み・貢献
 
-- **Excel 手作業のシステム化と「キーワード検索を超える」マッチングの実現**
-  - Excel 台帳の手作業とキーワード一致検索に頼っていた業務を、構造化データとベクトル検索のシステムへ置き換え
-  - スキルシートの内容まで LLM で構造化し、意味ベースの類似検索を導入
-  - キーワード一致ではヒットしない要員 × 案件のマッチングを発見できるように
-- **非エンジニアの営業が AI エージェントで実業務を回す仕組みの実現**
-  - Better Auth の OAuth 認証によるセキュアな MCP 接続を整備
-  - IT 知識のない営業が、自然言語で要員検索〜人材紹介までの実業務を完結できる体制を構築
-  - MCP ツール設計・スキル整備・権限制御により、エンジニアを介さず営業自身が AI エージェントを日常業務で使いこなす状態を実現
-- **AI 採点の決定論的ガードとポリシー運用**
-  - 採点ポリシーをバージョン管理し、条件ミスマッチはサーバー側で決定論的にスコア上限を強制（AI の過大評価を防止）
-  - 営業の判断・メモを採点ガイドに還元するフィードバックループを運用し、AI 判定と人間判断の乖離を継続的に縮小
-- **業務プロセス全体への AI 組み込み・自動化**
-  - LINE で届く営業メールの転送テキスト・添付スキルシートを、LLM 構造化 → ベクトル検索 → AI 採点まで自動処理する仕組みを構築
-  - スキル + MCP + 定期ルーチンの組み合わせで、レポート配信や AI 自動採点など人手を介さない無人運用を実現
-  - 案件収集から AI 採点、本人 LINE への自動提案、本人回答まで、AI の判断が顧客接点に人手を介さず届く自動ループを構築
-- **低コスト・高信頼な運用設計**
-  - インフラを Cloudflare のみで完結させ、小規模チームでも維持できる運用コストを実現
-  - サイレント障害が起きていた非同期処理を Workflows の durable execution へ移行して根治するなど、信頼性を継続的に改善
-
----
-
-### [業務3] コーポレートサイト開発（Astro + Cloudflare Pages）
-
-#### 概要
-
-- 株式会社ZENSHIN のコーポレートサイト（ https://www.zenshin-inc.co.jp/ ）を Astro + Cloudflare Pages 構成で設計・構築・運用
-- 技術ブログ（ https://tech.zenshin-inc.co.jp/ ）を別アプリとして分離した後、Bun workspaces モノレポへ統合
-- 技術ブログのコードは MIT ライセンスで一般公開
-
-#### 経験した技術
-
-- **Astro / Cloudflare Pages**
-  - Astro による SSG + Cloudflare Pages Functions による問い合わせ API の実装
-  - Tailwind CSS v4 による UI 実装、WCAG AA 準拠のブランドカラーシステムの設計
-  - Astro Content Collections による blog / news / works / services のコンテンツ管理
-  - Cloudflare Turnstile + Slack Bot Token による問い合わせフォームのスパム対策と通知連携
-  - Cloudflare Email Sending + Slack Interactive による採用応募対応の自動化
-  - 応募受付から、Slack のボタン → 確認モーダル → お見送りメール送信までを完結
-  - `astro:env` による下書き記事の環境別可視化
-- **技術ブログ（一般公開リポジトリ）**
-  - Astro 7 + Marp による記事・スライドの静的生成、Pagefind による全文検索
-  - Pages Functions + Workers KV による閲覧数カウンター API（IP レートリミット付き）
-  - Zenn 互換記法プラグインの自作と Zenn クロスポスト運用
-  - llms.txt / Content-Signal 対応 robots.txt による AI クローラー方針の明示
-- **SEO / 構造化データ / Core Web Vitals**
-  - Schema.org の JSON-LD 埋め込み、OGP / canonical のページ別制御、satori + sharp による OG 画像の動的生成
-  - CSS インライン化・画像最適化による LCP 改善、Google Search Console / PageSpeed Insights による計測と継続的改善
-- **CI/CD / テスト / 品質**
-  - GitHub Actions による Preview / Staging / Production の多段デプロイと `release-please` による自動リリース
-  - Vitest / Playwright / `@axe-core/playwright` による単体・E2E・アクセシビリティ検証
-  - oxlint / oxfmt / knip / lefthook による静的解析・フォーマット自動化
-- **生成 AI 活用**
-  - Claude Code Managed Agents のセットアップ、Chrome DevTools MCP でのブラウザ動作検証
-  - GitHub Actions による Claude Code 自動レビュー
-
-#### 取り組み・貢献
-
-- **CEO・経営陣と連携したサイト構築**
-  - 掲載内容・デザイン方針を CEO や経営陣と相談しながら決定
-  - Staging 環境を整備し、段階的に経営陣の意見を取り込む CI/CD サイクルで開発を進めた
-- **SEO / Core Web Vitals 改善**
-  - CSS インライン化・画像最適化・構造化データ実装により Lighthouse 100/100 を達成・維持
-  - Google Search Console と PageSpeed Insights をダッシュボードとして運用し、継続的に改善
-- **技術ブログの立ち上げ・運営による採用・ブランディング貢献**
-  - タグ / 月別アーカイブ、記事ごとの OGP 自動生成、執筆規約を整備
-  - 技術選定・CMS 選定・Astro OGP 生成などの記事を自ら執筆し、採用・ブランディングに活用
-
----
-
-### [業務4] 社内インフラ管理（Terraform マルチクラウド）
-
-#### 概要
-
-- GCP / Cloudflare / AWS を横断管理する Terraform モノレポを構築・運用
-- コーポレートサイトのホスティング基盤、DNS、Zero Trust アクセス制限、アカウント・通知設定などを IaC 化
-- クラウドにとどまらず、Google Workspace の組織・グループ権限やブランドアセットまでコード管理の対象を拡大
-
-#### 経験した技術
-
-- **Terraform / マルチクラウド**
-  - GCP / Cloudflare / AWS を対象としたマルチモジュール構成の IaC 管理
-  - GCS Remote Backend による Terraform state の一元管理
-  - Workload Identity Federation (OIDC) による GitHub Actions → GCP の鍵レス認証
-  - Cloudflare Access（Zero Trust）+ Google OAuth による Staging 環境へのアクセス制限
-  - dotenvx による各モジュールの `.env` 暗号化コミットと CI 復号
-- **Google Workspace / 組織管理の IaC**
-  - Cloud Identity API 経由で Google Workspace のグループ・メンバー・ロールを Terraform 管理
-  - 身分グループと役割グループの分離、役員機密と管理者権限の分離設計
-  - Google Workspace CLI の OAuth scope を個別列挙する最小権限運用
-  - Google Forms の設問定義ファイルを SoT とした宣言的管理
-- **AWS / GitHub 連携**
-  - AWS Organizations の最小基盤構築（IAM Identity Center の短期認証のみ・アクセスキー不使用）
-  - GitHub Actions → AWS の OIDC 連携（必要な read アクションのみの最小権限 role）
-  - GitHub App（JWT → installation token）による Organization 内リポジトリ権限の日次自動同期
-- **共通基盤 Worker / ブランドアセット管理**
-  - 全社共通 Slack App のイベントを Service Binding で各プロダクト Worker へ振り分ける Slack Router Worker の開発
-  - 設定ファイルを正本に、全サービスのロゴ・favicon・OG 画像を自動生成するブランドアセット基盤の構築
-  - lock ファイル（コミット SHA + sha256）で各リポジトリへ配布し、byte 単位で検証
-- **Cloudflare のセキュリティ / パフォーマンス機能**
-  - Smart Tiered Cache / 0-RTT 接続再開 / Speed Brain / Page Shield の Terraform 管理化
-  - apex→www 301 Redirect Rules による URL 正規化
-  - WAF Custom Rule の導入検討と「現時点では設定しない」意思決定の文書化
-- **CI/CD（Terraform）/ ガバナンス**
-  - GitHub Actions による PR 時の `terraform plan` 自動実行（変更モジュールのみの差分ベース実行）と `tfcmt` による PR コメント
-  - tflint + lefthook による pre-commit / pre-push の自動検査
-  - Renovate によるプロバイダ・依存の自動更新
-  - Gmail フィルタ + Slack Email App による通知の Slack 集約
-  - GitHub Organization のチーム構成・権限設計
-
-#### 取り組み・貢献
-
-- **属人化の排除と継続運用の仕組み化**
-  - 属人的になりがちな社内インフラ構成を徹底的に Terraform で IaC 化
-  - Terraform で表現できない設定は README に明示し、CTO が不在でも運用が回る仕組みを整備
-- **インフラ 100% IaC 化による安全なワークフロー**
-  - コード変更 → PR → `terraform plan` CI → マージ → ローカル `apply` の一連のフローを確立
-- **DNS 移行プロジェクトの遂行**
-  - AWS Route 53 → Cloudflare DNS への段階的移行を Phase 管理で実施し、無停止で本番切替
-- **技術的意思決定の文書化**
-  - 採用しなかった選択肢（WAF、Cache Rules など）とその理由もリポジトリに残す文化を形成
-
----
-
-### [業務5] AI 案件選別システム開発（Cloudflare + LLM）
-
-#### 概要
-
-- 外部の受発注マッチングプラットフォームから届く新着案件を、LLM で自動評価する社内システムを単独で設計・開発・運用
-- 応募可否の判断材料（スコア・判定理由・応募文ドラフト）を Slack / Web に配信
-- 営業・経営層の「どの案件に応募すべきか」の判断を AI で支援し、最終判断のみ人間が行う設計
-
-#### 経験した技術
-
-- **LLM パイプライン**
-  - Slack Events → Cloudflare Queues（DLQ 付き）→ Workflows（durable execution）の 3 段非同期パイプラインによる案件処理
-  - 案件のライフサイクル通知（商談成立・メッセージ受信・日程調整）を解析する Workflow を追加
-  - Slack スレッド上で案件ごとの商談進捗を自動追跡（手動ステータスは上書きしない設計）
-  - 案件ページのスクレイピングと決定論的な DOM パース（構造化に AI を使わず、コストと不確実性を排除）
-  - Workers AI（Kimi K2.6）+ AI Gateway で、スコアリング・応募文・自己推薦文を 1 コールで同時生成
-  - PDF / Office ファイルの Markdown 変換（Workers AI toMarkdown）、Browser Rendering による SPA 参考サイトの取得
-- **プロンプト運用**
-  - プロンプトのバージョン管理（25 回超の改修サイクル）
-  - 本番データでの「AI 判定 vs 人間判断」の乖離分析による継続改善
-  - Claude Code / Codex 向けの自作スキルによる、プロンプトチューニング・未対応案件の一括選別の半自動化
-  - AI による実績の捏造を防ぐネガティブリストなどのガードレール設計
-- **フルスタック / 運用**
-  - Hono + oRPC による型安全な API、React 19 + TanStack Router / Query による SPA、Drizzle ORM + D1
-  - Slack のボタン・モーダルによる判断記録（HMAC 署名検証）、Cron Triggers による日次リマインド・ステータス監視
-  - GitHub Actions による CI/CD（D1 マイグレーション自動適用・Worker Secrets 同期）
-
-#### 取り組み・貢献
-
-- **案件選別業務の自動化**
-  - 受信から評価・応募文ドラフト生成までを全自動化
-  - 営業の案件選別を「全件読む」から「判断するだけ」に省力化
-  - エントリー送信はあえて自動化せず、人間の最終判断を挟む安全設計とした
-- **データ駆動のプロンプト改善運用**
-  - プロンプト改修の履歴・観点をリポジトリに記録し、判定精度を継続的に改善する運用を確立
-
----
-
-### [業務6] 社外向け資料共有基盤の開発（Cloudflare Workers）
-
-#### 概要
-
-- 提案書などの社外向け資料を、Cloudflare Access 認証付きで顧客に配信する資料共有基盤
-- Cloudflare Workers + Static Assets で単独開発・運用
-- 案件担当者はディレクトリに資料を置くだけで顧客への URL 共有が完結する仕組み
-
-#### 経験した技術
-
-- Worker の HTMLRewriter による共通フレーム挿入と Markdown の実行時 HTML 化（ビルドレス設計）
-- GitHub App による別リポジトリ資料の allowlist 型ライブ proxy、Cache API の stale-while-revalidate
-- access 設定ファイルを SSoT とした Cloudflare Access ポリシーの GitHub Actions 自動同期
-- 誤公開を防ぐ二重の機械的チェック（fail-safe 設計）、機密設定ファイルの配信禁止・ダウンロード機能の非搭載など認証境界の多重防御
-- git 履歴からの目次メタデータ自動生成
-- Cloudflare / Chrome DevTools の MCP による本番ログ調査・Access 越しの UI 検証
-
-#### 取り組み・貢献
-
-- 顧客資料の共有を「URL を渡すだけ」に統一
-- 認証・公開範囲の管理を機械強制し、非エンジニアの案件担当者でも安全に使える基盤を実現
-
----
+- **営業が AI エージェントで実業務を回す状態の実現**
+  - OAuth 認証付きの MCP を整備し、IT 知識のない営業が自然言語で要員検索〜人材紹介まで完結
+  - 案件 1,000 件 × エンジニア 1,000 名の規模から、5 分以内に適切なマッチングを提示
+- **AI の判断が顧客接点まで届く自動ループの構築**
+  - 案件収集 → AI 採点 → 本人 LINE への自動提案 → 本人回答まで、人手を介さない運用を実現
+  - 送信時間帯・連投抑制・人間の承認と監査記録など、安全に運用するためのガードを設計
+- **AI を過信しない設計・運用**
+  - 条件ミスマッチはサーバー側で決定論的にスコア上限を強制し、AI の過大評価を防止
+  - 本番の「AI 判定 vs 人間判断」の乖離分析でプロンプトを継続改善（25 回超の改修サイクル）
+  - 構造化に AI を使わない決定論パースの採用など、AI と決定論処理の使い分けを徹底
+- **一人でも回る運用の仕組み化**
+  - インフラを Cloudflare 中心で完結させ、小規模でも維持できる運用コストを実現
+  - 社内インフラを徹底的に IaC 化し、コード変更 → PR → plan CI → apply のフローを確立
+  - 採用しなかった選択肢を含め、技術的な意思決定の根拠をリポジトリに記録する文化を形成
 
 ### 開発環境
 
 #### フロントエンド
 
-- Astro, React 19, TanStack Start, TanStack Router, TanStack Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun, Astro Content Collections, Marp, Pagefind, satori, sharp
+- Astro, React 19, TanStack Start / Router / Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun
 
 #### バックエンド / AI システム
 
-- Hono, oRPC, Drizzle ORM, Zod, Better Auth (organization / admin plugin), @modelcontextprotocol/sdk v2 (MCP サーバー開発), WebMCP
-- Cloudflare Workers AI (bge-m3, Kimi K2.6, toMarkdown), AI Gateway, Vectorize, Workflows, Queues, Browser Rendering (Puppeteer), Email Routing, Email Sending, HTMLRewriter
-- LINE Messaging API, Slack API (Events / ボタン・モーダル), Google Drive API, GitHub App 連携
-
-#### FDE 案件ツール開発
-
-- Python (uv), pandoc + LibreOffice (Word / PDF 自動生成)
+- Hono, oRPC, Drizzle ORM, Zod, Better Auth, @modelcontextprotocol/sdk v2, WebMCP
+- Cloudflare Workers AI, AI Gateway, Vectorize, Workflows, Queues, Browser Rendering, Email Sending
+- LINE Messaging API, Slack API, Google Drive API, GitHub App 連携
+- Python (uv), pandoc + LibreOffice（FDE 案件ツール開発）
 
 #### クラウド / インフラ
 
-- Cloudflare (Workers, Pages, Pages Functions, D1, R2, KV, DNS, Turnstile, Access), GCP (Workload Identity Federation, GCS, IAM, Cloud Identity), AWS (Organizations, IAM Identity Center), Terraform, tflint, dotenvx, mise
+- Cloudflare, GCP, AWS, Terraform, tflint, dotenvx, mise
 
-#### CI/CD
+#### CI/CD / テスト / 品質
 
-- GitHub Actions, release-please, Wrangler, tfcmt, Renovate
-
-#### テスト / 品質
-
-- Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, syncpack, dependency-cruiser, lefthook, commitlint
+- GitHub Actions, release-please, Wrangler, Renovate
+- Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, lefthook
 
 #### AI ツール（提案活動・開発）
 
-- v0 (Vercel), Replit, Lovable, Google AI Studio, Google Stitch, Claude Code (Skills / MCP / 定期ルーチン), Codex, Claude Code Managed Agents, Chrome DevTools MCP
+- Claude Code, Codex, Claude Code Managed Agents, v0, Replit, Lovable, Google AI Studio, Chrome DevTools MCP
 
-#### 分析 / モニタリング
+#### 分析 / 開発ツール
 
-- Google Search Console, PageSpeed Insights, Cloudflare Analytics, PostHog
-
-#### 開発ツール
-
-- VSCode, Figma
+- Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode, Figma
 
 </details>
 

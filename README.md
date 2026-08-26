@@ -54,10 +54,17 @@
 - **生成 AI 活用**: Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
 - **言語**: TypeScript, Swift, Dart, Python, PHP, Java
 - **クラウド**
-  - **Cloudflare**: Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, Email Sending, DNS, Turnstile, Access
-  - **Google Cloud**: Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
-  - **AWS**: Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
-  - **Firebase**: Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
+  - **Cloudflare**
+    - コンピュート / 配信: Workers, Pages, Browser Rendering
+    - AI: Workers AI, AI Gateway, Vectorize
+    - データ / 非同期処理: D1, R2, KV, Queues, Workflows
+    - ネットワーク / セキュリティ: DNS, Access, Turnstile, Email Routing, Email Sending
+  - **Google Cloud**
+    - Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
+  - **AWS**
+    - Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
+  - **Firebase**
+    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
 - **インフラ / IaC**: Terraform, tflint, dotenvx, OIDC
 - **サーバーサイド**: REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, PHP, Java
 - **データベース**: RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)

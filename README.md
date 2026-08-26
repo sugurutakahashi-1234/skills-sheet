@@ -94,7 +94,7 @@
 ### 株式会社ZENSHIN (2026年04月 - 現在)
 
 - 2026年
-  - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
+  - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（IT コンサルティング / SIer / SES）
     - AI コンサルティング / 顧客向け AI ツール開発（FDE）/ 社内 AI システム開発 / コーポレートサイト・社内インフラ
 
 ### フリーランス (2021年07月 - 2026年03月)
@@ -124,9 +124,9 @@
 
 ---
 
-<details><summary>[No.11] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）</summary>
+<details><summary>[No.11] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（IT コンサルティング / SIer / SES）</summary>
 
-## [No.11] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
+## [No.11] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（IT コンサルティング / SIer / SES）
 
 #### チーム体制
 

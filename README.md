@@ -5,7 +5,10 @@
 ## 基本情報
 
 - **所在**: 東京
-- **現在のポジション**: AI コンサルタント / FDE (Forward Deployed Engineer) / CTO
+- **現在のポジション**: AI コンサルタント / FDE / CTO
+  - **AI コンサルタント**: 月額顧問型「AI 活用伴走サービス」での相談・助言と、案件獲得の営業（アポ獲得〜商談・見積もり）
+  - **FDE**: 顧客の業務に入り込み、AI ツール・システムを自ら実装して導入まで担当
+  - **CTO**: 自社プロダクト開発・社内 IT 業務全般
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
   - GitHub - https://github.com/sugurutakahashi-1234
@@ -15,14 +18,15 @@
 
 ## サマリー
 
-エンジニア歴 10年目。Web・モバイルのフロントエンドからサーバーサイド、マルチクラウド・IaC までの実装経験あり。現在は創業フェーズの [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) の CTO を務めながら、AI コンサルタント / FDE として AI 活用の相談・提案（プリセールス）から、RAG・MCP・AI エージェント基盤の設計・実装・導入、プロダクト開発の推進までを一気通貫で担当。
+エンジニア歴 10年目。Web・モバイルのフロントエンドからサーバーサイド、マルチクラウド・IaC までの実装経験あり。現在は創業フェーズの [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) の CTO を務めながら、AI コンサルタント / FDE として、案件獲得の営業・商談から AI 活用の提案、顧客向け AI ツールの実装・導入、プロダクト開発の推進までを一気通貫で担当。自社では案件 1,000 件 × エンジニア 1,000 名の規模から 5 分以内に適切なマッチングを提示する AI マッチングシステム（RAG・MCP・AI エージェント）を、toC・toB・社内向けのマルチプロダクト構成で単独開発・運用。
 
 ### 強み
 
 - **AI コンサルティング〜FDE**
-  - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案（プリセールス）を担当。相談・提案から実装・導入までを一気通貫で支援した経験
+  - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案を担当。案件獲得の営業・商談から、顧客業務に入り込んだ AI ツールの実装・導入までを一気通貫で担当した経験
 - **AI システム開発（RAG / MCP / AI エージェント）**
-  - 業務プロセスに AI を組み込んだシステムを、設計から実装・実運用まで単独でフルスタック開発できる。実際に人材マッチングや開発案件の自動評価のシステムを Cloudflare 上に開発し、非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入した経験
+  - 業務プロセスに AI を組み込んだシステムを、設計から実装・実運用まで単独でフルスタック開発できる。人材マッチング（toC 向けサービス・toB 向けマルチテナント SaaS・社内管理画面のマルチプロダクト構成）や開発案件の自動評価のシステムを Cloudflare 上に開発し、非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入した経験（案件 1,000 件 × エンジニア 1,000 名の規模から 5 分以内にマッチングを提示）
+  - AI の判定結果と人間の判断の乖離を本番データで分析し、プロンプトを継続的に改善する運用ループを確立
 - **CTO 経験**
   - 創業フェーズの AI コンサルティング会社で提案活動・AI システム開発・コーポレートサイト・社内インフラを単独で推進
 - **0 → 1 リードエンジニア経験（5件）**
@@ -32,107 +36,23 @@
 - **フルスタック実装力**
   - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイド、マルチクラウド・IaC（Terraform × GCP / Cloudflare / AWS）まで単独で実装可能
 - **OSS 開発・技術発信**
-  - 自作 OSS（TypeScript 製 CLI ツール）を npm / Homebrew / GitHub Actions Marketplace で配布し、Zenn で技術記事を継続発信
-
-## スキルセット
-
-### AI コンサルティング / AI システム開発
-
-- **AI コンサルティング〜FDE**
-  - 月額顧問型「AI 相談サービス」による顧客企業の AI 活用支援
-  - LLM ツール（ChatGPT / Claude / Gemini）の使い分け指導、プロンプト・ツール設定の改善
-  - MCP 化・Skills 設計の方針策定、システム化の進め方の伴走支援
-  - コンサルティングにとどまらず、FDE（Forward Deployed Engineer）として実装・導入までを一気通貫で支援
-- **AI システム開発（RAG / MCP / エージェント基盤）**
-  - Cloudflare Workers + Vectorize + Workers AI による RAG・ベクトル検索システムの構築
-  - Better Auth（OAuth）認証付き MCP サーバー（40+ ツール）の設計・実装と、非エンジニア（営業）が Claude Code / Codex から実業務を行える仕組みの実運用
-  - Cloudflare Workflows / Queues による LLM 多段パイプラインの構築、Claude Code Skills + 定期ルーチンによる業務自動化
-  - ユースケース別の LLM モデル選定（Kimi K2 / gpt-oss / GLM / Llama、精度・レイテンシ・コストのバランスで使い分け）
-  - プロンプトのバージョン管理と、本番データでの「AI 判定 vs 人間判断」の乖離分析によるデータ駆動のプロンプト改善運用
-- **AI エージェント / コーディング支援ツールの活用**
-  - Claude Code / Codex を中心に、Skills・CLAUDE.md / AGENTS.md・MCP・定期ルーチンを整備し、コーディング支援にとどまらず業務自動化までエージェントを活用
-  - GitHub Actions による Claude Code 自動レビュー、Claude Code Managed Agents（Web 版）の運用
-  - Cloudflare MCP（本番 Worker のログ調査・D1 / KV の参照・デプロイ調査・公式ドキュメント検索）、gcloud MCP（GCP 運用）、Slack MCP（運用調査）を日常の開発・運用に組み込み
-  - Figma MCP（デザインからの UI 実装）、Chrome DevTools MCP / Playwright MCP（UI の自動検証・本番の認証越し動作確認）、AWS MCP Servers（予算見積もり・構成図・ベストプラクティス収集）の活用
-
-### プロジェクト推進 / チーム開発
-
-- **PdM / ビジネスサイド**
-  - 顧客ヒアリングによる課題定義、提案書・見積書の作成、投資対効果まで含めた意思決定支援
-  - ビジネス KPI（ARPU・LTV・CTR）を基点としたグロース施策の企画・A/B テスト検証・実装までの一気通貫の推進
-- **リードエンジニア**
-  - 0 → 1 フェーズでのプロジェクト立ち上げを担当（5件）
-  - アーキテクチャやライブラリの選定を含むプロジェクト立ち上げにおける技術選定の経験
-  - プロジェクトのブランチ戦略、CI/CD 環境の設計・構築
-  - スクラムボードの設計・運用の経験
-  - PdM、デザイナー、サーバーサイドエンジニアとの仕様調整の経験
-- **アジャイル開発**
-  - スクラム、カンバンなどの手法を用いたアジャイル開発の経験
-  - Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear などのプロジェクト管理ツールの経験
-- **Scrum Master**
-  - Scrum Master としてスプリントのプランニング、リファインメント、レトロスペクティブの実施やスクラムボードの設計の経験
-
-### 開発
-
-- **インフラ / IaC**
-  - Terraform によるマルチクラウド（GCP / Cloudflare / AWS）の IaC 構築・運用
-  - GCS Remote Backend による Terraform state の一元管理
-  - Workload Identity Federation (OIDC) による GitHub Actions → GCP の鍵レス認証（Service Account Key の発行不要）
-  - Cloudflare Access（Zero Trust）+ Google OAuth による環境へのドメイン認証アクセス制限
-  - AWS Organizations によるマルチアカウント環境（prod / stg / dev）の構築
-- **クラウド連携**
-  - **Firebase**
-    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config などを利用した実装
-  - **AWS**
-    - AppSync, Cognito, S3, Pinpoint などの AWS サービスを Amplify SDK 経由での活用
-  - **Google Cloud**
-    - Cloud Storage, Cloud Run, Google Maps API, Google Cloud API Key の活用
-- **サーバーサイド**
-  - OpenAPI (Swagger) でのインターフェース設計
-  - REST API / RPC の設計・開発（TypeScript: Hono / oRPC, PHP）
-  - RDB のテーブル設計
-- **React Native (Expo) / Next.js**
-  - Expo による iOS / Android / Web のクロスプラットフォーム開発
-  - Monorepo 構成によるモバイル・Web 間のコード共有
-  - TanStack Query によるデータフェッチング・キャッシング
-- **Swift**
-  - SwiftUI, Combine, Swift Concurrency を活用した宣言的 UI・非同期処理の実装
-  - Swift Package Manager を使用したマルチモジュール構成の設計・実装
-- **Flutter**
-  - Riverpod + Hooks を用いた状態管理
-  - go_router によるルーティング、OpenAPI Generator による API クライアント自動生成
-- **アーキテクチャ**
-  - Clean Architecture, VIPER, MVVM, Redux などプロジェクト特性に応じた設計選定
-  - レガシーコードのアーキテクチャ刷新・段階的リファクタリング
-- **CI/CD**
-  - Xcode Cloud, Bitrise, GitHub Actions による TestFlight / Firebase App Distribution への自動配信
-  - Renovate による依存関係の自動更新
-  - release-please によるリリース自動化
-- **ハードウェア連携**
-  - ドローン SDK によるリアルタイム飛行制御
-  - インカメラ連携による視線分析・感情分析の実装
-- **OSS 開発**
-  - **[ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)**:
-    - ChatGPT や Claude のチャット履歴を Markdown 変換するツール（npm, Homebrew）
-  - **[mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)**:
-    - Mermaid ファイルを Markdown コードブロックでラップするツール（npm, GitHub Actions Marketplace）
-  - **[issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)**:
-    - コミットメッセージ、ブランチ名から GitHub Issue への参照を検証するツール（npm, GitHub Actions Marketplace）
-  - **[readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)**:
-    - README の翻訳版と原文の構造的一貫性を検証するツール（npm）
+  - 自作 OSS（TypeScript 製 CLI ツール）を npm / Homebrew / GitHub Actions Marketplace で配布。独自 iOS アーキテクチャ「FIA」の考案・スライド / YouTube での公開や、Zenn での技術記事発信を継続
 
 ## 技術スタック
 
 - **AI コンサルティング**
-  - 月額顧問型 AI 相談サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE としての実装・導入支援
+  - 月額顧問型 AI 活用伴走サービス（AI 活用提案, LLM ツール使い分け, プロンプト改善, MCP 化 / Skills 設計方針）, FDE としての実装・導入支援
 - **AI システム開発**
-  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk, Better Auth OAuth), Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama), プロンプト運用 (バージョン管理・本番データでの継続改善)
+  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI), MCP サーバー開発 (@modelcontextprotocol/sdk v2, Better Auth OAuth), WebMCP, Vision LLM, Cloudflare Workflows / Queues, ユースケース別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama, 自作評価スクリプトで比較検証), プロンプト運用 (バージョン管理・本番データでの継続改善)
 - **生成 AI 活用**
   - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
 - **言語**
-  - TypeScript, Swift, Dart, PHP, Java
+  - TypeScript, Swift, Dart, Python, PHP, Java
 - **クラウド**
-  - AWS (Amplify, AppSync, Cognito, S3, Route 53), Google Cloud (Cloud Run, GCS, IAM), Cloudflare (Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, DNS, Turnstile, Access), Firebase
+  - **Cloudflare**: Workers, Pages, D1, Vectorize, Workers AI, AI Gateway, Workflows, Queues, R2, KV, Browser Rendering, Email Routing, Email Sending, DNS, Turnstile, Access
+  - **Google Cloud**: Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
+  - **AWS**: Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
+  - **Firebase**: Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
 - **インフラ / IaC**
   - Terraform, tflint, dotenvx, OIDC
 - **サーバーサイド**
@@ -140,41 +60,44 @@
 - **データベース**
   - RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
 - **認証 / 認可**
-  - OAuth 2.0, JWT, Better Auth, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
+  - OAuth 2.0, JWT, Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
 - **Web アプリ開発**
-  - React, Next.js, Astro, TanStack Query, Tailwind CSS
+  - React, Next.js, Astro, TanStack Start, TanStack Router, TanStack Query, shadcn/ui, Tailwind CSS
 - **モバイルアプリ開発**
   - React Native (Expo), Swift (SwiftUI, UIKit), Flutter
 - **アーキテクチャ**
   - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
+  - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
 - **テスト**
-  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, @axe-core/playwright
+  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, MSW, @axe-core/playwright
 - **コード品質**
-  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, lefthook, husky, Renovate
+  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, dependency-cruiser, commitlint, lefthook, husky, Renovate
 - **CI/CD**
   - Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
 - **SEO / パフォーマンス**
-  - Core Web Vitals, Lighthouse, JSON-LD, OGP, satori, Google Search Console
+  - Core Web Vitals, Lighthouse, PageSpeed Insights, Google Search Console, 構造化データ (JSON-LD / Schema.org), OGP 自動生成 (satori / sharp), sitemap / RSS / canonical
+  - AI クローラー対応 (llms.txt, Content-Signal 対応 robots.txt), Pagefind (静的サイト内全文検索)
 - **プロジェクト管理**
-  - Scrum Master 経験, アジャイル開発 (Jira, GitHub Projects, Zenhub, Linear)
+  - Scrum Master 経験, アジャイル開発 (Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear)
+- **OSS 開発（自作 CLI ツール）**
+  - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）, [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）, [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）, [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
+  - npm / Homebrew / GitHub Actions Marketplace / 実行バイナリで配布し、release-please による CI/CD・Codecov などの品質管理を全ツールで統一
 
 ## 職務経歴
 
 ### 株式会社ZENSHIN (2026年04月 - 現在)
 
 - 2026年
-  - [No.13] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
-    - AI コンサルティング / 人材マッチング・案件自動評価などの社内 AI システム開発（RAG・MCP・AI エージェント）/ コーポレートサイト・資料共有基盤の開発 / 社内インフラ管理
+  - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
+    - AI コンサルティング・FDE としての顧客向け AI ツール開発 / 人材マッチング・案件自動評価などの社内 AI システム開発（RAG・MCP・AI エージェント）/ コーポレートサイト・技術ブログ・資料共有基盤の開発 / 社内インフラ管理
 
 ### フリーランス (2021年07月 - 2026年03月)
 
 - 2025年
-  - [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）
-  - [No.11] OSS 開発 - 個人開発（TypeScript）
-  - [No.10] NFT ゲームアプリ開発 - Flutter リードエンジニア（WEB3 特化 SIer F社）
+  - [No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）
+  - [No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（WEB3 特化 SIer F社）
 - 2024年
-  - [No.9] SNS アプリ開発 - iOS リードエンジニア（SIer E社）
-  - [No.8] Clean Architecture ベースの新アーキテクチャの考案 - 個人開発（Swift）
+  - [No.8] SNS アプリ開発 - iOS リードエンジニア（SIer E社）
 - 2023年
   - [No.7] マーケティングリサーチアプリ開発 - iOS リードエンジニア（スタートアップ D社）
 - 2022年
@@ -195,18 +118,18 @@
 
 ---
 
-<details><summary>[No.13] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）</summary>
+<details><summary>[No.11] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）</summary>
 
-## [No.13] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
+## [No.11] 株式会社ZENSHIN - CTO / AI コンサルタント / FDE（AI コンサルティング会社）
 
 #### チーム体制
 
-- CTO として、AI コンサルティング / 提案活動（FDE）から社内 AI プロダクト・コーポレートサイト・社内インフラの開発・運用までを一人で担当
+- CTO として、AI コンサルティング / 提案活動 / FDE としての顧客向けツール開発から、社内 AI プロダクト・コーポレートサイト・社内インフラの開発・運用までを一人で担当
 
 #### 案件概要・担当業務
 
 - 創業フェーズの株式会社ZENSHIN の CTO として、以下 6 つの業務を並行して推進
-  - **業務 1: AI コンサルティング / 提案活動** — AI 活用相談・システム構築提案を推進し、FDE として実装・導入まで自ら支援
+  - **業務 1: AI コンサルティング / 提案活動（FDE）** — AI 活用相談・システム構築提案を推進し、FDE として顧客向けツールの実装・導入まで自ら支援
   - **業務 2: AI マッチングシステム開発** — Cloudflare フルスタック構成での RAG / MCP / AI エージェント基盤の開発・運用
   - **業務 3: コーポレートサイト開発** — https://www.zenshin-inc.co.jp/ の設計・構築・運用
   - **業務 4: 社内インフラ管理** — Terraform によるマルチクラウド IaC
@@ -219,10 +142,11 @@
 
 #### 概要
 
-- システム構築案件の提案活動と、月額顧問型の「[AI 相談サービス](https://www.zenshin-inc.co.jp/services/ai-consultation/)」による AI コンサルティングを一体で推進
+- システム構築案件の提案活動と、月額顧問型の「[AI 活用伴走サービス](https://www.zenshin-inc.co.jp/services/ai-consultation/)」による AI コンサルティングを一体で推進
+- 外部の受発注マッチングプラットフォーム経由の案件獲得も自ら担当し、アポ獲得から商談・提案・見積もりまでを実施
 - システム構築案件では、AI ツールを活用したデモ・プロトタイプ作成と提案書の作成を主導し、CEO や営業と同席してお客様との要件ヒアリングから提案までを技術面でリード
-- AI 相談サービスでは、経営者・DX 推進担当者・社内システム担当者を対象に、月 2〜4 回のオンライン相談形式で伴走
-- 相談・提案で終わらせず、FDE（Forward Deployed Engineer）として実装・導入まで自ら支援
+- AI 活用伴走サービスでは、経営者・DX 推進担当者・社内システム担当者を対象に、月 2〜4 回のオンライン相談形式で伴走
+- 相談・提案で終わらせず、FDE として実装・導入まで自ら支援。建設業の実案件では顧客業務に入り込んだ AI ツールを開発し、業務への定着まで伴走
 
 #### 経験した技術
 
@@ -231,32 +155,24 @@
   - Claude Code / Codex による実装レベルのデモ作成
   - Google Stitch / Figma によるデザインモックアップ作成
   - プロトタイプを組み込んだ提案書・見積書の作成
-- **AI コンサルティング（AI 相談サービス）**
+- **AI コンサルティング（AI 活用伴走サービス）**
   - 現状ヒアリングと課題整理、業務に適した AI 活用方法の提案
   - ChatGPT / Claude / Gemini などの LLM ツールの使い分け指導、プロンプト・ツール設定の改善支援
   - MCP 化や Claude Code Skills 設計の方針策定支援
+- **FDE 実案件でのツール開発・導入**
+  - 建設業向け: 詳細施工計画書（全 12 章）を Claude Code と共同作成する AI 支援システムを開発（Markdown を正本に pandoc + LibreOffice で Word / PDF を自動生成、CAD 図面・Excel などの資料読み取りツール群を整備）し、実案件データで運用
 
 #### 取り組み・貢献
 
-- **課題起点のヒアリング重視の提案**
-  - お客様の提示するシステム要件をそのまま受けず、「何に困っているか」「理想の姿」を深掘りするヒアリングを実施
-  - お客様の当初の構成案が最適でないケースも多いため、課題定義から提案し直すことを心がけた
-- **提案前の技術検証と実装先行**
-  - AI 開発ツールを活用し、商談前の段階で 1〜2 日でプロトタイプを作成して実現可能性を事前報告
-  - 実現可能性・期間・想定工数の見積もりも事前に詰めておくことで、精度・具体性の高い提案を実現
-  - 商談中に不明点があればその場で AI を使って調査し、回答まで完結させた
-- **CEO・営業との提案方針のすり合わせ**
-  - 提案内容・方針・見積もりを事前に CEO・営業と合意してから提案に臨む
-  - 設計まで完了させた上で A / B / C の複数案を準備し、お客様の反応に応じて即座に出し分け
-- **提案書・見積書の作成方針**
-  - お客様の課題がどう解決されるかをシンプルに伝えることを重視
-  - 自社予算での費用対効果（投資回収の見込み）まで含めて、意思決定材料となる提案書・見積書を作成
-- **実践知に基づくコンサルティング**
-  - 自社の AI マッチングシステム開発・AI エージェント運用で日々実践した知見を、そのままコンサルティングに還元
-  - 経営層には投資対効果・方針レベル、実装担当者にはプロンプト・ツール設定レベルと、相談者のレイヤーに応じて支援内容を出し分け
-- **コンサルから実装まで一気通貫の FDE スタイル**
-  - 助言・提案で終わらせず、MCP サーバー構築・Claude Code Skills 整備・AI ワークフロー構築まで自ら実装して顧客に届けるスタイルで支援を推進
-  - 自社の AI マッチングシステムを単独でフルスタック開発・運用しており、提案の実現可能性と導入スピードを担保
+- **課題起点の提案**
+  - お客様の提示するシステム要件をそのまま受けず、「何に困っているか」「理想の姿」を深掘りし、課題定義から提案し直す
+  - 提案書・見積書は、課題がどう解決されるかと費用対効果（投資回収の見込み）まで含めた意思決定材料として作成
+- **実装先行の提案スタイル**
+  - 商談前に 1〜2 日でプロトタイプを作成して実現可能性・工数を事前に詰め、精度・具体性の高い提案を実現。商談中の不明点もその場で AI を使って調査・回答
+  - 提案方針・見積もりは CEO・営業と事前に合意し、複数案（A / B / C）を準備してお客様の反応に応じて出し分け
+- **実践知に基づく一気通貫の FDE スタイル**
+  - 自社の AI マッチングシステム開発・AI エージェント運用で日々実践した知見をコンサルティングに還元し、経営層には投資対効果、実装担当者にはプロンプト・ツール設定と、相手のレイヤーに応じて出し分け
+  - 助言・提案で終わらせず、MCP サーバー構築・Claude Code Skills 整備・AI ワークフロー構築まで自ら実装して顧客に届ける
 
 ---
 
@@ -265,9 +181,11 @@
 #### 概要
 
 - Excel の手作業・キーワード検索に依存していた SES 事業のマッチング業務（要員 × 案件）を AI システム化し、Cloudflare Workers 上にフルスタック構成で単独開発・運用
+- 案件 1,000 件 × エンジニア 1,000 名の規模から、ベクトル検索と AI 採点により適切なマッチング候補を 5 分以内に提示
 - LINE で届く非構造の要員・案件情報を LLM で構造化し、ベクトル検索（RAG）でマッチング候補を抽出、AI エージェントが採点する多層パイプラインを構築
 - IT 知識のない営業メンバーが、OAuth 認証付きの MCP 接続を通じて Claude Code / Codex からシステムを直接操作し、マッチングした人材の紹介までを実業務として運用
 - 「AI にチャットで聞く」で終わらせず、業務プロセスそのものに AI を組み込んだ業務システムとして設計
+- 社内スタッフ向け管理画面に加え、toC フリーランス向け公開サービス（ https://zenshin-freelance.com/ ）・toB 企業向けマルチテナント SaaS（ https://zenshin-engineer-match.com/ ）を同一モノレポ内で立ち上げ、1 人でマルチプロダクトを開発・運用（toC は LINE 公式アカウントを顧客接点に、登録〜案件提案〜状況確認までを自動化）
 
 #### 経験した技術
 
@@ -275,29 +193,36 @@
   - Workers AI（bge-m3, 1024 次元・多言語対応）による Embedding 生成と Cloudflare Vectorize によるコサイン類似度検索
   - メタデータフィルタによる検索母集団の絞り込みと、検索結果の D1 保存によるマッチング候補管理
   - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の多層マッチングパイプライン設計
-  - Embedding 粒度（entity 単位 vs project 単位）のコスト・精度トレードオフ検証と再設計
 - **MCP サーバー開発**
-  - @modelcontextprotocol/sdk による 40+ ツールを持つ MCP サーバーの実装（Cloudflare Workers 上）
+  - MCP TypeScript SDK（v2）による 70+ ツールを持つ MCP サーバーの実装（Cloudflare Workers 上）
   - Better Auth（Google OAuth）による MCP OAuth 認証・セッション管理で、業務データへのアクセスをユーザー単位でセキュアに制御
+  - organization / admin plugin によるマルチテナント認可（組織ごとのロール・招待の許可ドメイン制限・ロール階層）と、無人自動化用サービストークンの設計
+  - WebMCP（ブラウザ内 MCP, `document.modelContext`）の Origin Trial 先行導入（SPA 自身が API 呼び出しを MCP ツールとしてブラウザセッションに公開）
   - Claude Code / Codex の両 AI エージェントから同一の MCP サーバーを利用できるマルチエージェント対応（スキル定義も両エージェント向けに整備）
 - **Cloudflare AI / サーバーレス基盤**
   - AI Gateway 経由の LLM 統一呼び出し（構造化抽出・Vision 解析・Embedding を同一バインディングで管理）
   - Cloudflare Workflows による durable execution（LLM 抽出 → 構造化 → Embedding → マッチング検索の step 単位リトライ）
-  - Cloudflare Queues + DLQ による非同期マッチング検索、R2 によるベクトルデータ退避（Queue メッセージサイズ上限対策）
+  - Cloudflare Queues + DLQ による非同期マッチング検索
   - Browser Rendering + Puppeteer によるスキルシート PDF の画像化 → Vision LLM でのスキルシート解析
-  - D1（SQLite）+ Drizzle ORM による 100+ マイグレーション管理、KV によるアクセストークンキャッシュ
-  - Cron Triggers による定期処理（受信メッセージのグループ化、日次レポート、監視 watchdog）
+  - D1（SQLite）+ Drizzle ORM による 160+ マイグレーション管理、KV によるアクセストークンキャッシュ
 - **ユースケース別の LLM モデル選定**
-  - Kimi K2 系 / gpt-oss 系 / GLM 系 / Llama 系など Workers AI 提供モデルを実タスクで比較検証
+  - モデル評価用のスクリプト群を自作し、Kimi K2 系 / gpt-oss 系 / GLM 系 / Llama 系など Workers AI 提供モデルを実タスクの精度・コストで比較検証（採否の判断根拠をコードに明文化）
   - 「常に最高性能のモデルを使う」のではなく、構造化抽出・Vision 解析・Embedding などのシーンごとに精度・レイテンシ・コストのバランスでモデルを使い分け
-  - モデル定数の一元管理により、用途別のモデル差し替えを容易にする設計
 - **AI エージェント運用基盤（Claude Code Skills）**
-  - 33 の Claude Code スキル + 定期ルーチンによる業務自動化（要員・案件の取り込み、マッチング採点、Slack への日次レポート配信）
-  - CLAUDE.md / SKILL.md による判断ルール・業務フローの SSoT 化（Claude Code / Codex の両エージェント対応）
+  - 50+ の Claude Code スキル + 定期ルーチンによる業務自動化（要員・案件の取り込み、マッチング採点、Slack への日次レポート配信）
+  - CLAUDE.md / SKILL.md による判断ルール・業務フローの SSoT 化（テンプレートを正本に Claude Code / Codex 両エージェント向け指示書を自動生成・drift 検知）
+  - 定期実行ジョブを Git 管理の台帳で IaC 的に運用し、自動発見・実行監査・エスカレーションポリシーなど、エージェント自動化を安全に運用する仕組みを整備
+- **LINE 公式アカウントによる候補者コミュニケーション基盤**
+  - LINE Login と Messaging API の userId 同一性を活かした、友だち紐付け不要の本人アカウント連携と双方向チャット（スタッフ向けインボックス・返信待ちキュー・Slack ミラー）
+  - AI 採点で高スコアとなった案件提案を本人の LINE へ自動配信し、マイページでの本人回答（興味あり / 要件回答 / 面談候補日）までつなぐ自動化（採点の静穏待ち・送信時間帯・連投抑制などの配慮設計）
+  - Quick Reply による稼働状況の定期ヒアリング自動化（自由文を LLM に解釈させず、ボタン回答からステージ遷移・営業メモ追記まで決定論的に処理）
+  - MCP 経由で AI エージェントが候補者への返信・案件提案の配信まで実行できる設計（自由文の返信は人間の承認を挟む運用ルールと送信の監査記録付き）
+  - LINE の配信障害を検知する不在 watchdog（営業時間帯の受信ゼロ監視）、webhook の冪等化・多重リトライによるメッセージ台帳の取りこぼし防止
 - **フルスタック開発**
-  - Hono + oRPC による型安全な API、React 19 + TanStack Router / TanStack Query による SPA（Workers Static Assets で同一オリジン配信）
-  - LINE Messaging API（Webhook / Push）、Slack API、Google Drive API との連携
-  - Playwright E2E（隔離 D1 + 実 API モード）、Storybook + MSW、Bun workspace によるモノレポ管理
+  - Hono + oRPC による型安全な API、React 19 + TanStack Router / TanStack Query による SPA、TanStack Start（SSR）による公開サイト。公開サイト用 Worker から API 用 Worker へは Service Binding（Cloudflare Workers 間の内部直接通信）で接続
+  - Slack API、Google Drive API との連携
+  - Playwright E2E（隔離 D1 + 実 API モード）、Storybook + MSW、PostHog によるイベント計測と LP の A/B テスト基盤
+  - Bun workspace によるモノレポ管理（dependency-cruiser によるレイヤー依存の機械強制）
 
 #### 取り組み・貢献
 
@@ -307,11 +232,13 @@
 - **非エンジニアの営業が AI エージェントで実業務を回す仕組みの実現**
   - Better Auth の OAuth 認証によるセキュアな MCP 接続を整備し、IT 知識のない営業メンバーが Claude Code / Codex から自然言語で要員検索・マッチング確認・人材紹介までの実業務を完結できる体制を構築
   - MCP ツール設計・スキル整備・権限制御により、エンジニアを介さず営業自身が AI エージェントを日常業務で使いこなす状態を実現
-- **ユースケース別 LLM モデル選定によるコスト最適化**
-  - 複数系統のモデル（Kimi K2 / gpt-oss / GLM / Llama）を比較検証し、シーンごとにコストパフォーマンスの良いモデルを選定することで、精度と運用コストを両立
+- **AI 採点の決定論的ガードとポリシー運用**
+  - 採点ポリシーをバージョン管理し、単価・稼働条件などのミスマッチはサーバー側で決定論的にスコア上限を強制（AI の過大評価を仕組みで防止）
+  - 営業の判断・メモを採点ガイドに還元するフィードバックループを運用し、AI 判定と人間判断の乖離を継続的に縮小
 - **業務プロセス全体への AI 組み込み・自動化**
   - LINE で届く営業メールの転送テキスト・添付スキルシートを、LLM 構造化 → ベクトル検索 → AI 採点まで自動処理する仕組みを構築
-  - スキル + MCP + 定期ルーチンの組み合わせで、朝のマッチングレポート配信や要員の自動採点など、人手を介さない定常運用を実現
+  - スキル + MCP + 定期ルーチン（Claude Code / Codex の定期実行）の組み合わせで、朝のマッチングレポート配信や要員・案件の AI 自動採点など、人手を介さない無人運用を実現
+  - 案件収集 → AI 自動採点 → 高スコア案件の本人 LINE への自動提案 → 本人回答 → 営業アクションと、AI の判断が顧客接点まで人手を介さず届く end-to-end の自動ループを構築
 - **低コスト・高信頼な運用設計**
   - インフラを Cloudflare のみで完結させ、小規模チームでも維持できる運用コストを実現
   - サイレント障害が起きていた非同期処理を Workflows の durable execution へ移行して根治するなど、信頼性を継続的に改善
@@ -323,31 +250,29 @@
 #### 概要
 
 - 株式会社ZENSHIN のコーポレートサイト（ https://www.zenshin-inc.co.jp/ ）を Astro + Cloudflare Pages 構成で設計・構築・運用
+- 技術ブログ（ https://tech.zenshin-inc.co.jp/ ）を独自ドメインの別アプリとして分離した後、Bun workspaces モノレポへ統合。ブログのコードは MIT ライセンスで一般公開
 
 #### 経験した技術
 
 - **Astro / Cloudflare Pages**
-  - Astro 6 による SSG + Cloudflare Pages Functions による問い合わせ API の実装
-  - Tailwind CSS v4 による UI 実装、ブランドカラーの設計
+  - Astro による SSG + Cloudflare Pages Functions による問い合わせ API の実装
+  - Tailwind CSS v4 による UI 実装、WCAG AA 準拠のブランドカラーシステムの設計
   - Astro Content Collections による blog / news / works / services のコンテンツ管理
   - Cloudflare Turnstile + Slack Bot Token による問い合わせフォームのスパム対策と通知連携
+  - Cloudflare Email Sending（REST API）+ Slack Interactive（ボタン → 確認モーダル）による採用応募対応の自動化（応募受付〜お見送りメール送信、Slack 署名検証は定数時間比較で実装）
   - `astro:env` による下書き記事の環境別可視化
+- **技術ブログ（一般公開リポジトリ）**
+  - Astro 7 + Marp による記事・スライドの静的生成、Pagefind による全文検索
+  - Pages Functions + Workers KV による閲覧数カウンター API（IP レートリミット付き）
+  - Zenn 互換記法プラグインの自作と Zenn クロスポスト運用、llms.txt / Content-Signal 対応 robots.txt による AI クローラー方針の明示
 - **SEO / 構造化データ / Core Web Vitals**
-  - Schema.org（Organization / ProfessionalService / BreadcrumbList）の JSON-LD 埋め込み
-  - OGP / Twitter Card / canonical URL / `robots: noindex` のページ別制御
-  - satori + sharp による OG 画像の動的生成（記事ごとに 1200x630 PNG）
-  - `@astrojs/sitemap` による sitemap.xml 自動生成
-  - CSS インライン化と画像最適化による LCP 改善
-  - Google Search Console / PageSpeed Insights による計測と継続的改善
+  - Schema.org の JSON-LD 埋め込み、OGP / canonical のページ別制御、satori + sharp による OG 画像の動的生成
+  - CSS インライン化・画像最適化による LCP 改善、Google Search Console / PageSpeed Insights による計測と継続的改善
 - **CI/CD / テスト / 品質**
-  - GitHub Actions による Preview / Staging / Snapshot / Production の多段デプロイパイプライン
-  - `release-please` による Conventional Commits ベースの自動リリース
-  - Vitest / Playwright / `@axe-core/playwright` による単体・E2E・アクセシビリティ検証
-  - oxlint / oxfmt / knip / lefthook による静的解析・フォーマット自動化
+  - GitHub Actions による Preview / Staging / Production の多段デプロイと `release-please` による自動リリース
+  - Vitest / Playwright / `@axe-core/playwright` による単体・E2E・アクセシビリティ検証、oxlint / oxfmt / knip / lefthook による静的解析
 - **生成 AI 活用**
-  - Claude Code Managed Agents（Web 版 Claude Code）のセットアップ
-  - Chrome DevTools MCP を活用したブラウザ動作検証
-  - GitHub Actions による Claude Code 自動レビューの仕組み
+  - Claude Code Managed Agents のセットアップ、Chrome DevTools MCP でのブラウザ動作検証、GitHub Actions による Claude Code 自動レビュー
 
 #### 取り組み・貢献
 
@@ -369,6 +294,7 @@
 
 - GCP / Cloudflare / AWS を横断管理する Terraform モノレポを構築・運用
 - コーポレートサイトのホスティング基盤、DNS、Zero Trust アクセス制限、アカウント・通知設定などを IaC 化
+- クラウドにとどまらず、Google Workspace の組織・グループ権限やブランドアセットまでコード管理の対象を拡大
 
 #### 経験した技術
 
@@ -378,12 +304,21 @@
   - Workload Identity Federation (OIDC) による GitHub Actions → GCP の鍵レス認証
   - Cloudflare Access（Zero Trust）+ Google OAuth による Staging 環境へのアクセス制限
   - dotenvx による各モジュールの `.env` 暗号化コミットと CI 復号
+- **Google Workspace / 組織管理の IaC**
+  - Cloud Identity API 経由で Google Workspace のグループ・メンバー・ロールを Terraform 管理（身分グループと役割グループの分離、役員機密と管理者権限の分離設計）
+  - Google Workspace CLI の OAuth scope を個別列挙する最小権限運用、Google Forms の設問定義ファイルを SoT とした宣言的管理
+- **AWS / GitHub 連携**
+  - AWS Organizations の最小基盤構築（IAM Identity Center の短期認証のみ・アクセスキー不使用）と、GitHub Actions → AWS の OIDC 連携（必要な read アクションのみを列挙した最小権限 role）
+  - GitHub App（JWT → installation token）による Organization 内リポジトリ権限の日次自動同期
+- **共通基盤 Worker / ブランドアセット管理**
+  - 全社共通 Slack App のイベントを Service Binding で各プロダクト Worker へ振り分ける Slack Router Worker の開発
+  - 設定ファイルを正本に全サービスのロゴ・favicon・OG 画像を自動生成し、lock ファイル（コミット SHA + sha256）で各リポジトリへ配布・byte 単位検証するブランドアセット基盤の構築
 - **Cloudflare のセキュリティ / パフォーマンス機能**
   - Smart Tiered Cache / 0-RTT 接続再開 / Speed Brain / Page Shield の Terraform 管理化
   - apex→www 301 Redirect Rules による URL 正規化
   - WAF Custom Rule の導入検討と「現時点では設定しない」意思決定の文書化
 - **CI/CD（Terraform）/ ガバナンス**
-  - GitHub Actions による PR 時の `terraform plan` 自動実行と `tfcmt` による PR コメント
+  - GitHub Actions による PR 時の `terraform plan` 自動実行（変更モジュールのみの差分ベース実行）と `tfcmt` による PR コメント
   - tflint + lefthook による pre-commit / pre-push の自動検査
   - Renovate によるプロバイダ・依存の自動更新
   - Gmail フィルタ + Slack Email App による通知の Slack 集約
@@ -414,11 +349,12 @@
 
 - **LLM パイプライン**
   - Slack Events → Cloudflare Queues（DLQ 付き）→ Workflows（durable execution）の 3 段非同期パイプラインによる案件処理
+  - 案件のライフサイクル通知（商談成立・メッセージ受信・日程調整）を解析する Workflow を追加し、Slack スレッド上で案件ごとの商談進捗を自動追跡（手動ステータスを上書きしない決定論的なステージ遷移ガード）
   - 案件ページのスクレイピングと決定論的な DOM パース（構造化に AI を使わずコスト・不確実性を排除）、セッション Cookie の KV キャッシュ
   - Workers AI（Kimi K2.6）+ AI Gateway による 1 コールでのスコアリング・応募文ドラフト・自己推薦文の同時生成（トークン・レイテンシ削減）
   - PDF / Office ファイルの Markdown 変換（Workers AI toMarkdown）、Browser Rendering による SPA 参考サイトの取得
 - **プロンプト運用**
-  - プロンプトのバージョン管理（20 回超の改修サイクル）と、本番データでの「AI 判定 vs 人間判断」の乖離分析によるデータ駆動の継続改善
+  - プロンプトのバージョン管理（25 回超の改修サイクル）と、本番データでの「AI 判定 vs 人間判断」の乖離分析によるデータ駆動の継続改善
   - Claude Code / Codex 向けの自作スキルによる、プロンプトチューニング・未対応案件の一括選別の半自動化
   - AI による実績の捏造を防ぐネガティブリストなどのガードレール設計
 - **フルスタック / 運用**
@@ -461,17 +397,21 @@
 
 #### フロントエンド
 
-- Astro 6, React 19, TanStack Router, TanStack Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun, Astro Content Collections, satori, sharp
+- Astro, React 19, TanStack Start, TanStack Router, TanStack Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun, Astro Content Collections, Marp, Pagefind, satori, sharp
 
 #### バックエンド / AI システム
 
-- Hono, oRPC, Drizzle ORM, Zod, Better Auth, @modelcontextprotocol/sdk (MCP サーバー開発)
-- Cloudflare Workers AI (bge-m3, Kimi K2.6, toMarkdown), AI Gateway, Vectorize, Workflows, Queues, Browser Rendering (Puppeteer), Email Routing, HTMLRewriter
+- Hono, oRPC, Drizzle ORM, Zod, Better Auth (organization / admin plugin), @modelcontextprotocol/sdk v2 (MCP サーバー開発), WebMCP
+- Cloudflare Workers AI (bge-m3, Kimi K2.6, toMarkdown), AI Gateway, Vectorize, Workflows, Queues, Browser Rendering (Puppeteer), Email Routing, Email Sending, HTMLRewriter
 - LINE Messaging API, Slack API (Events / ボタン・モーダル), Google Drive API, GitHub App 連携
+
+#### FDE 案件ツール開発
+
+- Python (uv), pandoc + LibreOffice (Word / PDF 自動生成)
 
 #### クラウド / インフラ
 
-- Cloudflare (Workers, Pages, Pages Functions, D1, R2, KV, DNS, Turnstile, Access), GCP (Workload Identity Federation, GCS, IAM), Terraform, tflint, dotenvx, mise
+- Cloudflare (Workers, Pages, Pages Functions, D1, R2, KV, DNS, Turnstile, Access), GCP (Workload Identity Federation, GCS, IAM, Cloud Identity), AWS (Organizations, IAM Identity Center), Terraform, tflint, dotenvx, mise
 
 #### CI/CD
 
@@ -479,7 +419,7 @@
 
 #### テスト / 品質
 
-- Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, syncpack, lefthook, commitlint
+- Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, syncpack, dependency-cruiser, lefthook, commitlint
 
 #### AI ツール（提案活動・開発）
 
@@ -487,7 +427,7 @@
 
 #### 分析 / モニタリング
 
-- Google Search Console, PageSpeed Insights, Cloudflare Analytics
+- Google Search Console, PageSpeed Insights, Cloudflare Analytics, PostHog
 
 #### 開発ツール
 
@@ -497,9 +437,9 @@
 
 ---
 
-<details><summary>[No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）</summary>
+<details><summary>[No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）</summary>
 
-## [No.12] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）
+## [No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）
 
 #### チーム体制
 
@@ -588,79 +528,9 @@
 
 ---
 
-<details><summary>[No.11] OSS 開発 - 個人開発（TypeScript）</summary>
+<details><summary>[No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）</summary>
 
-## [No.11] OSS 開発 - 個人開発（TypeScript）
-
-#### 概要
-
-- TypeScript 製の OSS ライブラリ開発（実用的な CLI ツール）
-
-#### OSS ライブラリ開発
-
-- **[ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export):**
-  - ChatGPT と Claude のチャット履歴を Markdown ファイルに変換する CLI ツール
-  - npm パッケージ, Homebrew パッケージ, GitHub Releases（Windows, macOS, Linux の各プラットフォームに対応した実行バイナリ）でリリース
-  - プライバシーファーストで完全ローカル処理、高速な大量データ処理（数千の会話を数秒で変換）
-  - 日付範囲の指定やキーワード検索によるフィルタリング機能の対応
-  - 使用技術：
-    - アーキテクチャ: Clean Architecture
-    - CLI開発: [Commander.js](https://github.com/tj/commander.js), [ora](https://github.com/sindresorhus/ora), [consola](https://github.com/unjs/consola), [zod](https://github.com/colinhacks/zod)
-    - ドキュメント生成: [@ysk8hori/typescript-graph](https://github.com/ysk8hori/typescript-graph), [tsuml2](https://github.com/demike/TsUML2)
-    - CI/CD: GitHub Actions, [GoReleaser](https://github.com/goreleaser/goreleaser), [release-please](https://github.com/googleapis/release-please), [release-it](https://github.com/release-it/release-it)
-    - コード品質: [Biome](https://github.com/biomejs/biome), [husky](https://github.com/typicode/husky), [Codecov](https://github.com/codecov/codecov-action), [Renovate](https://github.com/renovatebot/renovate), [Knip](https://github.com/webpro-nl/knip), [commitlint](https://github.com/conventional-changelog/commitlint), [@elsikora/git-branch-lint](https://github.com/elsikora/git-branch-lint)
-- **[mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap):**
-  - Mermaid ファイル（.mmd/.mermaid）を Markdown コードブロックでラップする CLI ツール
-  - npm パッケージ, GitHub Actions Marketplace での配布
-  - 型安全な設定ファイルのサポート（JSON / YAML / JS / TS 対応、TypeScript 向けヘルパー関数提供）
-  - `init` コマンドによる対話形式の初期設定機能
-  - 使用技術：
-    - アーキテクチャ: レイヤードアーキテクチャ
-    - CLI開発: [Commander.js](https://github.com/tj/commander.js), [@clack/prompts](https://github.com/bombshell-dev/clack), [cosmiconfig](https://github.com/cosmiconfig/cosmiconfig), [globby](https://github.com/sindresorhus/globby), [Valibot](https://github.com/fabian-hiller/valibot)
-    - ドキュメント生成: [@ysk8hori/typescript-graph](https://github.com/ysk8hori/typescript-graph)
-    - CI/CD: GitHub Actions, [release-please](https://github.com/googleapis/release-please)
-    - コード品質: [act](https://github.com/nektos/act), [Biome](https://github.com/biomejs/biome), [husky](https://github.com/typicode/husky), [Codecov](https://github.com/codecov/codecov-action), [Renovate](https://github.com/renovatebot/renovate), [Knip](https://github.com/webpro-nl/knip), [commitlint](https://github.com/conventional-changelog/commitlint), [@elsikora/git-branch-lint](https://github.com/elsikora/git-branch-lint)
-- **[issue-linker](https://github.com/sugurutakahashi-1234/issue-linker):**
-  - GitHubのIssue参照を実際に検証するCLI/GitHub Actionツール
-  - npm パッケージ, GitHub Actions Marketplace での配布
-  - JavaScript Actionとして実装し、Composite ActionよりもGitHub Actions実行時間を短縮
-  - @vercel/nccによるシングルファイルバンドルで依存関係のインストール時間を削減し、Action起動を高速化
-  - bun workspaceによるモノレポ構成でCLI・Action・Coreライブラリを管理
-  - 単なるパターンマッチングではなくGitHub APIでIssue番号の実在を確認
-  - ブランチ名やコミットメッセージごとに最適化された検出パターンを提供
-  - 使用技術：
-    - アーキテクチャ: レイヤードアーキテクチャ
-    - モノレポ管理: [bun workspace](https://bun.com/docs/install/workspaces)
-    - CLI開発: [Commander.js](https://github.com/tj/commander.js), [Valibot](https://github.com/fabian-hiller/valibot)
-    - GitHub連携: [Octokit](https://github.com/octokit/octokit.js), [simple-git](https://github.com/steveukx/git-js), [micromatch](https://github.com/micromatch/micromatch), [@t3-oss/env-core](https://github.com/t3-oss/t3-env)
-    - ビルド: [@vercel/ncc](https://github.com/vercel/ncc)
-    - CI/CD: GitHub Actions, [release-please](https://github.com/googleapis/release-please)
-    - コード品質: [Biome](https://github.com/biomejs/biome), [husky](https://github.com/typicode/husky), [Codecov](https://github.com/codecov/codecov-action), [Renovate](https://github.com/renovatebot/renovate), [Knip](https://github.com/webpro-nl/knip), [commitlint](https://github.com/conventional-changelog/commitlint), [@elsikora/git-branch-lint](https://github.com/elsikora/git-branch-lint)
-- **[readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel):**
-  - READMEの翻訳版と原文の構造的一貫性を検証するCLIツール
-  - npm パッケージでの配布
-  - glob patternによる翻訳ファイルの自動検出、行番号レベルでの精密な構造比較
-  - 使用技術：
-    - アーキテクチャ: レイヤードアーキテクチャ
-    - CLI開発: [Commander.js](https://github.com/tj/commander.js), [zod](https://github.com/colinhacks/zod)
-    - 差分検出: [diff](https://github.com/kpdecker/jsdiff), [globby](https://github.com/sindresorhus/globby)
-    - ドキュメント生成: [@ysk8hori/typescript-graph](https://github.com/ysk8hori/typescript-graph)
-    - CI/CD: GitHub Actions, [release-please](https://github.com/googleapis/release-please)
-    - コード品質: [Biome](https://github.com/biomejs/biome), [husky](https://github.com/typicode/husky), [Codecov](https://github.com/codecov/codecov-action), [Renovate](https://github.com/renovatebot/renovate), [Knip](https://github.com/webpro-nl/knip), [commitlint](https://github.com/conventional-changelog/commitlint), [@elsikora/git-branch-lint](https://github.com/elsikora/git-branch-lint)
-
-#### 取り組み・貢献
-
-- **実用的な OSS ライブラリの開発・運用**
-  - 4つの CLI ツールを npm パッケージとして公開し、実際のユーザーに利用される OSS を運用した
-  - Homebrew tap や GitHub Actions Marketplace など、複数の配布チャネルを確立した
-
-</details>
-
----
-
-<details><summary>[No.10] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）</summary>
-
-## [No.10] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）
+## [No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）
 
 #### チーム体制
 
@@ -736,9 +606,9 @@
 
 ---
 
-<details><summary>[No.9] SNS アプリ開発 - iOS リードエンジニア（Swift）</summary>
+<details><summary>[No.8] SNS アプリ開発 - iOS リードエンジニア（Swift）</summary>
 
-## [No.9] SNS アプリ開発 - iOS リードエンジニア（Swift）
+## [No.8] SNS アプリ開発 - iOS リードエンジニア（Swift）
 
 #### チーム体制
 
@@ -811,55 +681,6 @@
 #### デザインツール
 
 - Figma
-
-</details>
-
----
-
-<details><summary>[No.8] Clean Architecture ベースの新アーキテクチャの考案 - 個人開発（Swift）</summary>
-
-## [No.8] Clean Architecture ベースの新アーキテクチャの考案 - 個人開発（Swift）
-
-#### 概要
-
-- Clean Architecture ベースの新しいアーキテクチャである「Framework-Independent Architecture (FIA)」の考案
-- 考案したアーキテクチャは Clean Architecture のメリットを享受すると同時に、Xcode のビルド時間の短縮することを目的としている
-
-##### リポジトリ
-
-- **Framework-Independent Architecture (FIA):** FIA の紹介
-  - https://github.com/sugurutakahashi-1234/framework-independent-architecture
-- **FIA Practical Sample:** FIA を採用した実践的なプロジェクト
-  - https://github.com/sugurutakahashi-1234/fia-practical-sample
-
-##### スライド
-
-- Framework-Independent Architecture (FIA) - Clean Architecture で iOS アプリを爆速でビルドする -
-  - https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru
-
-##### YouTube
-
-- 【Swift】Clean Architecture で iOS アプリを爆速でビルドする方法 Framework-Independent Architecture (FIA)【クリーンアーキテクチャ】
-  - https://www.youtube.com/watch?v=5blwYSQcL2E
-
-#### 経験した技術
-
-- **Swift**
-  - SwiftUI の Observation による View の更新
-  - String Catalogs による多言語対応
-  - Swift 6 対応
-    - protocol の any → some 対応
-    - Strict Concurrency 対応
-  - [Sourcery](https://github.com/krzysztofzablocki/Sourcery) によるボイラープレートコードの自動生成
-  - [SnapshotPreviews-iOS](https://github.com/EmergeTools/SnapshotPreviews-iOS) による SwiftUI Previews のカタログアプリの作成
-- **テスト**
-  - Swift Testing によるテストコードの記述
-  - [PreviewSnapshots](https://github.com/doordash-oss/swiftui-preview-snapshots) による SwiftUI Previews のスナップショットテスト
-  - TestPlan による多言語テスト
-  - XCUITest による UI テスト
-- **開発体験の向上**
-  - GitHub Actions による Swift-DocC の ホスティング
-  - [depermaid](https://github.com/daikimat/depermaid) による Swift Package Manager の依存関係の Mermaid 生成
 
 </details>
 

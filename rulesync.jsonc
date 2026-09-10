@@ -1,0 +1,18 @@
+{
+  "$schema": "https://github.com/dyoshikawa/rulesync/releases/latest/download/config-schema.json",
+  // Claude Code (CLAUDE.md) と Codex (AGENTS.md) を .rulesync/ から生成する。生成物は直接編集しない。
+  "targets": ["claudecode", "codexcli"],
+  "features": ["rules", "skills"],
+  "outputRoots": ["."],
+  // 生成ディレクトリ配下の管理外ファイルを削除する（source の削除・改名の残骸防止）
+  "delete": true,
+  // source にタグは付けない。固定は rulesync.lock が担い、更新は `rulesync install --update`
+  "sources": [
+    {
+      "source": "sugurutakahashi-1234/ai-rules",
+      "rules": ["language-and-commits", "git-safety", "japanese-writing"]
+    },
+    // 仕事の日本語文書を設計から書く外部スキル。AI 臭の除去を工程に含む
+    { "source": "coji/natural-japanese", "skills": ["natural-japanese"] }
+  ]
+}

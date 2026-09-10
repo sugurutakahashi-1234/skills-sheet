@@ -1,12 +1,8 @@
 ---
 name: skillsheet-pdf
-description: >-
-  スキルシートやその他の Markdown を、<details>/<summary> による折りたたみを展開した状態で PDF
-  化し、検証済みの最新版だけを残すスキル。Use this skill whenever the user wants to convert a skill
-  sheet / README / Markdown to PDF, "スキルシートをPDFにして" "READMEをPDF化して"
-  "mdをPDFに変換して" のような依頼があったとき。特に折りたたみ（details）を含む Markdown を PDF にしたいとき。そのまま PDF
-  化すると折りたたみの中身が消えてしまうため、このスキルで展開してから変換する必要がある。
+description: スキルシートやその他の Markdown を、<details>/<summary> による折りたたみを展開した状態で PDF 化し、検証済みの最新版だけを残すスキル。Use this skill whenever the user wants to convert a skill sheet / README / Markdown to PDF, "スキルシートをPDFにして" "READMEをPDF化して" "mdをPDFに変換して" のような依頼があったとき。特に折りたたみ（details）を含む Markdown を PDF にしたいとき。そのまま PDF 化すると折りたたみの中身が消えてしまうため、このスキルで展開してから変換する必要がある。
 ---
+
 # Skillsheet to PDF
 
 `<details>`/`<summary>` の折りたたみを**展開した状態で** Markdown を PDF に変換し、検証済みの最新版だけを残すスキル。

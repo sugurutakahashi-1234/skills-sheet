@@ -6,9 +6,12 @@
     "prepare": "lefthook install"
   },
   "devDependencies": {
+    "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "@types/bun": "^1.4.0",
     "lefthook": "^2.1.10",
-    "md-to-pdf": "^5.2.5"
+    "md-to-pdf": "^5.2.5",
+    "rulesync": "^16.26.1",
+    "textlint": "^15.8.0"
   },
   "trustedDependencies": ["puppeteer", "lefthook"]
 }

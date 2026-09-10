@@ -1,0 +1,14 @@
+{
+  "//": "スキル内スクリプト専用の TypeScript 設定。VSCode がこのフォルダを独立スコープで解析し、@types/node 不在による型エラーを抑える。実行は Bun が直接行うためコンパイルはしない。",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext"],
+    "types": [],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["*.ts", "*.d.ts"]
+}

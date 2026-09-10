@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "@textlint-ja/preset-ai-writing": {
+      "no-ai-list-formatting": false,
+      "no-ai-emphasis-patterns": false,
+      "ai-tech-writing-guideline": false
+    }
+  }
+}

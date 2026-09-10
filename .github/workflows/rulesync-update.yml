@@ -1,0 +1,57 @@
+# rulesync の sources を週 1 で最新に追従させ、差分があれば PR を作る。
+# 配置先: 消費側リポジトリの .github/workflows/rulesync-update.yml
+#
+# 前提:
+# - rulesync.jsonc の source にタグを付けない（デフォルトブランチを追う）。固定は rulesync.lock が担う
+# - リポジトリ設定 Actions > General > "Allow GitHub Actions to create and approve pull requests" を有効にする
+# - private な source（組織のルールリポ等）を参照する場合、GITHUB_TOKEN では他リポを読めない。
+#   secrets.RULESYNC_TOKEN に読み取り権限のある token を入れる（無ければ GITHUB_TOKEN で public のみ）
+# - GITHUB_TOKEN で作った PR には CI が走らない仕様。CI を走らせたい場合も RULESYNC_TOKEN を使う
+#
+# 自動マージはしない。lock の差分（上流で何が変わったか）を PR で見るのが、latest 追従の唯一の関所。
+
+name: rulesync-update
+
+on:
+  schedule:
+    - cron: "0 22 * * 0" # 毎週月曜 07:00 JST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RULESYNC_TOKEN || github.token }}
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: sources を再解決して生成物を更新
+        env:
+          GH_TOKEN: ${{ secrets.RULESYNC_TOKEN || github.token }}
+        run: |
+          bunx rulesync install --update
+          bunx rulesync generate
+
+      - name: 差分があれば PR を作る
+        env:
+          GH_TOKEN: ${{ secrets.RULESYNC_TOKEN || github.token }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "更新なし"; exit 0
+          fi
+          branch="chore/rulesync-update-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -A
+          git commit -m "chore(rulesync): sources を最新へ追従"
+          git push -u origin "$branch"
+          gh pr create --fill --title "chore(rulesync): sources を最新へ追従" \
+            --body "$(printf '週次の自動更新。rulesync.lock の差分で上流の変更内容を確認してからマージする。\n\n```\n%s\n```' "$(git diff --stat HEAD~1)")"

@@ -45,10 +45,14 @@ async function generateWithRetry(attempts = 3, timeoutMs = 60_000): Promise<void
       stdout: "inherit",
       stderr: "inherit",
     });
-    const timedOut = await Promise.race([
-      proc.exited.then(() => false),
-      Bun.sleep(timeoutMs).then(() => true),
-    ]);
+    // Bun.sleep だと正常終了後もタイマーが残り、プロセスが timeoutMs 経つまで終了しないため、
+    // clearTimeout できる setTimeout を使う
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<boolean>((resolve) => {
+      timer = setTimeout(() => resolve(true), timeoutMs);
+    });
+    const timedOut = await Promise.race([proc.exited.then(() => false), timeout]);
+    clearTimeout(timer);
     if (timedOut) {
       proc.kill();
       await proc.exited;

@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "pdf": "bun scripts/generate-pdf.ts",
-    "sync:agents": "rulesync install && rulesync generate",
-    "sync:agents:check": "rulesync doctor --strict && rulesync install --frozen && rulesync generate --check",
+    "rulesync": "rulesync install && rulesync generate",
+    "rulesync:check": "rulesync doctor --strict && rulesync install --frozen && rulesync generate --check",
     "prepare": "lefthook install"
   },
   "devDependencies": {

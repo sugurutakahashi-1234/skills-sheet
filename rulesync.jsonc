@@ -10,7 +10,9 @@
   "sources": [
     {
       "source": "sugurutakahashi-1234/ai-rules",
-      "rules": ["language-and-commits", "git-safety", "japanese-writing"]
+      "rules": ["language-and-commits", "git-safety", "japanese-writing"],
+      // 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
+      "skills": ["design-compare"]
     },
     // 仕事の日本語文書を設計から書く外部スキル。AI 臭の除去を工程に含む
     { "source": "coji/natural-japanese", "skills": ["natural-japanese"] }

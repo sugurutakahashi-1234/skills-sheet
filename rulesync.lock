@@ -3,9 +3,13 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "e22bed30be574a5574ce8b5e9bad325d5c71a677",
-      "resolvedAt": "2026-09-10T06:14:51.659Z",
-      "skills": {},
+      "resolvedRef": "ebea2585246aa953046f07747c1bffb8e093170d",
+      "resolvedAt": "2026-09-10T09:16:07.888Z",
+      "skills": {
+        "design-compare": {
+          "integrity": "sha256-aa03c4625485451129361fe1bb877d727438acfa5a29cfd7984442158c900256"
+        }
+      },
       "rules": {
         "git-safety": {
           "integrity": "sha256-326345f49dd30472c235ec930703ba76832a3f15f486dcf650a348d015f05737"
@@ -32,7 +36,7 @@
     "coji/natural-japanese": {
       "requestedRef": "main",
       "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
-      "resolvedAt": "2026-09-10T06:15:03.110Z",
+      "resolvedAt": "2026-09-10T09:16:19.748Z",
       "skills": {
         "natural-japanese": {
           "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"

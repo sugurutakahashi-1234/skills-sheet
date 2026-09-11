@@ -22,9 +22,11 @@ const PDF_GLOB = "*_高橋俊スキルシート.pdf";
 
 const md = await Bun.file(SOURCE).text();
 // README の案件詳細は <details> で畳んである（GitHub で開いたときの長さを抑えるため）。
-// Web 版は職務経歴の一覧行から自前で <details> を組み立てるので、README 側のタグは読み飛ばす。
-// <summary> の文言は一覧行と重複しており、そのまま流すと案件本文の先頭に二重で出る。
-const tokens = marked.lexer(md).filter((t) => !(t.type === "html" && /^\s*<\/?details/i.test(t.raw)));
+// Web 版は職務経歴の一覧行から自前で <details> を組み立てるので、折りたたみを展開してから解析する。
+// タグを残したまま marked に渡すと、リストの直後に置いた </details> がリストアイテムの中身として
+// 取り込まれ、閉じタグが本文の途中に出力されて以降のレイアウトが崩れる。
+const expanded = expandDetails(md);
+const tokens = marked.lexer(expanded);
 
 // ---- 描画の小道具 ----------------------------------------------------------
 
@@ -299,7 +301,7 @@ if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 
 // コピー用の Markdown は <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
 // 折りたたみは展開してから渡す（コピー先に <details> の HTML タグを持ち込まないため）
-const embeddedMd = expandDetails(md).replace(/<\/script/gi, "<\\/script");
+const embeddedMd = expanded.replace(/<\/script/gi, "<\\/script");
 
 const html = `<!doctype html>
 <html lang="ja">
@@ -322,7 +324,9 @@ const html = `<!doctype html>
 }
 :root[data-theme="dark"] { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
 * { box-sizing: border-box; }
-html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
+/* scroll-behavior: smooth は付けない。スムーズスクロールを無効にしている環境では
+   smooth 指定のスクロールがまるごと無視され、目次やアンカーのジャンプが動かなくなる */
+html { scroll-padding-top: calc(var(--header-h) + 16px); }
 body { margin: 0; color: var(--fg); background: var(--bg); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; overflow-wrap: anywhere; }
 a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; }
 code { font-size: .9em; background: var(--tag); border: 1px solid var(--line); padding: 0 .3em; border-radius: 4px; }
@@ -542,8 +546,12 @@ ${mainHtml}
     setTimeout(() => { copy.innerHTML = copyLabel; }, 1500);
   });
 
+  // hash から対象を引く。id に日本語を含むため querySelector は使えない
+  // （location.hash は "#%E6%8A%80..." とエンコードされていて、CSS セレクタとしては SyntaxError になる）
+  const byHash = (hash) => { try { return document.getElementById(decodeURIComponent(hash.slice(1))); } catch { return null; } };
+
   // #no-N で該当の案件を開く
-  const openFromHash = () => { const t = location.hash && document.querySelector(location.hash); if (t?.tagName === "DETAILS") { t.open = true; } };
+  const openFromHash = () => { const t = location.hash && byHash(location.hash); if (t?.tagName === "DETAILS") { t.open = true; } };
   addEventListener("hashchange", openFromHash); openFromHash();
 
   // 目次: 狭い画面での開閉と、現在位置の強調
@@ -552,7 +560,18 @@ ${mainHtml}
   tocToggle.addEventListener("click", () => setToc(!document.body.classList.contains("toc-open")));
   document.getElementById("toc-backdrop").addEventListener("click", () => setToc(false));
   const tocLinks = [...document.querySelectorAll(".toc a")];
-  tocLinks.forEach((a) => a.addEventListener("click", () => setToc(false)));
+  // 日本語 id へのブラウザ標準のジャンプが効かないので、自前でスクロールする
+  tocLinks.forEach((a) => a.addEventListener("click", (e) => {
+    setToc(false);
+    const href = a.getAttribute("href");
+    const t = byHash(href);
+    if (!t) return;
+    e.preventDefault();
+    if (t.tagName === "DETAILS") t.open = true;
+    history.pushState(null, "", href);
+    const offset = document.querySelector(".header").offsetHeight + 16;
+    scrollTo({ top: t.getBoundingClientRect().top + scrollY - offset });
+  }));
 
   // ヘッダー: 下にスクロールしたら隠し、上に戻したら出す
   let lastY = scrollY;

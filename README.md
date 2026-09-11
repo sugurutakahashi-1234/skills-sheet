@@ -1,6 +1,6 @@
 # スキルシート
 
-- このスキルシートのリンク - https://github.com/sugurutakahashi-1234/skills-sheet
+- このスキルシートのリンク: https://github.com/sugurutakahashi-1234/skills-sheet
 
 ## 基本情報
 
@@ -10,10 +10,10 @@
   - **FDE**: 顧客の業務に入り込み、AI ツールを自ら実装して導入まで担当
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
-  - GitHub - https://github.com/sugurutakahashi-1234
-  - X - https://x.com/suguru_takaha4
-  - Qiita - https://qiita.com/sugurutakahashi12345
-  - Zenn - https://zenn.dev/ikuraikura
+  - GitHub: https://github.com/sugurutakahashi-1234
+  - X: https://x.com/suguru_takaha4
+  - Qiita: https://qiita.com/sugurutakahashi12345
+  - Zenn: https://zenn.dev/ikuraikura
 
 ## 強み
 

@@ -3,12 +3,15 @@
  * README.md から GitHub Pages 用の静的サイトを dist/ に生成する。
  * 使い方: bun run build:site
  *
- * - 案件詳細（`## [No.N] …` から次の案件見出しまで）は <details> に包んで折りたたむ
- * - 右上に「Markdown をコピー」「PDF」「GitHub」のボタンを置く。コピー元は README.md をそのまま埋め込む
- * - 最新の PDF と README.md も dist/ に同梱する
+ * README の文章は加工しない。marked.lexer のトークンを、見出しの規約
+ * （h2 = 大節 / h3 = グループ / h4 = 案件内の定型節 / `- **項目**` = 細目）に従って部品へ配置するだけ。
+ * - 左に目次（h2 / h3）。現在位置を強調し、狭い画面ではボタンで開閉
+ * - 強み・技術スタックは `- **項目**` ごとにカード
+ * - 職務経歴の一覧行は `役割 / 技術 / 概要` を分けて表示し、案件詳細（<details>）へリンク
+ * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」
  */
 import { $, Glob } from "bun";
-import { marked } from "marked";
+import { marked, type Token, type Tokens } from "marked";
 
 const SOURCE = "README.md";
 const OUT_DIR = "dist";
@@ -16,34 +19,173 @@ const REPO_URL = "https://github.com/sugurutakahashi-1234/skills-sheet";
 const PDF_GLOB = "*_高橋俊スキルシート.pdf";
 
 const md = await Bun.file(SOURCE).text();
+const tokens = marked.lexer(md);
 
-// 案件詳細の見出し行で分割する。先頭ブロックは一覧（基本情報〜職務経歴〜「案件詳細」の見出し）
-const CASE_HEADING = /^### \[No\.\d+\] .*$/m;
-const [summaryMd, ...caseMds] = md.split(/^(?=### \[No\.\d+\] )/m);
+// ---- 描画の小道具 ----------------------------------------------------------
 
-const escapeHtml = (s: string) =>
+const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const inline = (src: string) => marked.parseInline(src, { async: false }) as string;
+const block = (ts: Token[]) => (ts.length ? marked.parser(ts) : "");
+const idOf = (text: string) => text.replace(/\s+/g, "-").replace(/[^\p{L}\p{N}\-_.]/gu, "");
+const isHeading = (t: Token, depth: number): t is Tokens.Heading => t.type === "heading" && (t as Tokens.Heading).depth === depth;
 
-const render = (src: string) => marked.parse(src, { async: false }) as string;
+/** `- **項目**（: 補足）` 形式の箇条書きなら、太字の項目名と残りの文と子要素に分ける */
+function splitBoldItem(item: Tokens.ListItem): { label: string; rest: string; children: Token[] } | null {
+  const [first, ...children] = item.tokens;
+  if (!first || (first.type !== "text" && first.type !== "paragraph")) return null;
+  const inl = (first as Tokens.Text).tokens ?? [];
+  if (inl[0]?.type !== "strong") return null;
+  const rest = inl.slice(1).map((t) => t.raw).join("").replace(/^[:：]\s*/, "").trim();
+  return { label: (inl[0] as Tokens.Strong).text, rest, children };
+}
 
-// 案件と案件の間の区切り線は <details> の境界で代替するので落とす
-const stripRule = (src: string) => src.replace(/^---\s*$/gm, "").trim();
+/** 箇条書きを「太字の項目 = カード」に並べる。太字でない項目が混ざる一覧は 1 枚のカードにまとめる */
+function cards(list: Tokens.List): string {
+  const parts = list.items.map(splitBoldItem);
+  if (parts.some((p) => p === null)) return `<div class="card">${block([list])}</div>`;
+  return `<div class="cards">${parts
+    .map((p) => {
+      const { label, rest, children } = p!;
+      const head = `<h4 class="card-title">${inline(label)}${rest ? `<span class="card-rest">${inline(rest)}</span>` : ""}</h4>`;
+      return `<article class="card">${head}${block(children)}</article>`;
+    })
+    .join("")}</div>`;
+}
 
-const summaryHtml = render(stripRule(summaryMd));
+// ---- 見出しでトークンを区切る ---------------------------------------------
 
-const casesHtml = caseMds
-  .map((caseMd) => {
-    const heading = caseMd.match(CASE_HEADING)?.[0].replace(/^### /, "") ?? "";
-    const id = heading.match(/\[No\.(\d+)\]/)?.[1] ?? "";
-    const body = render(stripRule(caseMd.replace(CASE_HEADING, "")));
-    return `<details id="no-${id}"><summary>${escapeHtml(heading)}</summary>\n${body}</details>`;
+type Group = { heading: Tokens.Heading; body: Token[] };
+type Section = Group & { subs: Group[] };
+
+function groupBy(ts: Token[], depth: number): { lead: Token[]; groups: Group[] } {
+  const lead: Token[] = [];
+  const groups: Group[] = [];
+  for (const t of ts) {
+    if (isHeading(t, depth)) groups.push({ heading: t, body: [] });
+    else if (groups.length) groups.at(-1)!.body.push(t);
+    else lead.push(t);
+  }
+  return { lead, groups };
+}
+
+const titleToken = tokens.find((t) => isHeading(t, 1)) as Tokens.Heading | undefined;
+const title = titleToken?.text ?? "スキルシート";
+const { lead: intro, groups: h2Groups } = groupBy(tokens.filter((t) => t !== titleToken), 2);
+const sections: Section[] = h2Groups.map((g) => {
+  const { lead, groups } = groupBy(g.body, 3);
+  return { heading: g.heading, body: lead, subs: groups };
+});
+
+// ---- 節ごとの描画 ------------------------------------------------------------
+
+const CASE_RE = /^\[No\.(\d+)\]\s*(.*)$/;
+
+/** 案件見出し `[No.N] 案件名 - 役割（技術）` を分解する */
+function parseCaseHeading(text: string) {
+  const m = text.match(CASE_RE);
+  const no = m?.[1] ?? "";
+  const [name, ...roleParts] = (m?.[2] ?? text).split(" - ");
+  return { no, name: name.trim(), role: roleParts.join(" - ").trim() };
+}
+
+function renderBasic(sec: Section) {
+  return `<div class="card basic">${block(sec.body)}</div>`;
+}
+
+function renderCardsSection(sec: Section) {
+  const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? cards(t as Tokens.List) : block([t]))).join("");
+  return (
+    lists(sec.body) +
+    sec.subs
+      .map((s) => `<h3 id="${idOf(s.heading.text)}">${inline(s.heading.text)}</h3>${lists(s.body)}`)
+      .join("")
+  );
+}
+
+/** 職務経歴: 所属ごとの一覧行を案件詳細へのリンク付きの行にする */
+function renderCareer(sec: Section) {
+  const rows = (list: Tokens.List) =>
+    `<ol class="case-rows">${list.items
+      .map((item) => {
+        const [first, ...children] = item.tokens;
+        const text = (first as Tokens.Text).text;
+        const { no, name } = parseCaseHeading(text);
+        const sub = children.find((t): t is Tokens.List => t.type === "list");
+        // 子行の `役割 / 技術 / 概要` を 3 つに分けて表示する（文章は原文のまま）
+        const meta = sub
+          ? sub.items
+              .map((i) => (i.tokens[0] as Tokens.Text).text)
+              .join(" / ")
+              .split(" / ")
+              .map((s) => `<span>${inline(s.trim())}</span>`)
+              .join("")
+          : "";
+        return `<li class="case-row" data-href="#no-${no}"><a class="row-no" href="#no-${no}">No.${no}</a><div class="row-main"><div class="row-name">${inline(name)}</div><div class="row-meta">${meta}</div></div><a class="row-open" href="#no-${no}" aria-label="No.${no} の詳細">詳細</a></li>`;
+      })
+      .join("")}</ol>`;
+  return (
+    block(sec.body) +
+    sec.subs
+      .map(
+        (s) =>
+          `<h3 id="${idOf(s.heading.text)}">${inline(s.heading.text)}</h3>` +
+          s.body.map((t) => (t.type === "list" ? rows(t as Tokens.List) : block([t]))).join(""),
+      )
+      .join("")
+  );
+}
+
+/** 案件詳細: 案件ごとに <details>、中は h4 の定型節 */
+function renderCases(sec: Section) {
+  return (
+    block(sec.body) +
+    sec.subs
+      .map((s) => {
+        const { no, name, role } = parseCaseHeading(s.heading.text);
+        const { lead, groups } = groupBy(s.body, 4);
+        const body =
+          block(lead) +
+          groups.map((g) => `<section class="sub"><h4>${inline(g.heading.text)}</h4>${block(g.body)}</section>`).join("");
+        return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="case-name">${inline(name)}</span><span class="case-role">${inline(role)}</span></summary><div class="case-body">${body}</div></details>`;
+      })
+      .join("")
+  );
+}
+
+const RENDERERS: Record<string, (sec: Section) => string> = {
+  基本情報: renderBasic,
+  強み: renderCardsSection,
+  技術スタック: renderCardsSection,
+  職務経歴: renderCareer,
+  案件詳細: renderCases,
+};
+
+const mainHtml = sections
+  .map((sec) => {
+    const render = RENDERERS[sec.heading.text] ?? ((s: Section) => block(s.body) + s.subs.map((g) => block([g.heading, ...g.body])).join(""));
+    return `<section class="sec" id="${idOf(sec.heading.text)}"><h2>${inline(sec.heading.text)}</h2>${render(sec)}</section>`;
   })
-  .join("\n");
+  .join("");
 
+// 目次: h2 と h3。案件は `[No.N] 案件名` までに縮める
+const tocHtml = `<ol class="toc">${sections
+  .map((sec) => {
+    const subs = sec.subs
+      .map((s) => {
+        const isCase = CASE_RE.test(s.heading.text);
+        const id = isCase ? `no-${parseCaseHeading(s.heading.text).no}` : idOf(s.heading.text);
+        const label = isCase ? s.heading.text.split(" - ")[0] : s.heading.text;
+        return `<li><a href="#${id}">${inline(label)}</a></li>`;
+      })
+      .join("");
+    return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
+  })
+  .join("")}</ol>`;
+
+const caseCount = sections.find((s) => s.heading.text === "案件詳細")?.subs.length ?? 0;
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
-
-const title = md.match(/^# (.+)$/m)?.[1] ?? "スキルシート";
 
 // コピー用の Markdown は <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
 const embeddedMd = md.replace(/<\/script/gi, "<\\/script");
@@ -53,57 +195,189 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)}</title>
+<title>${esc(title)}</title>
 <style>
-:root { color-scheme: light dark; --fg: #1f2328; --bg: #fff; --muted: #59636e; --line: #d1d9e0; --accent: #0969da; }
-@media (prefers-color-scheme: dark) { :root { --fg: #f0f6fc; --bg: #0d1117; --muted: #9198a1; --line: #3d444d; --accent: #4493f8; } }
-body { margin: 0; color: var(--fg); background: var(--bg); font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; }
-header { position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
-header .brand { font-weight: 600; }
-header nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-header a, header button { font: inherit; font-size: 14px; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; text-decoration: none; cursor: pointer; }
-header a:hover, header button:hover { border-color: var(--accent); color: var(--accent); }
-main { max-width: 900px; margin: 0 auto; padding: 16px 16px 64px; }
-a { color: var(--accent); }
-h1, h2, h3, h4 { line-height: 1.3; }
-h2 { border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-top: 2em; }
-ul { padding-left: 1.5em; } li { margin: 2px 0; }
-code { font-size: 0.9em; }
-details { border: 1px solid var(--line); border-radius: 6px; padding: 0 16px; margin: 12px 0; }
-details > summary { cursor: pointer; font-weight: 600; padding: 10px 0; }
-details[open] > summary { border-bottom: 1px solid var(--line); }
-hr { border: 0; border-top: 1px solid var(--line); }
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #dde3e3; --card: #f6f9f9;
+  --accent: #0f766e; --accent-soft: #e6f4f2; --accent-ink: #115e59;
+  --header-h: 52px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f1516; --fg: #e6edf0; --muted: #98a5a8; --line: #2a3538; --card: #161f21; --accent: #2dd4bf; --accent-soft: #12302d; --accent-ink: #5eead4; }
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
+body { margin: 0; color: var(--fg); background: var(--bg); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; overflow-wrap: anywhere; }
+a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+code { font-size: .9em; background: var(--card); padding: 0 .3em; border-radius: 4px; }
+
+/* ヘッダー */
+.header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.header .brand { font-weight: 700; margin-right: auto; white-space: nowrap; }
+.header nav { display: flex; gap: 6px; }
+.btn { font: inherit; font-size: 13px; line-height: 1; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; cursor: pointer; white-space: nowrap; text-decoration: none; }
+.btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); color: #fff; }
+.btn .short { display: none; }
+#toc-toggle { display: none; }
+
+/* 2 カラム */
+.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; max-width: 1160px; margin: 0 auto; padding: 24px 24px 80px; }
+aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; max-height: calc(100vh - var(--header-h) - 32px); overflow-y: auto; font-size: 13px; }
+.toc, .toc ol { list-style: none; margin: 0; padding: 0; }
+.toc > li { margin-bottom: 6px; }
+.toc > li > a { font-weight: 600; }
+.toc ol { margin: 2px 0 6px; border-left: 1px solid var(--line); }
+.toc ol a { color: var(--muted); }
+.toc a { display: block; padding: 3px 10px; border-left: 2px solid transparent; margin-left: -1px; border-radius: 0 4px 4px 0; }
+.toc a:hover { text-decoration: none; background: var(--accent-soft); }
+.toc a.active { color: var(--accent-ink); border-left-color: var(--accent); background: var(--accent-soft); }
+main { min-width: 0; }
+
+/* 本文 */
+.intro { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+.intro ul { margin: 0; padding-left: 1.2em; }
+h1 { font-size: 26px; margin: 8px 0 12px; }
+.sec { margin-top: 40px; }
+.sec h2 { font-size: 22px; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+.sec h3 { font-size: 17px; margin: 28px 0 12px; color: var(--accent-ink); }
+ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+.cards { display: flex; flex-direction: column; gap: 10px; }
+.card-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+.card-rest { font-weight: 400; margin-left: .5em; }
+.basic ul { padding-left: 1.2em; }
+
+/* 職務経歴の一覧 */
+.case-rows { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.case-row { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+.case-row:hover { border-color: var(--accent); }
+.row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
+.row-main { min-width: 0; flex: 1; }
+.row-name { font-weight: 600; }
+.row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 13px; color: var(--muted); }
+.row-meta span + span::before { content: "/"; margin-right: 1.2em; color: var(--line); }
+.row-open { flex: none; font-size: 13px; margin-top: 3px; }
+
+/* 案件詳細 */
+.case { border: 1px solid var(--line); border-radius: 8px; margin: 10px 0; background: var(--bg); }
+.case > summary { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px; cursor: pointer; }
+.case > summary::-webkit-details-marker { display: none; }
+.case > summary::before { content: ""; flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
+.case[open] > summary::before { transform: rotate(45deg); }
+.case[open] > summary { border-bottom: 1px solid var(--line); background: var(--card); border-radius: 8px 8px 0 0; }
+.case-name { font-weight: 600; }
+.case-role { color: var(--muted); font-size: 13px; }
+.case-body { padding: 4px 20px 16px; }
+.sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }
+.case-body strong { color: var(--accent-ink); }
+
+/* 狭い画面: 目次をボタンで開く */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; gap: 0; padding: 16px 16px 64px; }
+  .header { padding: 0 12px; gap: 6px; }
+  .header .brand { font-size: 14px; }
+  .header nav { gap: 4px; }
+  .btn { padding: 7px 8px; }
+  #toc-toggle { display: inline-block; }
+  .btn .long { display: none; }
+  .btn .short { display: inline; }
+  aside { display: none; position: fixed; inset: var(--header-h) 0 0 0; z-index: 10; background: var(--bg); padding: 16px; max-height: none; }
+  body.toc-open aside { display: block; }
+  body.toc-open { overflow: hidden; }
+  .case-body { padding: 4px 14px 14px; }
+  .case-row { flex-wrap: wrap; } .row-open { display: none; }
+}
+
+/* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
+@media print {
+  .header, aside { display: none; }
+  .layout { display: block; padding: 0; max-width: none; }
+  body { font-size: 12px; }
+  .case { break-inside: auto; }
+  .case > summary { break-after: avoid; }
+  .case > summary::before, .row-open { display: none; }
+  .sec h2 { break-after: avoid; }
+  a { color: inherit; }
+}
 </style>
 </head>
 <body>
-<header>
-  <span class="brand">${escapeHtml(title)}</span>
+<header class="header">
+  <span class="brand">${esc(title)}</span>
   <nav>
-    <button type="button" id="copy-md">Markdown をコピー</button>
-    <a href="${encodeURI(pdfName)}" download>PDF</a>
-    <a href="${REPO_URL}">GitHub</a>
+    <button type="button" class="btn" id="toc-toggle">目次</button>
+    <button type="button" class="btn" id="toggle-all"><span class="long">すべて展開</span><span class="short">展開</span></button>
+    <button type="button" class="btn primary" id="copy-md"><span class="long">Markdown を</span>コピー</button>
+    <a class="btn" href="${encodeURI(pdfName)}" download>PDF</a>
+    <a class="btn" href="${REPO_URL}">GitHub</a>
   </nav>
 </header>
+<div class="layout">
+<aside aria-label="目次">${tocHtml}</aside>
 <main>
-${summaryHtml}
-${casesHtml}
+<h1>${inline(title)}</h1>
+<div class="intro">${block(intro)}</div>
+${mainHtml}
 </main>
+</div>
 <script type="text/markdown" id="source-md">${embeddedMd}</script>
 <script>
-const button = document.getElementById("copy-md");
-button.addEventListener("click", async () => {
-  const label = button.textContent;
-  try {
-    await navigator.clipboard.writeText(document.getElementById("source-md").textContent);
-    button.textContent = "コピーしました";
-  } catch {
-    button.textContent = "コピーに失敗しました";
-  }
-  setTimeout(() => { button.textContent = label; }, 1500);
-});
-// URL の #no-N で該当の案件を開く
-const openFromHash = () => { const t = document.querySelector(location.hash || "#none"); if (t?.tagName === "DETAILS") t.open = true; };
-addEventListener("hashchange", openFromHash); openFromHash();
+(() => {
+  const cases = [...document.querySelectorAll("details.case")];
+  const toggleAll = document.getElementById("toggle-all");
+  const setAll = (open) => { cases.forEach((d) => { d.open = open; }); syncToggle(); };
+  const syncToggle = () => {
+    const allOpen = cases.every((d) => d.open);
+    toggleAll.querySelector(".long").textContent = allOpen ? "すべて閉じる" : "すべて展開";
+    toggleAll.querySelector(".short").textContent = allOpen ? "閉じる" : "展開";
+  };
+  toggleAll.addEventListener("click", () => setAll(!cases.every((d) => d.open)));
+  cases.forEach((d) => d.addEventListener("toggle", syncToggle));
+
+  // 印刷（Cmd+P / PDF に保存）では案件詳細をすべて開き、終わったら元に戻す
+  let before = [];
+  addEventListener("beforeprint", () => { before = cases.map((d) => d.open); setAll(true); });
+  addEventListener("afterprint", () => { cases.forEach((d, i) => { d.open = before[i]; }); syncToggle(); });
+
+  // Markdown をコピー
+  const copy = document.getElementById("copy-md");
+  const copyLabel = copy.innerHTML;
+  copy.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(document.getElementById("source-md").textContent); copy.textContent = "コピーしました"; }
+    catch { copy.textContent = "コピーに失敗しました"; }
+    setTimeout(() => { copy.innerHTML = copyLabel; }, 1500);
+  });
+
+  // #no-N で該当の案件を開く
+  const openFromHash = () => { const t = location.hash && document.querySelector(location.hash); if (t?.tagName === "DETAILS") { t.open = true; } };
+  addEventListener("hashchange", openFromHash); openFromHash();
+
+  // 一覧の行はどこを押しても詳細へ
+  document.querySelectorAll(".case-row").forEach((row) => row.addEventListener("click", (e) => {
+    if (e.target.closest("a")) return;
+    location.hash = row.dataset.href;
+  }));
+
+  // 目次: 狭い画面での開閉と、現在位置の強調
+  const tocToggle = document.getElementById("toc-toggle");
+  tocToggle.addEventListener("click", () => document.body.classList.toggle("toc-open"));
+  const tocLinks = [...document.querySelectorAll(".toc a")];
+  tocLinks.forEach((a) => a.addEventListener("click", () => document.body.classList.remove("toc-open")));
+  const byId = new Map(tocLinks.map((a) => [a.getAttribute("href").slice(1), a]));
+  const targets = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
+  const visible = new Set();
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { e.isIntersecting ? visible.add(e.target) : visible.delete(e.target); });
+    // 画面内にある見出しのうち、文書順で最初のものを現在位置とする
+    const current = targets.find((t) => visible.has(t));
+    if (!current) return;
+    tocLinks.forEach((a) => a.classList.toggle("active", a === byId.get(current.id)));
+  }, { rootMargin: "-52px 0px -70% 0px" });
+  targets.forEach((t) => spy.observe(t));
+})();
 </script>
 </body>
 </html>
@@ -114,4 +388,4 @@ await $`mkdir -p ${OUT_DIR}`;
 await Bun.write(`${OUT_DIR}/index.html`, html);
 await $`cp ${SOURCE} ${pdfName} ${OUT_DIR}/`;
 
-console.log(`生成: ${OUT_DIR}/index.html（案件 ${caseMds.length} 件, PDF: ${pdfName}）`);
+console.log(`生成: ${OUT_DIR}/index.html（案件 ${caseCount} 件, PDF: ${pdfName}）`);

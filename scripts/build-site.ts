@@ -104,10 +104,12 @@ function renderGroups(sec: Section) {
   return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading)).join("");
 }
 
-/** 案件詳細の本文を No. で引けるようにする（h4 の定型節ごとに <section>） */
+/** 案件詳細の本文と見出しを No. で引けるようにする（本文は h4 の定型節ごとに <section>） */
 const caseBodies = new Map<string, string>();
+const caseNames = new Map<string, string>();
 for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.subs ?? []) {
-  const { no } = parseCaseHeading(s.heading.text);
+  const { no, name } = parseCaseHeading(s.heading.text);
+  caseNames.set(no, name);
   const { lead, groups } = groupBy(s.body, 4);
   caseBodies.set(
     no,
@@ -125,6 +127,11 @@ function renderCareer(sec: Section) {
         const { no, name } = parseCaseHeading(text);
         const body = caseBodies.get(no);
         if (!body) throw new Error(`職務経歴の [No.${no}] に対応する案件詳細がありません`);
+        // 一覧行と案件詳細の見出しは同じ「案件名（客先）」にする規約。リンク記法だけは見出し側に無い
+        const plainName = name.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+        if (plainName !== caseNames.get(no)) {
+          throw new Error(`[No.${no}] の案件名が一覧と詳細で違います: "${plainName}" / "${caseNames.get(no)}"`);
+        }
         const sub = children.find((t): t is Tokens.List => t.type === "list");
         // 子行の `役割 / 技術 / 概要` を 3 つに分けて表示する（文章は原文のまま）
         const meta = sub

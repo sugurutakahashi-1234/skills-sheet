@@ -400,15 +400,15 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 /* 開閉の印は左端・1 行目に揃える（行頭の No. と一緒に縦に追える）。閉じているときは右向き、開くと下向き */
 .case > summary::before { content: ""; flex: none; width: 8px; height: 8px; margin: 9px 0 0 2px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
 .case[open] > summary::before { transform: rotate(45deg); }
-.case[open] > summary { border-bottom: 1px solid var(--line); background: var(--soft); border-radius: 8px 8px 0 0; }
+.case[open] > summary { border-bottom: 1px solid var(--line); background: var(--tag); border-radius: 8px 8px 0 0; }
 .row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
-.case[open] .row-no { background: var(--bg); }
+.case[open] .row-no { background: var(--soft); }
 .row-main { min-width: 0; flex: 1; display: block; }
 /* 一覧行は折り返さず 1 行で省略し、行の高さを揃える（全文は開けば読める） */
 .row-name { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row-meta { display: flex; align-items: center; gap: 0 .9em; font-size: 14px; white-space: nowrap; overflow: hidden; }
 .row-meta > span { overflow: hidden; text-overflow: ellipsis; }
-.row-meta .r { flex: none; font-size: 12px; font-weight: 600; color: var(--role-fg); border: 1px solid var(--role-line); border-radius: 999px; padding: 0 9px; }
+.row-meta .r { flex: none; font-size: 12px; font-weight: 600; color: var(--role-fg); background: var(--bg); border: 1px solid var(--role-line); border-radius: 999px; padding: 0 9px; }
 .row-meta .t { flex: 0 1 auto; min-width: 0; color: var(--muted); }
 .row-meta .s { flex: 1 1 0; min-width: 0; color: var(--muted); }
 .row-meta .t::before, .row-meta .s::before { content: ""; display: inline-block; width: 1px; height: .95em; background: var(--line); margin-right: .9em; vertical-align: -2px; }

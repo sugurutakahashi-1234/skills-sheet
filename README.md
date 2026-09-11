@@ -1,7 +1,6 @@
 # スキルシート
 
-- GitHub（Markdown 原文・更新履歴）: https://github.com/sugurutakahashi-1234/skills-sheet
-- ブラウザで読む（目次・折りたたみ付き）: https://sugurutakahashi-1234.github.io/skills-sheet/
+同じ内容を 2 つの形式で公開しています — [Markdown](https://github.com/sugurutakahashi-1234/skills-sheet)（GitHub 原本） ・ [Web](https://sugurutakahashi-1234.github.io/skills-sheet/)（目次つき）
 
 ## 基本情報
 
@@ -58,7 +57,7 @@
 - [No.8] SNS アプリ開発（SIer E社）
   - iOS リードエンジニア / `Swift`・`SwiftUI` / 0 → 1 立ち上げ
 - [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
-  - iOS リードエンジニア / `Swift`・`SwiftUI`・`AWS Amplify` / 0 → 1 立ち上げ
+  - iOS リードエンジニア / `Swift`・`SwiftUI`・`Amplify` / 0 → 1 立ち上げ
 - [No.6] ファンクラブアプリ開発（メガベンチャー C社）
   - iOS エンジニア / `Swift`・`UIKit`・`Redux` / スタンプラリー・景品交換機能の開発
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
@@ -370,7 +369,7 @@
 </details>
 
 <details>
-<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社） — iOS リードエンジニア / Swift・SwiftUI・AWS Amplify</summary>
+<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社） — iOS リードエンジニア / Swift・SwiftUI・Amplify</summary>
 
 ### [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
 

@@ -175,7 +175,7 @@
 #### 案件概要・担当業務
 
 - 創業フェーズの株式会社ZENSHIN の CTO として、以下 6 つの業務を並行して推進
-  - **[業務1] 自社サービスの企画・立ち上げ**: AI 活用伴走・業務変革コンサルティング・スポット開発の 3 サービスと、マッチング 2 サイト（ZENSHIN フリーランス / エンジニアマッチ）の公開
+  - **[業務1] 自社サービスの企画・立ち上げ**: コンサル 3 サービスとマッチング 2 サイトの公開
   - **[業務2] AI 活用支援 / 提案活動（FDE）**: AI 活用の相談・提案から実装・導入まで支援
   - **[業務3] AI マッチングシステム開発**: Cloudflare での RAG / MCP / AI エージェント基盤
   - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内システム
@@ -199,9 +199,10 @@
 - **LINE 公式アカウント基盤（業務3）**
   - 友だち紐付け不要の本人アカウント連携と、スタッフ向けの双方向チャット
   - Quick Reply による稼働状況の定期ヒアリング
-- **Cloudflare フルスタック（業務3・4・5）**
+- **Cloudflare フルスタック（業務1・3・4・5）**
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
-  - Hono + oRPC + React 19 / TanStack Start による Web アプリ、Astro によるホームページと技術ブログ
+  - Hono + oRPC + React 19 / TanStack Start によるマッチング 2 サイトと社内 Web アプリ
+  - Astro によるホームページと技術ブログ
   - Email Sending と Slack Interactivity で採用応募対応を自動化、Access 認証付きの資料配信
 - **マルチクラウド IaC（業務6）**
   - GCP / Cloudflare / AWS / Google Workspace を Terraform で横断管理

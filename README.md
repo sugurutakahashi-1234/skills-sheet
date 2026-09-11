@@ -37,6 +37,8 @@
 
 ## 技術スタック
 
+### AI
+
 - **AI システム開発**
   - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI)
   - MCP サーバー開発 (@modelcontextprotocol/sdk v2, Better Auth OAuth), WebMCP
@@ -45,8 +47,26 @@
   - プロンプト運用 (バージョン管理・本番データでの継続改善)
 - **生成 AI 活用**
   - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
+
+### 言語 / バックエンド
+
 - **言語**
   - TypeScript, Swift, Dart, Python, PHP, Java
+- **サーバーサイド**
+  - API 設計: REST API 設計, GraphQL 設計
+  - 実装: Node.js, Hono, oRPC, PHP, Java
+- **データベース**
+  - 設計: RDB のテーブル設計
+  - ORM: Prisma, Drizzle
+  - RDBMS: PostgreSQL, MySQL, SQLite (Cloudflare D1)
+  - NoSQL / ベクトル DB: Firestore, Cloudflare Vectorize
+- **認証 / 認可**
+  - プロトコル / 仕様: OAuth 2.0, JWT
+  - 実装 / サービス: Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access
+  - クラウド間連携: Workload Identity Federation (OIDC)
+
+### クラウド / インフラ
+
 - **クラウド**
   - **Cloudflare**
     - コンピュート / 配信: Workers, Pages, Browser Rendering
@@ -61,18 +81,9 @@
     - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
 - **インフラ / IaC**
   - Terraform, tflint, dotenvx, OIDC
-- **サーバーサイド**
-  - API 設計: REST API 設計, GraphQL 設計
-  - 実装: Node.js, Hono, oRPC, PHP, Java
-- **データベース**
-  - 設計: RDB のテーブル設計
-  - ORM: Prisma, Drizzle
-  - RDBMS: PostgreSQL, MySQL, SQLite (Cloudflare D1)
-  - NoSQL / ベクトル DB: Firestore, Cloudflare Vectorize
-- **認証 / 認可**
-  - プロトコル / 仕様: OAuth 2.0, JWT
-  - 実装 / サービス: Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access
-  - クラウド間連携: Workload Identity Federation (OIDC)
+
+### フロントエンド / モバイル
+
 - **Web アプリ開発**
   - フレームワーク: React, Next.js, Astro, TanStack Start
   - ルーティング / データ取得: TanStack Router, TanStack Query
@@ -83,6 +94,9 @@
 - **アーキテクチャ**
   - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
   - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
+
+### 品質 / CI/CD
+
 - **テスト**
   - ユニット / 結合: Vitest, Swift Testing, XCTest, Quick/Nimble
   - E2E: Playwright, Maestro
@@ -99,6 +113,9 @@
   - Core Web Vitals, Lighthouse, PageSpeed Insights, Google Search Console
   - 構造化データ (JSON-LD / Schema.org), OGP 自動生成 (satori / sharp), sitemap / RSS / canonical
   - AI クローラー対応 (llms.txt, Content-Signal 対応 robots.txt), Pagefind (静的サイト内全文検索)
+
+### プロセス / OSS
+
 - **プロジェクト管理**
   - 役割: Scrum Master 経験
   - アジャイル開発: Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear
@@ -108,7 +125,6 @@
   - [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）
   - [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
   - 配布: npm / Homebrew / GitHub Actions Marketplace / 実行バイナリ。release-please・Codecov などの品質管理を全ツールで統一
-
 ## 職務経歴
 
 ### 株式会社ZENSHIN (2026年04月 - 現在)

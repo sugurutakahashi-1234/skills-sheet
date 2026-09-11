@@ -233,7 +233,7 @@ const casesOf = (g: Group) =>
     // 目次の中はリンクにできない（<a> の入れ子になる）ので、リンク記法と客先の括弧を外す
     .map(({ no, name }) => {
       const label = name.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/（.*）$/, "");
-      return `<li><a href="#no-${no}" title="${esc(label)}"><span class="k">No.${no}</span>${esc(label)}</a></li>`;
+      return `<li><a href="#no-${no}" title="${esc(label)}"><span class="k">No.${no}</span><span>${esc(label)}</span></a></li>`;
     })
     .join("");
 const tocHtml = `<ol class="toc">${visibleSections
@@ -243,7 +243,9 @@ const tocHtml = `<ol class="toc">${visibleSections
       : sec.subs
           .map((s) => {
             const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
-            return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${inline(s.heading.text)}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
+            // 職務経歴の会社名は期間の括弧を落として 1 行に収める（全文は title に）
+            const label = cases ? s.heading.text.replace(/\s*\(.*\)$/, "") : s.heading.text;
+            return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${inline(label)}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
           })
           .join("");
     return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
@@ -281,7 +283,12 @@ a { color: var(--link); text-decoration: none; } a:hover { text-decoration: unde
 code { font-size: .9em; background: var(--tag); border: 1px solid var(--line); padding: 0 .3em; border-radius: 4px; }
 
 /* ヘッダー */
-.header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); transition: transform .25s ease; }
+/* 下にスクロールしている間は隠し、上に戻すと現れる */
+body.header-hidden .header { transform: translateY(-100%); }
+#toc-toggle { display: none; width: 36px; height: 36px; padding: 0; border: 0; background: transparent; cursor: pointer; align-items: center; justify-content: center; }
+#toc-toggle svg { width: 22px; height: 22px; stroke: var(--fg); fill: none; stroke-width: 2; stroke-linecap: round; }
+.toc-backdrop { display: none; position: fixed; inset: 0; z-index: 9; background: rgba(0, 0, 0, .35); }
 .header .brand { font-weight: 700; margin-right: auto; white-space: nowrap; }
 .header nav { display: flex; gap: 6px; }
 .btn { font: inherit; font-size: 13px; line-height: 1; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; cursor: pointer; white-space: nowrap; text-decoration: none; }
@@ -289,22 +296,25 @@ code { font-size: .9em; background: var(--tag); border: 1px solid var(--line); p
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.primary:hover { filter: brightness(1.08); color: #fff; }
 .btn .short { display: none; }
-#toc-toggle { display: none; }
 
 /* 2 カラム */
 .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; max-width: 1160px; margin: 0 auto; padding: 24px 24px 80px; }
 aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; max-height: calc(100vh - var(--header-h) - 32px); overflow-y: auto; font-size: 13px; }
+/* 目次: ガイド線なし。h2 太字、会社は太字（期間なし）、案件は本文と同じ丸バッジの番号 + 名前 */
 .toc, .toc ol { list-style: none; margin: 0; padding: 0; }
-.toc > li { margin-bottom: 6px; }
-.toc > li > a { font-weight: 600; color: var(--fg); }
-.toc ol { margin: 2px 0 6px 12px; border-left: 1px solid var(--line); }
-.toc ol a { color: var(--muted); padding-left: 12px; }
-.toc ol ol { margin: 0 0 4px 10px; }
-.toc ol ol a { font-size: 12px; }
-.toc .k { font-weight: 600; color: var(--fg); margin-right: 6px; font-variant-numeric: tabular-nums; }
-.toc a { display: block; padding: 3px 10px; border-left: 2px solid transparent; margin-left: -1px; border-radius: 0 4px 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toc a { display: block; color: var(--fg); border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .toc a:hover { text-decoration: none; background: var(--soft); }
-.toc a.active { color: var(--fg); font-weight: 600; border-left-color: var(--accent); background: var(--soft); }
+.toc > li { margin-bottom: 10px; }
+.toc > li > a { font-weight: 700; padding: 4px 10px; }
+.toc ol > li { margin-top: 6px; }
+.toc ol > li > a { font-weight: 600; padding: 2px 10px 2px 16px; }
+.toc ol ol { margin-top: 2px; }
+.toc ol ol li { margin-top: 0; }
+.toc ol ol a { font-weight: 400; color: var(--muted); padding: 2px 10px 2px 16px; display: flex; align-items: center; gap: 8px; }
+.toc ol ol a > span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.toc .k { flex: none; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
+.toc a.active { color: var(--fg); background: var(--soft); }
+.toc ol ol a.active .k { background: var(--bg); }
 main { min-width: 0; }
 
 /* 本文 */
@@ -371,11 +381,12 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   .header .brand { font-size: 14px; }
   .header nav { gap: 4px; }
   .btn { padding: 7px 8px; }
-  #toc-toggle { display: inline-block; }
+  #toc-toggle { display: inline-flex; margin-left: -8px; }
   .btn .long { display: none; }
   .btn .short { display: inline; }
-  aside { display: none; position: fixed; inset: var(--header-h) 0 0 0; height: calc(100vh - var(--header-h)); z-index: 10; background: var(--bg); padding: 16px; max-height: none; }
-  body.toc-open aside { display: block; }
+  aside { display: block; position: fixed; top: 0; left: 0; bottom: 0; width: min(300px, 85vw); height: 100vh; max-height: none; z-index: 25; background: var(--bg); padding: 16px; box-shadow: 2px 0 12px rgba(0, 0, 0, .15); transform: translateX(-100%); transition: transform .25s ease; }
+  body.toc-open aside { transform: none; }
+  body.toc-open .toc-backdrop { display: block; }
   body.toc-open { overflow: hidden; }
   .case-body { padding: 4px 14px 14px; }
 }
@@ -395,9 +406,9 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 </head>
 <body>
 <header class="header">
+  <button type="button" id="toc-toggle" aria-label="目次を開く" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <span class="brand">${esc(title)}</span>
   <nav>
-    <button type="button" class="btn" id="toc-toggle">目次</button>
     <button type="button" class="btn primary" id="copy-md"><span class="long">Markdown を</span>コピー</button>
     <a class="btn" id="open-pdf" href="${encodeURI(pdfName)}" target="_blank" rel="noopener">PDF</a>
     <a class="btn" href="${REPO_URL}">GitHub</a>
@@ -412,6 +423,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   </div>
   <iframe title="PDF" data-src="${encodeURI(pdfName)}"></iframe>
 </div>
+<div class="toc-backdrop" id="toc-backdrop"></div>
 <div class="layout">
 <aside aria-label="目次">${tocHtml}</aside>
 <main>
@@ -458,9 +470,20 @@ ${mainHtml}
 
   // 目次: 狭い画面での開閉と、現在位置の強調
   const tocToggle = document.getElementById("toc-toggle");
-  tocToggle.addEventListener("click", () => document.body.classList.toggle("toc-open"));
+  const setToc = (open) => { document.body.classList.toggle("toc-open", open); tocToggle.setAttribute("aria-expanded", String(open)); };
+  tocToggle.addEventListener("click", () => setToc(!document.body.classList.contains("toc-open")));
+  document.getElementById("toc-backdrop").addEventListener("click", () => setToc(false));
   const tocLinks = [...document.querySelectorAll(".toc a")];
-  tocLinks.forEach((a) => a.addEventListener("click", () => document.body.classList.remove("toc-open")));
+  tocLinks.forEach((a) => a.addEventListener("click", () => setToc(false)));
+
+  // ヘッダー: 下にスクロールしたら隠し、上に戻したら出す
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY;
+    const down = y > lastY && y > 80;
+    document.body.classList.toggle("header-hidden", down);
+    lastY = y;
+  }, { passive: true });
   const byId = new Map(tocLinks.map((a) => [a.getAttribute("href").slice(1), a]));
   const targets = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
   const visible = new Set();

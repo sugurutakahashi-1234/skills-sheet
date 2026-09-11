@@ -5,7 +5,7 @@
 ## 基本情報
 
 - **所在**: 東京
-- **現在のポジション**: [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO / FDE
+- **現在のポジション**: [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
   - GitHub: https://github.com/sugurutakahashi-1234

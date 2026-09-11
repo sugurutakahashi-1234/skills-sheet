@@ -307,7 +307,7 @@ const html = `<!doctype html>
   color-scheme: light dark;
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
-  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #2563eb; --role-line: #93c5fd;
+  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
   --header-h: 52px;
 }
 @media (prefers-color-scheme: dark) {

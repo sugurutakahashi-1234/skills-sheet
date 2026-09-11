@@ -174,7 +174,7 @@
   - **[業務2] AI 活用支援 / 提案活動（FDE）**: AI 活用の相談・提案から実装・導入まで支援
   - **[業務3] AI マッチングシステム開発**: Cloudflare での RAG / MCP / AI エージェント基盤
   - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内システム
-  - **[業務5] コーポレートサイト開発**: https://www.zenshin-inc.co.jp/ の設計・構築・運用
+  - **[業務5] ホームページ・技術ブログの開発**: https://www.zenshin-inc.co.jp/ と https://tech.zenshin-inc.co.jp/ の設計・構築・運用
   - **[業務6] 社内インフラ管理**: Terraform によるマルチクラウド IaC
 
 #### 経験した技術
@@ -196,7 +196,7 @@
   - Quick Reply による稼働状況の定期ヒアリング
 - **Cloudflare フルスタック（業務3・4・5）**
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
-  - Hono + oRPC + React 19 / TanStack Start による Web アプリ、Astro によるコーポレートサイト（Lighthouse 100 を維持）
+  - Hono + oRPC + React 19 / TanStack Start による Web アプリ、Astro によるホームページと技術ブログ
   - Email Sending と Slack Interactivity で採用応募対応を自動化、Access 認証付きの資料配信
 - **マルチクラウド IaC（業務6）**
   - GCP / Cloudflare / AWS / Google Workspace を Terraform で横断管理
@@ -205,9 +205,12 @@
 #### 取り組み・貢献
 
 - **自社サービスの立ち上げ**
-  - AI 活用伴走・業務変革コンサルティング・スポット開発の 3 サービスを立ち上げ、コーポレートサイトでの見せ方まで設計
+  - AI 活用伴走・業務変革コンサルティング・スポット開発の 3 サービスを立ち上げ、ホームページでの見せ方まで設計
   - ZENSHIN フリーランス https://zenshin-freelance.com/ （toC）を公開
   - ZENSHIN エンジニアマッチ https://zenshin-engineer-match.com/ （toB）を公開
+- **技術発信によるブランディング**
+  - 技術ブログを Astro で立ち上げ、AI 活用やプロダクト開発の知見を記事・スライド・HTML 資料として公開（タグ・月別アーカイブ・RSS・PDF 出力・OGP 自動生成）
+  - ホームページは構造化データ・OGP 自動生成・sitemap・llms.txt などの SEO 施策を入れ、Lighthouse 100 を維持
 - **営業が AI エージェントで実業務を回す状態の実現**
   - IT 知識のない営業が Claude Code から自然言語で要員検索〜人材紹介を完結
   - 案件 1,000 件 × エンジニア 1,000 名の規模から、5 分以内に適切なマッチングを提示

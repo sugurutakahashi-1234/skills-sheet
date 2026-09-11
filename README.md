@@ -55,7 +55,7 @@
   - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
   - 定期実行 / 自動化: `Claude Code Routines`, `Codex Automation`
   - エージェント拡張: `Skills`, `MCP`, `Chrome DevTools MCP`
-  - プロトタイピング: `v0`, `Claude Code`
+  - プロトタイピング: `v0`, `Claude Design`
 
 ### フロントエンド / モバイル
 

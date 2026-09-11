@@ -201,13 +201,14 @@ function renderCareer(sec: Section) {
           throw new Error(`[No.${no}] の案件名が一覧と詳細で違います: "${plainName}" / "${caseNames.get(no)}"`);
         }
         const sub = children.find((t): t is Tokens.List => t.type === "list");
-        // 子行の `役割 / 技術 / 概要` を 3 つに分けて表示する（文章は原文のまま）
+        // 子行の `役割 / 技術 / 概要` を 3 つに分けて表示する（文章は原文のまま）。役割はピル、技術と概要は薄い色
+        const metaClass = ["r", "t", "s"];
         const meta = sub
           ? sub.items
               .map((i) => (i.tokens[0] as Tokens.Text).text)
               .join(" / ")
               .split(" / ")
-              .map((s) => `<span>${inline(s.trim())}</span>`)
+              .map((s, i) => `<span class="${metaClass[Math.min(i, 2)]}">${inline(s.trim())}</span>`)
               .join("")
           : "";
         return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="row-main"><span class="row-name">${inline(name)}</span><span class="row-meta">${meta}</span></span></summary><div class="case-body">${body}</div></details>`;
@@ -306,11 +307,11 @@ const html = `<!doctype html>
   color-scheme: light dark;
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
-  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa;
+  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-bg: #dbeafe; --role-fg: #1e40af;
   --header-h: 52px;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; }
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-bg: #1e3a5f; --role-fg: #bfdbfe; }
 }
 * { box-sizing: border-box; }
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
@@ -402,10 +403,14 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
 .case[open] .row-no { background: var(--bg); }
 .row-main { min-width: 0; flex: 1; display: block; }
-.row-name { display: block; font-weight: 600; }
-.row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 14px; }
-.row-meta > span:first-child { font-weight: 500; }
-.row-meta span + span::before { content: "/"; margin-right: 1.2em; color: var(--line); }
+/* 一覧行は折り返さず 1 行で省略し、行の高さを揃える（全文は開けば読める） */
+.row-name { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-meta { display: flex; align-items: center; gap: 0 .9em; font-size: 14px; white-space: nowrap; overflow: hidden; }
+.row-meta > span { flex: none; overflow: hidden; text-overflow: ellipsis; }
+.row-meta .r { font-size: 12px; font-weight: 600; color: var(--role-fg); background: var(--role-bg); border-radius: 999px; padding: 1px 9px; }
+.row-meta .t { color: var(--muted); }
+.row-meta .s { flex: 1 1 auto; min-width: 0; color: var(--muted); }
+.row-meta .t::before, .row-meta .s::before { content: ""; display: inline-block; width: 1px; height: .95em; background: var(--line); margin-right: .9em; vertical-align: -2px; }
 .case-body { padding: 4px 20px 16px; }
 .sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }
 
@@ -432,6 +437,10 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   body.toc-open .toc-backdrop { display: block; }
   body.toc-open { overflow: hidden; }
   .case-body { padding: 4px 14px 14px; }
+  /* 一覧行: 2 行目は役割のピルだけ、3 行目に 技術 │ 概要 */
+  .row-meta { display: grid; grid-template-columns: auto 1fr; gap: 2px .9em; }
+  .row-meta .r { grid-column: 1 / -1; justify-self: start; }
+  .row-meta .t::before { content: none; }
 }
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */

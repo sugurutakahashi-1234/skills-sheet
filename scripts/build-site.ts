@@ -7,7 +7,7 @@
  * （h2 = 大節 / h3 = グループ / h4 = 案件内の定型節 / `- **項目**` = 細目）に従って部品へ配置するだけ。
  * - 左に目次（h2 / h3）。現在位置を強調し、狭い画面ではボタンで開閉
  * - 基本情報はプロフィール型（外部リンクの GitHub からアバターを引く）。強み・技術スタックは節ごとの枠
- * - 技術スタックと案件の開発環境の `ラベル: A, B, C` は、括弧の外のカンマで分けてタグ表示（文章は変えない）
+ * - 技術スタック・案件の開発環境・職務経歴の行では、バッククォートで囲んだ名前（<code>）をタグ表示
  * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
  * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
  */
@@ -41,51 +41,19 @@ function splitBoldItem(item: Tokens.ListItem): { label: string; rest: string; ch
   return { label: (inl[0] as Tokens.Strong).text, rest, children };
 }
 
-/** 括弧（() （） []）の外にある ", " で分ける */
-function splitTop(value: string): string[] {
-  const parts: string[] = [];
-  let depth = 0;
-  let cur = "";
-  for (let i = 0; i < value.length; i++) {
-    const ch = value[i];
-    if ("(（[".includes(ch)) depth++;
-    if (")）]".includes(ch)) depth = Math.max(0, depth - 1);
-    if (depth === 0 && ch === "," && value[i + 1] === " ") { parts.push(cur.trim()); cur = ""; i++; continue; }
-    cur += ch;
-  }
-  if (cur.trim()) parts.push(cur.trim());
-  return parts;
-}
-
 /**
- * `ラベル: A, B, C` の行をラベル + タグ列にする。
- * 2 つ以上に分かれる行、または文章でない短い行だけをタグにし、それ以外（文・長い説明）は文のまま置く。
+ * タグ表示。README でバッククォートで囲んだ名前（<code>）をチップにする。
+ * 対象は技術スタックの細目・案件の開発環境・職務経歴の行の技術部分だけで、文中のバッククォートは普通のコード表示のまま。
+ * 隣り合うチップの間の区切り（", " "・"）は落とし、行頭の `ラベル:` は薄い色にする。
  */
-function tagLine(text: string): string {
-  const m = text.match(/^(.+?):\s+(.+)$/);
-  const label = m?.[1] ?? "";
-  const value = m?.[2] ?? text;
-  const parts = splitTop(value);
-  // 1 語だけの行も、文でなく短ければタグにする（同じ枠の中でタグと文が混ざらないように）
-  const taggable = parts.length >= 2 || (!/[。、]/.test(value) && value.length <= 50);
-  if (!taggable) return inline(text);
-  return `${label ? `<span class="tl">${inline(label)}:</span>` : ""}${parts.map((p) => `<span class="tag">${inline(p)}</span>`).join("")}`;
+function tagify(html: string): string {
+  return html
+    .replace(/<\/code>(?:, |・)<code>/g, "</code><code>")
+    .replace(/<li>([^<]{1,40}?:)\s*(?=<code>)/g, '<li><span class="tl">$1</span>');
 }
 
-/** 箇条書きの各行をタグ化して描く。入れ子（`- **アーキテクチャ:**` → 細目）は再帰 */
-function tagList(list: Tokens.List): string {
-  return `<ul class="tags">${list.items
-    .map((item) => {
-      const text = (item.tokens[0] as Tokens.Text).text;
-      const sub = item.tokens.find((t): t is Tokens.List => t.type === "list");
-      return `<li>${sub ? inline(text) + tagList(sub) : tagLine(text)}</li>`;
-    })
-    .join("")}</ul>`;
-}
-
-/** 子要素を描く。tags なら箇条書きをタグ化 */
-const children = (ts: Token[], tags: boolean) =>
-  tags ? ts.map((t) => (t.type === "list" ? tagList(t as Tokens.List) : block([t]))).join("") : block(ts);
+/** 子要素を描く。tags なら <code> をチップにする */
+const children = (ts: Token[], tags: boolean) => (tags ? `<div class="tags">${tagify(block(ts))}</div>` : block(ts));
 
 /** 箇条書きを「太字の項目 = 左バー付きの見出し + 字下げした子」に並べる。太字でない項目が混ざる一覧はそのまま置く */
 function items(list: Tokens.List, tags = false): string {
@@ -221,7 +189,7 @@ function renderCareer(sec: Section) {
               .map((i) => (i.tokens[0] as Tokens.Text).text)
               .join(" / ")
               .split(" / ")
-              .map((s) => `<span>${inline(s.trim())}</span>`)
+              .map((s) => `<span>${tagify(inline(s.trim()))}</span>`)
               .join("")
           : "";
         return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="row-main"><span class="row-name">${inline(name)}</span><span class="row-meta">${meta}</span></span></summary><div class="case-body">${body}</div></details>`;
@@ -310,7 +278,7 @@ const html = `<!doctype html>
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
 body { margin: 0; color: var(--fg); background: var(--bg); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; overflow-wrap: anywhere; }
 a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; }
-code { font-size: .9em; background: var(--soft); padding: 0 .3em; border-radius: 4px; }
+code { font-size: .9em; background: var(--tag); border: 1px solid var(--line); padding: 0 .3em; border-radius: 4px; }
 
 /* ヘッダー */
 .header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
@@ -364,10 +332,10 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .item { padding: 10px 0 2px; }
 .item-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; line-height: 1.3; padding-left: 10px; border-left: 3px solid var(--accent); }
 .item-rest { font-weight: 400; margin-left: .5em; }
-/* タグ */
+/* タグ: 対象の場所だけ <code> をチップにする */
 .tags li { margin: 4px 0; }
 .tl { color: var(--muted); margin-right: 6px; }
-.tag { display: inline-block; font-size: 13px; line-height: 1.4; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
+.tags code, .row-meta code { font: inherit; font-size: 13px; line-height: 1.4; display: inline-block; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
 .tags ul { padding-left: 1.2em; }
 .item-title + ul { list-style: none; padding-left: 13px; }
 .item-title + ul > li { position: relative; padding-left: 1.2em; }

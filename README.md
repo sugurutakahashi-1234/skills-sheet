@@ -47,74 +47,74 @@
 ### AI
 
 - **AI システム開発**
-  - LLM（Cloudflare AI Gateway 経由）: GLM, Kimi, gpt-oss, DeepSeek
-  - RAG / 検索: Cloudflare Vectorize, Workers AI, bge-m3 (Embedding)
-  - MCP: @modelcontextprotocol/sdk v2, Better Auth OAuth, WebMCP
-  - 非同期処理: Cloudflare Workflows, Cloudflare Queues, Cron Triggers
+  - LLM: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`（Cloudflare AI Gateway 経由）
+  - RAG / 検索: `Cloudflare Vectorize`, `Workers AI`, `bge-m3 (Embedding)`
+  - MCP: `@modelcontextprotocol/sdk v2`, `Better Auth OAuth`, `WebMCP`
+  - 非同期処理: `Cloudflare Workflows`, `Cloudflare Queues`, `Cron Triggers`
 - **AI エージェント運用**
-  - ツール: Claude Code (Skills / MCP / Routines), Codex CLI, Codex Automation
+  - ツール: `Claude Code (Skills / MCP / Routines)`, `Codex CLI`, `Codex Automation`
 
 ### フロントエンド / モバイル
 
 - **Web アプリ開発**
-  - フレームワーク: React, Next.js, Astro, TanStack Start
-  - ルーティング / データ取得: TanStack Router, TanStack Query
-  - UI: shadcn/ui, Tailwind CSS
+  - フレームワーク: `React`, `Next.js`, `Astro`, `TanStack Start`
+  - ルーティング / データ取得: `TanStack Router`, `TanStack Query`
+  - UI: `shadcn/ui`, `Tailwind CSS`
 - **SEO / パフォーマンス**
-  - 計測・改善: Lighthouse, PageSpeed Insights, Google Search Console
-  - 実装: 構造化データ, OGP 自動生成, sitemap, llms.txt, Pagefind（サイト内全文検索）
+  - 計測・改善: `Lighthouse`, `PageSpeed Insights`, `Google Search Console`
+  - 実装: 構造化データ・OGP 自動生成・`sitemap`・`llms.txt`、`Pagefind` によるサイト内全文検索
 - **モバイルアプリ開発**
-  - クロスプラットフォーム: React Native (Expo), Flutter
-  - ネイティブ: Swift (SwiftUI, UIKit)
+  - クロスプラットフォーム: `React Native (Expo)`, `Flutter`
+  - ネイティブ: `Swift (SwiftUI, UIKit)`
 - **アーキテクチャ**
-  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
+  - `モノレポ設計 (Bun workspaces)`, `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
   - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
 
 ### バックエンド
 
 - **サーバーサイド**
-  - API 設計: REST API, GraphQL
-  - 実装: Node.js, Hono, oRPC, PHP, Java
+  - API 設計: `REST API`, `GraphQL`
+  - 実装: `Node.js`, `Hono`, `oRPC`, `PHP`, `Java`
 - **データベース**
   - 設計: RDB テーブル設計
-  - ORM: Prisma, Drizzle
-  - RDBMS: PostgreSQL, MySQL, SQLite (Cloudflare D1)
-  - NoSQL / ベクトル DB: Firestore, Cloudflare Vectorize
+  - ORM: `Prisma`, `Drizzle`
+  - RDBMS: `PostgreSQL`, `MySQL`, `SQLite (Cloudflare D1)`
+  - NoSQL / ベクトル DB: `Firestore`, `Cloudflare Vectorize`
 - **認証 / 認可**
-  - プロトコル / 仕様: OAuth 2.0, JWT
-  - 実装 / サービス: Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access
-  - クラウド間連携: Workload Identity Federation (OIDC)
+  - プロトコル / 仕様: `OAuth 2.0`, `JWT`
+  - 実装 / サービス: `Better Auth`, `LINE Login`, `Cognito`, `Firebase Authentication`, `Cloudflare Access`
+  - クラウド間連携: `Workload Identity Federation (OIDC)`
 
 ### クラウド / インフラ
 
 - **Cloudflare**
-  - コンピュート / 配信: Workers, Pages, Browser Rendering
-  - AI: Workers AI, AI Gateway, Vectorize
-  - データ / 非同期処理: D1, R2, KV, Queues, Workflows
-  - ネットワーク / セキュリティ: DNS, Access, Turnstile, Email Routing, Email Sending
+  - コンピュート / 配信: `Workers`, `Pages`, `Browser Rendering`
+  - AI: `Workers AI`, `AI Gateway`, `Vectorize`
+  - データ / 非同期処理: `D1`, `R2`, `KV`, `Queues`, `Workflows`
+  - ネットワーク / セキュリティ: `DNS`, `Access`, `Turnstile`, `Email Routing`, `Email Sending`
 - **Google Cloud**
-  - Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
+  - `Cloud Run`, `GCS`, `IAM`, `Cloud Identity`, `Workload Identity Federation`
 - **AWS**
-  - Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
+  - `Organizations`, `IAM Identity Center`, `Amplify`, `AppSync`, `Cognito`, `S3`, `Route 53`
 - **Firebase**
-  - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
+  - `Authentication`, `Firestore`, `Storage`, `Analytics`, `Crashlytics`, `App Distribution`, `Remote Config`
 - **IaC**
-  - Terraform, tflint, dotenvx, OIDC
+  - `Terraform`, `tflint`, `dotenvx`, `OIDC`
 
 ### 品質 / CI・CD
 
 - **テスト**
-  - ユニット / 結合: Vitest, Swift Testing, XCTest, Quick/Nimble
-  - E2E: Playwright, Maestro
-  - UI / モック / アクセシビリティ: Storybook, MSW, @axe-core/playwright
+  - ユニット / 結合: `Vitest`, `Swift Testing`, `XCTest`, `Quick/Nimble`
+  - E2E: `Playwright`, `Maestro`
+  - UI / モック / アクセシビリティ: `Storybook`, `MSW`, `@axe-core/playwright`
 - **コード品質**
-  - Lint / フォーマット: Biome, oxlint, oxfmt, ESLint, Prettier
-  - 依存 / 構成の検査: knip, dependency-cruiser
-  - コミット / Git フック: commitlint, lefthook, husky
-  - 依存更新: Renovate
+  - Lint / フォーマット: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`
+  - 依存 / 構成の検査: `knip`, `dependency-cruiser`
+  - コミット / Git フック: `commitlint`, `lefthook`, `husky`
+  - 依存更新: `Renovate`
 - **CI/CD**
-  - CI: GitHub Actions, Xcode Cloud, Bitrise
-  - リリース / デプロイ: release-please, Wrangler
+  - CI: `GitHub Actions`, `Xcode Cloud`, `Bitrise`
+  - リリース / デプロイ: `release-please`, `Wrangler`
 
 ### OSS 開発（自作 CLI ツール）
 
@@ -129,33 +129,33 @@
 ### 株式会社ZENSHIN (2026年4月 - 現在)
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
-  - CTO / Cloudflare・RAG・MCP / 創業フェーズの AI 活用支援（FDE）と AI システム開発
+  - CTO / `Cloudflare`・`RAG`・`MCP` / 創業フェーズの AI 活用支援（FDE）と AI システム開発
 
 ### フリーランス (2021年7月 - 2026年3月)
 
 - [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
-  - フロントエンドエンジニア / React Native (Expo)・Next.js / iOS・Android・Web と KPI 施策
+  - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / iOS・Android・Web と KPI 施策
 - [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
-  - Flutter リードエンジニア / Flutter・Riverpod / 0 → 1 立ち上げ
+  - Flutter リードエンジニア / `Flutter`・`Riverpod` / 0 → 1 立ち上げ
 - [No.8] SNS アプリ開発（SIer E社）
-  - iOS リードエンジニア / Swift・SwiftUI / 0 → 1 立ち上げ
+  - iOS リードエンジニア / `Swift`・`SwiftUI` / 0 → 1 立ち上げ
 - [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
-  - iOS リードエンジニア / Swift・SwiftUI・AWS Amplify / 0 → 1 立ち上げ
+  - iOS リードエンジニア / `Swift`・`SwiftUI`・`AWS Amplify` / 0 → 1 立ち上げ
 - [No.6] ファンクラブアプリ開発（メガベンチャー C社）
-  - iOS エンジニア / Swift・UIKit・Redux / スタンプラリー・景品交換機能の開発
+  - iOS エンジニア / `Swift`・`UIKit`・`Redux` / スタンプラリー・景品交換機能の開発
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
-  - iOS エンジニア / Swift・SwiftUI・VIPER / 飛行の安定性改善と複数社ドローン対応
+  - iOS エンジニア / `Swift`・`SwiftUI`・`VIPER` / 飛行の安定性改善と複数社ドローン対応
 
 ### 外資系ITコンサル A社 (2017年4月 - 2021年6月)
 
 - [No.4] ショッピングアプリ開発
-  - Flutter エンジニア / Flutter・Google Maps API / クロスプラットフォームのデモアプリ開発
+  - Flutter エンジニア / `Flutter`・`Google Maps API` / クロスプラットフォームのデモアプリ開発
 - [No.3] 飲食店管理アプリ開発
-  - iOS リードエンジニア / Swift・SwiftUI・MVVM / BtoB 向け MVP 開発
+  - iOS リードエンジニア / `Swift`・`SwiftUI`・`MVVM` / BtoB 向け MVP 開発
 - [No.2] クレジットカードアプリ iOS アプリ開発
-  - iOS エンジニア / Swift・UIKit・MVVM / 見積もり・実装・テスト・レビュー
+  - iOS エンジニア / `Swift`・`UIKit`・`MVVM` / 見積もり・実装・テスト・レビュー
 - [No.1] クレジットカードアプリ API 開発
-  - サーバーサイドエンジニア / PHP (CodeIgniter)・Java / リニューアルに伴う API・バッチ開発
+  - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
 
 ## 案件詳細
 
@@ -226,21 +226,21 @@
 #### 開発環境
 
 - **フロントエンド**
-  - Astro, React 19, TanStack Start / Router / Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun
+  - `Astro`, `React 19`, `TanStack Start / Router / Query`, `shadcn/ui`, `TypeScript`, `Tailwind CSS v4`, `Bun`
 - **バックエンド / AI システム**
-  - Hono, oRPC, Drizzle ORM, Zod, Better Auth, @modelcontextprotocol/sdk v2, WebMCP
-  - Cloudflare Workers AI, AI Gateway, Vectorize, Workflows, Queues, Browser Rendering, Email Sending
-  - LINE Messaging API, Slack API, Google Drive API, GitHub App 連携
-  - Python (uv), pandoc + LibreOffice（FDE 案件ツール開発）
+  - `Hono`, `oRPC`, `Drizzle ORM`, `Zod`, `Better Auth`, `@modelcontextprotocol/sdk v2`, `WebMCP`
+  - `Cloudflare Workers AI`, `AI Gateway`, `Vectorize`, `Workflows`, `Queues`, `Browser Rendering`, `Email Sending`
+  - `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App` 連携
+  - `Python (uv)`, `pandoc` + `LibreOffice`（FDE 案件ツール開発）
 - **クラウド / インフラ**
-  - Cloudflare, GCP, AWS, Terraform, tflint, dotenvx, mise
+  - `Cloudflare`, `GCP`, `AWS`, `Terraform`, `tflint`, `dotenvx`, `mise`
 - **CI/CD / テスト / 品質**
-  - GitHub Actions, release-please, Wrangler, Renovate
-  - Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, lefthook
+  - `GitHub Actions`, `release-please`, `Wrangler`, `Renovate`
+  - `Vitest`, `Playwright`, `Storybook`, `MSW`, `@axe-core/playwright`, `oxlint`, `oxfmt`, `knip`, `lefthook`
 - **AI ツール（提案活動・開発）**
-  - Claude Code, Codex, v0, Chrome DevTools MCP
+  - `Claude Code`, `Codex`, `v0`, `Chrome DevTools MCP`
 - **分析 / 開発ツール**
-  - Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode
+  - `Google Search Console`, `PageSpeed Insights`, `PostHog`, `Cloudflare Analytics`, `VSCode`
 
 ### [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
 
@@ -295,22 +295,22 @@
 
 - **React Native (Expo) / Next.js**
   - アーキテクチャ: Monorepo 構成（Expo + Next.js）
-  - 主要ライブラリ: TanStack Query, ts-proto, Tamagui, Solito, Expo Modules API（Swift / Kotlin）
-  - コード品質・テスト: Storybook, ESLint, Prettier, Vitest, Maestro
+  - 主要ライブラリ: `TanStack Query`, `ts-proto`, `Tamagui`, `Solito`, `Expo Modules API（Swift / Kotlin）`
+  - コード品質・テスト: `Storybook`, `ESLint`, `Prettier`, `Vitest`, `Maestro`
 - **Firebase**
-  - Authentication, App Distribution, Remote Config, Analytics
+  - `Authentication`, `App Distribution`, `Remote Config`, `Analytics`
 - **Google Cloud**
-  - Cloud Run
+  - `Cloud Run`
 - **分析ツール**
-  - BytePlus DI, Looker Studio, Adjust
+  - `BytePlus DI`, `Looker Studio`, `Adjust`
 - **CI/CD**
-  - GitHub Actions
+  - `GitHub Actions`
 - **プロジェクト管理**
-  - GitHub Projects, Notion, Linear
+  - `GitHub Projects`, `Notion`, `Linear`
 - **開発ツール**
-  - VSCode, Android Studio, Xcode, GitHub Copilot, Claude Code, Codex, Gemini
+  - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `Claude Code`, `Codex`, `Gemini`
 - **デザインツール**
-  - Figma
+  - `Figma`
 
 ### [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
 
@@ -363,16 +363,16 @@
 #### 開発環境
 
 - **Flutter**
-  - アーキテクチャ: Riverpod + Hooks による状態管理
-  - 主要ライブラリ: go_router, dio, slang, permission_handler, flutter_secure_storage, pedantic_mono, freezed, google_maps_flutter, geolocator, openapi_generator, fvm
+  - アーキテクチャ: `Riverpod` + `Hooks` による状態管理
+  - 主要ライブラリ: `go_router`, `dio`, `slang`, `permission_handler`, `flutter_secure_storage`, `pedantic_mono`, `freezed`, `google_maps_flutter`, `geolocator`, `openapi_generator`, `fvm`
 - **CI/CD**
-  - GitHub Actions
+  - `GitHub Actions`
 - **プロジェクト管理**
-  - GitHub Projects, Notion, Slack
+  - `GitHub Projects`, `Notion`, `Slack`
 - **開発ツール**
-  - VSCode, Android Studio, Xcode, GitHub Copilot, ChatGPT
+  - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `ChatGPT`
 - **デザインツール**
-  - Figma
+  - `Figma`
 
 ### [No.8] SNS アプリ開発（SIer E社）
 
@@ -431,14 +431,14 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: Clean Architecture x Swift Package Manager でのマルチモジュール構成
-  - Swift 標準 SDK & API: SwiftUI, Swift Package Manager, Swift Concurrency, Combine, AVFoundation, Speech, Swift Testing, String Catalogs, Swift OpenAPI Generator
+  - アーキテクチャ: `Clean Architecture` x `Swift Package Manager` でのマルチモジュール構成
+  - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `AVFoundation`, `Speech`, `Swift Testing`, `String Catalogs`, `Swift OpenAPI Generator`
 - **CI/CD**
-  - Xcode Cloud, GitHub Actions, Renovate
+  - `Xcode Cloud`, `GitHub Actions`, `Renovate`
 - **プロジェクト管理**
-  - GitHub Projects, Notion, Backlog
+  - `GitHub Projects`, `Notion`, `Backlog`
 - **デザインツール**
-  - Figma
+  - `Figma`
 
 ### [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
 
@@ -486,20 +486,20 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: VIPER ベースの Clean Architecture x Swift Package Manager でのマルチモジュール構成
-  - Swift 標準 SDK & API: SwiftUI, Swift Package Manager, Swift Concurrency, Combine, Swift-DocC, AVFoundation, Core ML, WebKit, ReplayKit, Logger
-  - サードパーティ製 SDK: SwiftProtobuf, Firebase, Amplify, Nimble/Quick, LicensesPlugin, PhoneNumberKit, DeviceKit, SwiftFormat, SwiftGen, Lottie, Mockolo, Mint, Periphery
+  - アーキテクチャ: `VIPER` ベースの `Clean Architecture` x `Swift Package Manager` でのマルチモジュール構成
+  - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `Swift-DocC`, `AVFoundation`, `Core ML`, `WebKit`, `ReplayKit`, `Logger`
+  - サードパーティ製 SDK: `SwiftProtobuf`, `Firebase`, `Amplify`, `Nimble/Quick`, `LicensesPlugin`, `PhoneNumberKit`, `DeviceKit`, `SwiftFormat`, `SwiftGen`, `Lottie`, `Mockolo`, `Mint`, `Periphery`
 - **クラウド連携**
-  - AWS Amplify: AppSync (GraphQL), Cognito, S3, Pinpoint
-  - Firebase: Crashlytics
+  - AWS Amplify: `AppSync (GraphQL)`, `Cognito`, `S3`, `Pinpoint`
+  - Firebase: `Crashlytics`
 - **CI/CD**
-  - Xcode Cloud, GitHub Actions, Renovate
+  - `Xcode Cloud`, `GitHub Actions`, `Renovate`
 - **プロジェクト管理**
-  - GitHub Projects, Notion, Backlog
+  - `GitHub Projects`, `Notion`, `Backlog`
 - **インターフェース共有**
-  - Protocol Buffers, Swagger
+  - `Protocol Buffers`, `Swagger`
 - **デザインツール**
-  - Figma
+  - `Figma`
 
 ### [No.6] ファンクラブアプリ開発（メガベンチャー C社）
 
@@ -525,19 +525,19 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: Redux ベースのアーキテクチャ
-  - Swift 標準 SDK & API: UIKit, AVFoundation
-  - サードパーティ製 SDK: Carbon, VueFlux, ReactiveSwift, XcodeGen, Quick/Nimble, APIKit, CocoaPods, Carthage, Lottie
+  - アーキテクチャ: `Redux` ベースのアーキテクチャ
+  - Swift 標準 SDK & API: `UIKit`, `AVFoundation`
+  - サードパーティ製 SDK: `Carbon`, `VueFlux`, `ReactiveSwift`, `XcodeGen`, `Quick/Nimble`, `APIKit`, `CocoaPods`, `Carthage`, `Lottie`
 - **クラウド連携**
-  - Firebase: Crashlytics
+  - Firebase: `Crashlytics`
 - **CI/CD**
-  - CircleCI, Fastlane
+  - `CircleCI`, `Fastlane`
 - **プロジェクト管理**
-  - Wrike, Kibela
+  - `Wrike`, `Kibela`
 - **インターフェース共有**
-  - Protocol Buffers, Swagger
+  - `Protocol Buffers`, `Swagger`
 - **デザインツール**
-  - Figma
+  - `Figma`
 
 ### [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
 
@@ -586,17 +586,17 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: VIPER ベースの Clean Architecture
-  - Swift 標準 SDK & API: SwiftUI, UIKit, Combine, Swift Concurrency, Logger, MetricKit
-  - サードパーティ製 SDK: Realm, Quick/Nimble, APIKit, CocoaPods, Carthage
+  - アーキテクチャ: `VIPER` ベースの `Clean Architecture`
+  - Swift 標準 SDK & API: `SwiftUI`, `UIKit`, `Combine`, `Swift Concurrency`, `Logger`, `MetricKit`
+  - サードパーティ製 SDK: `Realm`, `Quick/Nimble`, `APIKit`, `CocoaPods`, `Carthage`
 - **クラウド連携**
-  - Firebase: Crashlytics, Analytics
+  - Firebase: `Crashlytics`, `Analytics`
 - **CI/CD**
-  - Bitrise, Fastlane
+  - `Bitrise`, `Fastlane`
 - **プロジェクト管理**
-  - Zenhub
+  - `Zenhub`
 - **デザインツール**
-  - Figma
+  - `Figma`
 
 ### [No.4] ショッピングアプリ開発
 
@@ -635,15 +635,15 @@
 #### 開発環境
 
 - **Flutter**
-  - Provider
+  - `Provider`
 - **クラウド連携**
-  - Firebase:
+  - `Firebase:`
     - Authentication, Firestore, Storage, Crashlytics, App Distribution, Analytics
-  - Google Maps API
+  - `Google Maps API`
 - **CI/CD**
-  - Codemagic, Fastlane
+  - `Codemagic`, `Fastlane`
 - **デザインツール**
-  - Adobe XD
+  - `Adobe XD`
 
 ### [No.3] 飲食店管理アプリ開発
 
@@ -677,13 +677,13 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: MVVM
-  - Swift 標準 SDK & API: SwiftUI
-  - サードパーティ製 SDK: SwiftLint
+  - アーキテクチャ: `MVVM`
+  - Swift 標準 SDK & API: `SwiftUI`
+  - サードパーティ製 SDK: `SwiftLint`
 - **プロジェクト管理**
-  - Zenhub, Trello
+  - `Zenhub`, `Trello`
 - **デザインツール**
-  - Adobe XD
+  - `Adobe XD`
 
 ### [No.2] クレジットカードアプリ iOS アプリ開発
 
@@ -711,15 +711,15 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: MVVM
-  - Swift 標準 SDK & API: UIKit
-  - サードパーティ製 SDK: CocoaPods, Carthage, Realm, Moneytree LINK SDK
+  - アーキテクチャ: `MVVM`
+  - Swift 標準 SDK & API: `UIKit`
+  - サードパーティ製 SDK: `CocoaPods`, `Carthage`, `Realm`, `Moneytree LINK SDK`
 - **通信キャプチャ**
-  - mitmproxy
+  - `mitmproxy`
 - **プロジェクト管理**
-  - Jira, Confluence, Trello
+  - `Jira`, `Confluence`, `Trello`
 - **デザインツール**
-  - Sketch, InVision
+  - `Sketch`, `InVision`
 
 ### [No.1] クレジットカードアプリ API 開発
 
@@ -759,11 +759,11 @@
 #### 開発環境
 
 - **使用言語**
-  - PHP (CodeIgniter)
-  - Java
+  - `PHP (CodeIgniter)`
+  - `Java`
 - **プロジェクト管理**
-  - Jira, Confluence, Trello
+  - `Jira`, `Confluence`, `Trello`
 - **テストツール**
-  - Postman, JMeter
+  - `Postman`, `JMeter`
 - **ドキュメンテーション**
-  - OpenAPI, PlantUML, draw.io
+  - `OpenAPI`, `PlantUML`, `draw.io`

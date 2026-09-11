@@ -55,10 +55,27 @@ function tagify(html: string): string {
 /** 子要素を描く。tags なら <code> をチップにする */
 const children = (ts: Token[], tags: boolean) => (tags ? `<div class="tags">${tagify(block(ts))}</div>` : block(ts));
 
+/**
+ * `[名前](URL)（説明）` の行が並ぶ一覧（OSS の自作ツールなど）は、名前と説明を分けた行にする。
+ * 形が合わない行（配布の説明など）は一覧の下の注記にまとめる。
+ */
+function linkList(list: Tokens.List): string | null {
+  const rows: string[] = [];
+  const notes: string[] = [];
+  for (const item of list.items) {
+    const text = (item.tokens[0] as Tokens.Text).text;
+    const m = text.match(/^\[([^\]]+)\]\(([^)]+)\)（(.+)）$/);
+    if (m) rows.push(`<li><a href="${esc(m[2])}">${inline(m[1])}</a><span class="d">${inline(m[3])}</span></li>`);
+    else notes.push(`<p class="note">${inline(text)}</p>`);
+  }
+  if (rows.length < 2) return null;
+  return `<div class="items"><ul class="link-rows">${rows.join("")}</ul>${notes.join("")}</div>`;
+}
+
 /** 箇条書きを「太字の項目 = 左バー付きの見出し + 字下げした子」に並べる。太字でない項目が混ざる一覧はそのまま置く */
 function items(list: Tokens.List, tags = false): string {
   const parts = list.items.map(splitBoldItem);
-  if (parts.some((p) => p === null)) return `<div class="items"><div class="item">${block([list])}</div></div>`;
+  if (parts.some((p) => p === null)) return linkList(list) ?? `<div class="items"><div class="item">${block([list])}</div></div>`;
   return `<div class="items">${parts
     .map((p) => {
       const { label, rest, children: kids } = p!;
@@ -189,7 +206,7 @@ function renderCareer(sec: Section) {
               .map((i) => (i.tokens[0] as Tokens.Text).text)
               .join(" / ")
               .split(" / ")
-              .map((s) => `<span>${tagify(inline(s.trim()))}</span>`)
+              .map((s) => `<span>${inline(s.trim())}</span>`)
               .join("")
           : "";
         return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="row-main"><span class="row-name">${inline(name)}</span><span class="row-meta">${meta}</span></span></summary><div class="case-body">${body}</div></details>`;
@@ -269,7 +286,7 @@ const html = `<!doctype html>
 :root {
   color-scheme: light dark;
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
-  --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #d0d7de; --soft: #e8f0fe;
+  --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
   --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa;
   --header-h: 52px;
 }
@@ -318,7 +335,7 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 main { min-width: 0; }
 
 /* 本文 */
-.intro { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+.intro { font-size: 15px; margin-bottom: 8px; }
 .intro ul { margin: 0; padding-left: 1.2em; }
 h1 { font-size: 26px; margin: 8px 0 12px; }
 .sec { margin-top: 40px; }
@@ -333,19 +350,28 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .avatar { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); flex: none; }
 .profile-main { min-width: 0; }
 .position { font-size: 18px; font-weight: 600; line-height: 1.3; margin: 4px 0 6px; }
-.facts { display: flex; flex-wrap: wrap; gap: 4px 20px; color: var(--muted); font-size: 14px; }
-.facts b { color: var(--fg); font-weight: 600; margin-right: .4em; }
+.facts { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 15px; }
+.facts b { color: var(--muted); font-weight: 600; margin-right: .4em; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.chip { display: inline-block; font-size: 13px; line-height: 1.4; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--fg); }
+.chip { display: inline-block; font-size: 14px; line-height: 1.4; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--fg); }
 .chip:hover { border-color: var(--accent); text-decoration: none; }
 .items { padding: 4px 20px 12px; }
 .item { padding: 10px 0 2px; }
 .item-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; line-height: 1.3; padding-left: 10px; border-left: 3px solid var(--accent); }
 .item-rest { font-weight: 400; margin-left: .5em; }
+/* リンク付きの一覧（OSS のツール） */
+.link-rows { list-style: none; padding: 0; margin: 6px 0 0; }
+.link-rows li { display: flex; gap: 12px; align-items: baseline; padding: 8px 0; margin: 0; border-bottom: 1px solid var(--line); }
+.link-rows li:last-child { border-bottom: 0; }
+.link-rows a { font-weight: 600; flex: none; }
+.link-rows .d { color: var(--muted); }
+.note { color: var(--muted); font-size: 14px; margin: 4px 0 2px; padding-top: 8px; border-top: 1px solid var(--line); }
 /* タグ: 対象の場所だけ <code> をチップにする */
 .tags li { margin: 4px 0; }
 .tl { color: var(--muted); margin-right: 6px; }
-.tags code, .row-meta code { font: inherit; font-size: 13px; line-height: 1.4; display: inline-block; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
+.tags code { font: inherit; font-size: 13px; line-height: 1.4; display: inline-block; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
+/* 職務経歴の行の技術名は文字のまま（チップは技術スタックと開発環境だけ） */
+.row-meta code { font: inherit; padding: 0; border: 0; background: transparent; color: var(--fg); }
 .tags ul { padding-left: 1.2em; }
 .item-title + ul, .item-title + .tags > ul { padding-left: calc(13px + 1.2em); }
 
@@ -361,7 +387,8 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .case[open] .row-no { background: var(--bg); }
 .row-main { min-width: 0; flex: 1; display: block; }
 .row-name { display: block; font-weight: 600; }
-.row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 13px; color: var(--muted); }
+.row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 14px; }
+.row-meta > span:first-child { font-weight: 500; }
 .row-meta span + span::before { content: "/"; margin-right: 1.2em; color: var(--line); }
 .case-body { padding: 4px 20px 16px; }
 .sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }

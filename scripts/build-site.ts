@@ -40,18 +40,22 @@ function splitBoldItem(item: Tokens.ListItem): { label: string; rest: string; ch
   return { label: (inl[0] as Tokens.Strong).text, rest, children };
 }
 
-/** 箇条書きを「太字の項目 = カード」に並べる。太字でない項目が混ざる一覧は 1 枚のカードにまとめる */
-function cards(list: Tokens.List): string {
+/** 箇条書きを「太字の項目 = 左バー付きの見出し + 字下げした子」に並べる。太字でない項目が混ざる一覧はそのまま置く */
+function items(list: Tokens.List): string {
   const parts = list.items.map(splitBoldItem);
-  if (parts.some((p) => p === null)) return `<div class="card">${block([list])}</div>`;
-  return `<div class="cards">${parts
+  if (parts.some((p) => p === null)) return `<div class="items"><div class="item">${block([list])}</div></div>`;
+  return `<div class="items">${parts
     .map((p) => {
       const { label, rest, children } = p!;
-      const head = `<h4 class="card-title">${inline(label)}${rest ? `<span class="card-rest">${inline(rest)}</span>` : ""}</h4>`;
-      return `<article class="card">${head}${block(children)}</article>`;
+      const head = `<h4 class="item-title">${inline(label)}${rest ? `<span class="item-rest">${inline(rest)}</span>` : ""}</h4>`;
+      return `<div class="item">${head}${block(children)}</div>`;
     })
     .join("")}</div>`;
 }
+
+/** 節（h3 があればその帯付き）を 1 枚の枠にまとめる */
+const group = (body: string, heading?: Tokens.Heading) =>
+  `<div class="group"${heading ? ` id="${idOf(heading.text)}"` : ""}>${heading ? `<h3>${inline(heading.text)}</h3>` : ""}${body}</div>`;
 
 // ---- 見出しでトークンを区切る ---------------------------------------------
 
@@ -90,17 +94,14 @@ function parseCaseHeading(text: string) {
 }
 
 function renderBasic(sec: Section) {
-  return `<div class="card basic">${block(sec.body)}</div>`;
+  return group(`<div class="items"><div class="item">${block(sec.body)}</div></div>`);
 }
 
-function renderCardsSection(sec: Section) {
-  const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? cards(t as Tokens.List) : block([t]))).join("");
-  return (
-    lists(sec.body) +
-    sec.subs
-      .map((s) => `<h3 id="${idOf(s.heading.text)}">${inline(s.heading.text)}</h3>${lists(s.body)}`)
-      .join("")
-  );
+/** 強み（h3 なし）は h2 直下を 1 枠、技術スタックは h3 ごとに 1 枠 */
+function renderGroups(sec: Section) {
+  const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? items(t as Tokens.List) : block([t]))).join("");
+  const hasBody = sec.body.some((t) => t.type !== "space");
+  return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading)).join("");
 }
 
 /** 職務経歴: 所属ごとの一覧行を案件詳細へのリンク付きの行にする */
@@ -155,8 +156,8 @@ function renderCases(sec: Section) {
 
 const RENDERERS: Record<string, (sec: Section) => string> = {
   基本情報: renderBasic,
-  強み: renderCardsSection,
-  技術スタック: renderCardsSection,
+  強み: renderGroups,
+  技術スタック: renderGroups,
   職務経歴: renderCareer,
   案件詳細: renderCases,
 };
@@ -199,18 +200,19 @@ const html = `<!doctype html>
 <style>
 :root {
   color-scheme: light dark;
-  --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #dde3e3; --card: #f6f9f9;
-  --accent: #0f766e; --accent-soft: #e6f4f2; --accent-ink: #115e59;
+  /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
+  --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #d0d7de; --soft: #e8f0fe;
+  --accent: #2563eb; --link: #1d4ed8;
   --header-h: 52px;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0f1516; --fg: #e6edf0; --muted: #98a5a8; --line: #2a3538; --card: #161f21; --accent: #2dd4bf; --accent-soft: #12302d; --accent-ink: #5eead4; }
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; }
 }
 * { box-sizing: border-box; }
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
 body { margin: 0; color: var(--fg); background: var(--bg); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; overflow-wrap: anywhere; }
-a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-code { font-size: .9em; background: var(--card); padding: 0 .3em; border-radius: 4px; }
+a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; }
+code { font-size: .9em; background: var(--soft); padding: 0 .3em; border-radius: 4px; }
 
 /* ヘッダー */
 .header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
@@ -228,12 +230,12 @@ code { font-size: .9em; background: var(--card); padding: 0 .3em; border-radius:
 aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; max-height: calc(100vh - var(--header-h) - 32px); overflow-y: auto; font-size: 13px; }
 .toc, .toc ol { list-style: none; margin: 0; padding: 0; }
 .toc > li { margin-bottom: 6px; }
-.toc > li > a { font-weight: 600; }
-.toc ol { margin: 2px 0 6px; border-left: 1px solid var(--line); }
-.toc ol a { color: var(--muted); }
-.toc a { display: block; padding: 3px 10px; border-left: 2px solid transparent; margin-left: -1px; border-radius: 0 4px 4px 0; }
-.toc a:hover { text-decoration: none; background: var(--accent-soft); }
-.toc a.active { color: var(--accent-ink); border-left-color: var(--accent); background: var(--accent-soft); }
+.toc > li > a { font-weight: 600; color: var(--fg); }
+.toc ol { margin: 2px 0 6px 12px; border-left: 1px solid var(--line); }
+.toc ol a { color: var(--muted); padding-left: 12px; }
+.toc a { display: block; padding: 3px 10px; border-left: 2px solid transparent; margin-left: -1px; border-radius: 0 4px 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toc a:hover { text-decoration: none; background: var(--soft); }
+.toc a.active { color: var(--fg); font-weight: 600; border-left-color: var(--accent); background: var(--soft); }
 main { min-width: 0; }
 
 /* 本文 */
@@ -242,19 +244,22 @@ main { min-width: 0; }
 h1 { font-size: 26px; margin: 8px 0 12px; }
 .sec { margin-top: 40px; }
 .sec h2 { font-size: 22px; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
-.sec h3 { font-size: 17px; margin: 28px 0 12px; color: var(--accent-ink); }
+.sec h3 { font-size: 17px; margin: 28px 0 12px; }
 ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
-.cards { display: flex; flex-direction: column; gap: 10px; }
-.card-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
-.card-rest { font-weight: 400; margin-left: .5em; }
-.basic ul { padding-left: 1.2em; }
+/* 節の枠: h3 があればタイトル帯、中は左バー付きの項目見出しと字下げした子 */
+.group { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; }
+.group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); }
+.items { padding: 4px 20px 12px; }
+.item { padding: 10px 0 2px; }
+.item-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; line-height: 1.3; padding-left: 10px; border-left: 3px solid var(--accent); }
+.item-rest { font-weight: 400; margin-left: .5em; }
+.item-title + ul { padding-left: calc(13px + 1.2em); }
 
 /* 職務経歴の一覧 */
 .case-rows { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-.case-row { display: flex; align-items: flex-start; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+.case-row { display: flex; align-items: flex-start; gap: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; cursor: pointer; }
 .case-row:hover { border-color: var(--accent); }
-.row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
+.row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
 .row-main { min-width: 0; flex: 1; }
 .row-name { font-weight: 600; }
 .row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 13px; color: var(--muted); }
@@ -267,12 +272,11 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .case > summary::-webkit-details-marker { display: none; }
 .case > summary::before { content: ""; flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
 .case[open] > summary::before { transform: rotate(45deg); }
-.case[open] > summary { border-bottom: 1px solid var(--line); background: var(--card); border-radius: 8px 8px 0 0; }
+.case[open] > summary { border-bottom: 1px solid var(--line); background: var(--soft); border-radius: 8px 8px 0 0; }
 .case-name { font-weight: 600; }
 .case-role { color: var(--muted); font-size: 13px; }
 .case-body { padding: 4px 20px 16px; }
 .sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }
-.case-body strong { color: var(--accent-ink); }
 
 /* 狭い画面: 目次をボタンで開く */
 @media (max-width: 900px) {

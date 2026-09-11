@@ -44,9 +44,6 @@
 
 ## 技術スタック
 
-- **言語**
-  - TypeScript, Swift, Dart, Python, PHP, Java
-
 ### AI
 
 - **AI システム開発**

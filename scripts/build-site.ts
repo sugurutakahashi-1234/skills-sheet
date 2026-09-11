@@ -365,7 +365,7 @@ h1 { font-size: 26px; margin: 8px 0 12px; }
 ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
 /* 節の枠: h3 があればタイトル帯、中は左バー付きの項目見出しと字下げした子 */
 .group { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; box-shadow: 0 1px 3px rgba(31, 35, 40, .08); }
-.group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--tag); border-bottom: 1px solid var(--line); }
+.group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); }
 /* 基本情報 */
 .profile { display: flex; gap: 20px; align-items: flex-start; padding: 16px 20px; }
 .avatar { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); flex: none; }

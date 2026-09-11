@@ -337,9 +337,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .tl { color: var(--muted); margin-right: 6px; }
 .tags code, .row-meta code { font: inherit; font-size: 13px; line-height: 1.4; display: inline-block; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
 .tags ul { padding-left: 1.2em; }
-.item-title + ul { list-style: none; padding-left: 13px; }
-.item-title + ul > li { position: relative; padding-left: 1.2em; }
-.item-title + ul > li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.item-title + ul, .item-title + .tags > ul { padding-left: calc(13px + 1.2em); }
 
 /* 職務経歴: 一覧行が案件詳細の見出し（<summary>）を兼ねる */
 .case { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; background: var(--bg); }

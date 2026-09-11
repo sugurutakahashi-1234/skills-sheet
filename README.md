@@ -162,11 +162,9 @@
 - [No.1] クレジットカードアプリ API 開発
   - サーバーサイドエンジニア / PHP (CodeIgniter)・Java / リニューアルに伴う API・バッチ開発
 
-※ 各案件の詳細は以下に記載。
+## 案件詳細
 
----
-
-## [No.11] 株式会社ZENSHIN - CTO（IT コンサルティング / SIer / SES）
+### [No.11] 株式会社ZENSHIN - CTO（IT コンサルティング / SIer / SES）
 
 #### チーム体制
 
@@ -230,39 +228,26 @@
   - 社内インフラを徹底的に IaC 化し、コード変更 → PR → plan CI → apply のフローを確立
   - 採用しなかった選択肢を含め、技術的な意思決定の根拠をリポジトリに記録する文化を形成
 
-### 開発環境
+#### 開発環境
 
-#### フロントエンド
+- **フロントエンド**
+  - Astro, React 19, TanStack Start / Router / Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun
+- **バックエンド / AI システム**
+  - Hono, oRPC, Drizzle ORM, Zod, Better Auth, @modelcontextprotocol/sdk v2, WebMCP
+  - Cloudflare Workers AI, AI Gateway, Vectorize, Workflows, Queues, Browser Rendering, Email Sending
+  - LINE Messaging API, Slack API, Google Drive API, GitHub App 連携
+  - Python (uv), pandoc + LibreOffice（FDE 案件ツール開発）
+- **クラウド / インフラ**
+  - Cloudflare, GCP, AWS, Terraform, tflint, dotenvx, mise
+- **CI/CD / テスト / 品質**
+  - GitHub Actions, release-please, Wrangler, Renovate
+  - Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, lefthook
+- **AI ツール（提案活動・開発）**
+  - Claude Code, Codex, v0, Chrome DevTools MCP
+- **分析 / 開発ツール**
+  - Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode
 
-- Astro, React 19, TanStack Start / Router / Query, shadcn/ui, TypeScript, Tailwind CSS v4, Bun
-
-#### バックエンド / AI システム
-
-- Hono, oRPC, Drizzle ORM, Zod, Better Auth, @modelcontextprotocol/sdk v2, WebMCP
-- Cloudflare Workers AI, AI Gateway, Vectorize, Workflows, Queues, Browser Rendering, Email Sending
-- LINE Messaging API, Slack API, Google Drive API, GitHub App 連携
-- Python (uv), pandoc + LibreOffice（FDE 案件ツール開発）
-
-#### クラウド / インフラ
-
-- Cloudflare, GCP, AWS, Terraform, tflint, dotenvx, mise
-
-#### CI/CD / テスト / 品質
-
-- GitHub Actions, release-please, Wrangler, Renovate
-- Vitest, Playwright, Storybook, MSW, @axe-core/playwright, oxlint, oxfmt, knip, lefthook
-
-#### AI ツール（提案活動・開発）
-
-- Claude Code, Codex, v0, Chrome DevTools MCP
-
-#### 分析 / 開発ツール
-
-- Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode
-
----
-
-## [No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）
+### [No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）
 
 #### チーム体制
 
@@ -311,45 +296,30 @@
   - 仮実装を素早く共有し、デザイナーと議論しながらリリース前に改善を重ねた
   - リリースごとの KPI の結果をデザイナーと共有し、データに基づいた改善提案を繰り返すことで提案の精度を高めていった
 
-### 開発環境
+#### 開発環境
 
-#### React Native (Expo) / Next.js
+- **React Native (Expo) / Next.js**
+  - **アーキテクチャ:**
+    - Monorepo 構成（Expo + Next.js）
+  - **主要ライブラリ:**
+    - TanStack Query, ts-proto, Tamagui, Solito, Expo Modules API（Swift / Kotlin）
+  - **コード品質・テスト:**
+    - Storybook, ESLint, Prettier, Vitest, Maestro
+- **Firebase / Google Cloud**
+  - Firebase（Auth, Distribution, Remote Config, Analytics）
+  - Google Cloud（Cloud Run）
+- **分析ツール**
+  - BytePlus DI, Looker Studio, Adjust
+- **CI/CD**
+  - GitHub Actions
+- **プロジェクト管理**
+  - GitHub Projects, Notion, Linear
+- **開発ツール**
+  - VSCode, Android Studio, Xcode, GitHub Copilot, Claude Code, Codex, Gemini
+- **デザインツール**
+  - Figma
 
-- **アーキテクチャ:**
-  - Monorepo 構成（Expo + Next.js）
-- **主要ライブラリ:**
-  - TanStack Query, ts-proto, Tamagui, Solito, Expo Modules API（Swift / Kotlin）
-- **コード品質・テスト:**
-  - Storybook, ESLint, Prettier, Vitest, Maestro
-
-#### Firebase / Google Cloud
-
-- Firebase（Auth, Distribution, Remote Config, Analytics）
-- Google Cloud（Cloud Run）
-
-#### 分析ツール
-
-- BytePlus DI, Looker Studio, Adjust
-
-#### CI/CD
-
-- GitHub Actions
-
-#### プロジェクト管理
-
-- GitHub Projects, Notion, Linear 
-
-#### 開発ツール
-
-- VSCode, Android Studio, Xcode, GitHub Copilot, Claude Code, Codex, Gemini
-
-#### デザインツール
-
-- Figma
-
----
-
-## [No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）
+### [No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）
 
 #### チーム体制
 
@@ -397,34 +367,23 @@
   - デザイナーと協力してデザインシステムを設計し、デザインの一貫性を実現した
   - デザインシステムを Flutter の `ThemeData` を通じて定義し、UI の実装コードを削減した
 
-### 開発環境
+#### 開発環境
 
-#### Flutter
+- **Flutter**
+  - **アーキテクチャ:**
+    - Riverpod + Hooks による状態管理
+  - **主要ライブラリ:**
+    - go_router, dio, slang, permission_handler, flutter_secure_storage, pedantic_mono, freezed, google_maps_flutter, geolocator, openapi_generator, fvm
+- **CI/CD**
+  - GitHub Actions
+- **プロジェクト管理**
+  - GitHub Projects, Notion, Slack
+- **開発ツール**
+  - VSCode, Android Studio, Xcode, GitHub Copilot, ChatGPT
+- **デザインツール**
+  - Figma
 
-- **アーキテクチャ:**
-  - Riverpod + Hooks による状態管理
-- **主要ライブラリ:**
-  - go_router, dio, slang, permission_handler, flutter_secure_storage, pedantic_mono, freezed, google_maps_flutter, geolocator, openapi_generator, fvm
-
-#### CI/CD
-
-- GitHub Actions
-
-#### プロジェクト管理
-
-- GitHub Projects, Notion, Slack
-
-#### 開発ツール
-
-- VSCode, Android Studio, Xcode, GitHub Copilot, ChatGPT
-
-#### デザインツール
-
-- Figma
-
----
-
-## [No.8] SNS アプリ開発 - iOS リードエンジニア（Swift）
+### [No.8] SNS アプリ開発 - iOS リードエンジニア（Swift）
 
 #### チーム体制
 
@@ -478,30 +437,21 @@
   - Swift 5 → Swift 6 への移行:
     - 早い段階から Beta 版 Xcode を用いて Swift 6 への移行を検証し、大きなトラブルなくスムーズに移行を完了した
 
-### 開発環境
+#### 開発環境
 
-#### Swift
+- **Swift**
+  - **アーキテクチャ:**
+    - Clean Architecture x Swift Package Manager でのマルチモジュール構成
+  - **Swift 標準 SDK & API:**
+    - SwiftUI, Swift Package Manager, Swift Concurrency, Combine, AVFoundation, Speech, Swift Testing, String Catalogs, Swift OpenAPI Generator
+- **CI/CD**
+  - Xcode Cloud, GitHub Actions, Renovate
+- **プロジェクト管理**
+  - GitHub Projects, Notion, Backlog
+- **デザインツール**
+  - Figma
 
-- **アーキテクチャ:**
-  - Clean Architecture x Swift Package Manager でのマルチモジュール構成
-- **Swift 標準 SDK & API:**
-  - SwiftUI, Swift Package Manager, Swift Concurrency, Combine, AVFoundation, Speech, Swift Testing, String Catalogs, Swift OpenAPI Generator
-
-#### CI/CD
-
-- Xcode Cloud, GitHub Actions, Renovate
-
-#### プロジェクト管理
-
-- GitHub Projects, Notion, Backlog
-
-#### デザインツール
-
-- Figma
-
----
-
-## [No.7] マーケティングリサーチアプリ開発 - iOS リードエンジニア（Swift）
+### [No.7] マーケティングリサーチアプリ開発 - iOS リードエンジニア（Swift）
 
 #### チーム体制
 
@@ -544,43 +494,30 @@
 - PdM・デザイナー・サーバーサイド・データ分析と仕様やデータ連携インターフェースを調整
 - iOS チームの issue 運用を担当し、メンバーのタスクが途切れないよう先回りして行動し続けた
 
-### 開発環境
+#### 開発環境
 
-#### Swift
+- **Swift**
+  - **アーキテクチャ:**
+    - VIPER ベースの Clean Architecture x Swift Package Manager でのマルチモジュール構成
+  - **Swift 標準 SDK & API:**
+    - SwiftUI, Swift Package Manager, Swift Concurrency, Combine, Swift-DocC, AVFoundation, Core ML, WebKit, ReplayKit, Logger
+  - **サードパーティ製 SDK:**
+    - SwiftProtobuf, Firebase, Amplify, Nimble/Quick, LicensesPlugin, PhoneNumberKit, DeviceKit, SwiftFormat, SwiftGen, Lottie, Mockolo, Mint, Periphery
+- **クラウド連携**
+  - **AWS Amplify:**
+    - AppSync (GraphQL), Cognito, S3, Pinpoint
+  - **Firebase:**
+    - Crashlytics
+- **CI/CD**
+  - Xcode Cloud, GitHub Actions, Renovate
+- **プロジェクト管理**
+  - GitHub Projects, Notion, Backlog
+- **インターフェース共有**
+  - Protocol Buffers, Swagger
+- **デザインツール**
+  - Figma
 
-- **アーキテクチャ:**
-  - VIPER ベースの Clean Architecture x Swift Package Manager でのマルチモジュール構成
-- **Swift 標準 SDK & API:**
-  - SwiftUI, Swift Package Manager, Swift Concurrency, Combine, Swift-DocC, AVFoundation, Core ML, WebKit, ReplayKit, Logger
-- **サードパーティ製 SDK:**
-  - SwiftProtobuf, Firebase, Amplify, Nimble/Quick, LicensesPlugin, PhoneNumberKit, DeviceKit, SwiftFormat, SwiftGen, Lottie, Mockolo, Mint, Periphery
-
-#### クラウド連携
-
-- **AWS Amplify:**
-  - AppSync (GraphQL), Cognito, S3, Pinpoint
-- **Firebase:**
-  - Crashlytics
-
-#### CI/CD
-
-- Xcode Cloud, GitHub Actions, Renovate
-
-#### プロジェクト管理
-
-- GitHub Projects, Notion, Backlog
-
-#### インターフェース共有
-
-- Protocol Buffers, Swagger
-
-#### デザインツール
-
-- Figma
-
----
-
-## [No.6] ファンクラブアプリ開発 - iOS エンジニア（Swift）
+### [No.6] ファンクラブアプリ開発 - iOS エンジニア（Swift）
 
 #### チーム体制
 
@@ -601,41 +538,28 @@
 
 - デザイナー、Android、Web フロントのエンジニアとコミュニケーションを取りながら、プラットフォーム間で仕様に大きな差がでないように開発した
 
-### 開発環境
+#### 開発環境
 
-#### Swift
+- **Swift**
+  - **アーキテクチャ:**
+    - Redux ベースのアーキテクチャ
+  - **Swift 標準 SDK & API:**
+    - UIKit, AVFoundation
+  - **サードパーティ製 SDK:**
+    - Carbon, VueFlux, ReactiveSwift, XcodeGen, Quick/Nimble, APIKit, CocoaPods, Carthage, Lottie
+- **クラウド連携**
+  - **Firebase:**
+    - Crashlytics
+- **CI/CD**
+  - CircleCI, Fastlane
+- **プロジェクト管理**
+  - Wrike, Kibela
+- **インターフェース共有**
+  - Protocol Buffers, Swagger
+- **デザインツール**
+  - Figma
 
-- **アーキテクチャ:**
-  - Redux ベースのアーキテクチャ
-- **Swift 標準 SDK & API:**
-  - UIKit, AVFoundation
-- **サードパーティ製 SDK:**
-  - Carbon, VueFlux, ReactiveSwift, XcodeGen, Quick/Nimble, APIKit, CocoaPods, Carthage, Lottie
-
-#### クラウド連携
-
-- **Firebase:**
-  - Crashlytics
-
-#### CI/CD
-
-- CircleCI, Fastlane
-
-#### プロジェクト管理
-
-- Wrike, Kibela
-
-#### インターフェース共有
-
-- Protocol Buffers, Swagger
-
-#### デザインツール
-
-- Figma
-
----
-
-## [No.5] ドローン制御アプリ開発 - iOS エンジニア（Swift）
+### [No.5] ドローン制御アプリ開発 - iOS エンジニア（Swift）
 
 #### チーム体制
 
@@ -679,37 +603,26 @@
   - デイリーでの相談事項の事前エントリー制の導入
   - Firebase Crashlytics 運用の見直し
 
-### 開発環境
+#### 開発環境
 
-#### Swift
+- **Swift**
+  - **アーキテクチャ:**
+    - VIPER ベースの Clean Architecture
+  - **Swift 標準 SDK & API:**
+    - SwiftUI, UIKit, Combine, Swift Concurrency, Logger, MetricKit
+  - **サードパーティ製 SDK:**
+    - Realm, Quick/Nimble, APIKit, CocoaPods, Carthage
+- **クラウド連携**
+  - **Firebase:**
+    - Crashlytics, Analytics
+- **CI/CD**
+  - Bitrise, Fastlane
+- **プロジェクト管理**
+  - Zenhub
+- **デザインツール**
+  - Figma
 
-- **アーキテクチャ:**
-  - VIPER ベースの Clean Architecture
-- **Swift 標準 SDK & API:**
-  - SwiftUI, UIKit, Combine, Swift Concurrency, Logger, MetricKit
-- **サードパーティ製 SDK:**
-  - Realm, Quick/Nimble, APIKit, CocoaPods, Carthage
-
-#### クラウド連携
-
-- **Firebase:**
-  - Crashlytics, Analytics
-
-#### CI/CD
-
-- Bitrise, Fastlane
-
-#### プロジェクト管理
-
-- Zenhub
-
-#### デザインツール
-
-- Figma
-
----
-
-## [No.4] ショッピングアプリ開発 - Flutter エンジニア（Flutter）
+### [No.4] ショッピングアプリ開発 - Flutter エンジニア（Flutter）
 
 #### チーム体制
 
@@ -743,29 +656,20 @@
 - Firebase を活用したサーバーレス構成でのモバイルバックエンドサービスの設計・実装を行った
 - Flutter による Android 対応（マテリアルデザイン、Google Play ストアでの配信）を経験した
 
-### 開発環境
+#### 開発環境
 
-#### Flutter
+- **Flutter**
+  - Provider
+- **クラウド連携**
+  - Firebase:
+    - Authentication, Firestore, Storage, Crashlytics, App Distribution, Analytics
+  - Google Maps API
+- **CI/CD**
+  - Codemagic, Fastlane
+- **デザインツール**
+  - Adobe XD
 
-- Provider
-
-#### クラウド連携
-
-- Firebase:
-  - Authentication, Firestore, Storage, Crashlytics, App Distribution, Analytics
-- Google Maps API
-
-#### CI/CD
-
-- Codemagic, Fastlane
-
-#### デザインツール
-
-- Adobe XD
-
----
-
-## [No.3] 飲食店管理アプリ開発 - iOS リードエンジニア（Swift）
+### [No.3] 飲食店管理アプリ開発 - iOS リードエンジニア（Swift）
 
 #### チーム体制
 
@@ -794,28 +698,21 @@
 - 指定された要件の実装だけでなく、お客様やデザイナーによりよい仕様やデザインを提案した
 - スクラムボードの扱いやコードレビュー方法などを、レトロスペクティブを待たずチーム内で相談し常に改善した
 
-### 開発環境
+#### 開発環境
 
-#### Swift
+- **Swift**
+  - **アーキテクチャ:**
+    - MVVM
+  - **Swift 標準 SDK & API:**
+    - SwiftUI
+  - **サードパーティ製 SDK:**
+    - SwiftLint
+- **プロジェクト管理**
+  - Zenhub, Trello
+- **デザインツール**
+  - Adobe XD
 
-- **アーキテクチャ:**
-  - MVVM
-- **Swift 標準 SDK & API:**
-  - SwiftUI
-- **サードパーティ製 SDK:**
-  - SwiftLint
-
-#### プロジェクト管理
-
-- Zenhub, Trello
-
-#### デザインツール
-
-- Adobe XD
-
----
-
-## [No.2] クレジットカードアプリ iOS アプリ開発 - iOS エンジニア（Swift）
+### [No.2] クレジットカードアプリ iOS アプリ開発 - iOS エンジニア（Swift）
 
 #### チーム体制
 
@@ -838,32 +735,23 @@
 - Human Interface Guidelines に基づいた UI 実装
 - Moneytree LINK SDK といったサードパーティー製のライブラリの組み込み
 
-### 開発環境
+#### 開発環境
 
-#### Swift
+- **Swift**
+  - **アーキテクチャ:**
+    - MVVM
+  - **Swift 標準 SDK & API:**
+    - UIKit
+  - **サードパーティ製 SDK:**
+    - CocoaPods, Carthage, Realm, Moneytree LINK SDK
+- **通信キャプチャ**
+  - mitmproxy
+- **プロジェクト管理**
+  - Jira, Confluence, Trello
+- **デザインツール**
+  - Sketch, InVision
 
-- **アーキテクチャ:**
-  - MVVM
-- **Swift 標準 SDK & API:**
-  - UIKit
-- **サードパーティ製 SDK:**
-  - CocoaPods, Carthage, Realm, Moneytree LINK SDK
-
-#### 通信キャプチャ
-
-- mitmproxy
-
-#### プロジェクト管理
-
-- Jira, Confluence, Trello
-
-#### デザインツール
-
-- Sketch, InVision
-
----
-
-## [No.1] クレジットカードアプリ API 開発 - サーバーサイドエンジニア（PHP）
+### [No.1] クレジットカードアプリ API 開発 - サーバーサイドエンジニア（PHP）
 
 #### チーム体制
 
@@ -898,22 +786,14 @@
 - iOS チームと兼任していたため、モバイルアプリからの視点を API のインターフェースの設計に取り込むことができた
 - API の結合テストを Postman によって自動化することで、少ない工数で網羅的に繰り返しテストを実施し、品質を担保することができた
 
-### 開発環境
+#### 開発環境
 
-#### 使用言語
-
-- PHP (CodeIgniter)
-- Java
-
-#### プロジェクト管理
-
-- Jira, Confluence, Trello
-
-#### テストツール
-
-- Postman, JMeter
-
-#### ドキュメンテーション
-
-- OpenAPI, PlantUML, draw.io
-
+- **使用言語**
+  - PHP (CodeIgniter)
+  - Java
+- **プロジェクト管理**
+  - Jira, Confluence, Trello
+- **テストツール**
+  - Postman, JMeter
+- **ドキュメンテーション**
+  - OpenAPI, PlantUML, draw.io

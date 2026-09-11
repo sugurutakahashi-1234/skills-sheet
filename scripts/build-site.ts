@@ -17,9 +17,9 @@ const PDF_GLOB = "*_高橋俊スキルシート.pdf";
 
 const md = await Bun.file(SOURCE).text();
 
-// 案件詳細の見出し行で分割する。先頭ブロックは一覧（基本情報〜職務経歴）
-const CASE_HEADING = /^## \[No\.\d+\] .*$/m;
-const [summaryMd, ...caseMds] = md.split(/^(?=## \[No\.\d+\] )/m);
+// 案件詳細の見出し行で分割する。先頭ブロックは一覧（基本情報〜職務経歴〜「案件詳細」の見出し）
+const CASE_HEADING = /^### \[No\.\d+\] .*$/m;
+const [summaryMd, ...caseMds] = md.split(/^(?=### \[No\.\d+\] )/m);
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -33,7 +33,7 @@ const summaryHtml = render(stripRule(summaryMd));
 
 const casesHtml = caseMds
   .map((caseMd) => {
-    const heading = caseMd.match(CASE_HEADING)?.[0].replace(/^## /, "") ?? "";
+    const heading = caseMd.match(CASE_HEADING)?.[0].replace(/^### /, "") ?? "";
     const id = heading.match(/\[No\.(\d+)\]/)?.[1] ?? "";
     const body = render(stripRule(caseMd.replace(CASE_HEADING, "")));
     return `<details id="no-${id}"><summary>${escapeHtml(heading)}</summary>\n${body}</details>`;

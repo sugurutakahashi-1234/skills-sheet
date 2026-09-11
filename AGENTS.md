@@ -1,7 +1,7 @@
 # スキルシート
 
 - `README.md` が正本。PDF（`*_高橋俊スキルシート.pdf`）は pre-commit フックが README の変更時に自動生成する。PDF を手で編集しない
-- README では `<details>` の折りたたみを使わない。案件詳細は `## [No.N] …` の見出しで平置きする。折りたたみは Web 版（GitHub Pages）が見出しから作り、Markdown をコピーした先に HTML タグが混ざらないようにするため
+- README では `<details>` の折りたたみを使わない。案件詳細は `## 案件詳細` の下に `### [No.N] …` で平置きする。折りたたみは Web 版（GitHub Pages）が見出しから作り、Markdown をコピーした先に HTML タグが混ざらないようにするため
 - Web 版（https://sugurutakahashi-1234.github.io/skills-sheet/）は `scripts/build-site.ts` が README から `dist/` に生成し、`.github/workflows/pages.yml` が `main` への push で GitHub Pages に配信する。`dist/` はコミットしない。手元で確認するときは `bun run build:site` して `dist/index.html` を開く
 - README の本文を変えたら pre-commit の textlint（`@textlint-ja/preset-ai-writing`）を通す。誇張表現や中身のない強調は指摘に従って直す
 - 「太字 + コロン + 箇条書き」の様式はスキルシートとして意図したもの。textlint の該当検査（list-formatting / emphasis-patterns）と、「適切な」のような一般語まで指摘する tech-writing-guideline は `.textlintrc.json` で無効化してあり、文章らしく書き直す対象ではない
@@ -34,6 +34,8 @@ README を直すたびに決まった判断を残す。新しく決めたこと�
 
 ## 見出し
 
+- 見出しの深さは 3 段で固定する。`##` は大節（基本情報 / 強み / 技術スタック / 職務経歴 / 案件詳細）、`###` はその中のグループ（技術分野・所属・`[No.N]` の案件）、`####` は案件内の定型 5 節（チーム体制 / 案件概要・担当業務 / 経験した技術 / 取り組み・貢献 / 開発環境）。`#####` は使わない
+- それより細かい区分は見出しにせず、`- **項目**` の太字と子の箇条書きで書く（技術スタックの `- **クラウド**` → `- **Cloudflare**` → 細目、と同じ形。3 段までの入れ子を許容）。Web 版はこの規則を前提に、h4 をカードの見出し・太字項目をカード内の小見出しとして描く
 - 実績の件数を名乗る見出しは、根拠が 1 案件しかないなら視点の主張に言い換える（`KPI 起点のグロース施策` → `ビジネス KPI 起点での開発経験`）
 - 括弧の補足は、子の箇条書きと重複するなら外す（`FDE（AI 活用の相談・提案〜実装・導入）` → `FDE としての AI 活用支援`）
 - 1 つの項目に子行が 1 行しかない状態を作らない。2〜3 行に揃えるか、他の項目にまとめる

@@ -215,7 +215,8 @@
 - **自社サービスの立ち上げと見せ方の設計**
   - AI 活用伴走サービス・業務変革コンサルティング・スポット開発の立ち上げをリード
   - サービス内容の整理と、コーポレートサイトでの見せ方の設計を担当
-  - [ZENSHIN フリーランス](https://zenshin-freelance.com/)（toC）と [ZENSHIN エンジニアマッチ](https://zenshin-engineer-match.com/)（toB）の 2 サイトを公開
+  - ZENSHIN フリーランス https://zenshin-freelance.com/ （toC）を公開
+  - ZENSHIN エンジニアマッチ https://zenshin-engineer-match.com/ （toB）を公開
 - **営業が AI エージェントで実業務を回す状態の実現**
   - OAuth 認証付き MCP を整備し、IT 知識のない営業が自然言語で要員検索〜人材紹介を完結
   - 案件 1,000 件 × エンジニア 1,000 名の規模から、5 分以内に適切なマッチングを提示

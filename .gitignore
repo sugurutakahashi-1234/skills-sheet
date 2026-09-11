@@ -6,3 +6,6 @@ node_modules/
 
 # Python (uv)
 .venv/
+
+# 比較モック（使い捨て）
+.tmp/

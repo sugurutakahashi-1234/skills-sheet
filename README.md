@@ -294,7 +294,7 @@
 #### 開発環境
 
 - **React Native (Expo) / Next.js**
-  - アーキテクチャ: Monorepo 構成（Expo + Next.js）
+  - アーキテクチャ: `Monorepo`
   - 主要ライブラリ: `TanStack Query`, `ts-proto`, `Tamagui`, `Solito`, `Expo Modules API（Swift / Kotlin）`
   - コード品質・テスト: `Storybook`, `ESLint`, `Prettier`, `Vitest`, `Maestro`
 - **Firebase**
@@ -363,7 +363,7 @@
 #### 開発環境
 
 - **Flutter**
-  - アーキテクチャ: `Riverpod` + `Hooks` による状態管理
+  - アーキテクチャ: `Riverpod`, `Hooks`
   - 主要ライブラリ: `go_router`, `dio`, `slang`, `permission_handler`, `flutter_secure_storage`, `pedantic_mono`, `freezed`, `google_maps_flutter`, `geolocator`, `openapi_generator`, `fvm`
 - **CI/CD**
   - `GitHub Actions`
@@ -431,7 +431,7 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: `Clean Architecture` x `Swift Package Manager` でのマルチモジュール構成
+  - アーキテクチャ: `Clean Architecture`, `Swift Package Manager`（マルチモジュール構成）
   - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `AVFoundation`, `Speech`, `Swift Testing`, `String Catalogs`, `Swift OpenAPI Generator`
 - **CI/CD**
   - `Xcode Cloud`, `GitHub Actions`, `Renovate`
@@ -486,7 +486,7 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: `VIPER` ベースの `Clean Architecture` x `Swift Package Manager` でのマルチモジュール構成
+  - アーキテクチャ: `VIPER`, `Clean Architecture`, `Swift Package Manager`
   - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `Swift-DocC`, `AVFoundation`, `Core ML`, `WebKit`, `ReplayKit`, `Logger`
   - サードパーティ製 SDK: `SwiftProtobuf`, `Firebase`, `Amplify`, `Nimble/Quick`, `LicensesPlugin`, `PhoneNumberKit`, `DeviceKit`, `SwiftFormat`, `SwiftGen`, `Lottie`, `Mockolo`, `Mint`, `Periphery`
 - **クラウド連携**
@@ -525,7 +525,7 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: `Redux` ベースのアーキテクチャ
+  - アーキテクチャ: `Redux`
   - Swift 標準 SDK & API: `UIKit`, `AVFoundation`
   - サードパーティ製 SDK: `Carbon`, `VueFlux`, `ReactiveSwift`, `XcodeGen`, `Quick/Nimble`, `APIKit`, `CocoaPods`, `Carthage`, `Lottie`
 - **クラウド連携**
@@ -586,7 +586,7 @@
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: `VIPER` ベースの `Clean Architecture`
+  - アーキテクチャ: `VIPER`, `Clean Architecture`
   - Swift 標準 SDK & API: `SwiftUI`, `UIKit`, `Combine`, `Swift Concurrency`, `Logger`, `MetricKit`
   - サードパーティ製 SDK: `Realm`, `Quick/Nimble`, `APIKit`, `CocoaPods`, `Carthage`
 - **クラウド連携**

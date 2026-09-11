@@ -88,6 +88,9 @@
   - フレームワーク: React, Next.js, Astro, TanStack Start
   - ルーティング / データ取得: TanStack Router, TanStack Query
   - UI: shadcn/ui, Tailwind CSS
+- **SEO / パフォーマンス**
+  - 計測・改善: Lighthouse, PageSpeed Insights, Google Search Console
+  - 実装: 構造化データ・OGP 自動生成・sitemap・llms.txt、Pagefind によるサイト内全文検索
 - **モバイルアプリ開発**
   - クロスプラットフォーム: React Native (Expo), Flutter
   - ネイティブ: Swift (SwiftUI, UIKit)
@@ -109,10 +112,6 @@
 - **CI/CD**
   - CI: GitHub Actions, Xcode Cloud, Bitrise
   - リリース / デプロイ: release-please, Wrangler
-- **SEO / パフォーマンス**
-  - Lighthouse・PageSpeed Insights での計測と改善、Google Search Console での確認
-  - 構造化データ (JSON-LD)・OGP 自動生成 (satori / sharp)・sitemap / RSS / canonical の実装
-  - AI クローラー対応 (llms.txt, robots.txt)、Pagefind によるサイト内全文検索
 
 ### プロセス / OSS
 

@@ -131,18 +131,18 @@
 ### 株式会社ZENSHIN (2026年4月 - 現在)
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
-  - CTO / TypeScript・Cloudflare・Terraform / 創業フェーズの AI 活用支援（FDE）と AI システム開発
+  - CTO / Cloudflare・RAG・MCP / 創業フェーズの AI 活用支援（FDE）と AI システム開発
 
 ### フリーランス (2021年7月 - 2026年3月)
 
 - [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
-  - フロントエンドエンジニア / React Native (Expo)・Next.js / グロースフェーズの KPI 施策
+  - フロントエンドエンジニア / React Native (Expo)・Next.js / グロースフェーズの iOS・Android・Web 実装と KPI 施策
 - [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
   - Flutter リードエンジニア / Flutter・Riverpod / 0 → 1 立ち上げ
 - [No.8] SNS アプリ開発（SIer E社）
   - iOS リードエンジニア / Swift・SwiftUI / 0 → 1 立ち上げ
 - [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
-  - iOS リードエンジニア / Swift・SwiftUI・AWS Amplify / 0 → 1 立ち上げとアーキテクチャ整備
+  - iOS リードエンジニア / Swift・SwiftUI・AWS Amplify / 0 → 1 立ち上げ
 - [No.6] ファンクラブアプリ開発（メガベンチャー C社）
   - iOS エンジニア / Swift・UIKit・Redux / スタンプラリー・景品交換機能の開発
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）

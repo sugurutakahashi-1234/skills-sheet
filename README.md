@@ -31,7 +31,7 @@
   - KPI（ARPU・LTV・CTR）を基点に、施策の企画・A/B テスト検証・実装まで推進
   - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当
 - **フルスタック実装力**
-  - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイドまで実装できる
+  - iOS・Android・Web のフロントエンドからサーバーサイドまで実装できる
   - マルチクラウドの IaC（Terraform × GCP / Cloudflare / AWS）まで一人で構築・運用
 - **OSS 開発・技術発信**
   - 自作 OSS（TypeScript 製 CLI）を npm / Homebrew / GitHub Actions Marketplace で配布

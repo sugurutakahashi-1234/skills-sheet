@@ -307,11 +307,11 @@ const html = `<!doctype html>
   color-scheme: light dark;
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
-  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-bg: #dbeafe; --role-fg: #1e40af;
+  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #2563eb; --role-line: #93c5fd;
   --header-h: 52px;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-bg: #1e3a5f; --role-fg: #bfdbfe; }
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-fg: #93c5fd; --role-line: #1e40af; }
 }
 * { box-sizing: border-box; }
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
@@ -406,10 +406,10 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 /* 一覧行は折り返さず 1 行で省略し、行の高さを揃える（全文は開けば読める） */
 .row-name { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row-meta { display: flex; align-items: center; gap: 0 .9em; font-size: 14px; white-space: nowrap; overflow: hidden; }
-.row-meta > span { flex: none; overflow: hidden; text-overflow: ellipsis; }
-.row-meta .r { font-size: 12px; font-weight: 600; color: var(--role-fg); background: var(--role-bg); border-radius: 999px; padding: 1px 9px; }
-.row-meta .t { color: var(--muted); }
-.row-meta .s { flex: 1 1 auto; min-width: 0; color: var(--muted); }
+.row-meta > span { overflow: hidden; text-overflow: ellipsis; }
+.row-meta .r { flex: none; font-size: 12px; font-weight: 600; color: var(--role-fg); border: 1px solid var(--role-line); border-radius: 999px; padding: 0 9px; }
+.row-meta .t { flex: 0 1 auto; min-width: 0; color: var(--muted); }
+.row-meta .s { flex: 1 1 0; min-width: 0; color: var(--muted); }
 .row-meta .t::before, .row-meta .s::before { content: ""; display: inline-block; width: 1px; height: .95em; background: var(--line); margin-right: .9em; vertical-align: -2px; }
 .case-body { padding: 4px 20px 16px; }
 .sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }
@@ -437,10 +437,8 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   body.toc-open .toc-backdrop { display: block; }
   body.toc-open { overflow: hidden; }
   .case-body { padding: 4px 14px 14px; }
-  /* 一覧行: 2 行目は役割のピルだけ、3 行目に 技術 │ 概要 */
-  .row-meta { display: grid; grid-template-columns: auto 1fr; gap: 2px .9em; }
-  .row-meta .r { grid-column: 1 / -1; justify-self: start; }
-  .row-meta .t::before { content: none; }
+  /* 一覧行: 狭い画面では概要を出さず、役割 │ 技術 だけ（技術は「…」で縮む） */
+  .row-meta .s { display: none; }
 }
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */

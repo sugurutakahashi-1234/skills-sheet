@@ -263,7 +263,7 @@ const tocHtml = `<ol class="toc">${visibleSections
             const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
             // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
             const m = cases ? s.heading.text.match(/^(.*?)\s*\((\d{4})年\d+月 - (?:(\d{4})年\d+月|(現在))\)$/) : null;
-            const label = m ? `${inline(m[1])}<span class="years">${m[2]}–${m[3] ?? m[4]}</span>` : inline(s.heading.text);
+            const label = m ? `${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : inline(s.heading.text);
             return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
           })
           .join("");
@@ -334,7 +334,7 @@ body.header-hidden .header { transform: translateY(-100%); }
 .btn .short { display: none; }
 
 /* 2 カラム */
-.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 40px; max-width: 1160px; margin: 0 auto; padding: 24px 24px 80px; }
+.layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; max-width: 1180px; margin: 0 auto; padding: 24px 24px 80px; }
 aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; max-height: calc(100vh - var(--header-h) - 32px); overflow-y: auto; font-size: 13px; }
 /* 目次: ガイド線なし。h2 太字、会社は太字（期間なし）、案件は本文と同じ丸バッジの番号 + 名前 */
 .toc, .toc ol { list-style: none; margin: 0; padding: 0; }

@@ -62,30 +62,46 @@
 - **インフラ / IaC**
   - Terraform, tflint, dotenvx, OIDC
 - **サーバーサイド**
-  - REST API 設計, GraphQL 設計, Node.js, Hono, oRPC, PHP, Java
+  - API 設計: REST API 設計, GraphQL 設計
+  - 実装: Node.js, Hono, oRPC, PHP, Java
 - **データベース**
-  - RDB のテーブル設計, Prisma ORM, Drizzle ORM, PostgreSQL, MySQL, SQLite (Cloudflare D1), Firestore, ベクトル DB (Cloudflare Vectorize)
+  - 設計: RDB のテーブル設計
+  - ORM: Prisma, Drizzle
+  - RDBMS: PostgreSQL, MySQL, SQLite (Cloudflare D1)
+  - NoSQL / ベクトル DB: Firestore, Cloudflare Vectorize
 - **認証 / 認可**
-  - OAuth 2.0, JWT, Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access, Workload Identity Federation (OIDC)
+  - プロトコル / 仕様: OAuth 2.0, JWT
+  - 実装 / サービス: Better Auth, LINE Login, Cognito, Firebase Authentication, Cloudflare Access
+  - クラウド間連携: Workload Identity Federation (OIDC)
 - **Web アプリ開発**
-  - React, Next.js, Astro, TanStack Start, TanStack Router, TanStack Query, shadcn/ui, Tailwind CSS
+  - フレームワーク: React, Next.js, Astro, TanStack Start
+  - ルーティング / データ取得: TanStack Router, TanStack Query
+  - UI: shadcn/ui, Tailwind CSS
 - **モバイルアプリ開発**
-  - React Native (Expo), Swift (SwiftUI, UIKit), Flutter
+  - クロスプラットフォーム: React Native (Expo), Flutter
+  - ネイティブ: Swift (SwiftUI, UIKit)
 - **アーキテクチャ**
   - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
   - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
 - **テスト**
-  - Vitest, Playwright, Swift Testing, XCTest, Quick/Nimble, Maestro, Storybook, MSW, @axe-core/playwright
+  - ユニット / 結合: Vitest, Swift Testing, XCTest, Quick/Nimble
+  - E2E: Playwright, Maestro
+  - UI / モック / アクセシビリティ: Storybook, MSW, @axe-core/playwright
 - **コード品質**
-  - Biome, oxlint, oxfmt, ESLint, Prettier, knip, dependency-cruiser, commitlint, lefthook, husky, Renovate
+  - Lint / フォーマット: Biome, oxlint, oxfmt, ESLint, Prettier
+  - 依存 / 構成の検査: knip, dependency-cruiser
+  - コミット / Git フック: commitlint, lefthook, husky
+  - 依存更新: Renovate
 - **CI/CD**
-  - Xcode Cloud, GitHub Actions, Bitrise, release-please, Wrangler
+  - CI: GitHub Actions, Xcode Cloud, Bitrise
+  - リリース / デプロイ: release-please, Wrangler
 - **SEO / パフォーマンス**
   - Core Web Vitals, Lighthouse, PageSpeed Insights, Google Search Console
   - 構造化データ (JSON-LD / Schema.org), OGP 自動生成 (satori / sharp), sitemap / RSS / canonical
   - AI クローラー対応 (llms.txt, Content-Signal 対応 robots.txt), Pagefind (静的サイト内全文検索)
 - **プロジェクト管理**
-  - Scrum Master 経験, アジャイル開発 (Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear)
+  - 役割: Scrum Master 経験
+  - アジャイル開発: Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear
 - **OSS 開発（自作 CLI ツール）**
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）
   - [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）

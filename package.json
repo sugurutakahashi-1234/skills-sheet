@@ -4,6 +4,7 @@
   "scripts": {
     "pdf": "bun scripts/generate-pdf.ts",
     "build:site": "bun scripts/build-site.ts",
+    "dev": "bun scripts/dev-site.ts",
     "check:width": "bun scripts/check-line-width.ts",
     "rulesync": "rulesync install && rulesync generate",
     "rulesync:check": "rulesync doctor --strict && rulesync install --frozen && rulesync generate --check",

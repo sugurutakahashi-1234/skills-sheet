@@ -16,9 +16,11 @@ description: >-
 ## 基本の使い方
 
 ```bash
-bun run build:site        # dist/index.html を生成（README.md と最新 PDF も dist/ に同梱）
-open dist/index.html      # 手元で確認
+bun run dev               # http://localhost:3000/ で配信。README.md / build-site.ts の保存で自動再生成（ブラウザは手動で再読み込み）
+bun run build:site        # dist/index.html を生成するだけ（README.md と最新 PDF も dist/ に同梱）
 ```
+
+file:// で開くと PDF ビューワー（iframe）やアバター取得が動かないことがあるので、確認は `bun run dev` を使う。
 
 - pre-commit（lefthook）が README.md か `scripts/build-site.ts` の変更時に `bun run build:site` を回す。前提が崩れているとコミットが止まる
 - `dist/` はコミットしない。push すると Actions がビルドして配信する。失敗したら前の版が残る（壊れたページは出ない）

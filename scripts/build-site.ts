@@ -6,7 +6,8 @@
  * README の文章は加工しない。marked.lexer のトークンを、見出しの規約
  * （h2 = 大節 / h3 = グループ / h4 = 案件内の定型節 / `- **項目**` = 細目）に従って部品へ配置するだけ。
  * - 左に目次（h2 / h3）。現在位置を強調し、狭い画面ではボタンで開閉
- * - 強み・技術スタックは `- **項目**` ごとにカード
+ * - 基本情報はプロフィール型（外部リンクの GitHub からアバターを引く）。強み・技術スタックは節ごとの枠
+ * - 技術スタックと案件の開発環境の `ラベル: A, B, C` は、括弧の外のカンマで分けてタグ表示（文章は変えない）
  * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
  * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
  */
@@ -40,15 +41,61 @@ function splitBoldItem(item: Tokens.ListItem): { label: string; rest: string; ch
   return { label: (inl[0] as Tokens.Strong).text, rest, children };
 }
 
+/** 括弧（() （） []）の外にある ", " で分ける */
+function splitTop(value: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let cur = "";
+  for (let i = 0; i < value.length; i++) {
+    const ch = value[i];
+    if ("(（[".includes(ch)) depth++;
+    if (")）]".includes(ch)) depth = Math.max(0, depth - 1);
+    if (depth === 0 && ch === "," && value[i + 1] === " ") { parts.push(cur.trim()); cur = ""; i++; continue; }
+    cur += ch;
+  }
+  if (cur.trim()) parts.push(cur.trim());
+  return parts;
+}
+
+/**
+ * `ラベル: A, B, C` の行をラベル + タグ列にする。
+ * 2 つ以上に分かれる行、または文章でない短い行だけをタグにし、それ以外（文・長い説明）は文のまま置く。
+ */
+function tagLine(text: string): string {
+  const m = text.match(/^(.+?):\s+(.+)$/);
+  const label = m?.[1] ?? "";
+  const value = m?.[2] ?? text;
+  const parts = splitTop(value);
+  // 1 語だけの行も、文でなく短ければタグにする（同じ枠の中でタグと文が混ざらないように）
+  const taggable = parts.length >= 2 || (!/[。、]/.test(value) && value.length <= 50);
+  if (!taggable) return inline(text);
+  return `${label ? `<span class="tl">${inline(label)}:</span>` : ""}${parts.map((p) => `<span class="tag">${inline(p)}</span>`).join("")}`;
+}
+
+/** 箇条書きの各行をタグ化して描く。入れ子（`- **アーキテクチャ:**` → 細目）は再帰 */
+function tagList(list: Tokens.List): string {
+  return `<ul class="tags">${list.items
+    .map((item) => {
+      const text = (item.tokens[0] as Tokens.Text).text;
+      const sub = item.tokens.find((t): t is Tokens.List => t.type === "list");
+      return `<li>${sub ? inline(text) + tagList(sub) : tagLine(text)}</li>`;
+    })
+    .join("")}</ul>`;
+}
+
+/** 子要素を描く。tags なら箇条書きをタグ化 */
+const children = (ts: Token[], tags: boolean) =>
+  tags ? ts.map((t) => (t.type === "list" ? tagList(t as Tokens.List) : block([t]))).join("") : block(ts);
+
 /** 箇条書きを「太字の項目 = 左バー付きの見出し + 字下げした子」に並べる。太字でない項目が混ざる一覧はそのまま置く */
-function items(list: Tokens.List): string {
+function items(list: Tokens.List, tags = false): string {
   const parts = list.items.map(splitBoldItem);
   if (parts.some((p) => p === null)) return `<div class="items"><div class="item">${block([list])}</div></div>`;
   return `<div class="items">${parts
     .map((p) => {
-      const { label, rest, children } = p!;
+      const { label, rest, children: kids } = p!;
       const head = `<h4 class="item-title">${inline(label)}${rest ? `<span class="item-rest">${inline(rest)}</span>` : ""}</h4>`;
-      return `<div class="item">${head}${block(children)}</div>`;
+      return `<div class="item">${head}${children(kids, tags)}</div>`;
     })
     .join("")}</div>`;
 }
@@ -93,13 +140,45 @@ function parseCaseHeading(text: string) {
   return { no, name: name.trim(), role: roleParts.join(" - ").trim() };
 }
 
+/**
+ * 基本情報: `- **項目**: 値` の一覧をプロフィール型に配置する。
+ * 「現在のポジション」を大きく、子の箇条書きを持つ項目（外部リンク）はチップ、残りは横並びの事実。
+ * 外部リンクに GitHub があればアバター（https://github.com/<user>.png）を左に置く。
+ */
 function renderBasic(sec: Section) {
-  return group(`<div class="items"><div class="item">${block(sec.body)}</div></div>`);
+  const list = sec.body.find((t): t is Tokens.List => t.type === "list");
+  if (!list) return group(`<div class="items"><div class="item">${block(sec.body)}</div></div>`);
+  let position = "";
+  const facts: string[] = [];
+  const chips: string[] = [];
+  let avatar = "";
+  for (const item of list.items) {
+    const p = splitBoldItem(item);
+    if (!p) { facts.push(inline((item.tokens[0] as Tokens.Text).text)); continue; }
+    const sub = p.children.find((t): t is Tokens.List => t.type === "list");
+    if (sub) {
+      for (const link of sub.items) {
+        // `GitHub: https://…` → 名前をチップに、URL をリンク先に
+        const text = (link.tokens[0] as Tokens.Text).text;
+        const m = text.match(/^(.+?):\s*(\S+)$/);
+        if (!m) { chips.push(`<span class="chip">${inline(text)}</span>`); continue; }
+        chips.push(`<a class="chip" href="${esc(m[2])}">${inline(m[1])}</a>`);
+        const gh = m[2].match(/^https:\/\/github\.com\/([^/?#]+)\/?$/);
+        if (gh) avatar = `https://github.com/${gh[1]}.png?size=160`;
+      }
+    } else if (p.label === "現在のポジション") {
+      position = inline(p.rest);
+    } else {
+      facts.push(`<span><b>${inline(p.label)}</b>${inline(p.rest)}</span>`);
+    }
+  }
+  return `<div class="group profile">${avatar ? `<img class="avatar" src="${avatar}" alt="" width="80" height="80">` : ""}<div class="profile-main">${position ? `<div class="position">${position}</div>` : ""}<div class="facts">${facts.join("")}</div>${chips.length ? `<div class="chips">${chips.join("")}</div>` : ""}</div></div>`;
 }
 
 /** 強み（h3 なし）は h2 直下を 1 枠、技術スタックは h3 ごとに 1 枠 */
 function renderGroups(sec: Section) {
-  const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? items(t as Tokens.List) : block([t]))).join("");
+  const tags = sec.heading.text === "技術スタック";
+  const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? items(t as Tokens.List, tags) : block([t]))).join("");
   const hasBody = sec.body.some((t) => t.type !== "space");
   return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading)).join("");
 }
@@ -113,7 +192,10 @@ for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.sub
   const { lead, groups } = groupBy(s.body, 4);
   caseBodies.set(
     no,
-    block(lead) + groups.map((g) => `<section class="sub"><h4>${inline(g.heading.text)}</h4>${block(g.body)}</section>`).join(""),
+    block(lead) +
+      groups
+        .map((g) => `<section class="sub"><h4>${inline(g.heading.text)}</h4>${children(g.body, g.heading.text === "開発環境")}</section>`)
+        .join(""),
   );
 }
 
@@ -174,12 +256,28 @@ const mainHtml = visibleSections
   })
   .join("");
 
-// 目次: h2 と h3
+// 目次: h2 と h3。技術スタックは h2 だけ、職務経歴は 会社 → 案件（No. + 案件名。客先の括弧は省く）の 2 段
+const TOC_H2_ONLY = new Set(["技術スタック"]);
+const casesOf = (g: Group) =>
+  g.body
+    .filter((t): t is Tokens.List => t.type === "list")
+    .flatMap((l) => l.items.map((i) => parseCaseHeading((i.tokens[0] as Tokens.Text).text)))
+    // 目次の中はリンクにできない（<a> の入れ子になる）ので、リンク記法と客先の括弧を外す
+    .map(({ no, name }) => {
+      const label = name.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/（.*）$/, "");
+      return `<li><a href="#no-${no}" title="${esc(label)}"><span class="k">No.${no}</span>${esc(label)}</a></li>`;
+    })
+    .join("");
 const tocHtml = `<ol class="toc">${visibleSections
   .map((sec) => {
-    const subs = sec.subs
-      .map((s) => `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${inline(s.heading.text)}</a></li>`)
-      .join("");
+    const subs = TOC_H2_ONLY.has(sec.heading.text)
+      ? ""
+      : sec.subs
+          .map((s) => {
+            const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
+            return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${inline(s.heading.text)}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
+          })
+          .join("");
     return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
   })
   .join("")}</ol>`;
@@ -202,11 +300,11 @@ const html = `<!doctype html>
   color-scheme: light dark;
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #59636e; --line: #d0d7de; --soft: #e8f0fe;
-  --accent: #2563eb; --link: #1d4ed8;
+  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa;
   --header-h: 52px;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; }
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; }
 }
 * { box-sizing: border-box; }
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
@@ -233,6 +331,9 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc > li > a { font-weight: 600; color: var(--fg); }
 .toc ol { margin: 2px 0 6px 12px; border-left: 1px solid var(--line); }
 .toc ol a { color: var(--muted); padding-left: 12px; }
+.toc ol ol { margin: 0 0 4px 10px; }
+.toc ol ol a { font-size: 12px; }
+.toc .k { font-weight: 600; color: var(--fg); margin-right: 6px; font-variant-numeric: tabular-nums; }
 .toc a { display: block; padding: 3px 10px; border-left: 2px solid transparent; margin-left: -1px; border-radius: 0 4px 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .toc a:hover { text-decoration: none; background: var(--soft); }
 .toc a.active { color: var(--fg); font-weight: 600; border-left-color: var(--accent); background: var(--soft); }
@@ -247,13 +348,30 @@ h1 { font-size: 26px; margin: 8px 0 12px; }
 .sec h3 { font-size: 17px; margin: 28px 0 12px; }
 ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
 /* 節の枠: h3 があればタイトル帯、中は左バー付きの項目見出しと字下げした子 */
-.group { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; }
-.group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); }
+.group { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; box-shadow: 0 1px 3px rgba(31, 35, 40, .08); }
+.group > h3 { margin: 0; padding: 10px 14px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); border-left: 4px solid var(--accent); }
+/* 基本情報 */
+.profile { display: flex; gap: 20px; align-items: flex-start; padding: 16px 20px; }
+.avatar { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); flex: none; }
+.profile-main { min-width: 0; }
+.position { font-size: 18px; font-weight: 600; line-height: 1.3; margin: 4px 0 6px; }
+.facts { display: flex; flex-wrap: wrap; gap: 4px 20px; color: var(--muted); font-size: 14px; }
+.facts b { color: var(--fg); font-weight: 600; margin-right: .4em; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip { display: inline-block; font-size: 13px; line-height: 1.4; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--fg); }
+.chip:hover { border-color: var(--accent); text-decoration: none; }
 .items { padding: 4px 20px 12px; }
 .item { padding: 10px 0 2px; }
 .item-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; line-height: 1.3; padding-left: 10px; border-left: 3px solid var(--accent); }
 .item-rest { font-weight: 400; margin-left: .5em; }
-.item-title + ul { padding-left: calc(13px + 1.2em); }
+/* タグ */
+.tags li { margin: 4px 0; }
+.tl { color: var(--muted); margin-right: 6px; }
+.tag { display: inline-block; font-size: 13px; line-height: 1.4; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
+.tags ul { padding-left: 1.2em; }
+.item-title + ul { list-style: none; padding-left: 13px; }
+.item-title + ul > li { position: relative; padding-left: 1.2em; }
+.item-title + ul > li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
 /* 職務経歴: 一覧行が案件詳細の見出し（<summary>）を兼ねる */
 .case { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; background: var(--bg); }
@@ -282,6 +400,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 /* 狭い画面: 目次をボタンで開く */
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; gap: 0; padding: 16px 16px 64px; }
+  .profile { gap: 14px; padding: 14px 16px; } .avatar { width: 56px; height: 56px; }
   .header { padding: 0 12px; gap: 6px; }
   .header .brand { font-size: 14px; }
   .header nav { gap: 4px; }
@@ -289,7 +408,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   #toc-toggle { display: inline-block; }
   .btn .long { display: none; }
   .btn .short { display: inline; }
-  aside { display: none; position: fixed; inset: var(--header-h) 0 0 0; z-index: 10; background: var(--bg); padding: 16px; max-height: none; }
+  aside { display: none; position: fixed; inset: var(--header-h) 0 0 0; height: calc(100vh - var(--header-h)); z-index: 10; background: var(--bg); padding: 16px; max-height: none; }
   body.toc-open aside { display: block; }
   body.toc-open { overflow: hidden; }
   .case-body { padding: 4px 14px 14px; }

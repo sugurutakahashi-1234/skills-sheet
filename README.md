@@ -1,7 +1,7 @@
 # スキルシート
 
-- このスキルシートのリンク: https://github.com/sugurutakahashi-1234/skills-sheet
-- Web 版（折りたたみ表示・Markdown のコピー・PDF）: https://sugurutakahashi-1234.github.io/skills-sheet/
+- 読みやすい表示（おすすめ・目次付き）: https://sugurutakahashi-1234.github.io/skills-sheet/
+- Markdown の正本（GitHub）: https://github.com/sugurutakahashi-1234/skills-sheet
 
 ## 基本情報
 
@@ -47,13 +47,13 @@
 ### AI
 
 - **AI システム開発**
-  - LLM: GLM, Kimi, gpt-oss, DeepSeek (Cloudflare AI Gateway 経由)
+  - LLM（Cloudflare AI Gateway 経由）: GLM, Kimi, gpt-oss, DeepSeek
   - RAG / 検索: Cloudflare Vectorize, Workers AI, bge-m3 (Embedding)
   - MCP: @modelcontextprotocol/sdk v2, Better Auth OAuth, WebMCP
-  - 非同期処理: Cloudflare Workflows / Queues, Cron Triggers
+  - 非同期処理: Cloudflare Workflows, Cloudflare Queues, Cron Triggers
 - **AI エージェント運用**
   - ツール: Claude Code (Skills / MCP / Routines), Codex CLI, Codex Automation
-  - CI 連携: GitHub Actions 上での Claude Code による自動レビュー
+  - CI 連携（GitHub Actions）: Claude Code による自動レビュー
 
 ### フロントエンド / モバイル
 
@@ -63,7 +63,7 @@
   - UI: shadcn/ui, Tailwind CSS
 - **SEO / パフォーマンス**
   - 計測・改善: Lighthouse, PageSpeed Insights, Google Search Console
-  - 実装: 構造化データ・OGP 自動生成・sitemap・llms.txt、Pagefind によるサイト内全文検索
+  - 実装: 構造化データ, OGP 自動生成, sitemap, llms.txt, Pagefind（サイト内全文検索）
 - **モバイルアプリ開発**
   - クロスプラットフォーム: React Native (Expo), Flutter
   - ネイティブ: Swift (SwiftUI, UIKit)
@@ -74,10 +74,10 @@
 ### バックエンド
 
 - **サーバーサイド**
-  - API 設計: REST API 設計, GraphQL 設計
+  - API 設計: REST API, GraphQL
   - 実装: Node.js, Hono, oRPC, PHP, Java
 - **データベース**
-  - 設計: RDB のテーブル設計
+  - 設計: RDB テーブル設計
   - ORM: Prisma, Drizzle
   - RDBMS: PostgreSQL, MySQL, SQLite (Cloudflare D1)
   - NoSQL / ベクトル DB: Firestore, Cloudflare Vectorize

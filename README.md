@@ -6,8 +6,6 @@
 
 - **所在**: 東京
 - **現在のポジション**: [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO / FDE
-  - **CTO**: 自社の AI マッチングシステムの開発・運用と、社内 IT 全般
-  - **FDE**: 顧客の業務に入り込み、AI ツールを自ら実装して導入まで担当
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
   - GitHub: https://github.com/sugurutakahashi-1234

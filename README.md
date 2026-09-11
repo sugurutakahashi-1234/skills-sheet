@@ -88,19 +88,18 @@
 
 ### クラウド / インフラ
 
-- **クラウド**
-  - **Cloudflare**
-    - コンピュート / 配信: Workers, Pages, Browser Rendering
-    - AI: Workers AI, AI Gateway, Vectorize
-    - データ / 非同期処理: D1, R2, KV, Queues, Workflows
-    - ネットワーク / セキュリティ: DNS, Access, Turnstile, Email Routing, Email Sending
-  - **Google Cloud**
-    - Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
-  - **AWS**
-    - Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
-  - **Firebase**
-    - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
-- **インフラ / IaC**
+- **Cloudflare**
+  - コンピュート / 配信: Workers, Pages, Browser Rendering
+  - AI: Workers AI, AI Gateway, Vectorize
+  - データ / 非同期処理: D1, R2, KV, Queues, Workflows
+  - ネットワーク / セキュリティ: DNS, Access, Turnstile, Email Routing, Email Sending
+- **Google Cloud**
+  - Cloud Run, GCS, IAM, Cloud Identity, Workload Identity Federation
+- **AWS**
+  - Organizations, IAM Identity Center, Amplify, AppSync, Cognito, S3, Route 53
+- **Firebase**
+  - Authentication, Firestore, Storage, Analytics, Crashlytics, App Distribution, Remote Config
+- **IaC**
   - Terraform, tflint, dotenvx, OIDC
 
 ### 品質 / CI・CD

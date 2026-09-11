@@ -19,6 +19,7 @@ if (md.includes("<details") || md.includes("<summary")) {
 // md-to-pdf のデフォルトは github-markdown-css だが、日本語フォントはシステム任せになるため
 // GitHub と同じゴシック系サンセリフを明示する
 const FRONTMATTER = `---
+document_title: 高橋俊スキルシート
 pdf_options:
   format: A4
   margin: 18mm 16mm

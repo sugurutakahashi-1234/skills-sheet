@@ -8,7 +8,7 @@
  * - 左に目次（h2 / h3）。現在位置を強調し、狭い画面ではボタンで開閉
  * - 強み・技術スタックは `- **項目**` ごとにカード
  * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
- * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」
+ * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
  */
 import { $, Glob } from "bun";
 import { marked, type Token, type Tokens } from "marked";
@@ -272,6 +272,13 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .case-body { padding: 4px 20px 16px; }
 .sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }
 
+/* PDF ビューワー（広い画面のみ。狭い画面は新しいタブで開く） */
+.pdf-modal { position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; background: var(--bg); }
+.pdf-modal[hidden] { display: none; }
+.pdf-bar { height: var(--header-h); display: flex; align-items: center; gap: 6px; padding: 0 16px; border-bottom: 1px solid var(--line); }
+.pdf-bar .brand { margin-right: auto; font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pdf-modal iframe { flex: 1; border: 0; width: 100%; }
+
 /* 狭い画面: 目次をボタンで開く */
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; gap: 0; padding: 16px 16px 64px; }
@@ -290,7 +297,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
 @media print {
-  .header, aside { display: none; }
+  .header, aside, .pdf-modal { display: none; }
   .layout { display: block; padding: 0; max-width: none; }
   body { font-size: 12px; }
   .case { break-inside: auto; }
@@ -306,12 +313,20 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   <span class="brand">${esc(title)}</span>
   <nav>
     <button type="button" class="btn" id="toc-toggle">目次</button>
-    <button type="button" class="btn" id="toggle-all"><span class="long">すべて展開</span><span class="short">展開</span></button>
     <button type="button" class="btn primary" id="copy-md"><span class="long">Markdown を</span>コピー</button>
-    <a class="btn" href="${encodeURI(pdfName)}" download>PDF</a>
+    <a class="btn" id="open-pdf" href="${encodeURI(pdfName)}" target="_blank" rel="noopener">PDF</a>
     <a class="btn" href="${REPO_URL}">GitHub</a>
   </nav>
 </header>
+<div class="pdf-modal" id="pdf-modal" hidden>
+  <div class="pdf-bar">
+    <span class="brand">${esc(pdfName)}</span>
+    <a class="btn" href="${encodeURI(pdfName)}" target="_blank" rel="noopener">新しいタブで開く</a>
+    <a class="btn" href="${encodeURI(pdfName)}" download>ダウンロード</a>
+    <button type="button" class="btn" id="close-pdf">閉じる</button>
+  </div>
+  <iframe title="PDF" data-src="${encodeURI(pdfName)}"></iframe>
+</div>
 <div class="layout">
 <aside aria-label="目次">${tocHtml}</aside>
 <main>
@@ -324,20 +339,24 @@ ${mainHtml}
 <script>
 (() => {
   const cases = [...document.querySelectorAll("details.case")];
-  const toggleAll = document.getElementById("toggle-all");
-  const setAll = (open) => { cases.forEach((d) => { d.open = open; }); syncToggle(); };
-  const syncToggle = () => {
-    const allOpen = cases.every((d) => d.open);
-    toggleAll.querySelector(".long").textContent = allOpen ? "すべて閉じる" : "すべて展開";
-    toggleAll.querySelector(".short").textContent = allOpen ? "閉じる" : "展開";
-  };
-  toggleAll.addEventListener("click", () => setAll(!cases.every((d) => d.open)));
-  cases.forEach((d) => d.addEventListener("toggle", syncToggle));
 
   // 印刷（Cmd+P / PDF に保存）では案件詳細をすべて開き、終わったら元に戻す
   let before = [];
-  addEventListener("beforeprint", () => { before = cases.map((d) => d.open); setAll(true); });
-  addEventListener("afterprint", () => { cases.forEach((d, i) => { d.open = before[i]; }); syncToggle(); });
+  addEventListener("beforeprint", () => { before = cases.map((d) => d.open); cases.forEach((d) => { d.open = true; }); });
+  addEventListener("afterprint", () => { cases.forEach((d, i) => { d.open = before[i]; }); });
+
+  // PDF: 広い画面ではページ内のビューワー（iframe）で開く。狭い画面はブラウザのビューワー（新しいタブ）に任せる
+  const modal = document.getElementById("pdf-modal");
+  const frame = modal.querySelector("iframe");
+  document.getElementById("open-pdf").addEventListener("click", (e) => {
+    if (matchMedia("(max-width: 900px)").matches) return;
+    e.preventDefault();
+    if (!frame.src) frame.src = frame.dataset.src;
+    modal.hidden = false;
+  });
+  const closePdf = () => { modal.hidden = true; };
+  document.getElementById("close-pdf").addEventListener("click", closePdf);
+  addEventListener("keydown", (e) => { if (e.key === "Escape") closePdf(); });
 
   // Markdown をコピー
   const copy = document.getElementById("copy-md");

@@ -193,7 +193,7 @@
 - **MCP サーバー / AI エージェント運用（業務2）**
   - 70 以上のツールを持つ MCP サーバーの開発（MCP TypeScript SDK v2, Better Auth OAuth 認証・マルチテナント認可）
   - WebMCP（ブラウザ内 MCP）の Origin Trial 先行導入
-  - 50 以上の Claude Code スキルと定期ルーチンによる業務自動化（Claude Code / Codex 両対応）
+  - 50 以上のスキルと定期実行の設定による業務自動化（Claude Code / Codex 両対応）
 - **LINE 公式アカウント基盤（業務2）**
   - 友だち紐付け不要の本人アカウント連携と、スタッフ向けの双方向チャット
   - 高スコア案件の本人 LINE への自動提案、Quick Reply による稼働状況の定期ヒアリング

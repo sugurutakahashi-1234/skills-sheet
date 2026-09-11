@@ -12,7 +12,6 @@
   - X: https://x.com/suguru_takaha4
   - Qiita: https://qiita.com/sugurutakahashi12345
   - Zenn: https://zenn.dev/ikuraikura
-  - ZENSHIN 技術ブログ: https://tech.zenshin-inc.co.jp/
 
 ## 強み
 

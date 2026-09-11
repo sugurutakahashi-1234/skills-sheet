@@ -66,18 +66,23 @@
 - **SEO / パフォーマンス**
   - 計測・改善: `Lighthouse`, `PageSpeed Insights`, `Google Search Console`
   - 実装: 構造化データ・OGP 自動生成・`sitemap`・`llms.txt`、`Pagefind` によるサイト内全文検索
+- **分析 / 計測**
+  - プロダクト分析: `PostHog`, `Looker Studio`, `Adjust`, `BytePlus DI`
+  - アクセス解析: `Cloudflare Analytics`, `Firebase Analytics`
 - **モバイルアプリ開発**
   - クロスプラットフォーム: `React Native (Expo)`, `Flutter (Dart)`
   - ネイティブ: `Swift (SwiftUI, UIKit)`
 - **アーキテクチャ**
-  - `モノレポ設計 (Bun workspaces)`, `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
-  - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
+  - 設計パターン: `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
+  - モノレポ: `Bun workspaces`
+  - 独自アーキテクチャ: 「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
 
 ### バックエンド
 
 - **サーバーサイド**
   - API 設計: `REST API`, `GraphQL`
   - 実装: `TypeScript`, `Bun`, `Hono`, `oRPC`, `Node.js`, `Python`, `PHP`, `Java`
+  - 外部 API 連携: `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
 - **データベース**
   - 設計: RDB テーブル設計
   - ORM: `Prisma`, `Drizzle`

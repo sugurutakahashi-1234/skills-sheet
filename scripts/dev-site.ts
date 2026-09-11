@@ -2,9 +2,11 @@
 /**
  * Web 版を手元で確認する。dist/ を http://localhost:3000 で配信し、
  * README.md か scripts/build-site.ts を保存したら作り直す（ブラウザは手動で再読み込み）。
+ * 同じ Wi-Fi のスマホからも見られるよう全インターフェースで待ち受け、LAN のアドレスも表示する。
  * 使い方: bun run dev
  */
 import { watch } from "node:fs";
+import { networkInterfaces } from "node:os";
 import { join } from "node:path";
 import { $ } from "bun";
 
@@ -32,6 +34,7 @@ for (const f of ["README.md", "scripts/build-site.ts"]) {
 
 Bun.serve({
   port: PORT,
+  hostname: "0.0.0.0",
   async fetch(req) {
     await building;
     const path = decodeURIComponent(new URL(req.url).pathname);
@@ -39,4 +42,5 @@ Bun.serve({
     return (await file.exists()) ? new Response(file) : new Response("not found", { status: 404 });
   },
 });
-console.log(`http://localhost:${PORT}/ で配信中（README.md / build-site.ts の保存で再生成。Ctrl+C で停止）`);
+const lan = Object.values(networkInterfaces()).flat().find((i) => i && i.family === "IPv4" && !i.internal)?.address;
+console.log(`http://localhost:${PORT}/ で配信中${lan ? `（スマホからは http://${lan}:${PORT}/ ）` : ""}。README.md / build-site.ts の保存で再生成。Ctrl+C で停止`);

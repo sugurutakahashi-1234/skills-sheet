@@ -3,6 +3,7 @@
 #   スキルシートの様式として必要な「太字 + コロン + 箇条書き」の検査は .textlintrc.json で無効化している
 # - line-width: 箇条書きが 1 行に収まっているかを実測し、数文字はみ出している行を報告する（止めない）
 # - skillsheet-pdf: README.md が変わったら PDF を再生成して同じコミットに含める
+# - site-build: README.md かビルドスクリプトが変わったら Web 版をビルドし、前提の崩れ（案件名の不一致など）をコミット前に止める。dist/ はコミットしない
 # - rulesync-generate: 正本 .rulesync/ や rulesync.jsonc が変わったらエージェント指示を再生成して同じコミットに含める
 pre-commit:
   commands:
@@ -16,6 +17,9 @@ pre-commit:
     skillsheet-pdf:
       glob: "README.md"
       run: bun run pdf && git add -A -- '*_高橋俊スキルシート.pdf'
+    site-build:
+      glob: "{README.md,scripts/build-site.ts}"
+      run: bun run build:site
     rulesync-generate:
       glob: "{.rulesync/**,rulesync.jsonc,rulesync.lock}"
       run: bunx rulesync generate && git add CLAUDE.md AGENTS.md .claude .agents .rulesync rulesync.lock

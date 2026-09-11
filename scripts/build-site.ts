@@ -272,6 +272,23 @@ const tocHtml = `<ol class="toc">${visibleSections
   .join("")}</ol>`;
 
 const caseCount = caseBodies.size;
+
+// ---- 前提が崩れていないかの確認（止めずに警告。認識できない部分は普通の Markdown として描かれる） ----
+const warnings: string[] = [];
+for (const name of ["基本情報", "強み", "技術スタック", "職務経歴", "案件詳細"]) {
+  if (!sections.some((sec) => sec.heading.text === name)) warnings.push(`h2「${name}」が無い。この節の専用の見せ方が外れる`);
+}
+for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.subs ?? []) {
+  const h4 = s.body.filter((t) => isHeading(t, 4)).map((t) => (t as Tokens.Heading).text);
+  const expected = ["チーム体制", "案件概要・担当業務", "経験した技術", "取り組み・貢献", "開発環境"];
+  if (h4.join("/") !== expected.join("/")) warnings.push(`${s.heading.text}: h4 が定型 5 節と違う（${h4.join(" / ")}）`);
+}
+for (const s of sections.find((sec) => sec.heading.text === "職務経歴")?.subs ?? []) {
+  if (!/\(\d{4}年\d+月 - (\d{4}年\d+月|現在)\)$/.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が (YYYY年M月 - YYYY年M月|現在) の形でないので目次に年が出ない`);
+}
+if (!/^- \*\*現在のポジション\*\*/m.test(md)) warnings.push("基本情報に **現在のポジション** が無いので大きい表示にならない");
+if (!/^  - GitHub: https:\/\/github\.com\/[^/\s]+\/?$/m.test(md)) warnings.push("外部リンクに GitHub のプロフィール URL が無いのでアバターが出ない");
+for (const w of warnings) console.warn(`警告: ${w}`);
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 

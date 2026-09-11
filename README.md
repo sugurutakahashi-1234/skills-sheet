@@ -122,7 +122,8 @@
 - [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）
 - [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）
 - [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
-- 配布: npm / Homebrew / GitHub Actions Marketplace / 実行バイナリ。release-please によるリリース自動化を全ツールで統一
+- 配布: npm / Homebrew / GitHub Actions Marketplace / 実行バイナリ
+- リリース: release-please による自動化を全ツールで統一
 
 ## 職務経歴
 

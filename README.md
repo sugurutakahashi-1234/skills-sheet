@@ -27,7 +27,7 @@
 - **0 → 1 リードエンジニア経験（5件）**
   - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術リードを担当
   - 内訳: iOS リード 3 件、Flutter リード 1 件、CTO としてのプロダクト立ち上げ 1 件
-- **KPI 起点のグロース施策**
+- **ビジネス KPI を起点にした開発**
   - KPI（ARPU・LTV・CTR）を基点に、施策の企画・A/B テスト検証・実装まで推進
   - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当
 - **フルスタック実装力**
@@ -38,6 +38,9 @@
   - 独自 iOS アーキテクチャ「FIA」の考案・公開や、Zenn での技術記事発信を継続
 
 ## 技術スタック
+
+- **言語**
+  - TypeScript, Swift, Dart, Python, PHP, Java
 
 ### AI
 
@@ -50,10 +53,24 @@
 - **生成 AI 活用**
   - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
 
-### 言語 / バックエンド
+### フロントエンド / モバイル
 
-- **言語**
-  - TypeScript, Swift, Dart, Python, PHP, Java
+- **Web アプリ開発**
+  - フレームワーク: React, Next.js, Astro, TanStack Start
+  - ルーティング / データ取得: TanStack Router, TanStack Query
+  - UI: shadcn/ui, Tailwind CSS
+- **SEO / パフォーマンス**
+  - 計測・改善: Lighthouse, PageSpeed Insights, Google Search Console
+  - 実装: 構造化データ・OGP 自動生成・sitemap・llms.txt、Pagefind によるサイト内全文検索
+- **モバイルアプリ開発**
+  - クロスプラットフォーム: React Native (Expo), Flutter
+  - ネイティブ: Swift (SwiftUI, UIKit)
+- **アーキテクチャ**
+  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
+  - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
+
+### バックエンド
+
 - **サーバーサイド**
   - API 設計: REST API 設計, GraphQL 設計
   - 実装: Node.js, Hono, oRPC, PHP, Java
@@ -84,23 +101,7 @@
 - **インフラ / IaC**
   - Terraform, tflint, dotenvx, OIDC
 
-### フロントエンド / モバイル
-
-- **Web アプリ開発**
-  - フレームワーク: React, Next.js, Astro, TanStack Start
-  - ルーティング / データ取得: TanStack Router, TanStack Query
-  - UI: shadcn/ui, Tailwind CSS
-- **SEO / パフォーマンス**
-  - 計測・改善: Lighthouse, PageSpeed Insights, Google Search Console
-  - 実装: 構造化データ・OGP 自動生成・sitemap・llms.txt、Pagefind によるサイト内全文検索
-- **モバイルアプリ開発**
-  - クロスプラットフォーム: React Native (Expo), Flutter
-  - ネイティブ: Swift (SwiftUI, UIKit)
-- **アーキテクチャ**
-  - モノレポ設計 (Bun workspaces), Clean Architecture, レイヤードアーキテクチャ, MVVM, Redux, Riverpod
-  - 独自アーキテクチャ「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
-
-### 品質 / CI/CD
+### 品質 / CI・CD
 
 - **テスト**
   - ユニット / 結合: Vitest, Swift Testing, XCTest, Quick/Nimble
@@ -115,17 +116,13 @@
   - CI: GitHub Actions, Xcode Cloud, Bitrise
   - リリース / デプロイ: release-please, Wrangler
 
-### プロセス / OSS
+### OSS 開発（自作 CLI ツール）
 
-- **プロジェクト管理**
-  - 役割: Scrum Master 経験
-  - アジャイル開発: Jira, Confluence, GitHub Projects, Trello, Zenhub, Notion, Backlog, Linear
-- **OSS 開発（自作 CLI ツール）**
-  - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）
-  - [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）
-  - [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）
-  - [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
-  - 配布: npm / Homebrew / GitHub Actions Marketplace / 実行バイナリ。release-please・Codecov などの品質管理を全ツールで統一
+- [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）
+- [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）
+- [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）
+- [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
+- 配布: npm / Homebrew / GitHub Actions Marketplace / 実行バイナリ。release-please・Codecov などの品質管理を全ツールで統一
 
 ## 職務経歴
 

@@ -260,9 +260,10 @@ const tocHtml = `<ol class="toc">${visibleSections
       : sec.subs
           .map((s) => {
             const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
-            // 職務経歴の会社名は期間の括弧を落として 1 行に収める（全文は title に）
-            const label = cases ? s.heading.text.replace(/\s*\(.*\)$/, "") : s.heading.text;
-            return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${inline(label)}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
+            // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
+            const m = cases ? s.heading.text.match(/^(.*?)\s*\((\d{4})年\d+月 - (?:(\d{4})年\d+月|(現在))\)$/) : null;
+            const label = m ? `${inline(m[1])}<span class="years">${m[2]}–${m[3] ?? m[4]}</span>` : inline(s.heading.text);
+            return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
           })
           .join("");
     return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
@@ -325,6 +326,7 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc > li > a { font-weight: 700; padding: 4px 10px; }
 .toc ol > li { margin-top: 6px; }
 .toc ol > li > a { font-weight: 600; padding: 2px 10px 2px 16px; }
+.toc .years { font-weight: 400; font-size: 12px; color: var(--muted); margin-left: 6px; font-variant-numeric: tabular-nums; }
 .toc ol ol { margin-top: 2px; }
 .toc ol ol li { margin-top: 0; }
 .toc ol ol a { font-weight: 400; color: var(--muted); padding: 2px 10px 2px 16px; display: flex; align-items: center; gap: 8px; }

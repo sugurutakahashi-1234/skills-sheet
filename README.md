@@ -136,7 +136,7 @@
 ### フリーランス (2021年7月 - 2026年3月)
 
 - [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
-  - フロントエンドエンジニア / React Native (Expo)・Next.js / グロースフェーズの iOS・Android・Web 実装と KPI 施策
+  - フロントエンドエンジニア / React Native・Next.js / iOS・Android・Web 実装と KPI 施策
 - [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
   - Flutter リードエンジニア / Flutter・Riverpod / 0 → 1 立ち上げ
 - [No.8] SNS アプリ開発（SIer E社）

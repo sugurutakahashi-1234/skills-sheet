@@ -12,6 +12,7 @@
   - X: https://x.com/suguru_takaha4
   - Qiita: https://qiita.com/sugurutakahashi12345
   - Zenn: https://zenn.dev/ikuraikura
+  - ZENSHIN 技術ブログ: https://tech.zenshin-inc.co.jp/
 
 ## 強み
 
@@ -39,7 +40,7 @@
   - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当
 - **OSS 開発・技術発信**
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew などで配布
-  - 独自 iOS アーキテクチャ「FIA」の考案・公開や、Zenn での技術記事発信を継続
+  - [Zenn](https://zenn.dev/ikuraikura) と[会社の技術ブログ](https://tech.zenshin-inc.co.jp/)で、AI 活用やプロダクト開発の知見を記事・スライドで発信
 
 ## 技術スタック
 

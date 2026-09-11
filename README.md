@@ -33,7 +33,7 @@
 - **フルスタックの実装力**
   - Swift・React Native・Flutter で iOS / Android、Next.js・Astro で Web を実案件で実装
   - Bun・Hono・oRPC・Drizzle・TanStack Start など最新スタックを本番で運用
-  - マルチクラウドの IaC（Terraform × GCP / Cloudflare / AWS）まで一人で構築・運用
+  - マルチクラウド（GCP / Cloudflare / AWS）を Terraform で IaC 化し、構築から運用まで担当
 - **ビジネス KPI 起点での開発経験**
   - KPI（ARPU・LTV・CTR）を基点に、施策の企画・A/B テスト検証・実装まで推進
   - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当

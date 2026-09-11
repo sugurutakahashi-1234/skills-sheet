@@ -17,7 +17,7 @@ bun run pdf
 
 `scripts/generate-pdf.ts` が以下をすべて行う:
 
-1. README.md に `<details>`/`<summary>` が含まれていないことを確認（含まれていると Chromium 上で閉じた状態で描画され、中身が PDF から消える。スキルシートでは折りたたみを使わない方針）
+1. `scripts/expand-details.ts` で案件詳細の `<details>`/`<summary>` を展開（そのままだと Chromium 上で閉じた状態で描画され、中身が PDF から消える）。展開後になお残っていればエラーにする
 2. GitHub 風フォント指定の frontmatter を注入した中間 Markdown を生成
 3. リポジトリローカルの `md-to-pdf`（`node_modules/.bin/`）で PDF 生成（60 秒タイムアウト + 最大 3 回リトライ）
 4. `<実行日>_高橋俊スキルシート.pdf` としてリポジトリ直下へ配置

@@ -4,15 +4,17 @@
  * 使い方: bun run pdf
  */
 import { $ } from "bun";
+import { expandDetails } from "./expand-details";
 
 const SOURCE = "README.md";
 const EXPANDED = "/tmp/skillsheet.expanded.md";
 const SUFFIX = "_高橋俊スキルシート.pdf";
 
-// 1. <details> が残っていると Chromium 上で閉じた状態で描画され、中身が PDF から消える
-const md = await Bun.file(SOURCE).text();
+// 1. 案件詳細の折りたたみを展開する
+// <details> のままだと Chromium が閉じた状態で描画するため、中身が PDF から一切出力されない
+const md = expandDetails(await Bun.file(SOURCE).text());
 if (md.includes("<details") || md.includes("<summary")) {
-  throw new Error(`${SOURCE} に <details>/<summary> が含まれています。折りたたみは使わない方針です`);
+  throw new Error("展開漏れ: 中間 Markdown に <details>/<summary> が残っています");
 }
 
 // 2. GitHub 風フォント指定の frontmatter を注入した中間 Markdown を生成

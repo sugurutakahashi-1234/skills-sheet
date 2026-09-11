@@ -42,95 +42,6 @@
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew などで配布
   - [Zenn](https://zenn.dev/ikuraikura) と[会社の技術ブログ](https://tech.zenshin-inc.co.jp/)で、AI 活用やプロダクト開発の知見を記事・スライドで発信
 
-## 技術スタック
-
-### AI
-
-- **AI アプリケーション開発**
-  - モデル: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`, `bge-m3 (Embedding)`
-  - RAG / 検索: `Cloudflare Vectorize`, `Workers AI`
-  - MCP: `@modelcontextprotocol/sdk v2`, `Better Auth OAuth`, `WebMCP`
-  - 実行基盤: `Cloudflare AI Gateway`, `Cloudflare Workflows`, `Cloudflare Queues`, `Cron Triggers`
-- **AI コーディング / エージェント運用**
-  - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
-  - 定期実行 / 自動化: `Claude Code Routines`, `Codex Automation`
-  - エージェント拡張: `Skills`, `MCP`, `Chrome DevTools MCP`
-  - プロトタイピング: `v0`, `Claude Design`
-
-### フロントエンド / モバイル
-
-- **Web アプリ開発**
-  - フレームワーク: `React`, `Next.js`, `Astro`, `TanStack Start`
-  - ルーティング / データ取得: `TanStack Router`, `TanStack Query`
-  - UI: `shadcn/ui`, `Tailwind CSS`
-- **SEO / パフォーマンス**
-  - 計測・改善: `Lighthouse`, `PageSpeed Insights`, `Google Search Console`
-  - 実装: 構造化データ・OGP 自動生成・`sitemap`・`llms.txt`、`Pagefind` によるサイト内全文検索
-- **分析 / 計測**
-  - プロダクト分析: `PostHog`, `Looker Studio`, `Adjust`, `BytePlus DI`
-  - アクセス解析: `Cloudflare Analytics`, `Firebase Analytics`
-- **モバイルアプリ開発**
-  - クロスプラットフォーム: `React Native (Expo)`, `Flutter (Dart)`
-  - ネイティブ: `Swift (SwiftUI, UIKit)`
-- **アーキテクチャ**
-  - 設計パターン: `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
-  - モノレポ: `Bun workspaces`
-  - 独自アーキテクチャ: 「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
-
-### バックエンド
-
-- **サーバーサイド**
-  - API 設計: `REST API`, `GraphQL`
-  - 実装: `TypeScript`, `Bun`, `Hono`, `oRPC`, `Node.js`, `Python`, `PHP`, `Java`
-  - 外部 API 連携: `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
-- **データベース**
-  - 設計: RDB テーブル設計
-  - ORM: `Prisma`, `Drizzle`
-  - RDBMS: `PostgreSQL`, `MySQL`, `SQLite (Cloudflare D1)`
-  - NoSQL / ベクトル DB: `Firestore`, `Cloudflare Vectorize`
-- **認証 / 認可**
-  - プロトコル / 仕様: `OAuth 2.0`, `JWT`
-  - 実装 / サービス: `Better Auth`, `LINE Login`, `Cognito`, `Firebase Authentication`, `Cloudflare Access`
-  - クラウド間連携: `Workload Identity Federation (OIDC)`
-
-### クラウド / インフラ
-
-- **Cloudflare**
-  - コンピュート / 配信: `Workers`, `Pages`, `Browser Rendering`
-  - AI: `Workers AI`, `AI Gateway`, `Vectorize`
-  - データ / 非同期処理: `D1`, `R2`, `KV`, `Queues`, `Workflows`
-  - ネットワーク / セキュリティ: `DNS`, `Access`, `Turnstile`, `Email Routing`, `Email Sending`
-- **Google Cloud**
-  - `Cloud Run`, `GCS`, `IAM`, `Cloud Identity`, `Workload Identity Federation`
-- **AWS**
-  - `Organizations`, `IAM Identity Center`, `Amplify`, `AppSync`, `Cognito`, `S3`, `Route 53`
-- **Firebase**
-  - `Authentication`, `Firestore`, `Storage`, `Analytics`, `Crashlytics`, `App Distribution`, `Remote Config`
-- **IaC**
-  - `Terraform`, `tflint`, `dotenvx`, `OIDC`
-
-### 品質 / CI・CD
-
-- **テスト**
-  - ユニット / 結合: `Vitest`, `Swift Testing`, `XCTest`, `Quick/Nimble`
-  - E2E: `Playwright`, `Maestro`
-  - UI / モック / アクセシビリティ: `Storybook`, `MSW`, `@axe-core/playwright`
-- **コード品質**
-  - Lint / フォーマット: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`
-  - 依存 / 構成の検査: `knip`, `dependency-cruiser`
-  - コミット / Git フック: `commitlint`, `lefthook`, `husky`
-  - 依存更新: `Renovate`
-- **CI/CD**
-  - CI: `GitHub Actions`, `Xcode Cloud`, `Bitrise`
-  - リリース / デプロイ: `release-please`, `Wrangler`
-
-### OSS 開発（自作 CLI ツール）
-
-- [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）
-- [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）
-- [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）
-- [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）
-
 ## 職務経歴
 
 ### 株式会社ZENSHIN (2026年4月 - 現在)
@@ -165,6 +76,9 @@
   - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
 
 ## 案件詳細
+
+<details>
+<summary>[No.11] 株式会社ZENSHIN（IT コンサルティング / SIer / SES） — CTO / Cloudflare・RAG・MCP</summary>
 
 ### [No.11] 株式会社ZENSHIN（IT コンサルティング / SIer / SES）
 
@@ -254,6 +168,10 @@
   - `Claude Code`, `Codex`, `v0`, `Chrome DevTools MCP`
 - **分析 / 開発ツール**
   - `Google Search Console`, `PageSpeed Insights`, `PostHog`, `Cloudflare Analytics`, `VSCode`
+</details>
+
+<details>
+<summary>[No.10] ショートドラマアプリ開発（エンタメ業界 G社） — フロントエンドエンジニア / React Native (Expo)・Next.js</summary>
 
 ### [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
 
@@ -324,6 +242,10 @@
   - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `Claude Code`, `Codex`, `Gemini`
 - **デザインツール**
   - `Figma`
+</details>
+
+<details>
+<summary>[No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社） — Flutter リードエンジニア / Flutter・Riverpod</summary>
 
 ### [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
 
@@ -386,6 +308,10 @@
   - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `ChatGPT`
 - **デザインツール**
   - `Figma`
+</details>
+
+<details>
+<summary>[No.8] SNS アプリ開発（SIer E社） — iOS リードエンジニア / Swift・SwiftUI</summary>
 
 ### [No.8] SNS アプリ開発（SIer E社）
 
@@ -441,6 +367,10 @@
   - `GitHub Projects`, `Notion`, `Backlog`
 - **デザインツール**
   - `Figma`
+</details>
+
+<details>
+<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社） — iOS リードエンジニア / Swift・SwiftUI・AWS Amplify</summary>
 
 ### [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
 
@@ -502,6 +432,10 @@
   - `Protocol Buffers`, `Swagger`
 - **デザインツール**
   - `Figma`
+</details>
+
+<details>
+<summary>[No.6] ファンクラブアプリ開発（メガベンチャー C社） — iOS エンジニア / Swift・UIKit・Redux</summary>
 
 ### [No.6] ファンクラブアプリ開発（メガベンチャー C社）
 
@@ -540,6 +474,10 @@
   - `Protocol Buffers`, `Swagger`
 - **デザインツール**
   - `Figma`
+</details>
+
+<details>
+<summary>[No.5] ドローン制御アプリ開発（ドローンベンチャー B社） — iOS エンジニア / Swift・SwiftUI・VIPER</summary>
 
 ### [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
 
@@ -599,6 +537,10 @@
   - `Zenhub`
 - **デザインツール**
   - `Figma`
+</details>
+
+<details>
+<summary>[No.4] ショッピングアプリ開発 — Flutter エンジニア / Flutter・Google Maps API</summary>
 
 ### [No.4] ショッピングアプリ開発
 
@@ -645,6 +587,10 @@
   - `Codemagic`, `Fastlane`
 - **デザインツール**
   - `Adobe XD`
+</details>
+
+<details>
+<summary>[No.3] 飲食店管理アプリ開発 — iOS リードエンジニア / Swift・SwiftUI・MVVM</summary>
 
 ### [No.3] 飲食店管理アプリ開発
 
@@ -685,6 +631,10 @@
   - `Zenhub`, `Trello`
 - **デザインツール**
   - `Adobe XD`
+</details>
+
+<details>
+<summary>[No.2] クレジットカードアプリ iOS アプリ開発 — iOS エンジニア / Swift・UIKit・MVVM</summary>
 
 ### [No.2] クレジットカードアプリ iOS アプリ開発
 
@@ -727,6 +677,10 @@
   - `Jira`, `Confluence`, `Trello`
 - **デザインツール**
   - `Sketch`, `InVision`
+</details>
+
+<details>
+<summary>[No.1] クレジットカードアプリ API 開発 — サーバーサイドエンジニア / PHP (CodeIgniter)・Java</summary>
 
 ### [No.1] クレジットカードアプリ API 開発
 
@@ -774,3 +728,93 @@
   - `Postman`, `JMeter`
 - **ドキュメンテーション**
   - `OpenAPI`, `PlantUML`, `draw.io`
+</details>
+
+## 技術スタック
+
+### AI
+
+- **AI アプリケーション開発**
+  - モデル: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`, `bge-m3 (Embedding)`
+  - RAG / 検索: `Cloudflare Vectorize`, `Workers AI`
+  - MCP: `@modelcontextprotocol/sdk v2`, `Better Auth OAuth`, `WebMCP`
+  - 実行基盤: `Cloudflare AI Gateway`, `Cloudflare Workflows`, `Cloudflare Queues`, `Cron Triggers`
+- **AI コーディング / エージェント運用**
+  - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
+  - 定期実行 / 自動化: `Claude Code Routines`, `Codex Automation`
+  - エージェント拡張: `Skills`, `MCP`, `Chrome DevTools MCP`
+  - プロトタイピング: `v0`, `Claude Design`
+
+### フロントエンド / モバイル
+
+- **Web アプリ開発**
+  - フレームワーク: `React`, `Next.js`, `Astro`, `TanStack Start`
+  - ルーティング / データ取得: `TanStack Router`, `TanStack Query`
+  - UI: `shadcn/ui`, `Tailwind CSS`
+- **SEO / パフォーマンス**
+  - 計測・改善: `Lighthouse`, `PageSpeed Insights`, `Google Search Console`
+  - 実装: 構造化データ・OGP 自動生成・`sitemap`・`llms.txt`、`Pagefind` によるサイト内全文検索
+- **分析 / 計測**
+  - プロダクト分析: `PostHog`, `Looker Studio`, `Adjust`, `BytePlus DI`
+  - アクセス解析: `Cloudflare Analytics`, `Firebase Analytics`
+- **モバイルアプリ開発**
+  - クロスプラットフォーム: `React Native (Expo)`, `Flutter (Dart)`
+  - ネイティブ: `Swift (SwiftUI, UIKit)`
+- **アーキテクチャ**
+  - 設計パターン: `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
+  - モノレポ: `Bun workspaces`
+  - 独自アーキテクチャ: 「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
+
+### バックエンド
+
+- **サーバーサイド**
+  - API 設計: `REST API`, `GraphQL`
+  - 実装: `TypeScript`, `Bun`, `Hono`, `oRPC`, `Node.js`, `Python`, `PHP`, `Java`
+  - 外部 API 連携: `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
+- **データベース**
+  - 設計: RDB テーブル設計
+  - ORM: `Prisma`, `Drizzle`
+  - RDBMS: `PostgreSQL`, `MySQL`, `SQLite (Cloudflare D1)`
+  - NoSQL / ベクトル DB: `Firestore`, `Cloudflare Vectorize`
+- **認証 / 認可**
+  - プロトコル / 仕様: `OAuth 2.0`, `JWT`
+  - 実装 / サービス: `Better Auth`, `LINE Login`, `Cognito`, `Firebase Authentication`, `Cloudflare Access`
+  - クラウド間連携: `Workload Identity Federation (OIDC)`
+
+### クラウド / インフラ
+
+- **Cloudflare**
+  - コンピュート / 配信: `Workers`, `Pages`, `Browser Rendering`
+  - AI: `Workers AI`, `AI Gateway`, `Vectorize`
+  - データ / 非同期処理: `D1`, `R2`, `KV`, `Queues`, `Workflows`
+  - ネットワーク / セキュリティ: `DNS`, `Access`, `Turnstile`, `Email Routing`, `Email Sending`
+- **Google Cloud**
+  - `Cloud Run`, `GCS`, `IAM`, `Cloud Identity`, `Workload Identity Federation`
+- **AWS**
+  - `Organizations`, `IAM Identity Center`, `Amplify`, `AppSync`, `Cognito`, `S3`, `Route 53`
+- **Firebase**
+  - `Authentication`, `Firestore`, `Storage`, `Analytics`, `Crashlytics`, `App Distribution`, `Remote Config`
+- **IaC**
+  - `Terraform`, `tflint`, `dotenvx`, `OIDC`
+
+### 品質 / CI・CD
+
+- **テスト**
+  - ユニット / 結合: `Vitest`, `Swift Testing`, `XCTest`, `Quick/Nimble`
+  - E2E: `Playwright`, `Maestro`
+  - UI / モック / アクセシビリティ: `Storybook`, `MSW`, `@axe-core/playwright`
+- **コード品質**
+  - Lint / フォーマット: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`
+  - 依存 / 構成の検査: `knip`, `dependency-cruiser`
+  - コミット / Git フック: `commitlint`, `lefthook`, `husky`
+  - 依存更新: `Renovate`
+- **CI/CD**
+  - CI: `GitHub Actions`, `Xcode Cloud`, `Bitrise`
+  - リリース / デプロイ: `release-please`, `Wrangler`
+
+### OSS 開発（自作 CLI ツール）
+
+- [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）
+- [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid の Markdown ラップ）
+- [issue-linker](https://github.com/sugurutakahashi-1234/issue-linker)（GitHub Issue 参照の検証）
+- [readme-i18n-sentinel](https://github.com/sugurutakahashi-1234/readme-i18n-sentinel)（README 翻訳の構造検証）

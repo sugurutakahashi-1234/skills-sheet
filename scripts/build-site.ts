@@ -13,6 +13,7 @@
  */
 import { $, Glob } from "bun";
 import { marked, type Token, type Tokens } from "marked";
+import { expandDetails } from "./expand-details";
 
 const SOURCE = "README.md";
 const OUT_DIR = "dist";
@@ -20,7 +21,10 @@ const REPO_URL = "https://github.com/sugurutakahashi-1234/skills-sheet";
 const PDF_GLOB = "*_高橋俊スキルシート.pdf";
 
 const md = await Bun.file(SOURCE).text();
-const tokens = marked.lexer(md);
+// README の案件詳細は <details> で畳んである（GitHub で開いたときの長さを抑えるため）。
+// Web 版は職務経歴の一覧行から自前で <details> を組み立てるので、README 側のタグは読み飛ばす。
+// <summary> の文言は一覧行と重複しており、そのまま流すと案件本文の先頭に二重で出る。
+const tokens = marked.lexer(md).filter((t) => !(t.type === "html" && /^\s*<\/?details/i.test(t.raw)));
 
 // ---- 描画の小道具 ----------------------------------------------------------
 
@@ -294,7 +298,8 @@ const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 
 // コピー用の Markdown は <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
-const embeddedMd = md.replace(/<\/script/gi, "<\\/script");
+// 折りたたみは展開してから渡す（コピー先に <details> の HTML タグを持ち込まないため）
+const embeddedMd = expandDetails(md).replace(/<\/script/gi, "<\\/script");
 
 const html = `<!doctype html>
 <html lang="ja">

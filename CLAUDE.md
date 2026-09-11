@@ -1,7 +1,8 @@
 # スキルシート
 
 - `README.md` が正本。PDF（`*_高橋俊スキルシート.pdf`）は pre-commit フックが README の変更時に自動生成する。PDF を手で編集しない
-- README では `<details>` の折りたたみを使わない。案件詳細は `## 案件詳細` の下に `### [No.N] …` で平置きする。折りたたみは Web 版（GitHub Pages）が見出しから作り、Markdown をコピーした先に HTML タグが混ざらないようにするため
+- 案件詳細は `## 案件詳細` の下で 1 案件ずつ `<details>` に包む。GitHub で README を開いたときに 600 行超が展開されたまま並ぶのを避けるため。`<summary>` は `[No.N] 案件名（客先） — 役割 / 技術`（職務経歴の一覧行と同じ情報）、その中に `### [No.N] 案件名（客先）` の見出しを残す。見出しを残すのは GitHub の目次（Outline）に案件を出すため。`<details>` と `<summary>` の間、`</details>` の前には空行を入れる（無いと中の Markdown が解釈されない）
+- 折りたたみを展開した Markdown は `scripts/expand-details.ts` が作る。PDF 生成（`<details>` のままだと Chromium が閉じた状態で描画して中身が消える）と、Web 版の「Markdown をコピー」（コピー先に HTML タグを持ち込まない）の両方がこれを通す
 - Web 版（https://sugurutakahashi-1234.github.io/skills-sheet/）は `scripts/build-site.ts` が README から `dist/` に生成し、`.github/workflows/pages.yml` が `main` への push で GitHub Pages に配信する。`dist/` はコミットしない。手元で確認するときは `bun run build:site` して `dist/index.html` を開く
 - README の本文を変えたら pre-commit の textlint（`@textlint-ja/preset-ai-writing`）を通す。誇張表現や中身のない強調は指摘に従って直す
 - 「太字 + コロン + 箇条書き」の様式はスキルシートとして意図したもの。textlint の該当検査（list-formatting / emphasis-patterns）と、「適切な」のような一般語まで指摘する tech-writing-guideline は `.textlintrc.json` で無効化してあり、文章らしく書き直す対象ではない

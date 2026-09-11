@@ -113,7 +113,5 @@ await $`rm -rf ${OUT_DIR}`;
 await $`mkdir -p ${OUT_DIR}`;
 await Bun.write(`${OUT_DIR}/index.html`, html);
 await $`cp ${SOURCE} ${pdfName} ${OUT_DIR}/`;
-// GitHub Pages に Jekyll 処理をさせない（アンダースコア始まりのファイルが除外されるのを防ぐ）
-await Bun.write(`${OUT_DIR}/.nojekyll`, "");
 
 console.log(`生成: ${OUT_DIR}/index.html（案件 ${caseMds.length} 件, PDF: ${pdfName}）`);

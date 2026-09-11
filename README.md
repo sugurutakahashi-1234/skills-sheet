@@ -110,9 +110,9 @@
   - CI: GitHub Actions, Xcode Cloud, Bitrise
   - リリース / デプロイ: release-please, Wrangler
 - **SEO / パフォーマンス**
-  - Core Web Vitals, Lighthouse, PageSpeed Insights, Google Search Console
-  - 構造化データ (JSON-LD / Schema.org), OGP 自動生成 (satori / sharp), sitemap / RSS / canonical
-  - AI クローラー対応 (llms.txt, Content-Signal 対応 robots.txt), Pagefind (静的サイト内全文検索)
+  - Lighthouse・PageSpeed Insights での計測と改善、Google Search Console での確認
+  - 構造化データ (JSON-LD)・OGP 自動生成 (satori / sharp)・sitemap / RSS / canonical の実装
+  - AI クローラー対応 (llms.txt, robots.txt)、Pagefind によるサイト内全文検索
 
 ### プロセス / OSS
 
@@ -169,7 +169,7 @@
 
 #### チーム体制
 
-- CTO として、顧客向けの AI 活用支援から社内プロダクト・インフラの開発・運用までを一人で担当
+- CTO として、顧客企業の AI 活用支援と社内プロダクト・インフラの開発・運用を一人で担当
 
 #### 案件概要・担当業務
 
@@ -202,7 +202,7 @@
 - **Cloudflare フルスタック（業務2・3・5・6）**
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
   - Hono + oRPC + React 19 / TanStack Start による Web アプリ、Astro によるコーポレートサイト（Lighthouse 100 を維持）
-  - Email Sending + Slack Interactive による採用応募対応の自動化、Access 認証付きの資料配信
+  - Email Sending と Slack Interactivity で採用応募対応を自動化、Access 認証付きの資料配信
 - **マルチクラウド IaC（業務4）**
   - GCP / Cloudflare / AWS / Google Workspace を Terraform で横断管理
   - Workload Identity Federation (OIDC) による鍵レス認証、差分ベースの terraform plan CI
@@ -217,7 +217,7 @@
   - 送信時間帯・連投抑制・人間の承認と監査記録など、安全に運用するためのガードを設計
 - **AI を過信しない設計・運用**
   - 条件ミスマッチはサーバー側で決定論的にスコア上限を強制し、AI の過大評価を防止
-  - 本番の「AI 判定 vs 人間判断」の乖離分析でプロンプトを継続改善（25 回超の改修サイクル）
+  - AI の判定と人間の判断のずれを本番データで分析し、プロンプトを 25 回以上改修
   - 構造化に AI を使わない決定論パースの採用など、AI と決定論処理の使い分けを徹底
 - **一人でも回る運用の仕組み化**
   - インフラを Cloudflare 中心で完結させ、小規模でも維持できる運用コストを実現

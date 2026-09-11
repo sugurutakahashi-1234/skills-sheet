@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "pdf": "bun scripts/generate-pdf.ts",
+    "check:width": "bun scripts/check-line-width.ts",
     "rulesync": "rulesync install && rulesync generate",
     "rulesync:check": "rulesync doctor --strict && rulesync install --frozen && rulesync generate --check",
     "prepare": "lefthook install"

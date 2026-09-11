@@ -1,6 +1,7 @@
 # pre-commit:
 # - textlint: README.md の日本語文章から AI 臭（誇張表現・コロン直後のブロック等）を検査する。
 #   スキルシートの様式として必要な「太字 + コロン + 箇条書き」の検査は .textlintrc.json で無効化している
+# - line-width: 箇条書きが 1 行に収まっているかを実測し、数文字はみ出している行を報告する（止めない）
 # - skillsheet-pdf: README.md が変わったら PDF を再生成して同じコミットに含める
 # - rulesync-generate: 正本 .rulesync/ や rulesync.jsonc が変わったらエージェント指示を再生成して同じコミットに含める
 pre-commit:
@@ -8,6 +9,10 @@ pre-commit:
     textlint:
       glob: "README.md"
       run: bunx textlint README.md
+    line-width:
+      glob: "README.md"
+      # 1 行に収まらない箇条書きの報告のみ。判断は人がするのでコミットは止めない
+      run: bun run check:width || true
     skillsheet-pdf:
       glob: "README.md"
       run: bun run pdf && git add -A -- '*_高橋俊スキルシート.pdf'

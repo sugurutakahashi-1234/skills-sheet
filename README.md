@@ -1,6 +1,7 @@
 # スキルシート
 
 - このスキルシートのリンク: https://github.com/sugurutakahashi-1234/skills-sheet
+- Web 版（折りたたみ表示・Markdown のコピー・PDF）: https://sugurutakahashi-1234.github.io/skills-sheet/
 
 ## 基本情報
 

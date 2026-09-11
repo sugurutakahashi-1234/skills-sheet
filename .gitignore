@@ -9,3 +9,6 @@ node_modules/
 
 # 比較モック（使い捨て）
 .tmp/
+
+# Web 版（GitHub Actions が生成して Pages に配信する）
+dist/

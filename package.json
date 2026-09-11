@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "pdf": "bun scripts/generate-pdf.ts",
+    "build:site": "bun scripts/build-site.ts",
     "check:width": "bun scripts/check-line-width.ts",
     "rulesync": "rulesync install && rulesync generate",
     "rulesync:check": "rulesync doctor --strict && rulesync install --frozen && rulesync generate --check",
@@ -12,6 +13,7 @@
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "@types/bun": "^1.4.0",
     "lefthook": "^2.1.10",
+    "marked": "^18.0.12",
     "md-to-pdf": "^5.2.5",
     "rulesync": "^16.26.1",
     "textlint": "^15.8.0"

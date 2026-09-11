@@ -308,13 +308,14 @@ const html = `<!doctype html>
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
   --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
+  --card: #ffffff; --h: #1f2328; --shadow: 0 1px 3px rgba(31, 35, 40, .08);
   --header-h: 52px;
 }
 /* ダーク: OS の設定（手動で light にしていない場合）か、ヘッダーで dark を選んだとき */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-fg: #93c5fd; --role-line: #1e40af; }
+  :root:not([data-theme="light"]) { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
 }
-:root[data-theme="dark"] { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-fg: #93c5fd; --role-line: #1e40af; }
+:root[data-theme="dark"] { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
 * { box-sizing: border-box; }
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
 body { margin: 0; color: var(--fg); background: var(--bg); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; overflow-wrap: anywhere; }
@@ -367,12 +368,15 @@ main { min-width: 0; }
 .intro { font-size: 15px; margin-bottom: 8px; }
 .intro ul { margin: 0; padding-left: 1.2em; }
 h1 { font-size: 26px; margin: 8px 0 12px; }
+h1, h2, h3, h4, .row-name, .row-no, .item-title, .position, .toc > li > a, .toc ol > li > a { color: var(--h); }
+/* マウスで押したときの青い枠（フォーカスリング）は出さない。キーボード操作のときだけ出す */
+:focus:not(:focus-visible) { outline: none; }
 .sec { margin-top: 40px; }
 .sec h2 { font-size: 22px; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
 .sec h3 { font-size: 17px; margin: 28px 0 12px; }
 ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
 /* 節の枠: h3 があればタイトル帯、中は左バー付きの項目見出しと字下げした子 */
-.group { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; box-shadow: 0 1px 3px rgba(31, 35, 40, .08); }
+.group { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; box-shadow: var(--shadow); }
 .group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); }
 /* 基本情報 */
 .profile { display: flex; gap: 20px; align-items: flex-start; padding: 16px 20px; }
@@ -401,7 +405,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .item-title + ul, .item-title + .tags > ul { padding-left: calc(13px + 1.2em); }
 
 /* 職務経歴: 一覧行が案件詳細の見出し（<summary>）を兼ねる */
-.case { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; background: var(--bg); }
+.case { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; background: var(--card); }
 .case > summary { list-style: none; display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; cursor: pointer; }
 .case > summary:hover { border-color: var(--accent); }
 .case > summary::-webkit-details-marker { display: none; }
@@ -416,7 +420,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .row-name { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row-meta { display: flex; align-items: center; gap: 0 .9em; font-size: 14px; white-space: nowrap; overflow: hidden; }
 .row-meta > span { overflow: hidden; text-overflow: ellipsis; }
-.row-meta .r { flex: none; font-size: 12px; font-weight: 600; color: var(--role-fg); background: var(--bg); border: 1px solid var(--role-line); border-radius: 999px; padding: 0 9px; }
+.row-meta .r { flex: none; font-size: 12px; font-weight: 600; color: var(--role-fg); background: var(--card); border: 1px solid var(--role-line); border-radius: 999px; padding: 0 9px; }
 .row-meta .t { flex: 0 1 auto; min-width: 0; color: var(--muted); }
 .row-meta .s { flex: 1 1 0; min-width: 0; color: var(--muted); }
 .row-meta .t::before, .row-meta .s::before { content: ""; display: inline-block; width: 1px; height: .95em; background: var(--line); margin-right: .9em; vertical-align: -2px; }

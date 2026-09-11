@@ -310,9 +310,11 @@ const html = `<!doctype html>
   --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
   --header-h: 52px;
 }
+/* ダーク: OS の設定（手動で light にしていない場合）か、ヘッダーで dark を選んだとき */
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-fg: #93c5fd; --role-line: #1e40af; }
+  :root:not([data-theme="light"]) { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-fg: #93c5fd; --role-line: #1e40af; }
 }
+:root[data-theme="dark"] { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --soft: #16233d; --accent: #3b82f6; --link: #60a5fa; --tag: #161b22; --role-fg: #93c5fd; --role-line: #1e40af; }
 * { box-sizing: border-box; }
 html { scroll-padding-top: calc(var(--header-h) + 16px); scroll-behavior: smooth; }
 body { margin: 0; color: var(--fg); background: var(--bg); font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif; overflow-wrap: anywhere; }
@@ -333,6 +335,12 @@ body.header-hidden .header { transform: translateY(-100%); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.primary:hover { filter: brightness(1.08); color: #fff; }
 .btn .short { display: none; }
+.btn.icon { width: 32px; height: 30px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.btn.icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.btn.icon .moon { display: none; }
+:root[data-theme="dark"] .btn.icon .sun { display: none; }
+:root[data-theme="dark"] .btn.icon .moon { display: block; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.icon .sun { display: none; } :root:not([data-theme="light"]) .btn.icon .moon { display: block; } }
 
 /* 2 カラム */
 .layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; max-width: 1180px; margin: 0 auto; padding: 24px 24px 80px; }
@@ -463,6 +471,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
     <button type="button" class="btn primary" id="copy-md"><span class="long">Markdown を</span>コピー</button>
     <a class="btn" id="open-pdf" href="${encodeURI(pdfName)}" target="_blank" rel="noopener">PDF</a>
     <a class="btn" href="${REPO_URL}">GitHub</a>
+    <button type="button" class="btn icon" id="theme-toggle" aria-label="ライト / ダークを切り替え" title="ライト / ダークを切り替え"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
   </nav>
 </header>
 <div class="pdf-modal" id="pdf-modal" hidden>
@@ -505,6 +514,15 @@ ${mainHtml}
   const closePdf = () => { modal.hidden = true; };
   document.getElementById("close-pdf").addEventListener("click", closePdf);
   addEventListener("keydown", (e) => { if (e.key === "Escape") closePdf(); });
+
+  // ライト / ダークの切り替え（選択は localStorage に保存。未選択なら OS の設定に従う）
+  const root = document.documentElement;
+  try { const saved = localStorage.getItem("theme"); if (saved === "light" || saved === "dark") root.dataset.theme = saved; } catch {}
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch {}
+  });
 
   // Markdown をコピー
   const copy = document.getElementById("copy-md");

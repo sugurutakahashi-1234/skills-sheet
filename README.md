@@ -49,7 +49,7 @@
 ### AI
 
 - **AI システム開発**
-  - LLM: GLM, Kimi K2, gpt-oss, DeepSeek (Cloudflare AI Gateway 経由)
+  - LLM: GLM, Kimi, gpt-oss, DeepSeek (Cloudflare AI Gateway 経由)
   - RAG / 検索: Cloudflare Vectorize, Workers AI, bge-m3 (Embedding)
   - MCP: @modelcontextprotocol/sdk v2, Better Auth OAuth, WebMCP
   - 非同期処理: Cloudflare Workflows / Queues, Cron Triggers

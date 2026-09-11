@@ -238,8 +238,8 @@
 - **バックエンド / AI システム**
   - `Hono`, `oRPC`, `Drizzle ORM`, `Zod`, `Better Auth`, `@modelcontextprotocol/sdk v2`, `WebMCP`
   - `Cloudflare Workers AI`, `AI Gateway`, `Vectorize`, `Workflows`, `Queues`, `Browser Rendering`, `Email Sending`
-  - `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App` 連携
-  - `Python (uv)`, `pandoc` + `LibreOffice`（FDE 案件ツール開発）
+  - `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
+  - `Python (uv)`
 - **クラウド / インフラ**
   - `Cloudflare`, `GCP`, `AWS`, `Terraform`, `tflint`, `dotenvx`, `mise`
 - **CI/CD / テスト / 品質**

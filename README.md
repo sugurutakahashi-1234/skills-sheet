@@ -130,32 +130,34 @@
 
 ### 株式会社ZENSHIN (2026年04月 - 現在)
 
-- 2026年
-  - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) - CTO（IT コンサルティング / SIer / SES）
-    - 顧客向け AI 活用支援・AI ツール開発（FDE）/ 社内 AI システム開発 / コーポレートサイト・社内インフラ
+- 2026年 [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
+  - CTO / TypeScript・Cloudflare・Terraform / 創業フェーズの AI 活用支援（FDE）と AI システム開発
 
 ### フリーランス (2021年07月 - 2026年03月)
 
-- 2025年
-  - [No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）（エンタメ業界 G社）
-  - [No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（WEB3 特化 SIer F社）
-- 2024年
-  - [No.8] SNS アプリ開発 - iOS リードエンジニア（SIer E社）
-- 2023年
-  - [No.7] マーケティングリサーチアプリ開発 - iOS リードエンジニア（スタートアップ D社）
-- 2022年
-  - [No.6] ファンクラブアプリ開発 - iOS エンジニア（メガベンチャー C社）
-- 2021年
-  - [No.5] ドローン制御アプリ開発 - iOS エンジニア（ドローンベンチャー B社）
+- 2025年 [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
+  - フロントエンドエンジニア / React Native (Expo)・Next.js・Firebase / グロースフェーズの KPI 施策
+- 2025年 [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
+  - Flutter リードエンジニア / Riverpod・go_router / 0 → 1 立ち上げ
+- 2024年 [No.8] SNS アプリ開発（SIer E社）
+  - iOS リードエンジニア / Swift・SwiftUI・SPM マルチモジュール / 0 → 1 立ち上げ
+- 2023年 [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
+  - iOS リードエンジニア / Swift・SwiftUI・AWS Amplify / 0 → 1 立ち上げとアーキテクチャ整備
+- 2022年 [No.6] ファンクラブアプリ開発（メガベンチャー C社）
+  - iOS エンジニア / Swift・UIKit・Redux / スタンプラリー・景品交換機能の開発
+- 2021年 [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
+  - iOS エンジニア / Swift・SwiftUI・VIPER / 飛行の安定性改善と複数社ドローン対応
 
 ### 外資系ITコンサル A社 (2017年04月 - 2021年06月)
 
-- 2021年
-  - [No.4] ショッピングアプリ開発 - Flutter エンジニア
-  - [No.3] 飲食店管理アプリ開発 - iOS リードエンジニア
-- 2018年 - 2020年
-  - [No.2] クレジットカードアプリ iOS アプリ開発 - iOS エンジニア
-  - [No.1] クレジットカードアプリ API 開発 - サーバーサイドエンジニア
+- 2021年 [No.4] ショッピングアプリ開発
+  - Flutter エンジニア / Provider・Firebase・Google Maps API / クロスプラットフォームのデモアプリ開発
+- 2021年 [No.3] 飲食店管理アプリ開発
+  - iOS リードエンジニア / Swift・SwiftUI・MVVM / BtoB 向け MVP 開発
+- 2018年 - 2020年 [No.2] クレジットカードアプリ iOS アプリ開発
+  - iOS エンジニア / Swift・UIKit・MVVM / 見積もり・実装・テスト・レビュー
+- 2018年 - 2020年 [No.1] クレジットカードアプリ API 開発
+  - サーバーサイドエンジニア / PHP (CodeIgniter)・Java / リニューアルに伴う API・バッチ開発
 
 ※ 各案件の詳細は以下のプルダウンから確認可能。
 

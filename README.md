@@ -46,13 +46,16 @@
 
 ### AI
 
-- **AI システム開発**
-  - LLM: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`（Cloudflare AI Gateway 経由）
-  - RAG / 検索: `Cloudflare Vectorize`, `Workers AI`, `bge-m3 (Embedding)`
+- **AI アプリケーション開発**
+  - モデル: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`, `bge-m3 (Embedding)`
+  - RAG / 検索: `Cloudflare Vectorize`, `Workers AI`
   - MCP: `@modelcontextprotocol/sdk v2`, `Better Auth OAuth`, `WebMCP`
-  - 非同期処理: `Cloudflare Workflows`, `Cloudflare Queues`, `Cron Triggers`
-- **AI エージェント運用**
-  - ツール: `Claude Code (Skills / MCP / Routines)`, `Codex CLI`, `Codex Automation`
+  - 実行基盤: `Cloudflare AI Gateway`, `Cloudflare Workflows`, `Cloudflare Queues`, `Cron Triggers`
+- **AI コーディング / エージェント運用**
+  - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
+  - 定期実行 / 自動化: `Claude Code Routines`, `Codex Automation`
+  - エージェント拡張: `Skills`, `MCP`, `Chrome DevTools MCP`
+  - プロトタイピング: `v0`, `Claude Code`
 
 ### フロントエンド / モバイル
 

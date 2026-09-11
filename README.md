@@ -179,7 +179,7 @@
   - **[業務2] AI 活用支援 / 提案活動（FDE）**: AI 活用の相談・提案から実装・導入まで支援
   - **[業務3] AI マッチングシステム開発**: Cloudflare での RAG / MCP / AI エージェント基盤
   - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内システム
-  - **[業務5] ホームページ・技術ブログの開発**: https://www.zenshin-inc.co.jp/ と https://tech.zenshin-inc.co.jp/ の設計・構築・運用
+  - **[業務5] [ホームページ](https://www.zenshin-inc.co.jp/)・[技術ブログ](https://tech.zenshin-inc.co.jp/)の開発**: 設計・構築・運用
   - **[業務6] 社内インフラ管理**: Terraform によるマルチクラウド IaC
 
 #### 経験した技術

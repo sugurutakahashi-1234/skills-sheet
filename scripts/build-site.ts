@@ -7,7 +7,7 @@
  * （h2 = 大節 / h3 = グループ / h4 = 案件内の定型節 / `- **項目**` = 細目）に従って部品へ配置するだけ。
  * - 左に目次（h2 / h3）。現在位置を強調し、狭い画面ではボタンで開閉
  * - 強み・技術スタックは `- **項目**` ごとにカード
- * - 職務経歴の一覧行は `役割 / 技術 / 概要` を分けて表示し、案件詳細（<details>）へリンク
+ * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
  * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」
  */
 import { $, Glob } from "bun";
@@ -104,14 +104,27 @@ function renderGroups(sec: Section) {
   return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading)).join("");
 }
 
-/** 職務経歴: 所属ごとの一覧行を案件詳細へのリンク付きの行にする */
+/** 案件詳細の本文を No. で引けるようにする（h4 の定型節ごとに <section>） */
+const caseBodies = new Map<string, string>();
+for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.subs ?? []) {
+  const { no } = parseCaseHeading(s.heading.text);
+  const { lead, groups } = groupBy(s.body, 4);
+  caseBodies.set(
+    no,
+    block(lead) + groups.map((g) => `<section class="sub"><h4>${inline(g.heading.text)}</h4>${block(g.body)}</section>`).join(""),
+  );
+}
+
+/** 職務経歴: 所属ごとの一覧行を <details> にし、同じ No. の案件詳細を中に入れる */
 function renderCareer(sec: Section) {
   const rows = (list: Tokens.List) =>
-    `<ol class="case-rows">${list.items
+    list.items
       .map((item) => {
         const [first, ...children] = item.tokens;
         const text = (first as Tokens.Text).text;
         const { no, name } = parseCaseHeading(text);
+        const body = caseBodies.get(no);
+        if (!body) throw new Error(`職務経歴の [No.${no}] に対応する案件詳細がありません`);
         const sub = children.find((t): t is Tokens.List => t.type === "list");
         // 子行の `役割 / 技術 / 概要` を 3 つに分けて表示する（文章は原文のまま）
         const meta = sub
@@ -122,9 +135,9 @@ function renderCareer(sec: Section) {
               .map((s) => `<span>${inline(s.trim())}</span>`)
               .join("")
           : "";
-        return `<li class="case-row" data-href="#no-${no}"><a class="row-no" href="#no-${no}">No.${no}</a><div class="row-main"><div class="row-name">${inline(name)}</div><div class="row-meta">${meta}</div></div><a class="row-open" href="#no-${no}" aria-label="No.${no} の詳細">詳細</a></li>`;
+        return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="row-main"><span class="row-name">${inline(name)}</span><span class="row-meta">${meta}</span></span></summary><div class="case-body">${body}</div></details>`;
       })
-      .join("")}</ol>`;
+      .join("");
   return (
     block(sec.body) +
     sec.subs
@@ -137,54 +150,34 @@ function renderCareer(sec: Section) {
   );
 }
 
-/** 案件詳細: 案件ごとに <details>、中は h4 の定型節 */
-function renderCases(sec: Section) {
-  return (
-    block(sec.body) +
-    sec.subs
-      .map((s) => {
-        const { no, name, role } = parseCaseHeading(s.heading.text);
-        const { lead, groups } = groupBy(s.body, 4);
-        const body =
-          block(lead) +
-          groups.map((g) => `<section class="sub"><h4>${inline(g.heading.text)}</h4>${block(g.body)}</section>`).join("");
-        return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="case-name">${inline(name)}</span><span class="case-role">${inline(role)}</span></summary><div class="case-body">${body}</div></details>`;
-      })
-      .join("")
-  );
-}
-
 const RENDERERS: Record<string, (sec: Section) => string> = {
   基本情報: renderBasic,
   強み: renderGroups,
   技術スタック: renderGroups,
   職務経歴: renderCareer,
-  案件詳細: renderCases,
 };
 
-const mainHtml = sections
+// 案件詳細は職務経歴の行に合体させるので、節としては出さない
+const visibleSections = sections.filter((sec) => sec.heading.text !== "案件詳細");
+
+const mainHtml = visibleSections
   .map((sec) => {
     const render = RENDERERS[sec.heading.text] ?? ((s: Section) => block(s.body) + s.subs.map((g) => block([g.heading, ...g.body])).join(""));
     return `<section class="sec" id="${idOf(sec.heading.text)}"><h2>${inline(sec.heading.text)}</h2>${render(sec)}</section>`;
   })
   .join("");
 
-// 目次: h2 と h3。案件は `[No.N] 案件名` までに縮める
-const tocHtml = `<ol class="toc">${sections
+// 目次: h2 と h3
+const tocHtml = `<ol class="toc">${visibleSections
   .map((sec) => {
     const subs = sec.subs
-      .map((s) => {
-        const isCase = CASE_RE.test(s.heading.text);
-        const id = isCase ? `no-${parseCaseHeading(s.heading.text).no}` : idOf(s.heading.text);
-        const label = isCase ? s.heading.text.split(" - ")[0] : s.heading.text;
-        return `<li><a href="#${id}">${inline(label)}</a></li>`;
-      })
+      .map((s) => `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${inline(s.heading.text)}</a></li>`)
       .join("");
     return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
   })
   .join("")}</ol>`;
 
-const caseCount = sections.find((s) => s.heading.text === "案件詳細")?.subs.length ?? 0;
+const caseCount = caseBodies.size;
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 
@@ -255,26 +248,20 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .item-rest { font-weight: 400; margin-left: .5em; }
 .item-title + ul { padding-left: calc(13px + 1.2em); }
 
-/* 職務経歴の一覧 */
-.case-rows { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-.case-row { display: flex; align-items: flex-start; gap: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; cursor: pointer; }
-.case-row:hover { border-color: var(--accent); }
-.row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
-.row-main { min-width: 0; flex: 1; }
-.row-name { font-weight: 600; }
-.row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 13px; color: var(--muted); }
-.row-meta span + span::before { content: "/"; margin-right: 1.2em; color: var(--line); }
-.row-open { flex: none; font-size: 13px; margin-top: 3px; }
-
-/* 案件詳細 */
-.case { border: 1px solid var(--line); border-radius: 8px; margin: 10px 0; background: var(--bg); }
-.case > summary { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px; cursor: pointer; }
+/* 職務経歴: 一覧行が案件詳細の見出し（<summary>）を兼ねる */
+.case { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; background: var(--bg); }
+.case > summary { list-style: none; display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; cursor: pointer; }
+.case > summary:hover { border-color: var(--accent); }
 .case > summary::-webkit-details-marker { display: none; }
-.case > summary::before { content: ""; flex: none; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
+.case > summary::before { content: ""; flex: none; width: 8px; height: 8px; margin: 9px 0 0 2px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
 .case[open] > summary::before { transform: rotate(45deg); }
 .case[open] > summary { border-bottom: 1px solid var(--line); background: var(--soft); border-radius: 8px 8px 0 0; }
-.case-name { font-weight: 600; }
-.case-role { color: var(--muted); font-size: 13px; }
+.row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
+.case[open] .row-no { background: var(--bg); }
+.row-main { min-width: 0; flex: 1; display: block; }
+.row-name { display: block; font-weight: 600; }
+.row-meta { display: flex; flex-wrap: wrap; gap: 0 1.2em; font-size: 13px; color: var(--muted); }
+.row-meta span + span::before { content: "/"; margin-right: 1.2em; color: var(--line); }
 .case-body { padding: 4px 20px 16px; }
 .sub h4 { font-size: 15px; margin: 18px 0 6px; padding-left: 10px; border-left: 3px solid var(--accent); }
 
@@ -292,7 +279,6 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   body.toc-open aside { display: block; }
   body.toc-open { overflow: hidden; }
   .case-body { padding: 4px 14px 14px; }
-  .case-row { flex-wrap: wrap; } .row-open { display: none; }
 }
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
@@ -302,7 +288,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   body { font-size: 12px; }
   .case { break-inside: auto; }
   .case > summary { break-after: avoid; }
-  .case > summary::before, .row-open { display: none; }
+  .case > summary::before { display: none; }
   .sec h2 { break-after: avoid; }
   a { color: inherit; }
 }
@@ -358,12 +344,6 @@ ${mainHtml}
   // #no-N で該当の案件を開く
   const openFromHash = () => { const t = location.hash && document.querySelector(location.hash); if (t?.tagName === "DETAILS") { t.open = true; } };
   addEventListener("hashchange", openFromHash); openFromHash();
-
-  // 一覧の行はどこを押しても詳細へ
-  document.querySelectorAll(".case-row").forEach((row) => row.addEventListener("click", (e) => {
-    if (e.target.closest("a")) return;
-    location.hash = row.dataset.href;
-  }));
 
   // 目次: 狭い画面での開閉と、現在位置の強調
   const tocToggle = document.getElementById("toc-toggle");

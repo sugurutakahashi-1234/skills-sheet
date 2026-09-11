@@ -67,7 +67,7 @@
   - 計測・改善: `Lighthouse`, `PageSpeed Insights`, `Google Search Console`
   - 実装: 構造化データ・OGP 自動生成・`sitemap`・`llms.txt`、`Pagefind` によるサイト内全文検索
 - **モバイルアプリ開発**
-  - クロスプラットフォーム: `React Native (Expo)`, `Flutter`
+  - クロスプラットフォーム: `React Native (Expo)`, `Flutter (Dart)`
   - ネイティブ: `Swift (SwiftUI, UIKit)`
 - **アーキテクチャ**
   - `モノレポ設計 (Bun workspaces)`, `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
@@ -77,7 +77,7 @@
 
 - **サーバーサイド**
   - API 設計: `REST API`, `GraphQL`
-  - 実装: `Node.js`, `Hono`, `oRPC`, `PHP`, `Java`
+  - 実装: `TypeScript`, `Bun`, `Hono`, `oRPC`, `Node.js`, `Python`, `PHP`, `Java`
 - **データベース**
   - 設計: RDB テーブル設計
   - ORM: `Prisma`, `Drizzle`

@@ -25,11 +25,13 @@
   - 非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入
   - AI 判定と人間判断の乖離を本番データで分析し、プロンプトを継続改善する運用を確立
 - **0 → 1 リードエンジニア経験（5件）**
-  - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、プロジェクト立ち上げの技術リードを担当（現職 CTO でのプロダクト立ち上げを含む）
+  - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術リードを担当
+  - 内訳: iOS リード 3 件、Flutter リード 1 件、CTO としてのプロダクト立ち上げ 1 件
 - **KPI 起点のグロース施策**
-  - ビジネス KPI（ARPU・LTV・CTR）を基点に、施策の企画・A/B テスト検証・実装までを一気通貫で推進
+  - KPI（ARPU・LTV・CTR）を基点に、施策の企画・A/B テスト検証・実装まで推進
+  - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当
 - **フルスタック実装力**
-  - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイドまで単独で実装可能
+  - iOS・Android・Web のフロントエンド（Swift / React Native / Flutter / Next.js / Astro）からサーバーサイドまで実装できる
   - マルチクラウドの IaC（Terraform × GCP / Cloudflare / AWS）まで一人で構築・運用
 - **OSS 開発・技術発信**
   - 自作 OSS（TypeScript 製 CLI）を npm / Homebrew / GitHub Actions Marketplace で配布

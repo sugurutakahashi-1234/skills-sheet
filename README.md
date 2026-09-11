@@ -26,13 +26,13 @@
   - 非エンジニアの営業が Claude Code / Codex で実業務を回せる状態まで導入
   - AI 判定と人間判断の乖離を本番データで分析し、プロンプトを継続改善する運用を確立
 - **FDE としての AI 活用支援**
-  - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案を担当
+  - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案
   - 案件獲得の営業・商談から、顧客業務に入り込んだ AI ツールの実装・導入まで担当
 - **0 → 1 リードエンジニア経験（5件）**
   - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術リードを担当
   - 内訳: iOS リード 3 件、Flutter リード 1 件、自社 AI システムの立ち上げ 1 件（CTO）
 - **フルスタックの実装力**
-  - Swift・React Native・Flutter で iOS / Android、Next.js・Astro で Web を実案件で担当
+  - Swift・React Native・Flutter で iOS / Android、Next.js・Astro で Web を実案件で実装
   - Bun・Hono・oRPC・Drizzle・TanStack Start など最新スタックを本番で運用
   - マルチクラウドの IaC（Terraform × GCP / Cloudflare / AWS）まで一人で構築・運用
 - **ビジネス KPI 起点での開発経験**

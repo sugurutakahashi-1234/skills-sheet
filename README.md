@@ -49,13 +49,13 @@
 ### AI
 
 - **AI システム開発**
-  - RAG / Embedding / ベクトル検索 (Cloudflare Vectorize, Workers AI)
-  - MCP サーバー開発 (@modelcontextprotocol/sdk v2, Better Auth OAuth), WebMCP
-  - Vision LLM, Cloudflare Workflows / Queues
-  - 用途別 LLM モデル選定 (Kimi K2 / gpt-oss / GLM / Llama, 自作評価スクリプトで比較)
-  - プロンプト運用 (バージョン管理・本番データでの継続改善)
-- **生成 AI 活用**
-  - Claude Code (Skills / MCP / エージェント運用 / GitHub Actions 自動レビュー), Codex CLI, Claude Code Managed Agents
+  - LLM: GLM, Kimi K2, gpt-oss, DeepSeek (Cloudflare AI Gateway 経由)
+  - RAG / 検索: Cloudflare Vectorize, Workers AI, bge-m3 (Embedding)
+  - MCP: @modelcontextprotocol/sdk v2, Better Auth OAuth, WebMCP
+  - 非同期処理: Cloudflare Workflows / Queues, Cron Triggers
+- **AI エージェント運用**
+  - ツール: Claude Code (Skills / MCP / Routines), Codex CLI, Codex Automation
+  - CI 連携: GitHub Actions 上での Claude Code による自動レビュー
 
 ### フロントエンド / モバイル
 

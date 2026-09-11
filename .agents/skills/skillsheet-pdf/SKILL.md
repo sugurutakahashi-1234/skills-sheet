@@ -1,19 +1,13 @@
 ---
 name: skillsheet-pdf
 description: >-
-  スキルシートやその他の Markdown を、<details>/<summary> による折りたたみを展開した状態で PDF
-  化し、検証済みの最新版だけを残すスキル。Use this skill whenever the user wants to convert a skill
-  sheet / README / Markdown to PDF, "スキルシートをPDFにして" "READMEをPDF化して"
-  "mdをPDFに変換して" のような依頼があったとき。特に折りたたみ（details）を含む Markdown を PDF にしたいとき。そのまま PDF
-  化すると折りたたみの中身が消えてしまうため、このスキルで展開してから変換する必要がある。
+  スキルシート（README.md）を md-to-pdf で PDF 化し、内容を検証して最新版だけを残すスキル。Use this skill
+  whenever the user wants to convert a skill sheet / README / Markdown to PDF,
+  "スキルシートをPDFにして" "READMEをPDF化して" "mdをPDFに変換して" のような依頼があったとき。
 ---
 # Skillsheet to PDF
 
-`<details>`/`<summary>` の折りたたみを**展開した状態で** Markdown を PDF に変換し、検証済みの最新版だけを残すスキル。
-
-## なぜこのスキルが必要か
-
-PDF 変換ツール `md-to-pdf` は Chromium でページをレンダリングして PDF 化する。`<details>` は HTML の折りたたみ要素なので、Chromium 上では**閉じた状態**で描画され、中身が PDF に一切出力されない。スキルシートは各案件の詳細をすべて `<details>` の中に入れているため、何も対策せずに変換すると本文の大半が消えてしまう。そこで、変換前に折りたたみタグを除去して中身を本文として露出させる。
+README.md を PDF に変換し、検証済みの最新版だけを残すスキル。
 
 ## 基本の使い方（これだけでよい）
 
@@ -25,11 +19,11 @@ bun run pdf
 
 `scripts/generate-pdf.ts` が以下をすべて行う:
 
-1. `<details>`/`<summary>` を展開した中間 Markdown を生成（`scripts/expand-details.ts`）
-2. GitHub 風フォント指定の frontmatter を注入し、PDF に不要な Web 向け文言（「プルダウンから確認可能」）を除去
+1. README.md に `<details>`/`<summary>` が含まれていないことを確認（含まれていると Chromium 上で閉じた状態で描画され、中身が PDF から消える。スキルシートでは折りたたみを使わない方針）
+2. GitHub 風フォント指定の frontmatter を注入した中間 Markdown を生成
 3. リポジトリローカルの `md-to-pdf`（`node_modules/.bin/`）で PDF 生成（60 秒タイムアウト + 最大 3 回リトライ）
 4. `<実行日>_高橋俊スキルシート.pdf` としてリポジトリ直下へ配置
-5. 内容の機械検証（`uv run scripts/verify-pdf.py`: 展開漏れ・文言混入・ページ数）
+5. 内容の機械検証（`uv run scripts/verify-pdf.py`: 案件詳細の見出し・ページ数）
 6. 同じ命名規則の旧版を削除し、最新版 1 件だけを残す（`scripts/keep-latest-pdf.ts`）
 
 依存は `package.json`（bun）と `pyproject.toml`（uv, `uv sync` で `.venv` 作成）で管理。ランタイムは mise.toml で指定。
@@ -49,8 +43,7 @@ bun run pdf
 ## 別ファイルを変換する場合
 
 ```bash
-bun .claude/skills/skillsheet-pdf/scripts/expand-details.ts <入力.md> /tmp/expanded.md
-./node_modules/.bin/md-to-pdf /tmp/expanded.md
+./node_modules/.bin/md-to-pdf <入力.md>
 ```
 
-見た目の調整が必要な場合は、中間 Markdown の先頭に md-to-pdf の frontmatter（`pdf_options` や `css`）を加える。
+見た目の調整が必要な場合は、Markdown の先頭に md-to-pdf の frontmatter（`pdf_options` や `css`）を加える。

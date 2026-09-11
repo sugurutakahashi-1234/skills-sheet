@@ -1,23 +1,21 @@
 #!/usr/bin/env bun
 /**
- * README.md の <details> を展開して PDF 化し、日付付きファイル名で配置して旧版を削除する。
+ * README.md を PDF 化し、日付付きファイル名で配置して旧版を削除する。
  * 使い方: bun run pdf
  */
 import { $ } from "bun";
 
+const SOURCE = "README.md";
 const EXPANDED = "/tmp/skillsheet.expanded.md";
 const SUFFIX = "_高橋俊スキルシート.pdf";
 
-// 1. 折りたたみを展開した中間 Markdown を生成
-await $`bun .claude/skills/skillsheet-pdf/scripts/expand-details.ts README.md ${EXPANDED}`;
-
-// 2. 展開漏れの検証（<details> が残っていたら中身が PDF から消える）
-const md = await Bun.file(EXPANDED).text();
+// 1. <details> が残っていると Chromium 上で閉じた状態で描画され、中身が PDF から消える
+const md = await Bun.file(SOURCE).text();
 if (md.includes("<details") || md.includes("<summary")) {
-  throw new Error("展開漏れ: 中間 Markdown に <details>/<summary> が残っています");
+  throw new Error(`${SOURCE} に <details>/<summary> が含まれています。折りたたみは使わない方針です`);
 }
 
-// 2.5. GitHub 風フォント指定の frontmatter を注入
+// 2. GitHub 風フォント指定の frontmatter を注入した中間 Markdown を生成
 // md-to-pdf のデフォルトは github-markdown-css だが、日本語フォントはシステム任せになるため
 // GitHub と同じゴシック系サンセリフを明示する
 const FRONTMATTER = `---
@@ -32,10 +30,7 @@ css: |-
 
 `;
 
-// 2.6. PDF では意味を持たない Web 向けの文言を除去（プルダウン＝折りたたみは展開済みのため）
-const cleaned = md.replace(/^※ 各案件の詳細は以下のプルダウンから確認可能。\n?/m, "");
-
-await Bun.write(EXPANDED, FRONTMATTER + cleaned);
+await Bun.write(EXPANDED, FRONTMATTER + md);
 
 // 3. PDF 生成（リポジトリローカルの md-to-pdf を使用。npx は使わない）
 // Chromium の起動がまれに無応答になるため、タイムアウト付きで最大 3 回リトライする
@@ -72,13 +67,13 @@ const out = `${today}${SUFFIX}`;
 await $`mv ${EXPANDED.replace(/\.md$/, ".pdf")} ${out}`;
 await $`rm -f ${EXPANDED}`;
 
-// 5. サイズ検証（サマリーだけの数ページだと明らかに小さくなる）
+// 5. サイズ検証（案件詳細が欠けると明らかに小さくなる）
 const size = Bun.file(out).size;
 if (size < 100_000) {
-  throw new Error(`PDF が小さすぎます (${size} bytes)。展開に失敗している可能性`);
+  throw new Error(`PDF が小さすぎます (${size} bytes)。本文が欠けている可能性`);
 }
 
-// 6. 内容の検証（展開漏れ・Web 向け文言の混入・ページ数）
+// 6. 内容の検証（案件詳細の見出し・ページ数）
 await $`uv run scripts/verify-pdf.py ${out}`;
 
 // 7. 検証済みの最新版だけを残す

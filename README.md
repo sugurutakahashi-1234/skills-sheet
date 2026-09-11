@@ -161,11 +161,9 @@
 - [No.1] クレジットカードアプリ API 開発
   - サーバーサイドエンジニア / PHP (CodeIgniter)・Java / リニューアルに伴う API・バッチ開発
 
-※ 各案件の詳細は以下のプルダウンから確認可能。
+※ 各案件の詳細は以下に記載。
 
 ---
-
-<details><summary>[No.11] 株式会社ZENSHIN - CTO（IT コンサルティング / SIer / SES）</summary>
 
 ## [No.11] 株式会社ZENSHIN - CTO（IT コンサルティング / SIer / SES）
 
@@ -261,11 +259,7 @@
 
 - Google Search Console, PageSpeed Insights, PostHog, Cloudflare Analytics, VSCode
 
-</details>
-
 ---
-
-<details><summary>[No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）</summary>
 
 ## [No.10] ショートドラマアプリ開発 - フロントエンドエンジニア（React Native / Next.js）
 
@@ -352,11 +346,7 @@
 
 - Figma
 
-</details>
-
 ---
-
-<details><summary>[No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）</summary>
 
 ## [No.9] NFT ゲームアプリ開発 - Flutter リードエンジニア（Flutter）
 
@@ -431,11 +421,7 @@
 
 - Figma
 
-</details>
-
 ---
-
-<details><summary>[No.8] SNS アプリ開発 - iOS リードエンジニア（Swift）</summary>
 
 ## [No.8] SNS アプリ開発 - iOS リードエンジニア（Swift）
 
@@ -512,11 +498,7 @@
 
 - Figma
 
-</details>
-
 ---
-
-<details><summary>[No.7] マーケティングリサーチアプリ開発 - iOS リードエンジニア（Swift）</summary>
 
 ## [No.7] マーケティングリサーチアプリ開発 - iOS リードエンジニア（Swift）
 
@@ -595,11 +577,7 @@
 
 - Figma
 
-</details>
-
 ---
-
-<details><summary>[No.6] ファンクラブアプリ開発 - iOS エンジニア（Swift）</summary>
 
 ## [No.6] ファンクラブアプリ開発 - iOS エンジニア（Swift）
 
@@ -654,11 +632,7 @@
 
 - Figma
 
-</details>
-
 ---
-
-<details><summary>[No.5] ドローン制御アプリ開発 - iOS エンジニア（Swift）</summary>
 
 ## [No.5] ドローン制御アプリ開発 - iOS エンジニア（Swift）
 
@@ -732,11 +706,7 @@
 
 - Figma
 
-</details>
-
 ---
-
-<details><summary>[No.4] ショッピングアプリ開発 - Flutter エンジニア（Flutter）</summary>
 
 ## [No.4] ショッピングアプリ開発 - Flutter エンジニア（Flutter）
 
@@ -792,11 +762,7 @@
 
 - Adobe XD
 
-</details>
-
 ---
-
-<details><summary>[No.3] 飲食店管理アプリ開発 - iOS リードエンジニア（Swift）</summary>
 
 ## [No.3] 飲食店管理アプリ開発 - iOS リードエンジニア（Swift）
 
@@ -846,11 +812,7 @@
 
 - Adobe XD
 
-</details>
-
 ---
-
-<details><summary>[No.2] クレジットカードアプリ iOS アプリ開発 - iOS エンジニア（Swift）</summary>
 
 ## [No.2] クレジットカードアプリ iOS アプリ開発 - iOS エンジニア（Swift）
 
@@ -898,11 +860,7 @@
 
 - Sketch, InVision
 
-</details>
-
 ---
-
-<details><summary>[No.1] クレジットカードアプリ API 開発 - サーバーサイドエンジニア（PHP）</summary>
 
 ## [No.1] クレジットカードアプリ API 開発 - サーバーサイドエンジニア（PHP）
 
@@ -958,6 +916,3 @@
 
 - OpenAPI, PlantUML, draw.io
 
-</details>
-
----

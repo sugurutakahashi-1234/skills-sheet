@@ -2,8 +2,7 @@
 
 使い方: uv run scripts/verify-pdf.py <PDF パス>
 
-- 折りたたみの中身にしか出てこない見出しが含まれるか（展開漏れ検知）
-- Web 向けの文言（プルダウン）が混入していないか
+- 各案件の詳細に出てくる見出しが含まれるか（本文欠落の検知）
 - ページ数が妥当か
 
 PDF のフォント抽出は一部の漢字を康熙部首（例: 工 → ⼯）で返すため、
@@ -24,14 +23,11 @@ normalized = re.sub(r"\s+", "", unicodedata.normalize("NFKC", text))
 errors: list[str] = []
 
 if len(reader.pages) < 10:
-    errors.append(f"ページ数が少なすぎます ({len(reader.pages)} ページ)。展開失敗の可能性")
+    errors.append(f"ページ数が少なすぎます ({len(reader.pages)} ページ)。本文欠落の可能性")
 
 for keyword in ["チーム体制", "案件概要", "経験した技術", "取り組み・貢献"]:
     if keyword not in normalized:
-        errors.append(f"'{keyword}' が見つかりません。展開漏れの可能性")
-
-if "プルダウン" in normalized:
-    errors.append("Web 向け文言「プルダウン」が PDF に残っています")
+        errors.append(f"'{keyword}' が見つかりません。本文欠落の可能性")
 
 if errors:
     for e in errors:

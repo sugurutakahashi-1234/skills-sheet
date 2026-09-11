@@ -31,8 +31,9 @@
 - **0 → 1 リードエンジニア経験（5件）**
   - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術リードを担当
   - 内訳: iOS リード 3 件、Flutter リード 1 件、自社 AI システムの立ち上げ 1 件（CTO）
-- **実案件でのフルスタック実装**
-  - iOS・Android・Web のフロントエンドからサーバーサイドまで実装できる
+- **モダンフルスタックの実装力**
+  - Swift・React Native・Flutter で iOS / Android、Next.js・Astro で Web を実案件で担当
+  - Bun・Hono・oRPC・Drizzle・TanStack Start など最新スタックを本番で運用
   - マルチクラウドの IaC（Terraform × GCP / Cloudflare / AWS）まで一人で構築・運用
 - **ビジネス KPI 起点での開発経験**
   - KPI（ARPU・LTV・CTR）を基点に、施策の企画・A/B テスト検証・実装まで推進

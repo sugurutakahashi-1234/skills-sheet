@@ -1,7 +1,7 @@
 # スキルシート
 
-- 読みやすい表示（おすすめ・目次付き）: https://sugurutakahashi-1234.github.io/skills-sheet/
-- Markdown の正本（GitHub）: https://github.com/sugurutakahashi-1234/skills-sheet
+- ブラウザで読む（目次・折りたたみ付き）: https://sugurutakahashi-1234.github.io/skills-sheet/
+- GitHub（Markdown 原文・更新履歴）: https://github.com/sugurutakahashi-1234/skills-sheet
 
 ## 基本情報
 

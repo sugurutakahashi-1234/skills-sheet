@@ -47,8 +47,9 @@ function splitBoldItem(item: Tokens.ListItem): { label: string; rest: string; ch
  * 隣り合うチップの間の区切り（", " "・"）は落とし、行頭の `ラベル:` は薄い色にする。
  */
 function tagify(html: string): string {
+  // 区切りを空白にするのは、ダブルクリックの単語選択が隣のチップまで広がらないようにするため
   return html
-    .replace(/<\/code>(?:, |・)<code>/g, "</code><code>")
+    .replace(/<\/code>(?:, |・)<code>/g, "</code> <code>")
     .replace(/<li>([^<]{1,40}?:)\s*(?=<code>)/g, '<li><span class="tl">$1</span>');
 }
 
@@ -56,8 +57,8 @@ function tagify(html: string): string {
 const children = (ts: Token[], tags: boolean) => (tags ? `<div class="tags">${tagify(block(ts))}</div>` : block(ts));
 
 /**
- * `[名前](URL)（説明）` の行が並ぶ一覧（OSS の自作ツールなど）は、名前と説明を分けた行にする。
- * 形が合わない行（配布の説明など）は一覧の下の注記にまとめる。
+ * `[名前](URL)（説明）` の行が並ぶ一覧（OSS の自作ツールなど）は、説明を薄い色にした箇条書きにする。
+ * 形が合わない行（配布の説明など）は箇条書きの外の注記にまとめる。
  */
 function linkList(list: Tokens.List): string | null {
   const rows: string[] = [];
@@ -65,11 +66,11 @@ function linkList(list: Tokens.List): string | null {
   for (const item of list.items) {
     const text = (item.tokens[0] as Tokens.Text).text;
     const m = text.match(/^\[([^\]]+)\]\(([^)]+)\)（(.+)）$/);
-    if (m) rows.push(`<li><a href="${esc(m[2])}">${inline(m[1])}</a><span class="d">${inline(m[3])}</span></li>`);
+    if (m) rows.push(`<li><a href="${esc(m[2])}">${inline(m[1])}</a><span class="d">（${inline(m[3])}）</span></li>`);
     else notes.push(`<p class="note">${inline(text)}</p>`);
   }
   if (rows.length < 2) return null;
-  return `<div class="items"><ul class="link-rows">${rows.join("")}</ul>${notes.join("")}</div>`;
+  return `<div class="items"><div class="item"><ul class="link-rows">${rows.join("")}</ul>${notes.join("")}</div></div>`;
 }
 
 /** 箇条書きを「太字の項目 = 左バー付きの見出し + 字下げした子」に並べる。太字でない項目が混ざる一覧はそのまま置く */
@@ -361,17 +362,13 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .item { padding: 10px 0 2px; }
 .item-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; line-height: 1.3; padding-left: 10px; border-left: 3px solid var(--accent); }
 .item-rest { font-weight: 400; margin-left: .5em; }
-/* リンク付きの一覧（OSS のツール） */
-.link-rows { list-style: none; padding: 0; margin: 6px 0 0; }
-.link-rows li { display: flex; gap: 12px; align-items: baseline; padding: 8px 0; margin: 0; border-bottom: 1px solid var(--line); }
-.link-rows li:last-child { border-bottom: 0; }
-.link-rows a { font-weight: 600; flex: none; }
+/* リンク付きの一覧（OSS のツール）: 説明は薄い色、注記は箇条書きの外 */
 .link-rows .d { color: var(--muted); }
-.note { color: var(--muted); font-size: 14px; margin: 4px 0 2px; padding-top: 8px; border-top: 1px solid var(--line); }
+.note { color: var(--muted); font-size: 14px; margin: 10px 0 2px; }
 /* タグ: 対象の場所だけ <code> をチップにする */
 .tags li { margin: 4px 0; }
 .tl { color: var(--muted); margin-right: 6px; }
-.tags code { font: inherit; font-size: 13px; line-height: 1.4; display: inline-block; padding: 1px 8px; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
+.tags code { font: inherit; font-size: 13px; line-height: 1.4; display: inline-block; padding: 1px 8px; margin: 2px 1px 2px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--tag); }
 /* 職務経歴の行の技術名は文字のまま（チップは技術スタックと開発環境だけ） */
 .row-meta code { font: inherit; padding: 0; border: 0; background: transparent; color: var(--fg); }
 .tags ul { padding-left: 1.2em; }

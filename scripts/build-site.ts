@@ -397,9 +397,9 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .case > summary { list-style: none; display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; cursor: pointer; }
 .case > summary:hover { border-color: var(--accent); }
 .case > summary::-webkit-details-marker { display: none; }
-/* 開閉の印は右端・上下中央。閉じているときは下向き、開くと上向き */
-.case > summary::after { content: ""; flex: none; align-self: center; width: 8px; height: 8px; margin: 0 4px 3px 6px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform .15s; }
-.case[open] > summary::after { transform: rotate(-135deg); margin: 3px 4px 0 6px; }
+/* 開閉の印は左端・1 行目に揃える（行頭の No. と一緒に縦に追える）。閉じているときは右向き、開くと下向き */
+.case > summary::before { content: ""; flex: none; width: 8px; height: 8px; margin: 9px 0 0 2px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
+.case[open] > summary::before { transform: rotate(45deg); }
 .case[open] > summary { border-bottom: 1px solid var(--line); background: var(--soft); border-radius: 8px 8px 0 0; }
 .row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
 .case[open] .row-no { background: var(--bg); }
@@ -449,7 +449,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
   body { font-size: 12px; }
   .case { break-inside: auto; }
   .case > summary { break-after: avoid; }
-  .case > summary::after { display: none; }
+  .case > summary::before { display: none; }
   .sec h2 { break-after: avoid; }
   a { color: inherit; }
 }

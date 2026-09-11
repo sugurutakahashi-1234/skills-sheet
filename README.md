@@ -235,13 +235,14 @@
 
 #### 開発環境
 
+- **言語 / ランタイム**
+  - `TypeScript`, `Bun`, `Python (uv)`
 - **フロントエンド**
-  - `Astro`, `React 19`, `TanStack Start / Router / Query`, `shadcn/ui`, `TypeScript`, `Tailwind CSS v4`, `Bun`
+  - `Astro`, `React 19`, `TanStack Start / Router / Query`, `shadcn/ui`, `Tailwind CSS v4`
 - **バックエンド / AI システム**
   - `Hono`, `oRPC`, `Drizzle ORM`, `Zod`, `Better Auth`, `@modelcontextprotocol/sdk v2`, `WebMCP`
   - `Cloudflare Workers AI`, `AI Gateway`, `Vectorize`, `Workflows`, `Queues`, `Browser Rendering`, `Email Sending`
   - `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
-  - `Python (uv)`
 - **クラウド / インフラ**
   - `Cloudflare`, `GCP`, `AWS`, `Terraform`, `tflint`, `dotenvx`, `mise`
 - **CI/CD / テスト / 品質**

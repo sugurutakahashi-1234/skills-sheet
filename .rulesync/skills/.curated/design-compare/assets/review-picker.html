@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<title>レビュー結果の選択</title>
+<style>
+  /* 判断用ページの雛形（選択票型）。GitHub の README 表示から採寸した実値 */
+  :root { color-scheme: light; }
+  body { margin: 0; padding: 32px 24px 24px; background: #f6f8fa; color: #1f2328;
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  h2 { font-size: 17px; margin: 36px 0 4px; padding-bottom: 6px; border-bottom: 1px solid #d1d9e0; }
+  .note, .gdesc { font-size: 13px; color: #59636e; }
+  .note { margin: 0 0 4px; }
+  .gdesc { margin: 6px 0 14px; }
+  .legend { font-size: 13px; color: #59636e; margin: 0 0 20px; }
+  .legend .ch { background: #fff3c4; padding: 0 3px; border-radius: 3px; }
+  .legend .del { color: #a40e26; text-decoration: line-through; }
+  .cnt { font-size: 12px; font-weight: 400; color: #59636e; }
+  section { margin: 0 0 28px; padding-bottom: 20px; border-bottom: 1px solid #e6eaef; }
+  .head { display: flex; align-items: center; gap: 8px; margin: 16px 0 6px; flex-wrap: wrap; }
+  .tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #ddf4ff; color: #0550ae; }
+  .loc { font-size: 12px; color: #59636e; }
+  .why { font-size: 13px; color: #59636e; margin: 0 0 8px; }
+  .ba { font-size: 11px; font-weight: 600; color: #59636e; margin: 12px 0 3px; letter-spacing: .04em; }
+  .ba .whyin { font-weight: 400; letter-spacing: 0; }
+  /* GitHub の README 表示（本文幅 896px・16px・行間 1.5・ul は padding-left: 2em） */
+  .gh { width: 896px; max-width: 100%; box-sizing: border-box; background: #fff;
+        border: 1px solid #d1d9e0; border-radius: 6px; padding: 16px 24px; }
+  .gh.after { border-color: #54aeff; }
+  .gh ul { padding-left: 2em; margin: 0; }
+  .gh > ul > li { margin: 2px 0; }
+  .gh a { color: #0969da; text-decoration: none; }
+  .gh code { background: #eff1f3; border-radius: 6px; padding: 1px 5px; font-size: 85%; }
+  .ch { background: #fff3c4; border-radius: 3px; }
+  .del { color: #a40e26; text-decoration: line-through; }
+  .fixed { color: #6e7781; }
+  .w { font-size: 12px; color: #1a7f37; margin-top: 6px; }
+  .cav { font-size: 12px; color: #9a6700; margin-top: 4px; }
+  /* 選択 */
+  .opt { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt span { display: inline-block; font-size: 12px; font-weight: 600; padding: 4px 12px; border: 1px solid #d1d9e0;
+              border-radius: 999px; background: #fff; color: #59636e; cursor: pointer; }
+  .opt label:hover span { background: #eaeef2; }
+  .o-fix input:checked + span { background: #ddf4ff; border-color: #54aeff; color: #0550ae; }
+  .o-review input:checked + span { background: #fff3c4; border-color: #d4a72c; color: #7d4e00; }
+  .o-skip input:checked + span { background: #eaeef2; border-color: #afb8c1; color: #59636e; }
+  .bulk { font-size: 12px; padding: 2px 8px; border: 1px solid #d1d9e0; border-radius: 999px;
+          background: #fff; cursor: pointer; color: #1f2328; }
+  .bulk:hover { background: #eaeef2; }
+  /* 編集欄 */
+  textarea { width: 100%; box-sizing: border-box; border: 1px solid #d1d9e0; border-radius: 6px;
+             padding: 10px; background: #fff; color: #1f2328; }
+  .mine { min-height: 48px; overflow: hidden; resize: vertical;
+          font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  #all { height: 84px; }
+  #out { height: 180px; margin-top: 10px; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .bar { position: sticky; bottom: 0; background: #f6f8fa; border-top: 1px solid #d1d9e0; padding: 12px 0 16px; margin-top: 20px; }
+  .bar .main { font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 6px;
+               border: 1px solid #1f883d; background: #1f883d; color: #fff; cursor: pointer; }
+  .sum { font-size: 13px; color: #59636e; margin: 0 0 8px; }
+</style>
+
+<script>
+/* ===== ここから下の CONFIG と ITEMS だけ書き換える ===== */
+
+const CONFIG = {
+  title: "README の気になる表現",
+  note: "README.md 全文を読んで気になった箇所を挙げ、それぞれ修正案を作りました。既定で推奨を選んであります。",
+  // 選択票の見出し（省略可。item.g で参照する）
+  groups: {
+    A: ["誤記・表記の不統一", "製品名や表記が他の箇所と食い違っているもの"],
+    B: ["意味が取りにくい", "一読で意味が取れない、または語が浮いているもの"],
+  },
+};
+
+/* item の書き方
+   共通: n（番号）, g（グループ。CONFIG.groups のキー。省略可）, loc（場所）, note（何が気になるか）,
+         now（現状の行。配列。1 要素 = 1 つの箇条書き）, px（実測値。省略可）, cav（注意書き。省略可）
+   文字列の中で <a>…</a> が足す部分（黄色）、<d>…</d> が消す部分（赤の取り消し線）、
+   <f>…</f> がその論点では動かさない行（グレー）。
+   ---
+   opts を書かない = 三択モード（修正する / 要検討 / スキップ）。after に修正後の行を書く。rec で既定を指定。
+   opts を書く   = 案モード（案A / 案B / … / このままでよい）。押すとその案の文が編集欄に入る。 */
+const ITEMS = [
+  { n: 1, g: "A", loc: "203 行目 / No.10 経験した技術",
+    note: "「Google DevTools MCP」という製品はない。正しくは Chrome DevTools MCP",
+    now:   ["Storybook でコンポーネントを作成し、<d>Google</d> DevTools MCP で検証"],
+    after: ["Storybook でコンポーネントを作成し、<a>Chrome</a> DevTools MCP で検証"],
+    px: "776px → 782px（元から折り返している行）", rec: "fix" },
+
+  { n: 2, g: "B", loc: "516 行目 / No.5 取り組み・貢献",
+    note: "修飾が長く、一読で意味が取れない",
+    now: ["<d>プロダクトバックログを開発者が着手可能であることを表す「Ready」の概念の導入</d>"],
+    opts: [
+      { k: "a", label: "案A", why: "意味を先に言い、導入先を後に置く", px: "460 / 666px",
+        text: ["<a>着手できる状態を示す「Ready」をプロダクトバックログに導入</a>"] },
+      { k: "b", label: "案B", why: "括弧で意味を補い、運用ルールを作ったことを出す", px: "484 / 666px",
+        text: ["<a>プロダクトバックログに「Ready」（着手できる状態）の定義を導入</a>"] },
+    ] },
+];
+
+/* ===== ここから下は書き換えなくてよい ===== */
+</script>
+
+<div class="wrap">
+  <h1 id="t"></h1>
+  <p class="note" id="n"></p>
+  <p class="legend">凡例: <span class="del">赤の取り消し線</span> = 消す部分 / <span class="ch">黄色</span> = 足す部分 / <span class="fixed">グレー</span> = その論点では動かさない行</p>
+  <div id="list"></div>
+  <h2>全体へのコメント</h2>
+  <p class="gdesc">個別の件によらない話（節の並べ替え、まとめて削りたい、他にも気になる箇所がある、など）があれば書いてください。</p>
+  <textarea id="all" placeholder="例: 強みの節が長いので項目を絞りたい"></textarea>
+  <div class="bar">
+    <p class="sum" id="sum"></p>
+    <button class="main" id="go">結果を出す</button>
+    <button class="bulk" id="sel">全選択</button>
+    <textarea id="out" readonly placeholder="ここに結果が出ます。コピーしてチャットに貼ってください"></textarea>
+  </div>
+</div>
+
+<script>
+const TRIAGE = [["fix", "修正する", "fix"], ["review", "要検討", "review"], ["skip", "スキップ", "skip"]];
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const mark = s => esc(s)
+  .replace(/&lt;a&gt;/g, '<span class="ch">').replace(/&lt;\/a&gt;/g, "</span>")
+  .replace(/&lt;d&gt;/g, '<span class="del">').replace(/&lt;\/d&gt;/g, "</span>")
+  .replace(/&lt;f&gt;/g, '<span class="fixed">').replace(/&lt;\/f&gt;/g, "</span>");
+/* 案の文から、README にそのまま書ける素の文字列を作る（消す部分は落とす） */
+const plain = s => s.replace(/<d>[\s\S]*?<\/d>/g, "").replace(/<\/?[adf]>/g, "").trim();
+/* 現状の文はマーカーだけ外す（消す部分も現状の一部なので残す） */
+const plainNow = s => s.replace(/<\/?[adf]>/g, "").trim();
+const box = (lines, after) =>
+  `<div class="gh${after ? " after" : ""}"><ul>${lines.map(x => `<li>${mark(x)}</li>`).join("")}</ul></div>`;
+const isOpts = it => Array.isArray(it.opts) && it.opts.length > 0;
+const pick = n => document.querySelector(`input[name="i${n}"]:checked`).value;
+const area = n => document.querySelector(`.mine[data-n="${n}"]`);
+const fit = t => { t.style.height = "auto"; t.style.height = (t.scrollHeight + 4) + "px"; };
+
+/* 選んだ値に対応する「採用する文」。案モードのみ */
+function textFor(it, v) {
+  if (!isOpts(it)) return "";
+  if (v === "skip") return it.now.map(plainNow).join("\n");
+  const o = it.opts.find(o => o.k === v);
+  return o ? o.text.map(plain).join("\n") : "";
+}
+
+function render() {
+  document.title = CONFIG.title;
+  document.getElementById("t").textContent = CONFIG.title;
+  document.getElementById("n").textContent = CONFIG.note || "";
+  const groups = CONFIG.groups || {};
+  let html = "", lastG = null;
+  for (const it of ITEMS) {
+    if (it.g && it.g !== lastG) {
+      const [title, desc] = groups[it.g] || [it.g, ""];
+      const num = ITEMS.filter(x => x.g === it.g).length;
+      const bulk = isOpts(it) ? "" :
+        TRIAGE.map(([v, lb]) => `<button class="bulk" data-g="${it.g}" data-v="${v}">まとめて${lb}</button>`).join(" ");
+      html += `<h2>${esc(it.g)}. ${esc(title)} <span class="cnt">${num} 件</span></h2>`
+            + `<p class="gdesc">${esc(desc)}${bulk ? " — " + bulk : ""}</p>`;
+      lastG = it.g;
+    }
+    const choices = isOpts(it)
+      ? it.opts.map(o => [o.k, o.label, "fix"]).concat([["skip", "このままでよい", "skip"]])
+      : TRIAGE;
+    const def = isOpts(it) ? it.opts[0].k : (it.rec || "fix");
+    html += `<section data-n="${it.n}" data-g="${it.g || ""}">`
+      + `<div class="head"><span class="tag">#${it.n}</span><span class="loc">${esc(it.loc)}</span></div>`
+      + `<p class="why">${esc(it.note || "")}</p>`
+      + `<p class="ba">現状</p>${box(it.now, false)}`;
+    if (isOpts(it)) {
+      for (const o of it.opts) {
+        html += `<p class="ba">${esc(o.label)}${o.why ? ` — <span class="whyin">${esc(o.why)}</span>` : ""}</p>`
+          + box(o.text, true) + (o.px ? `<p class="w">${esc(o.px)}</p>` : "");
+      }
+    } else if (it.after) {
+      html += `<p class="ba">修正後</p>${box(it.after, true)}`;
+      if (it.px) html += `<p class="w">${esc(it.px)}</p>`;
+    }
+    if (it.cav) html += `<p class="cav">${esc(it.cav)}</p>`;
+    html += `<div class="opt">` + choices.map(([v, lb, kind]) =>
+        `<label class="o-${kind}"><input type="radio" name="i${it.n}" value="${v}"`
+        + `${v === def ? " checked" : ""}><span>${esc(lb)}</span></label>`).join("") + `</div>`
+      + `<p class="ba">${isOpts(it) ? "採用する文（直接編集できます）" : "ひとこと（任意。案を直したい、別の方針にしたいときはここに）"}</p>`
+      + `<textarea class="mine" data-n="${it.n}"></textarea>`
+      + `</section>`;
+  }
+  document.getElementById("list").innerHTML = html;
+
+  document.querySelectorAll('.opt input').forEach(el => el.addEventListener("change", e => {
+    const n = e.target.name.slice(1);
+    const it = ITEMS.find(x => String(x.n) === n);
+    if (isOpts(it)) { const t = area(n); t.value = textFor(it, e.target.value); fit(t); t.focus(); }
+    summary();
+  }));
+  document.querySelectorAll('.bulk[data-g]').forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(`section[data-g="${b.dataset.g}"]`).forEach(s => {
+      const r = s.querySelector(`input[value="${b.dataset.v}"]`);
+      if (r) r.checked = true;
+    });
+    summary();
+  }));
+  document.querySelectorAll('.mine').forEach(t => {
+    t.addEventListener("input", () => fit(t));
+    const it = ITEMS.find(x => String(x.n) === t.dataset.n);
+    if (isOpts(it)) t.value = textFor(it, pick(it.n));
+    fit(t);
+  });
+  summary();
+}
+
+function summary() {
+  const c = {};
+  ITEMS.forEach(i => { const v = pick(i.n); c[v] = (c[v] || 0) + 1; });
+  const label = { fix: "修正", review: "要検討", skip: "このまま" };
+  document.getElementById("sum").textContent =
+    Object.entries(c).map(([k, v]) => `${label[k] || k} ${v} 件`).join(" / ");
+}
+
+document.getElementById("go").addEventListener("click", () => {
+  const order = { fix: 0, review: 1, skip: 2 };
+  const label = { fix: "修正", review: "要検討", skip: "このまま" };
+  const rows = ITEMS.map(it => {
+    const v = pick(it.n), mine = area(it.n).value.trim();
+    const name = isOpts(it) ? (it.opts.find(o => o.k === v)?.label || "このまま") : `[${label[v]}]`;
+    let s = `#${it.n} ${name} ${it.loc}`;
+    const base = textFor(it, v).trim();
+    if (mine && mine !== base) s += `\n    → ${isOpts(it) ? "編集あり: " : ""}${mine.replace(/\n/g, " / ")}`;
+    return { v, n: it.n, s };
+  });
+  rows.sort((a, b) => (order[a.v] ?? 0) - (order[b.v] ?? 0) || a.n - b.n);
+  const lines = rows.map(r => r.s);
+  const all = document.getElementById("all").value.trim();
+  if (all) lines.push(`\n[全体へのコメント]\n${all}`);
+  document.getElementById("out").value = lines.join("\n");
+});
+document.getElementById("sel").addEventListener("click", () => {
+  const t = document.getElementById("out"); t.select(); t.setSelectionRange(0, t.value.length);
+});
+render();
+</script>
+</html>

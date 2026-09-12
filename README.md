@@ -43,13 +43,10 @@
 
 ## 職務経歴
 
-### 株式会社ZENSHIN (2026年4月 - 現在)
+### フリーランス (2021年7月 - 現在)
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
   - CTO / `Cloudflare`・`RAG`・`MCP` / 創業フェーズの AI 活用支援（FDE）と AI システム開発
-
-### フリーランス (2021年7月 - 2026年3月)
-
 - [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
   - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / iOS・Android・Web と KPI 施策
 - [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）

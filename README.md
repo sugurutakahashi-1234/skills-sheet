@@ -125,7 +125,7 @@
   - AI 活用伴走・業務変革コンサルティング・スポット開発の 3 サービスを企画
   - [ZENSHIN フリーランス](https://zenshin-freelance.com/)（toC）と [ZENSHIN エンジニアマッチ](https://zenshin-engineer-match.com/)（toB）を公開
 - **顧客の業務と体制に合わせた提案・納品（業務2）**
-  - 決裁者と実際に使う担当者の双方に現場でヒアリングし、業務を観察してから要件を固めて受注
+  - 決裁者と実際に使う担当者の双方にヒアリングし、業務を観察してから要件を固めて受注
   - 顧客が契約済みの AI ツールで動き、コマンドを覚えずに使える形で引き渡し
 - **営業が AI エージェントで実業務を回す状態の実現（業務3）**
   - IT 知識のない営業が Claude Code から自然言語で要員検索〜人材紹介を完結
@@ -138,7 +138,7 @@
   - AI の判定と人間の判断のずれを本番データで分析し、プロンプトを 25 回以上改修
   - 構造化は決定論的な変換に任せるなど、AI と機械的な処理の使い分けを徹底
 - **技術発信によるブランディング（業務5）**
-  - 技術ブログを Astro で立ち上げ、AI 活用やプロダクト開発の知見を記事・スライド・資料で公開
+  - 技術ブログを Astro で立ち上げ、AI 活用やプロダクト開発の知見を記事とスライドで公開
   - 構造化データ・sitemap・llms.txt などの SEO 施策を入れ、Lighthouse 100 を維持
 - **一人で運用できる仕組みの整備（業務6）**
   - 社内インフラを徹底的に IaC 化し、コード変更 → PR → plan CI → apply のフローを確立
@@ -223,7 +223,7 @@
 
 - **React Native (Expo) / Next.js**
   - アーキテクチャ: `Monorepo`
-  - 主要ライブラリ: `TanStack Query`, `ts-proto`, `Tamagui`, `Solito`, `Expo Modules API（Swift / Kotlin）`
+  - 主要ライブラリ: `TanStack Query`, `ts-proto`, `Tamagui`, `Solito`, `Expo Modules API`
   - コード品質・テスト: `Storybook`, `ESLint`, `Prettier`, `Vitest`, `Maestro`
 - **Firebase**
   - `Authentication`, `App Distribution`, `Remote Config`, `Analytics`
@@ -689,7 +689,7 @@
 #### 案件概要・担当業務
 
 - BtoC 向けクレジットカード明細管理アプリのリニューアルに伴い、API やバッチの開発
-- サブリードエンジニアとして、顧客向け説明資料の作成、設計、見積もり、実装、テスト、レビューを担当
+- サブリードエンジニアとして、顧客向け資料作成から設計・実装・テスト・レビューまでを担当
 - チーム結成から約 2 年半、リリース後のシステムを継続的にアップデート
 
 #### 経験した技術
@@ -775,7 +775,8 @@
   - NoSQL / ベクトル DB: `Firestore`, `Cloudflare Vectorize`
 - **認証 / 認可**
   - プロトコル / 仕様: `OAuth 2.0`, `JWT`
-  - 実装 / サービス: `Better Auth`, `LINE Login`, `Cognito`, `Firebase Authentication`, `Cloudflare Access`
+  - 実装: `Better Auth`
+  - サービス: `LINE Login`, `Cognito`, `Firebase Authentication`, `Cloudflare Access`
   - クラウド間連携: `Workload Identity Federation (OIDC)`
 
 ### クラウド / インフラ

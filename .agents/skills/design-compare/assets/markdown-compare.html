@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<title><!-- TITLE --></title>
+<style>
+  /* Markdown 文書（GitHub 表示）の案を比べるための雛形。実値は GitHub の README 表示から採寸 */
+  :root { color-scheme: light; }
+  body { margin: 0; padding: 32px 24px 64px; background: #f6f8fa; color: #1f2328;
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  h2 { font-size: 17px; margin: 36px 0 4px; padding-bottom: 6px; border-bottom: 1px solid #d1d9e0; }
+  .note { font-size: 13px; color: #59636e; margin: 0 0 4px; }
+  .legend { font-size: 13px; color: #59636e; margin: 0 0 20px; }
+  .legend .ch { background: #fff3c4; padding: 0 3px; border-radius: 3px; }
+  .legend .del { color: #a40e26; text-decoration: line-through; }
+  section { margin: 0 0 26px; }
+  .head { display: flex; align-items: center; gap: 8px; margin: 16px 0 6px; }
+  .tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .tag.now { background: #eaeef2; color: #59636e; }
+  .tag.plan { background: #ddf4ff; color: #0550ae; }
+  .push { background: #dafbe1; color: #1a7f37; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .why { font-size: 13px; color: #59636e; margin: 0 0 8px; }
+  /* GitHub の README 表示（本文幅 896px・16px・行間 1.5・ul は padding-left: 2em） */
+  .gh { width: 896px; max-width: 100%; box-sizing: border-box; background: #fff;
+        border: 1px solid #d1d9e0; border-radius: 6px; padding: 16px 24px; }
+  .gh h2 { font-size: 24px; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 1px solid #d1d9e0; }
+  .gh h3 { font-size: 20px; margin: 18px 0 8px; }
+  .gh h3:first-of-type { margin-top: 6px; }
+  .gh ul { padding-left: 2em; margin: 0; }
+  .gh > ul > li { margin: 2px 0; }
+  .gh a { color: #0969da; text-decoration: none; }
+  .gh code { background: #eff1f3; border-radius: 6px; padding: 1px 5px; font-size: 85%; }
+  .gh .dots { color: #8c959f; padding-left: 2em; margin: 4px 0 0; }
+  /* 差分 */
+  .ch { background: #fff3c4; border-radius: 3px; }
+  .del { color: #a40e26; text-decoration: line-through; }
+  .fixed { color: #6e7781; }
+  /* 各案の下に置く実測値と注意書き */
+  .w { font-size: 12px; color: #1a7f37; margin-top: 6px; }
+  .cav { font-size: 12px; color: #9a6700; margin-top: 4px; }
+</style>
+<div class="wrap">
+<h1><!-- TITLE --></h1>
+<p class="note"><!-- NOTE: どの文書のどこか・全案に共通する前提 --></p>
+<p class="legend">凡例: <span class="ch">黄色</span> = 現状から変えた箇所 / <span class="del">赤の取り消し線</span> = 削る箇所 / <span class="fixed">グレー</span> = その論点では固定の行</p>
+
+<!-- SECTIONS: ここに「現状」と各案の <section> を並べる。雛形は以下の 2 つ
+
+<section>
+  <div class="head"><span class="tag now">現状</span></div>
+  <div class="gh">
+    <ul><li><strong>項目</strong>
+      <ul><li>現状の行</li></ul>
+    </li></ul>
+  </div>
+  <p class="cav">現状の何が問題か（任意）</p>
+</section>
+
+<section>
+  <div class="head"><span class="tag plan">案1</span><span class="push">推し</span></div>
+  <p class="why">何を変えたか 1 行</p>
+  <div class="gh">
+    <ul><li><strong>項目</strong>
+      <ul><li><span class="del">消す部分</span><span class="ch">足す部分</span></li></ul>
+    </li></ul>
+  </div>
+  <p class="w">実測値（例: 636 / 666px）</p>
+</section>
+
+-->
+</div>
+</html>

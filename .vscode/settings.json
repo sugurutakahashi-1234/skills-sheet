@@ -1,4 +1,5 @@
 {
+  "markdown.styles": ["./.vscode/markdown-light.css"],
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#f9e64f",
     "titleBar.activeForeground": "#15202b",

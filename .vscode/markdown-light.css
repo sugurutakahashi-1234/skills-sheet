@@ -1,0 +1,67 @@
+/* Markdown プレビューだけをライト表示にする（エディタのテーマはそのまま）。
+   .vscode/settings.json の markdown.styles から読み込んでいる。
+   VS Code はプレビューの body に vscode-dark / vscode-light / vscode-high-contrast を付けるので、
+   暗いテーマのときだけ色を上書きする。 */
+
+body.vscode-dark,
+body.vscode-high-contrast {
+  /* プレビューの各要素が参照している変数ごと差し替える */
+  --vscode-editor-background: #ffffff;
+  --vscode-editor-foreground: #1f2328;
+  --vscode-foreground: #1f2328;
+  --vscode-textLink-foreground: #0969da;
+  --vscode-textLink-activeForeground: #0550ae;
+  --vscode-textPreformat-foreground: #1f2328;
+  --vscode-textCodeBlock-background: #f6f8fa;
+  --vscode-textBlockQuote-background: #f6f8fa;
+  --vscode-textBlockQuote-border: #d0d7de;
+  --vscode-textSeparator-foreground: #d0d7de;
+
+  background-color: #ffffff;
+  color: #1f2328;
+}
+
+body.vscode-dark h1,
+body.vscode-dark h2,
+body.vscode-dark h3,
+body.vscode-dark h4,
+body.vscode-dark h5,
+body.vscode-dark h6,
+body.vscode-dark strong,
+body.vscode-dark summary {
+  color: #1f2328;
+}
+
+body.vscode-dark h1,
+body.vscode-dark h2 {
+  border-bottom: 1px solid #d8dee4;
+}
+
+body.vscode-dark hr,
+body.vscode-dark table th,
+body.vscode-dark table td {
+  border-color: #d0d7de;
+}
+
+body.vscode-dark table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+body.vscode-dark blockquote {
+  color: #59636e;
+  background-color: transparent;
+  border-left: 4px solid #d0d7de;
+}
+
+/* インラインコードとコードブロックの地色 */
+body.vscode-dark code,
+body.vscode-dark pre {
+  background-color: #f6f8fa;
+  color: #1f2328;
+}
+
+/* コードブロックの色分け（ハイライト）はエディタのテーマ由来のままなので、
+   暗いテーマの明るい文字色が白地に載って薄く見えることがある。
+   気になるときは次の 2 行のコメントを外してコードブロックだけ暗いままにする。 */
+/* body.vscode-dark pre { background-color: #1f2328; } */
+/* body.vscode-dark pre code { color: #e6edf3; } */

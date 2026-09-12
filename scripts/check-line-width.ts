@@ -2,6 +2,10 @@
 /**
  * 箇条書きが 1 行に収まるかを実測する。
  * 使い方: bun run check:width [README.md] [--width 730] [--slack 1.1] [--top 12] [--all]
+ *        bun run check:width --text "候補の文字列" --text "別の候補" [--depth 2]
+ *
+ * --text は README に書く前の候補を、一時ファイルを作らずにその場で測るためのもの。
+ * --depth は箇条書きの深さ（既定 2 = `  - ` で始まる説明行）。
  *
  * 目的は「全部を 1 行にする」ことではなく、あと少し削れば 1 行になる行を見つけること。
  * したがって既定では、はみ出しが --slack 倍までの行（＝数文字削れば収まる行）を、
@@ -19,11 +23,17 @@ const flag = (name: string, fallback: number) => {
   const i = args.indexOf(`--${name}`);
   return i >= 0 && args[i + 1] ? Number(args[i + 1]) : fallback;
 };
-const file = args.find((a) => !a.startsWith("--") && !/^[\d.]+$/.test(a)) ?? "README.md";
+/** 値を取るフラグの引数を、ファイル名と取り違えないように集めておく */
+const BOOL_FLAGS = new Set(["--all"]);
+const flagValues = new Set(
+  args.filter((a, i) => i > 0 && args[i - 1].startsWith("--") && !BOOL_FLAGS.has(args[i - 1])),
+);
+const texts = args.filter((a, i) => i > 0 && args[i - 1] === "--text");
+const file = args.find((a) => !a.startsWith("--") && !flagValues.has(a) && !/^[\d.]+$/.test(a)) ?? "README.md";
 const width = flag("width", 730);
 const slack = flag("slack", 1.1);
 const top = flag("top", 12);
-const showAll = args.includes("--all");
+const showAll = args.includes("--all") || texts.length > 0;
 
 const INDENT_PX = 32; // GitHub の ul は padding-left: 2em（16px × 2）
 
@@ -39,18 +49,25 @@ const toDisplayText = (s: string) =>
 type Target = { line: number; depth: number; text: string; usable: number };
 
 const targets: Target[] = [];
-const src = await Bun.file(file).text();
-src.split("\n").forEach((raw, i) => {
-  const m = raw.match(/^(\s*)[-*] (.+)$/);
-  if (!m) return;
-  const depth = Math.floor(m[1].length / 2) + 1;
-  targets.push({
-    line: i + 1,
-    depth,
-    text: toDisplayText(m[2]),
-    usable: width - depth * INDENT_PX,
+if (texts.length > 0) {
+  const depth = flag("depth", 2);
+  texts.forEach((t, i) => {
+    targets.push({ line: i + 1, depth, text: toDisplayText(t), usable: width - depth * INDENT_PX });
   });
-});
+} else {
+  const src = await Bun.file(file).text();
+  src.split("\n").forEach((raw, i) => {
+    const m = raw.match(/^(\s*)[-*] (.+)$/);
+    if (!m) return;
+    const depth = Math.floor(m[1].length / 2) + 1;
+    targets.push({
+      line: i + 1,
+      depth,
+      text: toDisplayText(m[2]),
+      usable: width - depth * INDENT_PX,
+    });
+  });
+}
 
 const browser = await puppeteer.launch();
 try {
@@ -76,11 +93,16 @@ try {
     .filter((r) => r.px <= r.usable * slack)
     .sort((a, b) => a.px - a.usable - (b.px - b.usable));
 
-  console.log(`本文幅 ${width}px で計測（箇条書き ${rows.length} 行）`);
+  console.log(
+    texts.length > 0
+      ? `本文幅 ${width}px・深さ ${targets[0].depth} で計測（候補 ${rows.length} 件）`
+      : `本文幅 ${width}px で計測（箇条書き ${rows.length} 行）`,
+  );
   if (showAll) {
     for (const r of rows) {
       const mark = r.px > r.usable ? "折返" : "1行";
-      console.log(`  ${mark}  ${String(r.px).padStart(4)}/${r.usable}px  L${r.line}  ${r.text.slice(0, 60)}`);
+      const label = texts.length > 0 ? `#${r.line}` : `L${r.line}`;
+      console.log(`  ${mark}  ${String(r.px).padStart(4)}/${r.usable}px  ${label}  ${r.text}`);
     }
   }
 

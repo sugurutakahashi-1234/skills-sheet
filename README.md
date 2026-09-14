@@ -1,10 +1,10 @@
 # スキルシート
 
-同じ内容を 2 つの形式で公開しています — [Markdown](https://github.com/sugurutakahashi-1234/skills-sheet)（GitHub 原本） ・ [Web](https://sugurutakahashi-1234.github.io/skills-sheet/)（目次つき）
+同じ内容を 2 つの形式で公開 — [Markdown](https://github.com/sugurutakahashi-1234/skills-sheet)（GitHub 原本） ・ [Web](https://sugurutakahashi-1234.github.io/skills-sheet/)（目次つき）
 
 ## 基本情報
 
-- **所在**: 東京都江戸川区
+- **拠点**: 東京都江戸川区
 - **現在のポジション**: [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO
 - **エンジニア歴**: 10年目（2017年〜）
 - **外部リンク**:
@@ -16,31 +16,31 @@
 ## 強み
 
 - **創業フェーズの CTO 経験**
-  - 技術選定・開発・運用から社内インフラまで、事業に必要なものを自分で決めて実装
+  - 技術選定から開発・運用・社内インフラ整備まで、事業に必要なものを自分で決めて実装
   - サービス 3 つとマッチング 2 サイトを、企画から公開・運用まで担当
   - 小規模でも維持できる構成の選定（Cloudflare 中心に寄せ、運用コストを抑制）
 - **AI システム開発**
-  - LLM による人材マッチングと案件自動評価システムを、設計から運用までフルスタック開発
+  - LLM で人材マッチングと案件評価を自動化するシステムを設計から運用まで開発
   - Cloudflare 上に RAG・ベクトル検索・AI エージェントを組み込んだアプリケーションを構築
   - 非エンジニアが Claude Code / Codex で操作できるよう、社内システムを MCP 前提で設計
   - AI の判定と人間の判断を記録して定期実行で点検し、プロンプトを更新するループの構築
 - **FDE としての AI 活用支援**
   - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案
-  - 案件獲得の営業・商談から、顧客の業務に合わせた AI ツールの実装・導入まで担当
+  - 案件獲得の営業・商談に加え、顧客の業務に合わせた AI ツールの実装・導入も担当
 - **0 → 1 リード経験（受託 4 件 + CTO 1 社）**
-  - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術リードを担当
-  - 創業直後のスタートアップでは、エンジニア 1 人目としてプロダクトと社内システムを構築
+  - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術面を担当
+  - 創業直後のスタートアップでは、1 人目のエンジニアとしてプロダクトと社内システムを構築
   - 受託の内訳: iOS リード 3 件、Flutter リード 1 件
 - **フルスタックの実装力**
   - Swift・React Native・Flutter で iOS / Android、Next.js・Astro で Web を実案件で実装
   - Bun・Hono・oRPC・Drizzle・TanStack Start を本番で運用
-  - マルチクラウド（GCP / Cloudflare / AWS）を Terraform で IaC 化し、構築から運用まで担当
+  - マルチクラウド（GCP / Cloudflare / AWS）の構成を Terraform で IaC 化し、運用まで担当
 - **ビジネス KPI 起点での開発経験**
   - 獲得コストと LTV を起点に、課金層と無課金層それぞれの収益施策を設計・実装
-  - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当
+  - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策の削除も判断
 - **OSS 開発・技術発信**
   - Clean Architecture を基にした設計手法 [Framework-Independent Architecture](https://github.com/sugurutakahashi-1234/framework-independent-architecture) を考案・公開
-  - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew などで配布
+  - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew で配布
   - [Zenn](https://zenn.dev/ikuraikura) と [ZENSHIN の技術ブログ](https://tech.zenshin-inc.co.jp/)で、AI 活用やプロダクト開発の知見を記事・スライドで発信
 
 ## 職務経歴

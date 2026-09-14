@@ -67,7 +67,7 @@
   - Flutter エンジニア / `Flutter`・`Google Maps API` / クロスプラットフォームのデモアプリ開発
 - [No.3] 飲食店管理アプリ開発
   - iOS リードエンジニア / `Swift`・`SwiftUI`・`MVVM` / BtoB 向け MVP 開発
-- [No.2] クレジットカードアプリ iOS アプリ開発
+- [No.2] クレジットカードアプリ iOS 開発
   - iOS エンジニア / `Swift`・`UIKit`・`MVVM` / 見積もり・実装・テスト・レビュー
 - [No.1] クレジットカードアプリ API 開発
   - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
@@ -126,7 +126,7 @@
   - [ZENSHIN フリーランス](https://zenshin-freelance.com/)（toC）と [ZENSHIN エンジニアマッチ](https://zenshin-engineer-match.com/)（toB）を公開
 - **顧客の業務と体制に合わせた提案・納品（業務2）**
   - 決裁者と実際に使う担当者の双方にヒアリングし、業務を観察してから要件を固めて受注
-  - 顧客が契約済みの AI ツールで動き、コマンドを覚えずに使える形で引き渡し
+  - 顧客が契約済みの AI（ChatGPT・Gemini など）と利用状況に合わせて構成を選定
 - **営業が AI エージェントで実業務を回す状態の実現（業務3）**
   - IT 知識のない営業が Claude Code から自然言語で要員検索〜人材紹介を完結
   - 案件 1,000 件 × エンジニア 1,000 名の規模から、5 分以内に適切なマッチングを提示
@@ -341,6 +341,7 @@
   - テスタブルなアーキテクチャの導入: モック化した API レスポンスで、提供前から実装に着手
   - デバッグ画面の作成: 検証用のデバッグ画面により、新機能や View を早期に検証
   - Docs as Code の導入: [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) や [tbls](https://github.com/k1LoW/tbls) によるドキュメント生成を調査し、サーバーサイドチームに展開
+  - 実装: ワイヤフレーム段階のデザインを基に iOS アプリを実装し、実装・仕様の課題を早期に発見してチームへ共有
 - **CI/CD 環境の構築**
   - Xcode Cloud 導入: PR マージをトリガーに TestFlight 配信を自動化し、新機能を迅速に検証
   - API インターフェース変更の自動 Pull Request 作成: OpenAPI の変更をトリガーに、iOS リポジトリへ自動で Pull Request を作成する GitHub Actions を構築
@@ -349,7 +350,6 @@
   - ドキュメント整備: 環境構築手順、ライブラリ選定理由、アーキテクチャ、CI/CD 構成図、ブランチ戦略を README に記載
   - プロジェクト管理: リリースノート・タグ・マイルストーン・GitHub Projects を整備し、タスクの進捗を時系列で追跡
 - **Swift 6 移行とテストコードの自動生成**
-  - 実装: ワイヤフレーム段階のデザインを基に iOS アプリを実装し、実装・仕様の課題を早期に発見してチームへ共有
   - コード生成: View 層・UseCase 層のテストコードを含むボイラープレートを [Sourcery](https://github.com/krzysztofzablocki/Sourcery) や [Mockolo](https://github.com/uber/mockolo) で自動生成
   - Swift 5 → Swift 6 への移行: 早い段階から Beta 版 Xcode で検証し、大きなトラブルなく完了
 
@@ -631,9 +631,9 @@
 </details>
 
 <details>
-<summary>[No.2] クレジットカードアプリ iOS アプリ開発 — iOS エンジニア / Swift・UIKit・MVVM</summary>
+<summary>[No.2] クレジットカードアプリ iOS 開発 — iOS エンジニア / Swift・UIKit・MVVM</summary>
 
-### [No.2] クレジットカードアプリ iOS アプリ開発
+### [No.2] クレジットカードアプリ iOS 開発
 
 #### チーム体制
 

@@ -19,6 +19,8 @@ const SOURCE = "README.md";
 const OUT_DIR = "dist";
 const REPO_URL = "https://github.com/sugurutakahashi-1234/skills-sheet";
 const PDF_GLOB = "*_高橋俊スキルシート.pdf";
+/** 職務経歴の所属見出しの期間。半角 `(2021年7月 - 現在)` と全角 `（2021年7月〜現在）` の両方を受ける */
+const PERIOD_RE = /^(.*?)\s*[（(](\d{4})年\d+月\s*[-–—〜～]\s*(?:(\d{4})年\d+月|(現在))[）)]$/;
 
 const md = await Bun.file(SOURCE).text();
 // README の案件詳細は <details> で畳んである（GitHub で開いたときの長さを抑えるため）。
@@ -269,7 +271,7 @@ const tocHtml = `<ol class="toc">${visibleSections
           .map((s) => {
             const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
             // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
-            const m = cases ? s.heading.text.match(/^(.*?)\s*\((\d{4})年\d+月 - (?:(\d{4})年\d+月|(現在))\)$/) : null;
+            const m = cases ? s.heading.text.match(PERIOD_RE) : null;
             const label = m ? `${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : inline(s.heading.text);
             return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
           })
@@ -291,7 +293,7 @@ for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.sub
   if (h4.join("/") !== expected.join("/")) warnings.push(`${s.heading.text}: h4 が定型 5 節と違う（${h4.join(" / ")}）`);
 }
 for (const s of sections.find((sec) => sec.heading.text === "職務経歴")?.subs ?? []) {
-  if (!/\(\d{4}年\d+月 - (\d{4}年\d+月|現在)\)$/.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が (YYYY年M月 - YYYY年M月|現在) の形でないので目次に年が出ない`);
+  if (!PERIOD_RE.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が （YYYY年M月〜YYYY年M月|現在） の形でないので目次に年が出ない`);
 }
 if (!/^- \*\*現在のポジション\*\*/m.test(md)) warnings.push("基本情報に **現在のポジション** が無いので大きい表示にならない");
 if (!/^  - GitHub: https:\/\/github\.com\/[^/\s]+\/?$/m.test(md)) warnings.push("外部リンクに GitHub のプロフィール URL が無いのでアバターが出ない");

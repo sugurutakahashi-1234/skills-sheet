@@ -39,6 +39,7 @@
   - 獲得コストと LTV を起点に、課金層と無課金層それぞれの収益施策を設計・実装
   - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策は削除する判断も担当
 - **OSS 開発・技術発信**
+  - Clean Architecture を基にした設計手法 [Framework-Independent Architecture](https://github.com/sugurutakahashi-1234/framework-independent-architecture) を考案・公開
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew などで配布
   - [Zenn](https://zenn.dev/ikuraikura) と [ZENSHIN の技術ブログ](https://tech.zenshin-inc.co.jp/)で、AI 活用やプロダクト開発の知見を記事・スライドで発信
 
@@ -47,7 +48,7 @@
 ### フリーランス（2021年7月〜現在）
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
-  - CTO / `Cloudflare`・`RAG`・`MCP` / 創業フェーズの AI 活用支援（FDE）と AI システム開発
+  - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
 - [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
   - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / iOS・Android・Web と KPI 施策
 - [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）

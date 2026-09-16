@@ -1,25 +1,18 @@
 {
   "lockfileVersion": 1,
   "sources": {
-    "coji/natural-japanese": {
-      "requestedRef": "main",
-      "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
-      "resolvedAt": "2026-09-12T07:58:07.051Z",
-      "skills": {
-        "natural-japanese": {
-          "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"
-        }
-      }
-    },
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
       "resolvedRef": "c2cfad2b04074e87d9e6709caf5f0a5ef0980fdd",
-      "resolvedAt": "2026-09-12T15:18:45.036Z",
+      "resolvedAt": "2026-09-16T04:35:49.628Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-93b631c86c1a16f88e724210197bb77cf858be9cc596839ecb1b73d2159eb17f"
         }
       },
+      "skillSelection": [
+        "design-compare"
+      ],
       "rules": {
         "git-safety": {
           "integrity": "sha256-326345f49dd30472c235ec930703ba76832a3f15f486dcf650a348d015f05737"
@@ -41,6 +34,19 @@
         "git-safety",
         "japanese-writing",
         "language-and-commits"
+      ]
+    },
+    "coji/natural-japanese": {
+      "requestedRef": "main",
+      "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
+      "resolvedAt": "2026-09-16T04:35:58.020Z",
+      "skills": {
+        "natural-japanese": {
+          "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"
+        }
+      },
+      "skillSelection": [
+        "natural-japanese"
       ]
     }
   }

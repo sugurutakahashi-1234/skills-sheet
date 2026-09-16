@@ -16,7 +16,7 @@
     "lefthook": "^2.1.10",
     "marked": "^18.0.12",
     "md-to-pdf": "^5.2.5",
-    "rulesync": "^16.26.1",
+    "rulesync": "^16.33.0",
     "textlint": "^15.8.0"
   },
   "trustedDependencies": ["puppeteer", "lefthook"]

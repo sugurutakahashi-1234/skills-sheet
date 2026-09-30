@@ -103,11 +103,11 @@
   - LLM ツールの使い分けの提案、プロンプト改善、MCP 化・Skills 設計の方針策定
   - 建設業向けに、過去事例・基準類・図面から施工計画書の下書きを生成する仕組みを開発
 - **RAG / ベクトル検索マッチング（業務3）**
-  - Workers AI（bge-m3）+ Vectorize による意味ベースの類似検索
+  - Workers AI（bge-m3）+ Vectorize による類似検索
   - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の 2 段パイプライン設計
   - 自作の評価スクリプトで LLM を比較検証し、シーンごとに使い分け
 - **MCP サーバー / AI エージェント運用（業務3）**
-  - 70 以上のツールを持つ MCP サーバーの開発（OAuth 認証・マルチテナント認可）
+  - 70 以上のツールを提供する MCP サーバーの開発（OAuth 認証・マルチテナント認可）
   - WebMCP（ブラウザ内 MCP）を Origin Trial 段階で先行導入
   - 定期実行と 50 以上の Skills による業務自動化（Claude Code / Codex 両対応）
 - **LINE 公式アカウント基盤（業務3）**
@@ -120,7 +120,7 @@
   - Astro によるホームページと技術ブログ
   - Email Sending・Slack Interactivity による採用応募対応の自動化
 - **マルチクラウド IaC（業務6）**
-  - GCP / Cloudflare / AWS / Google Workspace を Terraform で横断管理
+  - GCP / Cloudflare / AWS / Google Workspace を Terraform で一元管理
   - Workload Identity Federation（OIDC）による鍵レス認証
 
 #### 取り組み・貢献
@@ -201,7 +201,7 @@
   - Crisp SDK を用いたカスタマーサポートチャットの実装
 - **開発プロセス改善**
   - Storybook による UI コンポーネントカタログの作成
-  - Maestro によるモバイルアプリでの E2E テストの導入
+  - Maestro によるモバイルアプリの E2E テスト導入
   - mise による開発環境セットアップの簡略化とツールバージョンの統一
 - **AI・MCP 活用**
   - Figma MCP を用いたデザインからの実装
@@ -227,7 +227,7 @@
 #### 開発環境
 
 - **React Native (Expo) / Next.js**
-  - アーキテクチャ: `Monorepo`
+  - リポジトリ構成: `Monorepo`
   - 主要ライブラリ: `TanStack Query`, `ts-proto`, `Tamagui`, `Solito`, `Expo Modules API`
   - コード品質・テスト: `Storybook`, `ESLint`, `Prettier`, `Vitest`, `Maestro`
 - **Firebase**
@@ -278,10 +278,9 @@
   - `permission_handler` を用いた位置情報・カメラ・写真フォルダの権限取得
   - `slang` による多言語対応
   - `pedantic_mono` による静的解析ルールの統一
-  - `ThemeData` によるデザインシステムの実装
   - `fvm` による Flutter のバージョン管理
 - **開発プロセス改善**
-  - `Prism` を活用した API モックサーバーの構築
+  - `Prism` を用いた API モックサーバーの構築
   - [`Lefthook`](https://github.com/evilmartians/lefthook) による pre-commit フックでの静的解析の実行
 
 #### 取り組み・貢献
@@ -349,7 +348,7 @@
   - Docs as Code の導入: [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) や [tbls](https://github.com/k1LoW/tbls) によるドキュメント生成を調査し、サーバーサイドチームに展開
   - 先行着手: ワイヤフレーム段階から iOS アプリを形にし、仕様と実装の課題をチームへ共有
 - **CI/CD 環境の構築**
-  - Xcode Cloud 導入: PR マージをトリガーに TestFlight 配信を自動化し、新機能を迅速に検証
+  - Xcode Cloud 導入: PR マージをトリガーに TestFlight 配信を自動化し、新機能を随時検証
   - API インターフェース変更への追従: OpenAPI の差分をトリガーに、iOS リポジトリへ Pull Request を自動作成する GitHub Actions を構築
   - スナップショットテスト: View の差分検出環境を構築し、不具合を早期に発見
 - **iOS メンバーの増員や引き継ぎを見越したドキュメント・進捗の整備**
@@ -399,7 +398,7 @@
   - Protocol Buffers に対応した [SwiftProtobuf](https://github.com/apple/swift-protobuf) を用いたデータ連携
   - Swift Concurrency（async/await, AsyncStream, TaskGroup, Actor）を用いた非同期処理のハンドリング
   - [AWS Amplify SDK](https://github.com/aws-amplify/amplify-swift) を用いた Cognito による SMS 認証・認可、AppSync による GraphQL 疎通、Pinpoint によるログイベント送信、S3 とのデータ連携
-  - デザインシステムを活用した画面実装
+  - デザインシステムに沿った UI の実装
   - AVFoundation を用いた動画の再生
   - ReplayKit を用いた画面の録画
   - Combine を用いた視線や感情の時系列データのハンドリング
@@ -410,7 +409,7 @@
   - [Periphery](https://github.com/peripheryapp/periphery) による Swift の未使用コードの静的解析
   - Swift-DocC によるドメイン層のドキュメント化
   - [Mockolo](https://github.com/uber/mockolo) によるテスト用モックの自動生成
-  - GitHub Copilot, ChatGPT の活用
+  - GitHub Copilot・ChatGPT の活用
 
 #### 取り組み・貢献
 

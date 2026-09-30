@@ -211,7 +211,7 @@
   - 設計した施策の実装からリリースまでを担当
   - 課金導線・ガチャ・デイリーミッション・無料開放を実装し、サブスク数と ARPU を改善
   - 課金転換しない層からはリワード広告・オファーウォールで収益化
-- **週次リリースでの仮説検証**
+- **施策の検証サイクル**
   - 施策立案からリリースまでを 1 週間で回し、スプリントごとに反復
   - 同時期のキャンペーンや曜日の波と切り分け、A/B テストで施策単体の効果を測定
   - 効果が出なかった施策はすぐに削除し、その結果も次の意思決定に反映
@@ -237,7 +237,7 @@
 - **プロジェクト管理**
   - `GitHub Projects`, `Notion`, `Linear`
 - **開発ツール**
-  - `Android Studio`, `Xcode`, `GitHub Copilot`, `Claude Code`, `Codex`, `Gemini`
+  - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `Claude Code`, `Codex`, `Gemini`
 - **デザインツール**
   - `Figma`
 </details>
@@ -303,7 +303,7 @@
 - **プロジェクト管理**
   - `GitHub Projects`, `Notion`, `Slack`
 - **開発ツール**
-  - `Android Studio`, `Xcode`, `GitHub Copilot`, `ChatGPT`
+  - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `ChatGPT`
 - **デザインツール**
   - `Figma`
 </details>

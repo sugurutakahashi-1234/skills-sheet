@@ -89,26 +89,25 @@
 - 創業フェーズの株式会社ZENSHIN の CTO として、以下 6 つの業務を並行して推進
   - **[業務1] 自社サービスの企画・立ち上げ**: 3 サービスとマッチング 2 サイトの公開
   - **[業務2] AI 活用支援 / 提案活動（FDE）**: 商談・要件定義から実装・導入まで担当
-  - **[業務3] AI マッチングシステム開発**: Cloudflare 上の RAG / MCP / AI エージェント基盤
+  - **[業務3] AI マッチングシステム開発**: Cloudflare 上での RAG / MCP / AI エージェント基盤
   - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内ツール
   - **[業務5] [ホームページ](https://www.zenshin-inc.co.jp/)・[技術ブログ](https://tech.zenshin-inc.co.jp/)**: 設計・構築・運用
   - **[業務6] 社内インフラ管理**: Terraform によるマルチクラウド IaC
 
 #### 経験した技術
 
-- **AI 活用支援 / 提案活動（業務2）**
+- **FDE としての AI 活用支援（業務2）**
   - Claude Design や v0 による商談前の高速プロトタイピング
   - LLM ツールの使い分けの提案、プロンプト改善、MCP 化・Skills 設計の方針策定
 - **RAG / ベクトル検索マッチング（業務3）**
   - Workers AI（bge-m3）+ Vectorize による類似検索
   - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の 2 段パイプライン設計
-  - 自作の評価スクリプトで LLM を比較検証し、シーンごとに使い分け
+  - 自作の評価スクリプトで GLM・Kimi・DeepSeek を比較検証し、シーンごとに使い分け
 - **MCP サーバー / AI エージェント運用（業務3）**
   - 70 以上のツールを提供する MCP サーバーの開発（OAuth 認証・マルチテナント認可）
-  - WebMCP（ブラウザ内 MCP）を Origin Trial 段階で先行導入
   - 定期実行と 50 以上の Skills による業務自動化（Claude Code / Codex 両対応）
 - **LINE 公式アカウント基盤（業務3）**
-  - 友だち紐付け不要の本人アカウント連携
+  - Better Auth による LINE・Google ログインの実装（マルチログイン対応）
   - スタッフ向けの双方向チャット
   - LINE の Quick Reply（選択式の返信）による稼働状況の定期ヒアリング
 - **Cloudflare フルスタック（業務1・3・4・5）**
@@ -165,9 +164,8 @@
   - `Vitest`, `Playwright`, `Storybook`, `MSW`, `@axe-core/playwright`, `oxlint`, `oxfmt`, `knip`, `lefthook`
 - **AI ツール（提案活動・開発）**
   - `Claude Code`, `Codex`, `v0`, `Chrome DevTools MCP`
-- **分析 / エディタ**
+- **分析**
   - 分析: `Google Search Console`, `PageSpeed Insights`, `PostHog`, `Cloudflare Analytics`
-  - エディタ: `Visual Studio Code`
 </details>
 
 <details>
@@ -239,7 +237,7 @@
 - **プロジェクト管理**
   - `GitHub Projects`, `Notion`, `Linear`
 - **開発ツール**
-  - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `Claude Code`, `Codex`, `Gemini`
+  - `Android Studio`, `Xcode`, `GitHub Copilot`, `Claude Code`, `Codex`, `Gemini`
 - **デザインツール**
   - `Figma`
 </details>
@@ -305,7 +303,7 @@
 - **プロジェクト管理**
   - `GitHub Projects`, `Notion`, `Slack`
 - **開発ツール**
-  - `VSCode`, `Android Studio`, `Xcode`, `GitHub Copilot`, `ChatGPT`
+  - `Android Studio`, `Xcode`, `GitHub Copilot`, `ChatGPT`
 - **デザインツール**
   - `Figma`
 </details>

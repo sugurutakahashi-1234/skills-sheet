@@ -57,19 +57,34 @@ README を直すたびに決まった判断を残す。新しく決めたこと�
 - 文の中の名前は囲まなくてよい。囲んだ場合も上の 3 か所以外では Web 版は普通のインラインコード表示になる（No.9 の経験した技術の `` `Riverpod` と `Hooks` を用いた状態管理 `` はこれ）
 - 開発環境は名前だけの一覧にする。文で書きたい内容（アーキテクチャの構成など）は「経験した技術」か「取り組み・貢献」に書く
 
-# git の破壊的操作
+# git の操作境界
 
-以下は**ユーザーの明示的な指示なしに実行しない**。いずれも取り返しがつかない、または復旧に手間がかかる。
+線を引く基準は「取り消せるか」と「他人に見えるか」の 2 つ。手元で取り消せる操作（ファイル編集・テスト実行・ブランチ作成）は自由に進めてよい。取り消せない操作と、他人の目に触れる操作は、ユーザーの明示的な指示があるまで実行しない。
 
+## 明示的な指示があるまで実行しない
+
+未コミットの変更や履歴を失う操作:
+
+- `git reset --hard` / `git checkout -- <file>` / `git restore` で作業中の変更を捨てる
+- `git clean -f`
 - `git stash drop` / `git stash clear`
 - `git branch -D`
-- `git reset --hard`
-- `git checkout -- <file>`（未コミットの変更が消える）
-- `git clean -f`
-- `git rebase --abort`
-- `git push --force`
+- `git rebase --abort`（進行中の rebase の途中結果が消える）
+- `git push --force` と、公開済みコミットの amend
 
-`git add` / `git commit` / `git push` も、ユーザーから明示的に指示があるまで実行しない。
+他人に見える操作:
+
+- `git push`
+- `git commit`（履歴に残り、push の一歩手前になる。「コミットして」と言われたときだけ行う）
+- PR・issue へのコメント、外部サービスへの投稿
+
+## 障害の近道に破壊的操作を使わない
+
+フックや検査に止められたとき、`--no-verify` で飛ばす・見慣れないファイルを消す・`reset --hard` で状態を作り直す、といった近道を取らない。止まった原因を直すか、直せないならユーザーに状況を伝えて判断を仰ぐ。シークレット検知で止まったときの手順は `secret-safety` ルールにある。
+
+## 確実に止めたいなら設定で塞ぐ
+
+このルールはモデルへの文脈であって、強制ではない。上の操作を確実に止めたいリポジトリでは、Claude Code の `permissions.deny`（`Bash(git push --force *)` のようなコマンド前置パターン）か `PreToolUse` hook で塞ぐ。deny はどの permission mode でも効き、hook は `--dangerously-skip-permissions` でも効く。雛形は sugurutakahashi-1234/ai-rules の `templates/claude-settings.json`。
 
 # 日本語の文体
 
@@ -96,6 +111,7 @@ Markdown の文章（README・設計メモ・議事録・レポート・記事�
 - 無生物主語で擬人化しない。「モデルは知っている」「データが語る」ではなく、人か処理を主体に戻すか「〜から分かる」「〜に含まれる」と書く
 - 英語慣用句の直訳比喩を使わない。「運ぶ」「開かれた問い」「露出する」「住んでいる」は、字義どおりの動作に読めるなら言い直す
 - 話し言葉の評価語（「効く」「刺さる」「筋がいい」）は、効果の内容を具体的に書き直す
+- 修飾が何にかかるかを読み返す。「顧客業務に入り込んだ AI ツール」では、入り込むのがツールに見える。人が主語になる動作を、物にかかる修飾に埋め込まない
 
 ## 断定と不確実性
 
@@ -107,20 +123,24 @@ Markdown の文章（README・設計メモ・議事録・レポート・記事�
 
 - textlint の `@textlint-ja/preset-ai-writing` を pre-commit で回す（設定テンプレート: sugurutakahashi-1234/ai-rules の `templates/.textlintrc.json`）。誇張表現・太字とコロンの機械的な組み合わせ・箇条書きの機械的パターンを検出する
 - 議事録・レポート・記事のように長い文書を設計から書くときは、外部スキル natural-japanese（coji/natural-japanese）を rulesync の sources で取り込んで使う
+- AI 臭の除去を謳う英語圏のスキルは追加導入しない（no-ai-slop / humanizer / stop-slop / humanize などを確認した結果）。禁止語は `delve` `leverage` `robust` といった英語語彙、構造規則は em dash の頻度・tricolon・`not X but Y` の対句で、日本語には移せない。言語に依存しない原則（具体性で接地する・無生物主語を避ける・リズムの単調さを避ける）はこのルールに書いてある。日本語の AI 臭除去と文体プロファイルは natural-japanese が担う
+- 禁止語リストを育てる方向は取らない。モデルが変わると癖も変わるため、リストは当たらない項目が増えて保守だけが残る。代わりに機械検査（textlint）と、書かれた文章を通読して直す手順（`design-compare` の選択票型）で回す
 
 # 言語とコミット
 
-- 議論・コードコメント・ドキュメントは**日本語**で書く。
-- コミットメッセージは **type が英語小文字・subject と body は日本語**。
+- 議論・コードコメント・ドキュメントは日本語で書く。
+- コミットメッセージは type が英語小文字・subject と body は日本語。
   - 形式: `type(scope): 日本語の subject`（scope は任意）
-  - 許容 type は標準語彙 `feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `build` / `ci` / `chore` / `revert` / `improve`（Conventional Commits 準拠 + improve。sugurutakahashi-1234/ai-rules の `templates/commitlint.config.mjs` が正）。release-please 等のリリース自動化がこの語彙に依存するため勝手に増減しない
+  - 許容 type は標準語彙 `feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `build` / `ci` / `chore` / `revert` / `improve`（Conventional Commits 準拠 + improve。sugurutakahashi-1234/ai-rules の `templates/commitlint.config.ts` が正）。release-please 等のリリース自動化がこの語彙に依存するため勝手に増減しない
   - そのリポジトリの commitlint 設定（`commitlint.config.*` の `type-enum`）が標準と異なる場合はリポジトリ側の設定に従う
   - 例: `improve(ci): bun のバージョン指定を latest 追随へ統一`
 
 ## commitlint の前提
 
-日本語 subject を書けるようにするため、既定から以下を変更している。新規リポジトリでも同じ設定を使う（テンプレート: sugurutakahashi-1234/ai-rules の `templates/commitlint.config.mjs`）。
+日本語 subject を書けるようにするため、既定から以下を変更している。新規リポジトリでも同じ設定を使う（テンプレート: sugurutakahashi-1234/ai-rules の `templates/commitlint.config.ts`）。
 
 - `subject-case` は無効（日本語 subject を許容）
 - `header-max-length` は 120（複数領域にまたがる変更でも 1 行で説明できるように）
 - `body-max-line-length` は無効（日本語の詳細説明を折り返さずに書けるように）
+
+設定ファイルは `commitlint.config.ts` に揃える。`@commitlint/types` の `UserConfig` で縛ると、既知ルールの値の形（severity・condition・値の型）が commit 時ではなくエディタと tsc で落ちるため。型は `import type` だけで使い、設定の実行時に `@commitlint/types` を要求しない（hoist されない依存構成でもフックが壊れないように）。

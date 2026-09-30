@@ -56,7 +56,13 @@
           font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; }
   #all { height: 84px; }
   #out { height: 180px; margin-top: 10px; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .bar { position: sticky; bottom: 0; background: #f6f8fa; border-top: 1px solid #d1d9e0; padding: 12px 0 16px; margin-top: 20px; }
+  .pager { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 14px 0 18px; padding: 10px 0; border-top: 1px solid #d1d9e0; border-bottom: 1px solid #d1d9e0; }
+  .pager button { font-size: 13px; font-weight: 600; padding: 5px 14px; border: 1px solid #d1d9e0; border-radius: 6px; background: #fff; cursor: pointer; color: #1f2328; }
+  .pager button:hover:not(:disabled) { background: #eaeef2; }
+  .pager button:disabled { opacity: .4; cursor: default; }
+  .pager .pos { font-size: 13px; color: #59636e; }
+  .pager select { font-size: 13px; padding: 4px 6px; border: 1px solid #d1d9e0; border-radius: 6px; background: #fff; }
+  .bar { background: #f6f8fa; border-top: 1px solid #d1d9e0; padding: 12px 0 16px; margin-top: 20px; }
   .bar .main { font-size: 14px; font-weight: 600; padding: 8px 18px; border-radius: 6px;
                border: 1px solid #1f883d; background: #1f883d; color: #fff; cursor: pointer; }
   .sum { font-size: 13px; color: #59636e; margin: 0 0 8px; }
@@ -68,6 +74,7 @@
 const CONFIG = {
   title: "README の気になる表現",
   note: "README.md 全文を読んで気になった箇所を挙げ、それぞれ修正案を作りました。既定で推奨を選んであります。",
+  perPage: 10,   // 1 ページに出す件数。0 なら全件を 1 ページに
   // 選択票の見出し（省略可。item.g で参照する）
   groups: {
     A: ["誤記・表記の不統一", "製品名や表記が他の箇所と食い違っているもの"],
@@ -108,13 +115,16 @@ const ITEMS = [
   <h1 id="t"></h1>
   <p class="note" id="n"></p>
   <p class="legend">凡例: <span class="del">赤の取り消し線</span> = 消す部分 / <span class="ch">黄色</span> = 足す部分 / <span class="fixed">グレー</span> = その論点では動かさない行</p>
+  <div class="pager" id="pagerTop"></div>
   <div id="list"></div>
+  <div class="pager" id="pagerBottom"></div>
   <h2>全体へのコメント</h2>
   <p class="gdesc">個別の件によらない話（節の並べ替え、まとめて削りたい、他にも気になる箇所がある、など）があれば書いてください。</p>
   <textarea id="all" placeholder="例: 強みの節が長いので項目を絞りたい"></textarea>
   <div class="bar">
     <p class="sum" id="sum"></p>
-    <button class="main" id="go">結果を出す</button>
+    <button class="main" id="go">このページの結果を出す</button>
+    <button class="bulk" id="goAll">見たページの分をまとめて出す</button>
     <button class="bulk" id="sel">全選択</button>
     <textarea id="out" readonly placeholder="ここに結果が出ます。コピーしてチャットに貼ってください"></textarea>
   </div>
@@ -213,16 +223,20 @@ function render() {
 
 function summary() {
   const c = {};
-  ITEMS.forEach(i => { const v = pick(i.n); c[v] = (c[v] || 0) + 1; });
   const label = { fix: "修正", review: "要検討", skip: "このまま" };
+  ITEMS.forEach(i => {
+    const v = pick(i.n);
+    const name = isOpts(i) ? (i.opts.find(o => o.k === v)?.label || "このまま") : (label[v] || v);
+    c[name] = (c[name] || 0) + 1;
+  });
   document.getElementById("sum").textContent =
-    Object.entries(c).map(([k, v]) => `${label[k] || k} ${v} 件`).join(" / ");
+    Object.entries(c).sort().map(([k, v]) => `${k} ${v} 件`).join(" / ");
 }
 
-document.getElementById("go").addEventListener("click", () => {
+function emitRows(list) {
   const order = { fix: 0, review: 1, skip: 2 };
   const label = { fix: "修正", review: "要検討", skip: "このまま" };
-  const rows = ITEMS.map(it => {
+  const rows = list.map(it => {
     const v = pick(it.n), mine = area(it.n).value.trim();
     const name = isOpts(it) ? (it.opts.find(o => o.k === v)?.label || "このまま") : `[${label[v]}]`;
     let s = `#${it.n} ${name} ${it.loc}`;
@@ -235,10 +249,48 @@ document.getElementById("go").addEventListener("click", () => {
   const all = document.getElementById("all").value.trim();
   if (all) lines.push(`\n[全体へのコメント]\n${all}`);
   document.getElementById("out").value = lines.join("\n");
-});
+}
 document.getElementById("sel").addEventListener("click", () => {
   const t = document.getElementById("out"); t.select(); t.setSelectionRange(0, t.value.length);
 });
 render();
+
+/* ---- ページ送り（CONFIG.perPage 件ずつ。0 なら全件を 1 ページに） ---- */
+const PER = CONFIG.perPage || 10;
+const secs = Array.from(document.querySelectorAll('section[data-n]'));
+const pages = PER > 0 ? Math.ceil(secs.length / PER) : 1;
+const touched = new Set();
+let cur = 0;
+const pageItems = p => (PER > 0 ? secs.slice(p * PER, (p + 1) * PER) : secs)
+  .map(s => ITEMS.find(i => String(i.n) === s.dataset.n)).filter(Boolean);
+function buildPager(el) {
+  if (pages <= 1) { el.hidden = true; return; }
+  el.innerHTML = '<button data-go="prev">← 前へ</button><span class="pos here"></span><button data-go="next">次へ →</button><select></select><span class="pos done"></span>';
+  const sel = el.querySelector('select');
+  for (let p = 0; p < pages; p++) { const o = document.createElement('option'); o.value = String(p); o.textContent = `${p * PER + 1}〜${Math.min((p + 1) * PER, secs.length)} 件目`; sel.appendChild(o); }
+  el.querySelector('[data-go="prev"]').addEventListener('click', () => show(cur - 1));
+  el.querySelector('[data-go="next"]').addEventListener('click', () => show(cur + 1));
+  sel.addEventListener('change', e => show(Number(e.target.value)));
+}
+function show(p) {
+  cur = Math.max(0, Math.min(pages - 1, p)); touched.add(cur);
+  if (pages > 1) secs.forEach((s, idx) => { s.hidden = Math.floor(idx / PER) !== cur; });
+  document.querySelectorAll('.pager').forEach(el => {
+    if (el.hidden) return;
+    el.querySelector('[data-go="prev"]').disabled = cur === 0; el.querySelector('[data-go="next"]').disabled = cur === pages - 1;
+    el.querySelector('select').value = String(cur);
+    el.querySelector('.pos.here').textContent = `${cur * PER + 1}〜${Math.min((cur + 1) * PER, secs.length)} 件目 / 全 ${secs.length} 件（${cur + 1} / ${pages} ページ）`;
+    el.querySelector('.pos.done').textContent = `見たページ ${touched.size} / ${pages}`;
+  });
+  /* 前のページの出力が残っていると貼り間違えるので結果欄だけ空にする（編集欄と全体コメントは保持） */
+  document.getElementById('out').value = '';
+  /* 隠れている間は高さが測れないので、表示してから測り直す */
+  pageItems(cur).forEach(i => { const a = area(i.n); if (a) fit(a); });
+  if (pages > 1) window.scrollTo({ top: 0 });
+}
+buildPager(document.getElementById('pagerTop')); buildPager(document.getElementById('pagerBottom'));
+document.getElementById('go').addEventListener('click', () => emitRows(pageItems(cur)));
+document.getElementById('goAll').addEventListener('click', () => emitRows([...touched].sort((a, b) => a - b).flatMap(p => pageItems(p))));
+show(0);
 </script>
 </html>

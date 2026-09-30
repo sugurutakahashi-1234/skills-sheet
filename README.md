@@ -47,38 +47,38 @@
 
 ### フリーランス（2021年7月〜現在）
 
-- [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO（IT コンサルティング / SIer / SES、2026年4月〜現在）
+- [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO（IT コンサルティング / SIer / SES）
   - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
-- [No.10] ショートドラマアプリ開発（エンタメ企業 G社、2025年9月〜2026年3月）
+- [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
   - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 施策
-- [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社、2024年12月〜2025年5月）
+- [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
   - Flutter リードエンジニア / `Flutter`・`Riverpod` / 位置情報 NFT ゲームの 0 → 1 立ち上げ
-- [No.8] SNS アプリ開発（SIer E社、2024年5月〜2024年8月）
+- [No.8] SNS アプリ開発（SIer E社）
   - iOS リードエンジニア / `Swift`・`SwiftUI` / 音声 SNS の 0 → 1 立ち上げと Swift 6 移行
-- [No.7] マーケティングリサーチアプリ開発（スタートアップ D社、2023年4月〜2023年10月）
+- [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
   - iOS リードエンジニア / `Swift`・`SwiftUI`・`Amplify` / 0 → 1 立ち上げと iOS 3 名のリード
-- [No.6] ファンクラブアプリ開発（メガベンチャー C社、2022年8月〜2022年12月）
+- [No.6] ファンクラブアプリ開発（メガベンチャー C社）
   - iOS エンジニア / `Swift`・`UIKit`・`Redux` / スタンプラリー機能・景品交換機能の開発
-- [No.5] ドローン制御アプリ開発（ドローンベンチャー B社、2021年7月〜2022年5月）
+- [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
   - iOS エンジニア / `Swift`・`SwiftUI`・`VIPER` / 飛行の安定性改善と複数メーカーのドローン対応
 
 ### 外資系ITコンサル A社（2017年4月〜2021年6月）
 
-- [No.4] ショッピングアプリ開発（2021年2月〜2021年4月）
+- [No.4] ショッピングアプリ開発
   - Flutter エンジニア / `Flutter`・`Google Maps API` / iOS・Android 両対応のデモアプリ開発
-- [No.3] 飲食店管理アプリ開発（2021年1月〜2021年3月）
+- [No.3] 飲食店管理アプリ開発
   - iOS リードエンジニア / `Swift`・`SwiftUI`・`MVVM` / BtoB 向け MVP 開発
-- [No.2] クレジットカードアプリ iOS 開発（2018年9月〜2020年12月）
+- [No.2] クレジットカードアプリ iOS 開発
   - iOS エンジニア / `Swift`・`UIKit`・`MVVM` / サーバーサイドと兼任での画面実装・レビュー
-- [No.1] クレジットカードアプリ API 開発（2018年9月〜2020年12月）
+- [No.1] クレジットカードアプリ API 開発
   - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
 
 ## 案件詳細
 
 <details>
-<summary>[No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES、2026年4月〜現在） — CTO / Cloudflare・RAG・MCP</summary>
+<summary>[No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES） — CTO / Cloudflare・RAG・MCP</summary>
 
-### [No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES、2026年4月〜現在）
+### [No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES）
 
 #### チーム体制
 
@@ -169,9 +169,9 @@
 </details>
 
 <details>
-<summary>[No.10] ショートドラマアプリ開発（エンタメ企業 G社、2025年9月〜2026年3月） — フロントエンドエンジニア / React Native (Expo)・Next.js</summary>
+<summary>[No.10] ショートドラマアプリ開発（エンタメ企業 G社） — フロントエンドエンジニア / React Native (Expo)・Next.js</summary>
 
-### [No.10] ショートドラマアプリ開発（エンタメ企業 G社、2025年9月〜2026年3月）
+### [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
 
 #### チーム体制
 
@@ -243,9 +243,9 @@
 </details>
 
 <details>
-<summary>[No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社、2024年12月〜2025年5月） — Flutter リードエンジニア / Flutter・Riverpod</summary>
+<summary>[No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社） — Flutter リードエンジニア / Flutter・Riverpod</summary>
 
-### [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社、2024年12月〜2025年5月）
+### [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
 
 #### チーム体制
 
@@ -309,9 +309,9 @@
 </details>
 
 <details>
-<summary>[No.8] SNS アプリ開発（SIer E社、2024年5月〜2024年8月） — iOS リードエンジニア / Swift・SwiftUI</summary>
+<summary>[No.8] SNS アプリ開発（SIer E社） — iOS リードエンジニア / Swift・SwiftUI</summary>
 
-### [No.8] SNS アプリ開発（SIer E社、2024年5月〜2024年8月）
+### [No.8] SNS アプリ開発（SIer E社）
 
 #### チーム体制
 
@@ -369,9 +369,9 @@
 </details>
 
 <details>
-<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社、2023年4月〜2023年10月） — iOS リードエンジニア / Swift・SwiftUI・Amplify</summary>
+<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社） — iOS リードエンジニア / Swift・SwiftUI・Amplify</summary>
 
-### [No.7] マーケティングリサーチアプリ開発（スタートアップ D社、2023年4月〜2023年10月）
+### [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
 
 #### チーム体制
 
@@ -434,9 +434,9 @@
 </details>
 
 <details>
-<summary>[No.6] ファンクラブアプリ開発（メガベンチャー C社、2022年8月〜2022年12月） — iOS エンジニア / Swift・UIKit・Redux</summary>
+<summary>[No.6] ファンクラブアプリ開発（メガベンチャー C社） — iOS エンジニア / Swift・UIKit・Redux</summary>
 
-### [No.6] ファンクラブアプリ開発（メガベンチャー C社、2022年8月〜2022年12月）
+### [No.6] ファンクラブアプリ開発（メガベンチャー C社）
 
 #### チーム体制
 
@@ -477,9 +477,9 @@
 </details>
 
 <details>
-<summary>[No.5] ドローン制御アプリ開発（ドローンベンチャー B社、2021年7月〜2022年5月） — iOS エンジニア / Swift・SwiftUI・VIPER</summary>
+<summary>[No.5] ドローン制御アプリ開発（ドローンベンチャー B社） — iOS エンジニア / Swift・SwiftUI・VIPER</summary>
 
-### [No.5] ドローン制御アプリ開発（ドローンベンチャー B社、2021年7月〜2022年5月）
+### [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
 
 #### チーム体制
 
@@ -535,9 +535,9 @@
 </details>
 
 <details>
-<summary>[No.4] ショッピングアプリ開発（2021年2月〜2021年4月） — Flutter エンジニア / Flutter・Firebase・Google Maps API</summary>
+<summary>[No.4] ショッピングアプリ開発 — Flutter エンジニア / Flutter・Firebase・Google Maps API</summary>
 
-### [No.4] ショッピングアプリ開発（2021年2月〜2021年4月）
+### [No.4] ショッピングアプリ開発
 
 #### チーム体制
 
@@ -585,9 +585,9 @@
 </details>
 
 <details>
-<summary>[No.3] 飲食店管理アプリ開発（2021年1月〜2021年3月） — iOS リードエンジニア / Swift・SwiftUI・MVVM</summary>
+<summary>[No.3] 飲食店管理アプリ開発 — iOS リードエンジニア / Swift・SwiftUI・MVVM</summary>
 
-### [No.3] 飲食店管理アプリ開発（2021年1月〜2021年3月）
+### [No.3] 飲食店管理アプリ開発
 
 #### チーム体制
 
@@ -630,9 +630,9 @@
 </details>
 
 <details>
-<summary>[No.2] クレジットカードアプリ iOS 開発（2018年9月〜2020年12月） — iOS エンジニア / Swift・UIKit・MVVM</summary>
+<summary>[No.2] クレジットカードアプリ iOS 開発 — iOS エンジニア / Swift・UIKit・MVVM</summary>
 
-### [No.2] クレジットカードアプリ iOS 開発（2018年9月〜2020年12月）
+### [No.2] クレジットカードアプリ iOS 開発
 
 #### チーム体制
 
@@ -677,9 +677,9 @@
 </details>
 
 <details>
-<summary>[No.1] クレジットカードアプリ API 開発（2018年9月〜2020年12月） — サーバーサイドエンジニア / PHP (CodeIgniter)・Java</summary>
+<summary>[No.1] クレジットカードアプリ API 開発 — サーバーサイドエンジニア / PHP (CodeIgniter)・Java</summary>
 
-### [No.1] クレジットカードアプリ API 開発（2018年9月〜2020年12月）
+### [No.1] クレジットカードアプリ API 開発
 
 #### チーム体制
 

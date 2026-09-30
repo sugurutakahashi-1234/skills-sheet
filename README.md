@@ -27,19 +27,17 @@
 - **FDE としての AI 活用支援**
   - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案
   - 案件獲得の営業・商談に加え、顧客の業務に合わせた AI ツールの実装・導入も担当
-  - 建設業向けに、過去事例・基準類・図面から施工計画書の下書きを生成する仕組みを開発
 - **0 → 1 リード経験（受託 4 件・CTO 1 社）**
   - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術面を担当
   - 創業直後のスタートアップでは、1 人目のエンジニアとしてプロダクトと社内システムを構築
-  - 内訳: 受託 4 件（iOS リード 3 件・Flutter リード 1 件）と CTO 1 社
+  - 内訳: iOS リードエンジニア 3 件・Flutter リードエンジニア 1 件と CTO 1 社
 - **フルスタックの実装力**
   - 実案件で iOS / Android を Swift・React Native・Flutter、Web を Next.js・Astro で実装
-  - サーバーサイド: Bun・Hono・oRPC・Drizzle・TanStack Start を本番で運用
+  - サーバーサイドは Bun・Hono・oRPC・Drizzle・TanStack Start で構築し、本番で運用
   - マルチクラウド（GCP / Cloudflare / AWS）の構成を Terraform で IaC 化し、運用まで担当
 - **ビジネス KPI 起点での開発経験**
   - 獲得コストと LTV から、課金層と無課金層それぞれの収益施策を設計・実装
-  - 施策立案から 1 週間でリリースする PDCA を回し、A/B テストで施策単体の効果を測定
-  - 効果が出ない施策は削除し、その結果も次の意思決定に反映
+  - 施策立案からリリースまでを 1 週間で回し、A/B テストで施策単体の効果を測定
 - **OSS 開発・技術発信**
   - Clean Architecture を基にした設計手法 [Framework-Independent Architecture](https://github.com/sugurutakahashi-1234/framework-independent-architecture) を考案・公開
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew で配布
@@ -84,7 +82,7 @@
 
 #### チーム体制
 
-- 顧客企業の AI 活用支援と社内プロダクト・インフラの開発・運用を一人で担当
+- CTO として、顧客企業の AI 活用支援と社内プロダクト・インフラの開発・運用を一人で担当
 
 #### 案件概要・担当業務
 

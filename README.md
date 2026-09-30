@@ -18,7 +18,7 @@
 - **創業フェーズの CTO 経験**
   - 技術選定から開発・運用・社内インフラ整備まで、事業に必要なものを自分で決めて実装
   - サービス 3 つとマッチング 2 サイトを、企画から公開・運用まで担当
-  - 小規模でも維持できる構成の選定（Cloudflare 中心に寄せ、運用コストを抑制）
+  - 少人数でも維持できる構成の選定（Cloudflare 中心に寄せ、運用コストを抑制）
 - **AI システム開発**
   - LLM で人材マッチングと案件評価を自動化するシステムを設計から運用まで開発
   - RAG・ベクトル検索・AI エージェントを組み込んだアプリケーションを Cloudflare 上に構築
@@ -27,17 +27,19 @@
 - **FDE としての AI 活用支援**
   - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案
   - 案件獲得の営業・商談に加え、顧客の業務に合わせた AI ツールの実装・導入も担当
+  - 建設業向けに、過去事例・基準類・図面から施工計画書の下書きを生成する仕組みを開発
 - **0 → 1 リード経験（受託 4 件 + CTO 1 社）**
   - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術面を担当
   - 創業直後のスタートアップでは、1 人目のエンジニアとしてプロダクトと社内システムを構築
   - 受託の内訳: iOS リード 3 件、Flutter リード 1 件
 - **フルスタックの実装力**
-  - Swift・React Native・Flutter で iOS / Android、Next.js・Astro で Web を実案件で実装
-  - Bun・Hono・oRPC・Drizzle・TanStack Start を本番で運用
+  - 実案件で iOS / Android を Swift・React Native・Flutter、Web を Next.js・Astro で実装
+  - サーバーサイド: Bun・Hono・oRPC・Drizzle・TanStack Start を本番で運用
   - マルチクラウド（GCP / Cloudflare / AWS）の構成を Terraform で IaC 化し、運用まで担当
 - **ビジネス KPI 起点での開発経験**
   - 獲得コストと LTV を起点に、課金層と無課金層それぞれの収益施策を設計・実装
-  - 施策立案から 1 週間でリリースする PDCA を回し、効果が出ない施策の削除も判断
+  - 施策立案から 1 週間でリリースする PDCA を回し、A/B テストで施策単体の効果を測定
+  - 効果が出ない施策は削除し、その結果も次の意思決定に反映
 - **OSS 開発・技術発信**
   - Clean Architecture を基にした設計手法 [Framework-Independent Architecture](https://github.com/sugurutakahashi-1234/framework-independent-architecture) を考案・公開
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew で配布
@@ -58,7 +60,7 @@
 - [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
   - iOS リードエンジニア / `Swift`・`SwiftUI`・`Amplify` / toC・toB 2 サービスの 0 → 1 立ち上げ
 - [No.6] ファンクラブアプリ開発（メガベンチャー C社）
-  - iOS エンジニア / `Swift`・`UIKit`・`Redux` / スタンプラリー・景品交換機能の開発
+  - iOS エンジニア / `Swift`・`UIKit`・`Redux` / スタンプラリー機能・景品交換機能の開発
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
   - iOS エンジニア / `Swift`・`SwiftUI`・`VIPER` / 飛行の安定性改善と複数メーカーのドローン対応
 
@@ -82,7 +84,7 @@
 
 #### チーム体制
 
-- CTO として、顧客企業の AI 活用支援と社内プロダクト・インフラの開発・運用を一人で担当
+- 顧客企業の AI 活用支援と社内プロダクト・インフラの開発・運用を一人で担当
 
 #### 案件概要・担当業務
 
@@ -90,7 +92,7 @@
   - **[業務1] 自社サービスの企画・立ち上げ**: 3 サービスとマッチング 2 サイトの公開
   - **[業務2] AI 活用支援 / 提案活動（FDE）**: 商談・要件定義から実装・導入まで担当
   - **[業務3] AI マッチングシステム開発**: Cloudflare 上の RAG / MCP / AI エージェント基盤
-  - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内システム
+  - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内ツール
   - **[業務5] [ホームページ](https://www.zenshin-inc.co.jp/)・[技術ブログ](https://tech.zenshin-inc.co.jp/)**: 設計・構築・運用
   - **[業務6] 社内インフラ管理**: Terraform によるマルチクラウド IaC
 
@@ -106,7 +108,7 @@
   - 自作の評価スクリプトで LLM を比較検証し、シーンごとに使い分け
 - **MCP サーバー / AI エージェント運用（業務3）**
   - 70 以上のツールを持つ MCP サーバーの開発（OAuth 認証・マルチテナント認可）
-  - WebMCP（ブラウザ内 MCP）の Origin Trial 先行導入
+  - WebMCP（ブラウザ内 MCP）を Origin Trial 段階で先行導入
   - 定期実行と 50 以上の Skills による業務自動化（Claude Code / Codex 両対応）
 - **LINE 公式アカウント基盤（業務3）**
   - 友だち紐付け不要の本人アカウント連携
@@ -119,7 +121,7 @@
   - Email Sending・Slack Interactivity による採用応募対応の自動化
 - **マルチクラウド IaC（業務6）**
   - GCP / Cloudflare / AWS / Google Workspace を Terraform で横断管理
-  - Workload Identity Federation (OIDC) による鍵レス認証
+  - Workload Identity Federation（OIDC）による鍵レス認証
 
 #### 取り組み・貢献
 
@@ -144,7 +146,7 @@
   - SEO 施策（構造化データ・sitemap・llms.txt）を入れ、Lighthouse 100 を目標に改善
 - **運用を継続できる仕組みの整備（業務6）**
   - 社内インフラを IaC 化し、コード変更 → PR → plan CI → apply のフローを確立
-  - 採用しなかった選択肢を含め、技術的な意思決定の根拠をリポジトリに記録する文化を形成
+  - 採用しなかった選択肢も含め、技術的な意思決定の根拠をリポジトリに記録
 
 #### 開発環境
 

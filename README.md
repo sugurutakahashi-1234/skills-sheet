@@ -47,7 +47,7 @@
 
 ### フリーランス（2021年7月〜現在）
 
-- [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
+- [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO（IT コンサルティング / SIer / SES）
   - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
 - [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
   - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 施策
@@ -76,9 +76,9 @@
 ## 案件詳細
 
 <details>
-<summary>[No.11] 株式会社ZENSHIN（IT コンサルティング / SIer / SES） — CTO / Cloudflare・RAG・MCP</summary>
+<summary>[No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES） — CTO / Cloudflare・RAG・MCP</summary>
 
-### [No.11] 株式会社ZENSHIN（IT コンサルティング / SIer / SES）
+### [No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES）
 
 #### チーム体制
 

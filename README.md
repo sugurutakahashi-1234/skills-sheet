@@ -16,8 +16,8 @@
 ## 強み
 
 - **創業フェーズの CTO 経験**
-  - 技術選定から開発・運用・社内インフラ整備まで、事業に必要なものを自分で決めて実装
   - サービス 3 つとマッチング 2 サイトを、企画から公開・運用まで担当
+  - 技術選定から開発・運用・社内インフラ整備まで、事業に必要なものを自分で決めて実装
   - 少人数でも維持できる構成の選定（Cloudflare 中心に寄せ、運用コストを抑制）
 - **AI システム開発**
   - LLM で人材マッチングと案件評価を自動化するシステムを設計から運用まで開発
@@ -335,9 +335,7 @@
   - AVFoundation を活用した録音・再生機能の実装
   - [WhisperKit](https://github.com/argmaxinc/WhisperKit), [Speech](https://developer.apple.com/documentation/speech/) SDK を活用した音声データの文字起こし機能の実装
 - **開発プロセス改善**
-  - [Swift OpenAPI Generator](https://github.com/apple/swift-openapi-generator) で API 通信処理を生成する GitHub Actions パイプラインの構築
-  - [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) で API 仕様書を自動生成する GitHub Actions パイプラインの構築
-  - [tbls](https://github.com/k1LoW/tbls) で MySQL のテーブル定義書を自動生成する GitHub Actions パイプラインの構築
+  - API 通信処理・仕様書・MySQL のテーブル定義書を GitHub Actions で自動生成
   - [pixelmatch](https://github.com/mapbox/pixelmatch) による View のスナップショット差分検出の実装
 
 #### 取り組み・貢献
@@ -456,8 +454,9 @@
 
 #### 経験した技術
 
-- VueFlux を用いた Redux ベースの状態管理
-- デザインシステムに沿った UI の実装
+- **Swift**
+  - VueFlux を用いた Redux ベースの状態管理
+  - デザインシステムに沿った UI の実装
 
 #### 取り組み・貢献
 
@@ -519,15 +518,9 @@
 - レイヤーごとに独立したテストを実現
 - UIKit と Delegate パターンによる実装を SwiftUI・Combine・Swift Concurrency へ置き換え
 - **チーム運用の改善**
-  - 見積会・レトロスペクティブ・開発チーム朝ハドル会の定例化
-  - レトロスペクティブの実施
-  - 開発チーム朝ハドル会の実施
-  - プロダクトバックログに「Ready」（着手できる状態）の定義を導入
-  - Pull Request の作成からマージまでの運用ルールの見直し
-  - リリースブランチ運用の見直し
-  - デイリーミーティング前の Slack リマインダーの設定
-  - デイリーミーティングでの相談事項に事前エントリー制を導入
-  - Firebase Crashlytics 運用の見直し
+  - スクラムイベントの整備（見積会・レトロスペクティブ・朝ハドル）
+  - 着手基準（Ready）の定義と Pull Request・リリースブランチ運用ルールの見直し
+  - 不具合対応フローと Firebase Crashlytics 運用の見直し
 
 #### 開発環境
 
@@ -565,6 +558,7 @@
 
 - **Flutter**
   - Provider による状態管理
+  - Google Maps API による地図の表示
 - **Firebase**
   - Authentication によるユーザー認証
   - Firestore へのデータの永続化
@@ -573,7 +567,6 @@
   - Crashlytics によるクラッシュレポートの収集・管理
   - App Distribution によるテスターへのアプリ配布
   - Analytics による KPI の計測
-  - Google Maps API による地図の表示
 - **CI/CD**
   - Codemagic と Fastlane による App Distribution へのアプリ配布の自動化
 
@@ -657,14 +650,15 @@
 
 #### 経験した技術
 
-- UIKit での画面実装
-- API 疎通の実装
-- Realm でのデータ永続化
-- XCTest でのテストコード実装
-- MVVM での画面とロジックの分離
-- Delegate パターンの実装
-- Human Interface Guidelines に基づいた UI 実装
-- Moneytree LINK SDK などサードパーティ製 SDK の組み込み
+- **Swift**
+  - UIKit での画面実装
+  - API 疎通の実装
+  - Realm でのデータ永続化
+  - XCTest でのテストコード実装
+  - MVVM での画面とロジックの分離
+  - Delegate パターンの実装
+  - Human Interface Guidelines に基づいた UI 実装
+  - Moneytree LINK SDK などサードパーティ製 SDK の組み込み
 
 #### 取り組み・貢献
 

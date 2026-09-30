@@ -510,7 +510,7 @@
 
 #### 取り組み・貢献
 
-- Clean Architecture の採用により、UI を変えずにライブラリを差し替え
+- Clean Architecture でドローン SDK を UI から分離し、メーカーごとの差し替えに対応
 - レイヤーごとに独立したテストを実現
 - UIKit と Delegate パターンによる実装を SwiftUI・Combine・Swift Concurrency へ置き換え
 - **チーム運用の改善**

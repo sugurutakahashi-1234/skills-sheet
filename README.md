@@ -50,8 +50,8 @@
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
   - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
 - [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
-  - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / iOS・Android・Web と KPI 施策
-- [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
+  - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 施策
+- [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
   - Flutter リードエンジニア / `Flutter`・`Riverpod` / 0 → 1 立ち上げ
 - [No.8] SNS アプリ開発（SIer E社）
   - iOS リードエンジニア / `Swift`・`SwiftUI` / 0 → 1 立ち上げ
@@ -60,16 +60,16 @@
 - [No.6] ファンクラブアプリ開発（メガベンチャー C社）
   - iOS エンジニア / `Swift`・`UIKit`・`Redux` / スタンプラリー・景品交換機能の開発
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
-  - iOS エンジニア / `Swift`・`SwiftUI`・`VIPER` / 飛行の安定性改善と複数社ドローン対応
+  - iOS エンジニア / `Swift`・`SwiftUI`・`VIPER` / 飛行の安定性改善と複数メーカーのドローン対応
 
 ### 外資系ITコンサル A社（2017年4月〜2021年6月）
 
 - [No.4] ショッピングアプリ開発
-  - Flutter エンジニア / `Flutter`・`Google Maps API` / クロスプラットフォームのデモアプリ開発
+  - Flutter エンジニア / `Flutter`・`Google Maps API` / iOS・Android 両対応のデモアプリ開発
 - [No.3] 飲食店管理アプリ開発
   - iOS リードエンジニア / `Swift`・`SwiftUI`・`MVVM` / BtoB 向け MVP 開発
 - [No.2] クレジットカードアプリ iOS 開発
-  - iOS エンジニア / `Swift`・`UIKit`・`MVVM` / 見積もり・実装・テスト・レビュー
+  - iOS エンジニア / `Swift`・`UIKit`・`MVVM` / サーバーサイドと兼任での画面実装・レビュー
 - [No.1] クレジットカードアプリ API 開発
   - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
 
@@ -87,9 +87,9 @@
 #### 案件概要・担当業務
 
 - 創業フェーズの株式会社ZENSHIN の CTO として、以下 6 つの業務を並行して推進
-  - **[業務1] 自社サービスの企画・立ち上げ**: 提供サービス 3 つとマッチング 2 サイトの公開
-  - **[業務2] AI 活用支援 / 提案活動（FDE）**: AI 活用の相談・提案から実装・導入まで支援
-  - **[業務3] AI マッチングシステム開発**: Cloudflare での RAG / MCP / AI エージェント基盤
+  - **[業務1] 自社サービスの企画・立ち上げ**: 3 サービスとマッチング 2 サイトの公開
+  - **[業務2] AI 活用支援 / 提案活動（FDE）**: 商談・要件定義から実装・導入まで担当
+  - **[業務3] AI マッチングシステム開発**: Cloudflare 上の RAG / MCP / AI エージェント基盤
   - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内システム
   - **[業務5] [ホームページ](https://www.zenshin-inc.co.jp/)・[技術ブログ](https://tech.zenshin-inc.co.jp/)**: 設計・構築・運用
   - **[業務6] 社内インフラ管理**: Terraform によるマルチクラウド IaC
@@ -102,8 +102,8 @@
   - 建設業向けに、過去事例・基準類・図面から施工計画書の下書きを生成する仕組みを開発
 - **RAG / ベクトル検索マッチング（業務3）**
   - Workers AI（bge-m3）+ Vectorize による意味ベースの類似検索
-  - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の多層パイプライン設計
-  - 自作の評価スクリプトで LLM モデルを比較検証し、シーンごとに使い分け
+  - ベクトル検索（一次絞り込み）→ AI エージェント採点（二次精査）の 2 段パイプライン設計
+  - 自作の評価スクリプトで LLM を比較検証し、シーンごとに使い分け
 - **MCP サーバー / AI エージェント運用（業務3）**
   - 70 以上のツールを持つ MCP サーバーの開発（OAuth 認証・マルチテナント認可）
   - WebMCP（ブラウザ内 MCP）の Origin Trial 先行導入
@@ -243,9 +243,9 @@
 </details>
 
 <details>
-<summary>[No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社） — Flutter リードエンジニア / Flutter・Riverpod</summary>
+<summary>[No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社） — Flutter リードエンジニア / Flutter・Riverpod</summary>
 
-### [No.9] NFT ゲームアプリ開発（WEB3 特化 SIer F社）
+### [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
 
 #### チーム体制
 
@@ -486,7 +486,7 @@
 
 #### 案件概要・担当業務
 
-- BtoB 向けドローン制御アプリで、飛行の安定性改善・複数社ドローン対応・画面開発を担当
+- BtoB 向けドローン制御アプリで、飛行の安定性改善・複数メーカー対応・画面開発を担当
 - アーキテクチャの検討、見積もり、実装、レビュー、バグ修正を担当
 
 #### 経験した技術

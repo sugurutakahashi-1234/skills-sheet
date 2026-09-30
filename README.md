@@ -382,7 +382,7 @@
 #### チーム体制
 
 - 案件全体人数 : 約15名
-  - iOS エンジニア : 3名（リードエンジニア担当）
+  - iOS エンジニア : 3名（iOS リードエンジニア担当）
 
 #### 案件概要・担当業務
 
@@ -416,14 +416,14 @@
 - 0 → 1 フェーズの iOS リードとして、アーキテクチャ・ライブラリの選定、ブランチ戦略・リリース手順の確立を担当
 - CI/CD 環境の構築と iOS チームのスクラムボード運用の設計
 - チームに経験者のいない AWS Amplify SDK や SwiftProtobuf をサンプルアプリで先行検証し、採用まで推進
-- 視線分析・感情分析の SDK を、入れ替えても影響範囲が最小になるアーキテクチャで組み込み
+- 視線分析・感情分析の SDK を、入れ替えても影響範囲を限定できるアーキテクチャで組み込み
 - PdM・デザイナー・サーバーサイド・データ分析と、仕様やデータ連携インターフェースを調整
 - iOS チームの Issue 運用を担い、メンバーのタスクが途切れない状態を維持
 
 #### 開発環境
 
 - **Swift**
-  - アーキテクチャ: `VIPER`, `Clean Architecture`, `Swift Package Manager`
+  - アーキテクチャ: `Clean Architecture`, `VIPER`, `Swift Package Manager`
   - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `Swift-DocC`, `AVFoundation`, `Core ML`, `WebKit`, `ReplayKit`, `Logger`
   - サードパーティ製 SDK: `SwiftProtobuf`, `Firebase`, `Amplify`, `Quick/Nimble`, `LicensesPlugin`, `PhoneNumberKit`, `DeviceKit`, `SwiftFormat`, `SwiftGen`, `Lottie`, `Mockolo`, `Mint`, `Periphery`
 - **クラウド連携**
@@ -511,7 +511,7 @@
 - **IoT**
   - 外部ライブラリを用いたドローン制御の Swift 実装
   - PID 制御などの制御工学に基づく適切な制御モデルの Swift 実装
-  - ROS (Robot Operating System) 環境の活用
+  - ROS (Robot Operating System) 環境での開発
 
 #### 取り組み・貢献
 
@@ -558,7 +558,7 @@
 
 #### 案件概要・担当業務
 
-- ショッピングアプリのデモを Flutter で開発し、iOS・Android の両方に対応
+- ショッピングアプリのデモアプリを Flutter で開発し、iOS・Android の両方に対応
 - Flutter のフロントエンドから Firebase のバックエンドまでを一人で担当
 
 #### 経験した技術
@@ -603,7 +603,7 @@
 #### チーム体制
 
 - 案件全体人数 : 約10名
-  - iOS エンジニア : 3名（リードエンジニア担当）
+  - iOS エンジニア : 3名（iOS リードエンジニア担当）
 
 #### 案件概要・担当業務
 
@@ -617,7 +617,7 @@
 - **Swift**
   - SwiftUI での画面実装
   - Codable プロトコルを用いた JSON のエンコード・デコード
-  - TestFlight によるアプリ配信
+  - TestFlight によるアプリ配布
   - アーキテクチャ・ディレクトリ構成の検討
 - **スクラムマスター**
   - スクラムボードの設計
@@ -670,7 +670,7 @@
 
 - API 側の実装も担当していたため、不具合の原因が iOS と API のどちらにあるかを切り分け
 - `mitmproxy` で実機の通信をキャプチャし、リクエストとレスポンスから API の不具合を調査
-- API の仕様を把握している立場から、Android チームの担当者にも接続の実装方針を助言
+- API の仕様を把握している立場から、Android チームにも実装方針を助言
 
 #### 開発環境
 
@@ -720,7 +720,7 @@
 
 #### 取り組み・貢献
 
-- iOS チームとの兼任を活かし、モバイル視点を API インターフェース設計に反映
+- iOS チームを兼任していた経験から、モバイル視点を API インターフェース設計に反映
 - API の結合テストを Postman で自動化し、少ない工数で全ケースの回帰確認を反復
 
 #### 開発環境
@@ -778,7 +778,7 @@
   - API 設計: `REST API`, `GraphQL`
   - 実装: `TypeScript`, `Bun`, `Hono`, `oRPC`, `Node.js`, `Python`, `PHP`, `Java`
   - 外部 API 連携: `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
-- **データベース**
+- **DB**
   - モデリング: RDB テーブル設計
   - ORM: `Prisma`, `Drizzle`
   - RDBMS: `PostgreSQL`, `MySQL`, `SQLite (Cloudflare D1)`

@@ -198,7 +198,7 @@
   - Rive を用いたアニメーションの組み込み
   - （この行を削除）
   - TanStack Query によるデータ取得とキャッシュ管理
-  - Crisp SDK を用いたカスタマーサポート用チャット機能の実装
+  - Crisp SDK を用いたカスタマーサポートチャットの実装
 - **開発プロセス改善**
   - Storybook による UI コンポーネントカタログの作成
   - Maestro によるモバイルアプリでの E2E テストの導入
@@ -300,7 +300,7 @@
 #### 開発環境
 
 - **Flutter**
-  - アーキテクチャ: `Riverpod`, `Hooks`
+  - 状態管理: `Riverpod`, `Hooks`
   - 主要ライブラリ: `go_router`, `dio`, `slang`, `permission_handler`, `flutter_secure_storage`, `freezed`, `google_maps_flutter`, `geolocator`
   - コード品質・開発支援: `pedantic_mono`, `openapi_generator`, `fvm`, `Prism`, `Lefthook`
 - **CI/CD**
@@ -334,9 +334,9 @@
 - **Swift**
   - Xcode 16 Beta での Swift 6 対応（Strict Concurrency を含む）
   - AVFoundation を活用した録音・再生機能の実装
-  - [WhisperKit](https://github.com/argmaxinc/WhisperKit), [Speech](https://developer.apple.com/documentation/speech/) SDK を活用した音声データの文字起こしの実装
+  - [WhisperKit](https://github.com/argmaxinc/WhisperKit), [Speech](https://developer.apple.com/documentation/speech/) SDK を活用した音声データの文字起こし機能の実装
 - **開発プロセス改善**
-  - [Swift OpenAPI Generator](https://github.com/apple/swift-openapi-generator) で API 通信処理を自動生成する GitHub Actions パイプライン
+  - [Swift OpenAPI Generator](https://github.com/apple/swift-openapi-generator) で API 通信処理を生成する GitHub Actions パイプラインの構築
   - [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) で API 仕様書を自動生成する GitHub Actions パイプラインの構築
   - [tbls](https://github.com/k1LoW/tbls) で MySQL のテーブル定義書を自動生成する GitHub Actions パイプラインの構築
   - [pixelmatch](https://github.com/mapbox/pixelmatch) による View のスナップショット差分検出の実装
@@ -415,7 +415,7 @@
 #### 取り組み・貢献
 
 - 0 → 1 フェーズの iOS リードとして、アーキテクチャ・ライブラリの選定、ブランチ戦略・リリース手順の確立を担当
-- CI/CD 環境の構築と、iOS チームのスクラムボード運用の設計
+- CI/CD 環境の構築と iOS チームのスクラムボード運用の設計
 - チームに経験者のいない AWS Amplify SDK や SwiftProtobuf をサンプルアプリで先行検証し、採用まで推進
 - 視線分析・感情分析の SDK を、入れ替えても影響範囲が最小になるアーキテクチャで組み込み
 - PdM・デザイナー・サーバーサイド・データ分析と、仕様やデータ連携インターフェースを調整
@@ -504,7 +504,7 @@
   - Clean Architecture での実装
   - SwiftUI・UIKit と Combine を組み合わせた画面実装
   - Swift Concurrency による非同期処理のハンドリング
-  - Firebase Crashlytics、Xcode Organizer を用いたバグの原因調査
+  - Firebase Crashlytics・Xcode Organizer を用いたバグの原因調査
   - Logger API を用いたログ出力
   - Quick/Nimble を用いたテストコードの記述
   - Quick/Nimble と Mock を用いたテストコードの記述
@@ -576,8 +576,7 @@
   - Analytics による KPI の計測
   - Google Maps API による地図の表示
 - **CI/CD**
-  - Codemagic での iOS・Android のアプリ配布の自動化
-  - Fastlane を用いた App Distribution へのアップロード
+  - Codemagic と Fastlane による App Distribution へのアプリ配布の自動化
 
 #### 取り組み・貢献
 
@@ -610,7 +609,8 @@
 #### 案件概要・担当業務
 
 - BtoB 向け飲食店管理アプリの MVP 開発
-- iOS リードエンジニアとして、要件調整とサーバーサイドとの API インターフェース検討を担当
+- iOS リードエンジニアとして、要件調整を担当
+- サーバーサイドとの API インターフェース検討
 - スクラムマスターも兼任
 
 #### 経験した技術

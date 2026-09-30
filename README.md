@@ -734,7 +734,7 @@
   - モデル: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`, `bge-m3 (Embedding)`
   - RAG / 検索: `Cloudflare Vectorize`, `Workers AI`
   - MCP: `@modelcontextprotocol/sdk v2`, `Better Auth (OAuth)`, `WebMCP`
-  - 実行基盤: `AI Gateway`, `Workflows`, `Queues`, `Cron Triggers`（いずれも Cloudflare）
+  - 実行基盤: `Cloudflare AI Gateway`, `Cloudflare Workflows`, `Cloudflare Queues`, `Cron Triggers`
 - **AI コーディング**
   - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
   - 定期実行 / 自動化: `Claude Code Routines`, `Codex Automation`
@@ -803,8 +803,8 @@
   - UI カタログ / モック / アクセシビリティ: `Storybook`, `MSW`, `@axe-core/playwright`
 - **コード品質**
   - Lint / フォーマット: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`
-  - 未使用コード / 依存関係: `knip`, `dependency-cruiser`
-  - コミットメッセージ / Git フック: `commitlint`, `lefthook`, `husky`
+  - 未使用コード検出 / 依存関係ルールの強制: `knip`, `dependency-cruiser`
+  - コミット規約の強制 / Git フック: `commitlint`, `lefthook`, `husky`
   - 依存更新: `Renovate`
 - **CI/CD**
   - CI: `GitHub Actions`, `Xcode Cloud`, `Bitrise`

@@ -1,0 +1,33 @@
+# 表記の決め。総ざらいで直した表記ゆれを、次から機械で止める（textlint-rule-prh）
+version: 1
+rules:
+  - expected: mise
+    pattern: /\bMise\b/
+  - expected: ROS
+    pattern: /\bRoS\b/
+  - expected: iOS $1
+    pattern: /iOS(\d)/
+  - expected: Web3
+    pattern: /\bWEB3\b/
+  - expected: Chrome DevTools MCP
+    pattern: /Google DevTools MCP/
+  - expected: 起点
+    pattern: /基点/
+  - expected: 顧客
+    pattern: /お客様/
+  - expected: エンジニア
+    pattern: /ディベロッパー/
+  - expected: すぐに
+    pattern: /即座に/
+  - expected: Scrum Master
+    pattern: /スクラムマスター/
+  - expected: LLM
+    pattern: /LLM モデル/
+  - expected: KPI
+    pattern: /KPI 指標/
+  - expected: LTV
+    pattern: /課金 LTV/
+  - expected: 一元管理
+    pattern: /横断管理/
+  - expected: 以上の Skills
+    pattern: /以上のスキル/

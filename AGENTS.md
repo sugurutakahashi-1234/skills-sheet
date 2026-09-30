@@ -6,6 +6,7 @@
 - 折りたたみを展開した Markdown は `scripts/expand-details.ts` が作る。PDF 生成（`<details>` のままだと Chromium が閉じた状態で描画して中身が消える）と、Web 版の「Markdown をコピー」（コピー先に HTML タグを持ち込まない）の両方がこれを通す
 - Web 版（https://sugurutakahashi-1234.github.io/skills-sheet/）は `scripts/build-site.ts` が README から `dist/` に生成し、`.github/workflows/pages.yml` が `main` への push で GitHub Pages に配信する。`dist/` はコミットしない。手元で確認するときは `bun run build:site` して `dist/index.html` を開く
 - README の本文を変えたら pre-commit の textlint（`@textlint-ja/preset-ai-writing`）を通す。誇張表現や中身のない強調は指摘に従って直す
+- 表記の決め（`Mise`→`mise`、`スクラムマスター`→`Scrum Master` など）は `prh.yml` に書く。textlint-rule-prh が pre-commit で検査するので、通読で見つけた表記ゆれは直すだけでなくここに足して、次から機械で止める
 - 「太字 + コロン + 箇条書き」の様式はスキルシートとして意図したもの。textlint の該当検査（list-formatting / emphasis-patterns）と、「適切な」のような一般語まで指摘する tech-writing-guideline は `.textlintrc.json` で無効化してあり、文章らしく書き直す対象ではない
 - 実績は役割・規模・数値で書く。「一気通貫」「単独で」のような同じ強調語を繰り返さない
 - 「ここを直しませんか」と提案するときは、行数や規模にかかわらず必ず適用前に HTML を出して承認を得る。現状と提案を並べ、その行がどの節・どの項目にあるか（前後の兄弟行）も一緒に見せる。作り方は `design-compare` スキルに従う（現状を最初に置き、差分を色で示し、実際の描画幅で並べる）。ユーザーが具体的に指示した変更・誤字や記法の修正・1 行に収めるための幅の調整は、そのまま適用してよい

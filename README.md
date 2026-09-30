@@ -362,8 +362,8 @@
   - `Xcode Cloud`, `GitHub Actions`, `Renovate`
 - **プロジェクト管理**
   - `GitHub Projects`, `Notion`, `Backlog`
-  - **インターフェース共有**
-  - `OpenAPI`, `Swagger UI`
+- **インターフェース共有**
+  - `OpenAPI`, `Swagger UI Action`
 - **デザインツール**
   - `Figma`
 </details>

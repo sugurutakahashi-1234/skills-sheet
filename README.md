@@ -5,13 +5,13 @@
 ## 基本情報
 
 - **拠点**: 東京都江戸川区
-- **現在のポジション**: [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO
+- **現職**: [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO
 - **エンジニア歴**: 10 年目（2017年〜）
 - **外部リンク**:
   - GitHub: https://github.com/sugurutakahashi-1234
   - X: https://x.com/suguru_takaha4
-  - Qiita: https://qiita.com/sugurutakahashi12345
-  - Zenn: https://zenn.dev/ikuraikura
+  - Qiita（技術記事）: https://qiita.com/sugurutakahashi12345
+  - Zenn（技術記事）: https://zenn.dev/ikuraikura
 
 ## 強み
 
@@ -28,16 +28,16 @@
   - 経営層から実装担当者まで、相手に合わせた AI 活用の相談・提案
   - 案件獲得の営業・商談に加え、顧客の業務に合わせた AI ツールの実装・導入も担当
   - 建設業向けに、過去事例・基準類・図面から施工計画書の下書きを生成する仕組みを開発
-- **0 → 1 リード経験（受託 4 件 + CTO 1 社）**
+- **0 → 1 リード経験（受託 4 件・CTO 1 社）**
   - アーキテクチャ選定・CI/CD 構築・チーム運用の設計など、立ち上げの技術面を担当
   - 創業直後のスタートアップでは、1 人目のエンジニアとしてプロダクトと社内システムを構築
-  - 受託の内訳: iOS リード 3 件、Flutter リード 1 件
+  - 内訳: 受託 4 件（iOS リード 3 件・Flutter リード 1 件）と CTO 1 社
 - **フルスタックの実装力**
   - 実案件で iOS / Android を Swift・React Native・Flutter、Web を Next.js・Astro で実装
   - サーバーサイド: Bun・Hono・oRPC・Drizzle・TanStack Start を本番で運用
   - マルチクラウド（GCP / Cloudflare / AWS）の構成を Terraform で IaC 化し、運用まで担当
 - **ビジネス KPI 起点での開発経験**
-  - 獲得コストと LTV を起点に、課金層と無課金層それぞれの収益施策を設計・実装
+  - 獲得コストと LTV から、課金層と無課金層それぞれの収益施策を設計・実装
   - 施策立案から 1 週間でリリースする PDCA を回し、A/B テストで施策単体の効果を測定
   - 効果が出ない施策は削除し、その結果も次の意思決定に反映
 - **OSS 開発・技術発信**
@@ -51,7 +51,7 @@
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/)（IT コンサルティング / SIer / SES）
   - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
-- [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
+- [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
   - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 施策
 - [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
   - Flutter リードエンジニア / `Flutter`・`Riverpod` / 0 → 1 立ち上げ
@@ -98,7 +98,7 @@
 
 #### 経験した技術
 
-- **FDE / AI 活用支援（業務2）**
+- **AI 活用支援 / 提案活動（業務2）**
   - Claude Design や v0 による商談前の高速プロトタイピング
   - LLM ツールの使い分けの提案、プロンプト改善、MCP 化・Skills 設計の方針策定
   - 建設業向けに、過去事例・基準類・図面から施工計画書の下書きを生成する仕組みを開発
@@ -173,9 +173,9 @@
 </details>
 
 <details>
-<summary>[No.10] ショートドラマアプリ開発（エンタメ業界 G社） — フロントエンドエンジニア / React Native (Expo)・Next.js</summary>
+<summary>[No.10] ショートドラマアプリ開発（エンタメ企業 G社） — フロントエンドエンジニア / React Native (Expo)・Next.js</summary>
 
-### [No.10] ショートドラマアプリ開発（エンタメ業界 G社）
+### [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
 
 #### チーム体制
 
@@ -659,7 +659,7 @@
 #### 経験した技術
 
 - UIKit での画面実装
-- API 疎通
+- API 疎通の実装
 - Realm でのデータ永続化
 - XCTest でのテストコード実装
 - MVVM での画面とロジックの分離
@@ -749,7 +749,7 @@
 - **AI コーディング**
   - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
   - 定期実行 / 自動化: `Claude Code Routines`, `Codex Automation`
-  - エージェント拡張: `Skills`, `MCP`, `Chrome DevTools MCP`
+  - エージェント拡張: `Skills`, `Chrome DevTools MCP`
   - プロトタイピング: `v0`, `Claude Design`
 
 ### フロントエンド / モバイル
@@ -768,7 +768,8 @@
   - クロスプラットフォーム: `React Native (Expo)`, `Flutter (Dart)`
   - ネイティブ: `Swift (SwiftUI, UIKit)`
 - **アーキテクチャ**
-  - 設計パターン: `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`, `Redux`, `Riverpod`
+  - 設計パターン: `Clean Architecture`, `レイヤードアーキテクチャ`, `MVVM`
+  - 状態管理: `Redux`, `Riverpod`
   - モノレポ: `Bun workspaces`
   - 独自アーキテクチャ: 「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
 

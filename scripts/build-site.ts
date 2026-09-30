@@ -136,7 +136,7 @@ function parseCaseHeading(text: string) {
 
 /**
  * 基本情報: `- **項目**: 値` の一覧をプロフィール型に配置する。
- * 「現在のポジション」を大きく、子の箇条書きを持つ項目（外部リンク）はチップ、残りは横並びの事実。
+ * 「現職」を大きく、子の箇条書きを持つ項目（外部リンク）はチップ、残りは横並びの事実。
  * 外部リンクに GitHub があればアバター（https://github.com/<user>.png）を左に置く。
  */
 function renderBasic(sec: Section) {
@@ -160,7 +160,7 @@ function renderBasic(sec: Section) {
         const gh = m[2].match(/^https:\/\/github\.com\/([^/?#]+)\/?$/);
         if (gh) avatar = `https://github.com/${gh[1]}.png?size=160`;
       }
-    } else if (p.label === "現在のポジション") {
+    } else if (p.label === "現職") {
       position = inline(p.rest);
     } else {
       facts.push(`<span><b>${inline(p.label)}</b>${inline(p.rest)}</span>`);
@@ -295,7 +295,7 @@ for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.sub
 for (const s of sections.find((sec) => sec.heading.text === "職務経歴")?.subs ?? []) {
   if (!PERIOD_RE.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が （YYYY年M月〜YYYY年M月|現在） の形でないので目次に年が出ない`);
 }
-if (!/^- \*\*現在のポジション\*\*/m.test(md)) warnings.push("基本情報に **現在のポジション** が無いので大きい表示にならない");
+if (!/^- \*\*現職\*\*/m.test(md)) warnings.push("基本情報に **現職** が無いので大きい表示にならない");
 if (!/^  - GitHub: https:\/\/github\.com\/[^/\s]+\/?$/m.test(md)) warnings.push("外部リンクに GitHub のプロフィール URL が無いのでアバターが出ない");
 for (const w of warnings) console.warn(`警告: ${w}`);
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];

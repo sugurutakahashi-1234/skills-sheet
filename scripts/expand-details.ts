@@ -5,7 +5,7 @@
  *   案件詳細は GitHub で開いたときの長さを抑えるため <details> で畳んでいるが、
  *   折りたたみが意味を持つのは GitHub の README 表示だけで、他の出力先では邪魔になる。
  *   - PDF: md-to-pdf は Chromium で描画するため、<details> は閉じた状態で出力され中身が消える
- *   - Web 版の「Markdown をコピー」: コピー先に HTML タグが混ざる
+ *   - Web 版の「Markdown としてコピー」: コピー先に HTML タグが混ざる
  *   どちらも展開した Markdown を渡せば解決する。
  *
  * 前提とする構造:

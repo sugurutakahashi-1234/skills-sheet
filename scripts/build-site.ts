@@ -9,11 +9,11 @@
  * - 基本情報はプロフィール型（外部リンクの GitHub からアバターを引く）。強み・技術スタックは節ごとの枠
  * - 技術スタック・案件の開発環境・職務経歴の行では、バッククォートで囲んだ名前（<code>）をタグ表示
  * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
- * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
+ * - 印刷時は案件詳細をすべて開く。右上に「Markdown としてコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
  */
 import { $, Glob } from "bun";
 import { HTMLProcessingParser, jaModel } from "budoux";
-import { Cloud, MonitorSmartphone, Server, ShieldCheck, Sparkles, SquareTerminal } from "lucide-static";
+import { Cloud, Copy, FileText, MonitorSmartphone, Server, ShieldCheck, Sparkles, SquareTerminal } from "lucide-static";
 import { parseHTML } from "linkedom";
 import { marked, type Token, type Tokens } from "marked";
 import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
@@ -120,7 +120,9 @@ function groupBy(ts: Token[], depth: number): { lead: Token[]; groups: Group[] }
 
 const titleToken = tokens.find((t) => isHeading(t, 1)) as Tokens.Heading | undefined;
 const title = titleToken?.text ?? "スキルシート";
-const { lead: intro, groups: h2Groups } = groupBy(tokens.filter((t) => t !== titleToken), 2);
+// h1 直下の冒頭文（「同じ内容を 2 つの形式で公開 — Markdown ・ Web」）は GitHub で読む人向けの案内なので Web 版には出さない。
+// 別の形式への案内はヘッダーの PDF / GitHub ボタンが担う（Web へのリンクは Web 版では自分自身を指してしまう）
+const { groups: h2Groups } = groupBy(tokens.filter((t) => t !== titleToken), 2);
 const sections: Section[] = h2Groups.map((g) => {
   const { lead, groups } = groupBy(g.body, 3);
   return { heading: g.heading, body: lead, subs: groups };
@@ -154,6 +156,10 @@ function linkIcon(url: string) {
   const [, icon, brand] = hit;
   return `<svg class="chip-icon" viewBox="0 0 24 24" aria-hidden="true" fill="${brand ? `#${icon.hex}` : "currentColor"}"><path d="${icon.path}"/></svg>`;
 }
+
+/** ヘッダーのボタンに付ける線画（Lucide）。文字の前に置き、何のボタンかを文字より先に伝える */
+const btnIcon = (svg: string) =>
+  svg.replace(/\s+/g, " ").replace(/ class="[^"]*"/, ' class="btn-i"').replace(/ width="24" height="24"/, "").replace("<svg", '<svg aria-hidden="true"').trim();
 
 /**
  * 基本情報: `- **項目**: 値` の一覧をプロフィール型に配置する。
@@ -405,6 +411,8 @@ body.header-hidden .header { transform: translateY(-100%); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.primary:hover { filter: brightness(1.08); color: #fff; }
 .btn .short { display: none; }
+.btn { display: inline-flex; align-items: center; gap: 5px; }
+.btn-i { width: 14px; height: 14px; flex: none; }
 .btn.icon { width: 32px; height: 30px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
 .btn.icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .btn.icon .moon { display: none; }
@@ -440,8 +448,6 @@ main { min-width: 0; }
 .bx { word-break: keep-all; }
 
 /* 本文 */
-.intro { font-size: 15px; margin-bottom: 8px; }
-.intro ul { margin: 0; padding-left: 1.2em; }
 h1 { font-size: 26px; margin: 8px 0 12px; }
 h1, h2, h3, h4, .row-name, .row-no, .item-title, .position, .toc > li > a, .toc ol > li > a { color: var(--h); }
 /* マウスで押したときの青い枠（フォーカスリング）は出さない。キーボード操作のときだけ出す */
@@ -523,6 +529,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
   #toc-toggle { display: inline-flex; margin-left: -8px; }
   .btn .long { display: none; }
   .btn .short { display: inline; }
+
   aside { display: block; position: fixed; top: 0; left: 0; bottom: 0; width: min(300px, 85vw); height: 100vh; max-height: none; z-index: 25; background: var(--bg); padding: 16px; box-shadow: 2px 0 12px rgba(0, 0, 0, .15); transform: translateX(-100%); transition: transform .25s ease; }
   body.toc-open aside { transform: none; }
   body.toc-open .toc-backdrop { display: block; }
@@ -530,6 +537,10 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
   .case-body { padding: 4px 14px 14px; }
   /* 一覧行: 狭い画面では概要を出さず、役割 │ 技術 だけ（技術は「…」で縮む） */
   .row-meta .s { display: none; }
+}
+/* スマホ幅は 390px に収めるため、GitHub はロゴだけにする（名前は title と aria-label に残す） */
+@media (max-width: 480px) {
+  .gh-label { display: none; }
 }
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
@@ -550,9 +561,9 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
   <button type="button" id="toc-toggle" aria-label="目次を開く" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <span class="brand">${esc(title)}</span>
   <nav>
-    <button type="button" class="btn primary" id="copy-md"><span class="long">Markdown を</span>コピー</button>
-    <a class="btn" id="open-pdf" href="${encodeURI(pdfName)}" target="_blank" rel="noopener">PDF</a>
-    <a class="btn" href="${REPO_URL}">GitHub</a>
+    <button type="button" class="btn primary" id="copy-md" title="このページの内容を Markdown としてコピー">${btnIcon(Copy)}<span><span class="long">Markdown として</span>コピー</span></button>
+    <a class="btn" id="open-pdf" href="${encodeURI(pdfName)}" target="_blank" rel="noopener" title="PDF を表示・ダウンロード">${btnIcon(FileText)}PDF</a>
+    <a class="btn" href="${REPO_URL}" title="GitHub の Markdown 原本を開く" aria-label="GitHub の Markdown 原本を開く"><svg class="btn-i" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="${siGithub.path}"/></svg><span class="gh-label">GitHub</span></a>
     <button type="button" class="btn icon" id="theme-toggle" aria-label="ライト / ダークを切り替え" title="ライト / ダークを切り替え"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
   </nav>
 </header>
@@ -569,7 +580,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 <div class="layout">
 <aside aria-label="目次">${tocHtml}</aside>
 <main>
-${phraseBreaks(`<h1>${inline(title)}</h1><div class="intro">${block(intro)}</div>${mainHtml}`)}
+${phraseBreaks(`<h1>${inline(title)}</h1>${mainHtml}`)}
 </main>
 </div>
 <script type="text/markdown" id="source-md">${embeddedMd}</script>

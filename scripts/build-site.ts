@@ -289,8 +289,8 @@ for (const name of ["基本情報", "強み", "技術スタック", "職務経�
 }
 for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.subs ?? []) {
   const h4 = s.body.filter((t) => isHeading(t, 4)).map((t) => (t as Tokens.Heading).text);
-  const expected = ["チーム体制", "案件概要・担当業務", "経験した技術", "取り組み・貢献", "開発環境"];
-  if (h4.join("/") !== expected.join("/")) warnings.push(`${s.heading.text}: h4 が定型 5 節と違う（${h4.join(" / ")}）`);
+  const expected = ["期間", "チーム体制", "案件概要・担当業務", "経験した技術", "取り組み・貢献", "開発環境"];
+  if (h4.join("/") !== expected.join("/")) warnings.push(`${s.heading.text}: h4 が定型 6 節と違う（${h4.join(" / ")}）`);
 }
 for (const s of sections.find((sec) => sec.heading.text === "職務経歴")?.subs ?? []) {
   if (!PERIOD_RE.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が （YYYY年M月〜YYYY年M月|現在） の形でないので目次に年が出ない`);

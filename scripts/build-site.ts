@@ -269,8 +269,7 @@ const mainHtml = visibleSections
   })
   .join("");
 
-// 目次: h2 と h3。技術スタックは h2 だけ、職務経歴は 会社 → 案件（No. + 案件名。客先の括弧は省く）の 2 段
-const TOC_H2_ONLY = new Set(["技術スタック"]);
+// 目次: h2 と h3。職務経歴は 会社 → 案件（No. + 案件名。客先の括弧は省く）の 2 段
 const casesOf = (g: Group) =>
   g.body
     .filter((t): t is Tokens.List => t.type === "list")
@@ -283,17 +282,15 @@ const casesOf = (g: Group) =>
     .join("");
 const tocHtml = `<ol class="toc">${visibleSections
   .map((sec) => {
-    const subs = TOC_H2_ONLY.has(sec.heading.text)
-      ? ""
-      : sec.subs
-          .map((s) => {
-            const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
-            // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
-            const m = cases ? s.heading.text.match(PERIOD_RE) : null;
-            const label = m ? `${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : inline(s.heading.text);
-            return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
-          })
-          .join("");
+    const subs = sec.subs
+      .map((s) => {
+        const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
+        // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
+        const m = cases ? s.heading.text.match(PERIOD_RE) : null;
+        const label = m ? `${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : inline(s.heading.text);
+        return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
+      })
+      .join("");
     return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
   })
   .join("")}</ol>`;
@@ -389,7 +386,10 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc ol ol a { font-weight: 400; color: var(--muted); padding: 2px 10px 2px 16px; display: flex; align-items: center; gap: 8px; }
 .toc ol ol a > span:last-child { overflow: hidden; text-overflow: ellipsis; }
 .toc .k { flex: none; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
-.toc a.active { color: var(--fg); background: var(--soft); }
+/* 現在位置: 今いる項目は帯 + 左のアクセント線、その親（節・会社）は左線だけ。どの階層にいるかを線のつながりで示す */
+.toc a.on-path { box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
+.toc a.active { color: var(--h); background: var(--soft); box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
+.toc ol ol a.active { font-weight: 600; }
 .toc ol ol a.active .k { background: var(--bg); }
 main { min-width: 0; }
 
@@ -603,17 +603,35 @@ ${mainHtml}
     document.body.classList.toggle("header-hidden", down);
     lastY = y;
   }, { passive: true });
-  const byId = new Map(tocLinks.map((a) => [a.getAttribute("href").slice(1), a]));
-  const targets = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
-  const visible = new Set();
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { e.isIntersecting ? visible.add(e.target) : visible.delete(e.target); });
-    // 画面内にある見出しのうち、文書順で最初のものを現在位置とする
-    const current = targets.find((t) => visible.has(t));
-    if (!current) return;
-    tocLinks.forEach((a) => a.classList.toggle("active", a === byId.get(current.id)));
-  }, { rootMargin: "-52px 0px -70% 0px" });
-  targets.forEach((t) => spy.observe(t));
+  // 現在位置: 画面上部の基準線を越えた見出しのうち、文書順で最後のもの。親の項目（節・会社）にも印を付ける
+  const aside = document.querySelector("aside");
+  const spyLinks = tocLinks.map((a) => [a, document.getElementById(a.getAttribute("href").slice(1))]).filter(([, t]) => t);
+  let activeLink = null;
+  const keepInView = (a) => {
+    const top = a.getBoundingClientRect().top - aside.getBoundingClientRect().top;
+    if (top < 0 || top + a.offsetHeight > aside.clientHeight) aside.scrollTop += top - aside.clientHeight / 3;
+  };
+  const spy = () => {
+    const line = document.querySelector(".header").offsetHeight + innerHeight * 0.2;
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
+    let current = spyLinks[0][0];
+    for (const [a, t] of spyLinks) {
+      const top = t.getBoundingClientRect().top;
+      if (top <= line || (atBottom && top < innerHeight)) current = a;
+    }
+    if (current === activeLink) return;
+    activeLink = current;
+    const path = new Set();
+    for (let li = current.closest("li")?.parentElement?.closest("li"); li; li = li.parentElement?.closest("li")) path.add(li.querySelector(":scope > a"));
+    tocLinks.forEach((a) => { a.classList.toggle("active", a === current); a.classList.toggle("on-path", path.has(a)); });
+    keepInView(current);
+  };
+  let ticking = false;
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; spy(); }); } }, { passive: true });
+  addEventListener("resize", spy);
+  document.querySelectorAll("details.case").forEach((d) => d.addEventListener("toggle", spy));
+  tocToggle.addEventListener("click", () => activeLink && keepInView(activeLink));
+  spy();
 })();
 </script>
 </body>

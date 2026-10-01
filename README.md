@@ -522,12 +522,10 @@
 
 - **Swift**
   - アーキテクチャの比較検討と Clean Architecture での実装
-  - Clean Architecture での実装
   - SwiftUI・UIKit と Combine を組み合わせた画面実装
   - Swift Concurrency による非同期処理のハンドリング
   - Firebase Crashlytics・Xcode Organizer を用いたバグの原因調査
   - Logger API を用いたログ出力
-  - Quick/Nimble を用いたテストコードの記述
   - Quick/Nimble と Mock を用いたテストコードの記述
   - iPad の画面サイズへの対応
 - **IoT**
@@ -759,8 +757,7 @@
 #### 開発環境
 
 - **言語**
-  - `PHP (CodeIgniter)`, `Java`（721 行を統合して 1 行にする）
-  - `Java`
+  - `PHP (CodeIgniter)`, `Java`
 - **プロジェクト管理**
   - `Jira`, `Confluence`, `Trello`
 - **テストツール**

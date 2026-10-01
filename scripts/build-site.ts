@@ -326,6 +326,9 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root {
   color-scheme: light dark;
@@ -643,5 +646,6 @@ await $`rm -rf ${OUT_DIR}`;
 await $`mkdir -p ${OUT_DIR}`;
 await Bun.write(`${OUT_DIR}/index.html`, html);
 await $`cp ${SOURCE} ${pdfName} ${OUT_DIR}/`;
+await $`cp assets/favicon.svg assets/favicon-32.png assets/apple-touch-icon.png ${OUT_DIR}/`;
 
 console.log(`生成: ${OUT_DIR}/index.html（案件 ${caseCount} 件, PDF: ${pdfName}）`);

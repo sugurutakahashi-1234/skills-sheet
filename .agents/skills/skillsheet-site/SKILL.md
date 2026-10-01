@@ -69,6 +69,7 @@ await browser.close();
 ## 変えるときの決まりごと
 
 - 見た目の案は `design-compare` スキルで比較 HTML を出してから決める（このリポジトリの CLAUDE.md の規則）。実装後は PC 1280px・スマホ 390px・ダーク（`page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }])`）で撮って確認する
+- ファビコンは `assets/favicon.svg` が正。変えたら `bun run icons` で PNG（32px・ホーム画面用 180px）を作り直してコミットする（Pages の CI は Chromium が無く PNG を作れない）
 - 色は `:root` の CSS 変数（`--accent` `--soft` `--muted` `--line` `--tag`）だけで決まる。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない
 - README の書き方の規則は `.rulesync/rules/skillsheet-wording.md` が正。Web 版の都合で README の表現を変えない（表示側で吸収する）
 - ユーザーが「push を控えて」と言ったセッションでは、コミットまでにして push しない（Actions が動くため）

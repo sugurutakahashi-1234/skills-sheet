@@ -380,15 +380,15 @@ const html = `<!doctype html>
   color-scheme: light dark;
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
-  --accent: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
+  --accent: #2563eb; --btn: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
   --card: #ffffff; --h: #1f2328; --shadow: 0 1px 3px rgba(31, 35, 40, .08);
   --header-h: 52px;
 }
 /* ダーク: OS の設定（手動で light にしていない場合）か、ヘッダーで dark を選んだとき */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
+  :root:not([data-theme="light"]) { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --btn: #1f6feb; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
 }
-:root[data-theme="dark"] { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
+:root[data-theme="dark"] { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --btn: #1f6feb; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
 * { box-sizing: border-box; }
 /* scroll-behavior: smooth は付けない。スムーズスクロールを無効にしている環境では
    smooth 指定のスクロールがまるごと無視され、目次やアンカーのジャンプが動かなくなる */
@@ -408,7 +408,8 @@ body.header-hidden .header { transform: translateY(-100%); }
 .header nav { display: flex; gap: 6px; }
 .btn { font: inherit; font-size: 13px; line-height: 1; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; cursor: pointer; white-space: nowrap; text-decoration: none; }
 .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* 塗りのボタンは --btn。ダークの --accent（#4c8dff）は線用に明るく白文字が沈む（3.2:1）ので、塗りだけ濃い青（4.6:1）にする */
+.btn.primary { background: var(--btn); border-color: var(--btn); color: #fff; }
 .btn.primary:hover { filter: brightness(1.08); color: #fff; }
 .btn .short { display: none; }
 .btn { display: inline-flex; align-items: center; gap: 5px; }
@@ -545,6 +546,13 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
 @media print {
+  /* 印刷はテーマによらずライトの色にする。ブラウザは背景を印刷しないので、手動でダークにしたままだと白い紙に明るい文字が載る */
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
+    --accent: #2563eb; --btn: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
+    --card: #ffffff; --h: #1f2328; --shadow: none;
+  }
   .header, aside, .pdf-modal { display: none; }
   .layout { display: block; padding: 0; max-width: none; }
   body { font-size: 12px; }

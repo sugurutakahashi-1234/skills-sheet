@@ -287,7 +287,8 @@ const mainHtml = visibleSections
   })
   .join("");
 
-// 目次: h2 と h3。職務経歴は 会社 → 案件（No. + 案件名。客先の括弧は省く）の 2 段
+// 目次: h2 と h3。技術スタックは h2 だけ（分野の見出しまで出すと目次が長くなる）、職務経歴は 会社 → 案件（No. + 案件名。客先の括弧は省く）の 2 段
+const TOC_H2_ONLY = new Set(["技術スタック"]);
 const casesOf = (g: Group) =>
   g.body
     .filter((t): t is Tokens.List => t.type === "list")
@@ -300,7 +301,7 @@ const casesOf = (g: Group) =>
     .join("");
 const tocHtml = `<ol class="toc">${visibleSections
   .map((sec) => {
-    const subs = sec.subs
+    const subs = (TOC_H2_ONLY.has(sec.heading.text) ? [] : sec.subs)
       .map((s) => {
         const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
         // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）

@@ -3,6 +3,7 @@
 - `README.md` が正本。PDF（`*_高橋俊スキルシート.pdf`）は pre-commit フックが README の変更時に自動生成する。PDF を手で編集しない
 - **README は 1 ファイルに保つ。案件ごとの分割はしない**。表記の不統一や案件間の形式のずれは全文を通して読んで初めて見つかる（「基点 / 起点」の混在、No.11 だけ節の形式が違う、`Mise` と `mise` の不統一はいずれも横断比較で見つけた）。案件が 20 件に増えても 2 万トークン程度で、必要な節だけ読むのは `grep` と `<details>` の区切りで足りる
 - 案件詳細は `## 案件詳細` の下で 1 案件ずつ `<details>` に包む。GitHub で README を開いたときに 600 行超が展開されたまま並ぶのを避けるため。`<summary>` は `[No.N] 案件名（客先） — 役割 / 技術`（職務経歴の一覧行と同じ情報）、その中に `### [No.N] 案件名（客先）` の見出しを残す。見出しを残すのは GitHub の目次（Outline）に案件を出すため。案件の中は `#### 期間` から始まる定型 6 節（期間 / チーム体制 / 案件概要・担当業務 / 経験した技術 / 取り組み・貢献 / 開発環境）。`</summary>` の直後には空行を入れる（無いと中の Markdown が解釈されない）。`<details>` と `<summary>` の間、`</details>` の前は空行なしで揃えている（無くても崩れない）
+- 基本情報のエンジニア歴「N 年目（2017年〜）」は手で直さない。pre-commit（`scripts/update-career.ts`）が毎回今日の日付で計算し直し、変わったら README と PDF を更新して同じコミットに含める（4 月 1 日に 1 つ上がる）。Web 版は開いたときにページ内のスクリプトが同じ計算で表示し直す。計算は `scripts/career.ts` の 1 か所
 - 折りたたみを展開した Markdown は `scripts/expand-details.ts` が作る。PDF 生成（`<details>` のままだと Chromium が閉じた状態で描画して中身が消える）と、Web 版の「Markdown としてコピー」（コピー先に HTML タグを持ち込まない）の両方がこれを通す
 - Web 版（https://sugurutakahashi-1234.github.io/skills-sheet/）は `scripts/build-site.ts` が README から `dist/` に生成し、`.github/workflows/pages.yml` が `main` への push で GitHub Pages に配信する。`dist/` はコミットしない。手元で確認するときは `bun run build:site` して `dist/index.html` を開く
 - README の本文を変えたら pre-commit の textlint（`@textlint-ja/preset-ai-writing`）を通す。誇張表現や中身のない強調は指摘に従って直す

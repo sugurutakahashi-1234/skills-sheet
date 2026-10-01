@@ -1,4 +1,5 @@
 # pre-commit:
+# - career-years: README のエンジニア歴「N 年目」を今日の日付で計算し直す（4 月 1 日に 1 つ上がる）。変わったときだけ README と PDF を更新して同じコミットに含める。README を触らないコミットでも毎回走る
 # - textlint: README.md の日本語文章から AI 臭（誇張表現・コロン直後のブロック等）を検査する。
 #   スキルシートの様式として必要な「太字 + コロン + 箇条書き」の検査は .textlintrc.json で無効化している
 # - line-width: 箇条書きが 1 行に収まっているかを実測し、数文字はみ出している行を報告する（止めない）
@@ -7,6 +8,8 @@
 # - rulesync-generate: 正本 .rulesync/ や rulesync.jsonc が変わったらエージェント指示を再生成して同じコミットに含める
 pre-commit:
   commands:
+    career-years:
+      run: bun scripts/update-career.ts
     textlint:
       glob: "README.md"
       run: bunx textlint README.md

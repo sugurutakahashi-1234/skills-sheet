@@ -17,6 +17,7 @@ import { Cloud, Copy, FileText, MonitorSmartphone, Server, ShieldCheck, Sparkles
 import { parseHTML } from "linkedom";
 import { marked, type Token, type Tokens } from "marked";
 import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
+import { CAREER_RE, careerYears } from "./career";
 import { expandDetails } from "./expand-details";
 
 const SOURCE = "README.md";
@@ -190,7 +191,9 @@ function renderBasic(sec: Section) {
     } else if (p.label === "現職") {
       position = inline(p.rest);
     } else {
-      facts.push(`<span><b>${inline(p.label)}</b>${inline(p.rest)}</span>`);
+      // エンジニア歴の年数は、ページを開いたときにスクリプトが今日の日付で計算し直す（README の値は最後にコミットした時点のもの）
+      const value = inline(p.rest).replace(CAREER_RE, (_, n, from) => `<span data-career-from="${from}">${n}</span> 年目（${from}年〜）`);
+      facts.push(`<span><b>${inline(p.label)}</b>${value}</span>`);
     }
   }
   return `<div class="group profile">${avatar ? `<img class="avatar" src="${avatar}" alt="" width="80" height="80">` : ""}<div class="profile-main">${position ? `<div class="position">${position}</div>` : ""}<div class="facts">${facts.join("")}</div>${chips.length ? `<div class="chips">${chips.join("")}</div>` : ""}</div></div>`;
@@ -594,6 +597,10 @@ ${phraseBreaks(`<h1>${inline(title)}</h1>${mainHtml}`)}
 <script type="text/markdown" id="source-md">${embeddedMd}</script>
 <script>
 (() => {
+  // エンジニア歴: 4 月 1 日に年数が上がる（scripts/career.ts と同じ関数）
+  const careerYears = ${careerYears.toString()};
+  document.querySelectorAll("[data-career-from]").forEach((el) => { el.textContent = String(careerYears(Number(el.dataset.careerFrom), new Date())); });
+
   const cases = [...document.querySelectorAll("details.case")];
 
   // 印刷（Cmd+P / PDF に保存）では案件詳細をすべて開き、終わったら元に戻す

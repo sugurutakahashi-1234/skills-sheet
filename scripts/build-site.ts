@@ -385,7 +385,8 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc ol ol li { margin-top: 0; }
 .toc ol ol a { font-weight: 400; color: var(--muted); padding: 2px 10px 2px 16px; display: flex; align-items: center; gap: 8px; }
 .toc ol ol a > span:last-child { overflow: hidden; text-overflow: ellipsis; }
-.toc .k { flex: none; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
+/* No. は 2 桁（No.11）の幅に揃え、案件名の開始位置をそろえる */
+.toc .k { flex: none; min-width: 4.4em; text-align: center; font-variant-numeric: tabular-nums; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
 /* 現在位置: 今いる項目は帯 + 左のアクセント線、その親（節・会社）は左線だけ。どの階層にいるかを線のつながりで示す */
 .toc a.on-path { box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
 .toc a.active { color: var(--h); background: var(--soft); box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
@@ -444,7 +445,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 .case > summary::before { content: ""; flex: none; width: 8px; height: 8px; margin: 9px 0 0 2px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
 .case[open] > summary::before { transform: rotate(45deg); }
 .case[open] > summary { border-bottom: 1px solid var(--line); background: var(--tag); border-radius: 8px 8px 0 0; }
-.row-no { flex: none; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
+.row-no { flex: none; min-width: 4.8em; text-align: center; font-variant-numeric: tabular-nums; font-size: 12px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-top: 3px; }
 .case[open] .row-no { background: var(--soft); }
 .row-main { min-width: 0; flex: 1; display: block; }
 /* 一覧行は折り返さず 1 行で省略し、行の高さを揃える（全文は開けば読める） */

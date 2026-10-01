@@ -371,7 +371,7 @@
 
 - **Swift**
   - アーキテクチャ: `Clean Architecture`, `Swift Package Manager`（マルチモジュール構成）
-  - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `AVFoundation`, `Speech`, `Swift Testing`, `String Catalogs`, `Swift OpenAPI Generator`
+  - 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `AVFoundation`, `Speech`, `Swift Testing`, `String Catalogs`, `Swift OpenAPI Generator`
   - サードパーティ製 SDK: `WhisperKit`, `Sourcery`, `Mockolo`, `pixelmatch`
 - **CI/CD**
   - `Xcode Cloud`, `GitHub Actions`, `Renovate`
@@ -437,7 +437,7 @@
 
 - **Swift**
   - アーキテクチャ: `Clean Architecture`, `VIPER`, `Swift Package Manager`
-  - Swift 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `Swift-DocC`, `AVFoundation`, `Core ML`, `WebKit`, `ReplayKit`, `Logger`
+  - 標準 SDK & API: `SwiftUI`, `Swift Package Manager`, `Swift Concurrency`, `Combine`, `Swift-DocC`, `AVFoundation`, `Core ML`, `WebKit`, `ReplayKit`, `Logger`
   - サードパーティ製 SDK: `SwiftProtobuf`, `Firebase`, `Amplify`, `Quick/Nimble`, `LicensesPlugin`, `PhoneNumberKit`, `DeviceKit`, `SwiftFormat`, `SwiftGen`, `Lottie`, `Mockolo`, `Mint`, `Periphery`
 - **クラウド連携**
   - AWS Amplify: `AppSync (GraphQL)`, `Cognito`, `S3`, `Pinpoint`
@@ -485,7 +485,7 @@
 
 - **Swift**
   - アーキテクチャ: `Redux`
-  - Swift 標準 SDK & API: `UIKit`, `AVFoundation`
+  - 標準 SDK & API: `UIKit`, `AVFoundation`
   - サードパーティ製 SDK: `Carbon`, `VueFlux`, `ReactiveSwift`, `XcodeGen`, `Quick/Nimble`, `APIKit`, `CocoaPods`, `Carthage`, `Lottie`
 - **クラウド連携**
   - Firebase: `Crashlytics`
@@ -549,7 +549,7 @@
 
 - **Swift**
   - アーキテクチャ: `VIPER`, `Clean Architecture`
-  - Swift 標準 SDK & API: `SwiftUI`, `UIKit`, `Combine`, `Swift Concurrency`, `Logger`, `MetricKit`
+  - 標準 SDK & API: `SwiftUI`, `UIKit`, `Combine`, `Swift Concurrency`, `Logger`, `MetricKit`
   - サードパーティ製 SDK: `Realm`, `Quick/Nimble`, `APIKit`, `CocoaPods`, `Carthage`
 - **クラウド連携**
   - Firebase: `Crashlytics`, `Analytics`
@@ -656,7 +656,7 @@
 
 - **Swift**
   - アーキテクチャ: `MVVM`
-  - Swift 標準 SDK & API: `SwiftUI`
+  - 標準 SDK & API: `SwiftUI`
   - サードパーティ製 SDK: `SwiftLint`
 - **プロジェクト管理**
   - `ZenHub`, `Trello`
@@ -705,7 +705,7 @@
 
 - **Swift**
   - アーキテクチャ: `MVVM`
-  - Swift 標準 SDK & API: `UIKit`, `XCTest`
+  - 標準 SDK & API: `UIKit`, `XCTest`
   - サードパーティ製 SDK: `CocoaPods`, `Carthage`, `Realm`, `Moneytree LINK SDK`
 - **通信キャプチャ**
   - `mitmproxy`

@@ -12,6 +12,8 @@
  * - 印刷時は案件詳細をすべて開く。右上に「Markdown をコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
  */
 import { $, Glob } from "bun";
+import { HTMLProcessingParser, jaModel } from "budoux";
+import { parseHTML } from "linkedom";
 import { marked, type Token, type Tokens } from "marked";
 import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
 import { expandDetails } from "./expand-details";
@@ -262,6 +264,22 @@ const RENDERERS: Record<string, (sec: Section) => string> = {
 // 案件詳細は職務経歴の行に合体させるので、節としては出さない
 const visibleSections = sections.filter((sec) => sec.heading.text !== "案件詳細");
 
+/**
+ * 日本語の改行位置を文節の切れ目に寄せる（BudouX）。切れ目に <wbr> を入れ、`.bx` の word-break: keep-all で
+ * それ以外の位置では折り返さないようにする。ブラウザの対応（word-break: auto-phrase は Chrome だけ）に頼らず、
+ * Safari・Firefox でも同じ位置で改行される。<wbr> は文字ではないので、本文をコピーしても混ざらない。
+ */
+function phraseBreaks(html: string) {
+  const { document } = parseHTML(`<!doctype html><html><body><div id="root">${html}</div></body></html>`);
+  const root = document.getElementById("root")!;
+  new HTMLProcessingParser(jaModel, { separator: document.createElement("wbr"), className: "bx" }).applyToElement(root);
+  // BudouX は「Terraform による」「CTO として」のように英字と空白の直後の複合助詞を割りやすいので、つなぎ直す
+  // 「3 サービス」「1,000 名」の数字と単位の間では折り返さない（README の半角スペースを改行しないスペースにする）
+  return root.innerHTML
+    .replace(/([にと])<wbr>(?=よる|より|よっ|して|する|した|おけ|つい|とっ)/g, "$1")
+    .replace(/(\d) (?=[\u3040-\u30ff\u4e00-\u9fff])/g, "$1\u00a0");
+}
+
 const mainHtml = visibleSections
   .map((sec) => {
     const render = RENDERERS[sec.heading.text] ?? ((s: Section) => block(s.body) + s.subs.map((g) => block([g.heading, ...g.body])).join(""));
@@ -379,6 +397,7 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc, .toc ol { list-style: none; margin: 0; padding: 0; }
 .toc a { display: block; color: var(--fg); border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .toc a:hover { text-decoration: none; background: var(--soft); }
+.toc a { -webkit-tap-highlight-color: transparent; }
 .toc > li { margin-bottom: 10px; }
 .toc > li > a { font-weight: 700; padding: 4px 10px; }
 .toc ol > li { margin-top: 6px; }
@@ -390,12 +409,13 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc ol ol a > span:last-child { overflow: hidden; text-overflow: ellipsis; }
 /* No. は 2 桁（No.11）の幅に揃え、案件名の開始位置をそろえる */
 .toc .k { flex: none; min-width: 4.4em; text-align: center; font-variant-numeric: tabular-nums; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
-/* 現在位置: 今いる項目は帯 + 左のアクセント線、その親（節・会社）は薄い左線だけ。選択が 2 つに見えないよう親は控えめにする */
-.toc a.on-path { box-shadow: inset 2px 0 0 var(--role-line); border-radius: 0 6px 6px 0; }
+/* 現在位置: 今いる項目だけを帯 + 左のアクセント線で示す（親の節・会社には印を付けない。選択が 2 つに見えるため） */
 .toc a.active { color: var(--h); background: var(--soft); box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
 .toc ol ol a.active { font-weight: 600; }
 .toc ol ol a.active .k { background: var(--bg); }
 main { min-width: 0; }
+/* BudouX が文節の切れ目に <wbr> を入れた要素。切れ目以外では折り返さない（長い英数字は body の overflow-wrap で折れる） */
+.bx { word-break: keep-all; }
 
 /* 本文 */
 .intro { font-size: 15px; margin-bottom: 8px; }
@@ -526,9 +546,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 <div class="layout">
 <aside aria-label="目次">${tocHtml}</aside>
 <main>
-<h1>${inline(title)}</h1>
-<div class="intro">${block(intro)}</div>
-${mainHtml}
+${phraseBreaks(`<h1>${inline(title)}</h1><div class="intro">${block(intro)}</div>${mainHtml}`)}
 </main>
 </div>
 <script type="text/markdown" id="source-md">${embeddedMd}</script>
@@ -587,6 +605,8 @@ ${mainHtml}
   document.getElementById("toc-backdrop").addEventListener("click", () => setToc(false));
   const tocLinks = [...document.querySelectorAll(".toc a")];
   // 日本語 id へのブラウザ標準のジャンプが効かないので、自前でスクロールする
+  // 押している間もフォーカスを移さない（mousedown でフォーカスが移ると、ブラウザによっては枠が出る）
+  tocLinks.forEach((a) => a.addEventListener("mousedown", (e) => e.preventDefault()));
   tocLinks.forEach((a) => a.addEventListener("click", (e) => {
     setToc(false);
     // マウスで押したリンクにフォーカス枠を残さない（現在位置の帯と並んで選択が 2 つに見える）。キーボード操作（detail = 0）はそのまま
@@ -609,7 +629,7 @@ ${mainHtml}
     document.body.classList.toggle("header-hidden", down);
     lastY = y;
   }, { passive: true });
-  // 現在位置: 画面上部の基準線を越えた見出しのうち、文書順で最後のもの。親の項目（節・会社）にも印を付ける
+  // 現在位置: 画面上部の基準線を越えた見出しのうち、文書順で最後のもの
   const aside = document.querySelector("aside");
   const spyLinks = tocLinks.map((a) => [a, document.getElementById(a.getAttribute("href").slice(1))]).filter(([, t]) => t);
   let activeLink = null;
@@ -618,7 +638,8 @@ ${mainHtml}
     if (top < 0 || top + a.offsetHeight > aside.clientHeight) aside.scrollTop += top - aside.clientHeight / 3;
   };
   const spy = () => {
-    const line = document.querySelector(".header").offsetHeight + innerHeight * 0.2;
+    // 目次で押した見出しはヘッダーの 16px 下に来るので、そのすぐ下を基準線にする（押した項目がそのまま現在位置になる）
+    const line = document.querySelector(".header").offsetHeight + 40;
     const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
     let current = spyLinks[0][0];
     for (const [a, t] of spyLinks) {
@@ -627,9 +648,7 @@ ${mainHtml}
     }
     if (current === activeLink) return;
     activeLink = current;
-    const path = new Set();
-    for (let li = current.closest("li")?.parentElement?.closest("li"); li; li = li.parentElement?.closest("li")) path.add(li.querySelector(":scope > a"));
-    tocLinks.forEach((a) => { a.classList.toggle("active", a === current); a.classList.toggle("on-path", path.has(a)); });
+    tocLinks.forEach((a) => a.classList.toggle("active", a === current));
     keepInView(current);
   };
   let ticking = false;

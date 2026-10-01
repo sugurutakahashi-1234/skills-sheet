@@ -14,7 +14,9 @@
   "devDependencies": {
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "@types/bun": "^1.4.0",
+    "budoux": "^0.9.3",
     "lefthook": "^2.1.10",
+    "linkedom": "^0.18.13",
     "marked": "^18.0.12",
     "md-to-pdf": "^5.2.5",
     "rulesync": "^16.33.0",

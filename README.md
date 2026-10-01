@@ -169,7 +169,7 @@
 - **AI ツール（提案活動・開発）**
   - `Claude Code`, `Codex`, `v0`, `Chrome DevTools MCP`
 - **分析**
-  - 分析: `Google Search Console`, `PageSpeed Insights`, `PostHog`, `Cloudflare Analytics`
+  - `Google Search Console`, `PageSpeed Insights`, `PostHog`, `Cloudflare Analytics`
 </details>
 
 <details>

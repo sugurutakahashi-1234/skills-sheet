@@ -390,8 +390,8 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc ol ol a > span:last-child { overflow: hidden; text-overflow: ellipsis; }
 /* No. は 2 桁（No.11）の幅に揃え、案件名の開始位置をそろえる */
 .toc .k { flex: none; min-width: 4.4em; text-align: center; font-variant-numeric: tabular-nums; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
-/* 現在位置: 今いる項目は帯 + 左のアクセント線、その親（節・会社）は左線だけ。どの階層にいるかを線のつながりで示す */
-.toc a.on-path { box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
+/* 現在位置: 今いる項目は帯 + 左のアクセント線、その親（節・会社）は薄い左線だけ。選択が 2 つに見えないよう親は控えめにする */
+.toc a.on-path { box-shadow: inset 2px 0 0 var(--role-line); border-radius: 0 6px 6px 0; }
 .toc a.active { color: var(--h); background: var(--soft); box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
 .toc ol ol a.active { font-weight: 600; }
 .toc ol ol a.active .k { background: var(--bg); }
@@ -589,6 +589,8 @@ ${mainHtml}
   // 日本語 id へのブラウザ標準のジャンプが効かないので、自前でスクロールする
   tocLinks.forEach((a) => a.addEventListener("click", (e) => {
     setToc(false);
+    // マウスで押したリンクにフォーカス枠を残さない（現在位置の帯と並んで選択が 2 つに見える）。キーボード操作（detail = 0）はそのまま
+    if (e.detail) a.blur();
     const href = a.getAttribute("href");
     const t = byHash(href);
     if (!t) return;

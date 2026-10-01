@@ -13,6 +13,7 @@
  */
 import { $, Glob } from "bun";
 import { marked, type Token, type Tokens } from "marked";
+import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
 import { expandDetails } from "./expand-details";
 
 const SOURCE = "README.md";
@@ -135,6 +136,23 @@ function parseCaseHeading(text: string) {
 }
 
 /**
+ * 外部リンクのチップに付ける公式ロゴ（Simple Icons）。URL のホストで引く。
+ * 黒いロゴ（GitHub・X）は文字色に合わせ、ダークモードで背景に沈まないようにする。
+ */
+const LINK_ICONS: [RegExp, SimpleIcon, boolean][] = [
+  [/^https:\/\/github\.com\//, siGithub, false],
+  [/^https:\/\/(x|twitter)\.com\//, siX, false],
+  [/^https:\/\/qiita\.com\//, siQiita, true],
+  [/^https:\/\/zenn\.dev\//, siZenn, true],
+];
+function linkIcon(url: string) {
+  const hit = LINK_ICONS.find(([re]) => re.test(url));
+  if (!hit) return "";
+  const [, icon, brand] = hit;
+  return `<svg class="chip-icon" viewBox="0 0 24 24" aria-hidden="true" fill="${brand ? `#${icon.hex}` : "currentColor"}"><path d="${icon.path}"/></svg>`;
+}
+
+/**
  * 基本情報: `- **項目**: 値` の一覧をプロフィール型に配置する。
  * 「現職」を大きく、子の箇条書きを持つ項目（外部リンク）はチップ、残りは横並びの事実。
  * 外部リンクに GitHub があればアバター（https://github.com/<user>.png）を左に置く。
@@ -156,7 +174,7 @@ function renderBasic(sec: Section) {
         const text = (link.tokens[0] as Tokens.Text).text;
         const m = text.match(/^(.+?):\s*(\S+)$/);
         if (!m) { chips.push(`<span class="chip">${inline(text)}</span>`); continue; }
-        chips.push(`<a class="chip" href="${esc(m[2])}">${inline(m[1])}</a>`);
+        chips.push(`<a class="chip" href="${esc(m[2])}">${linkIcon(m[2])}${inline(m[1])}</a>`);
         const gh = m[2].match(/^https:\/\/github\.com\/([^/?#]+)\/?$/);
         if (gh) avatar = `https://github.com/${gh[1]}.png?size=160`;
       }
@@ -399,6 +417,8 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .chip { display: inline-block; font-size: 14px; line-height: 1.4; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--fg); }
 .chip:hover { border-color: var(--accent); text-decoration: none; }
+a.chip { display: inline-flex; align-items: center; gap: 6px; }
+.chip-icon { width: 15px; height: 15px; flex: none; }
 .items { padding: 4px 20px 12px; }
 .item { padding: 10px 0 2px; }
 .item-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; line-height: 1.3; padding-left: 10px; border-left: 3px solid var(--accent); }

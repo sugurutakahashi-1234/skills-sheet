@@ -13,6 +13,7 @@
  */
 import { $, Glob } from "bun";
 import { HTMLProcessingParser, jaModel } from "budoux";
+import { Cloud, MonitorSmartphone, Server, ShieldCheck, Sparkles, SquareTerminal } from "lucide-static";
 import { parseHTML } from "linkedom";
 import { marked, type Token, type Tokens } from "marked";
 import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
@@ -98,8 +99,8 @@ function items(list: Tokens.List, tags = false): string {
 }
 
 /** 節（h3 があればその帯付き）を 1 枚の枠にまとめる */
-const group = (body: string, heading?: Tokens.Heading) =>
-  `<div class="group"${heading ? ` id="${idOf(heading.text)}"` : ""}>${heading ? `<h3>${inline(heading.text)}</h3>` : ""}${body}</div>`;
+const group = (body: string, heading?: Tokens.Heading, icon = "") =>
+  `<div class="group"${heading ? ` id="${idOf(heading.text)}"` : ""}>${heading ? `<h3>${icon}${inline(heading.text)}</h3>` : ""}${body}</div>`;
 
 // ---- 見出しでトークンを区切る ---------------------------------------------
 
@@ -189,12 +190,29 @@ function renderBasic(sec: Section) {
   return `<div class="group profile">${avatar ? `<img class="avatar" src="${avatar}" alt="" width="80" height="80">` : ""}<div class="profile-main">${position ? `<div class="position">${position}</div>` : ""}<div class="facts">${facts.join("")}</div>${chips.length ? `<div class="chips">${chips.join("")}</div>` : ""}</div></div>`;
 }
 
+/**
+ * 技術スタックの分野の帯に付ける線画（Lucide）。分野を探すときの目印で、Web 版だけ（README・PDF には入れない）。
+ * 見出しの先頭の語で引く。対応が無い分野はアイコン無しで描き、ビルドで警告する。
+ */
+const STACK_ICONS: [string, string][] = [
+  ["AI", Sparkles],
+  ["フロントエンド", MonitorSmartphone],
+  ["バックエンド", Server],
+  ["クラウド", Cloud],
+  ["品質", ShieldCheck],
+  ["OSS", SquareTerminal],
+];
+const stackIcon = (heading: string) => {
+  const svg = STACK_ICONS.find(([key]) => heading.startsWith(key))?.[1];
+  return svg ? svg.replace(/\s+/g, " ").replace(/ class="[^"]*"/, ' class="group-icon"').replace(/ width="24" height="24"/, "").replace("<svg", '<svg aria-hidden="true"').trim() : "";
+};
+
 /** 強み（h3 なし）は h2 直下を 1 枠、技術スタックは h3 ごとに 1 枠 */
 function renderGroups(sec: Section) {
   const tags = sec.heading.text === "技術スタック";
   const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? items(t as Tokens.List, tags) : block([t]))).join("");
   const hasBody = sec.body.some((t) => t.type !== "space");
-  return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading)).join("");
+  return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading, tags ? stackIcon(s.heading.text) : "")).join("");
 }
 
 /** 案件詳細の本文と見出しを No. で引けるようにする（本文は h4 の定型節ごとに <section>） */
@@ -318,6 +336,9 @@ const caseCount = caseBodies.size;
 
 // ---- 前提が崩れていないかの確認（止めずに警告。認識できない部分は普通の Markdown として描かれる） ----
 const warnings: string[] = [];
+for (const s of sections.find((sec) => sec.heading.text === "技術スタック")?.subs ?? []) {
+  if (!stackIcon(s.heading.text)) warnings.push(`技術スタックの「${s.heading.text}」にアイコンの対応が無い（STACK_ICONS に足す）`);
+}
 for (const name of ["基本情報", "強み", "技術スタック", "職務経歴", "案件詳細"]) {
   if (!sections.some((sec) => sec.heading.text === name)) warnings.push(`h2「${name}」が無い。この節の専用の見せ方が外れる`);
 }
@@ -431,7 +452,8 @@ h1, h2, h3, h4, .row-name, .row-no, .item-title, .position, .toc > li > a, .toc 
 ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
 /* 節の枠: h3 があればタイトル帯、中は左バー付きの項目見出しと字下げした子 */
 .group { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; box-shadow: var(--shadow); }
-.group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); }
+.group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
+.group-icon { width: 18px; height: 18px; flex: none; stroke: var(--muted); stroke-width: 1.8; }
 /* 基本情報 */
 .profile { display: flex; gap: 20px; align-items: flex-start; padding: 16px 20px; }
 .avatar { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); flex: none; }

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><!-- TITLE: 「〇〇を N か所直します」のように、何をするかを一言で --></title>
+<style>
+  /* before / after を見せる型の雛形。使う型の CSS と HTML だけを残し、残りは消す。型の選び方は references/before-after.md */
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f6f8fa; color: #1f2328;
+         font: 15px/1.7 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 28px 16px 80px; }
+  h1 { font-size: 22px; margin: 0 0 20px; }
+
+  /* 1 件 = 1 枚。見出しは「何をどう変えるか」の一言、その下に条件を 1 行 */
+  .item { background: #fff; border: 1px solid #d0d7de; border-radius: 12px; padding: 18px 20px 16px; margin-bottom: 18px; }
+  .item h2 { font-size: 18px; margin: 0 0 2px; }
+  .when { font-size: 13px; color: #57606a; margin: 0 0 14px; }
+  .note { font-size: 13px; color: #424a53; margin: 8px 0 0; }
+
+  /* 共通部品: Before / After のラベル（赤 / 緑）と、変わる所を囲む注目枠（黄の破線） */
+  .tag { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .04em; border-radius: 6px; padding: 2px 10px; }
+  .tag.before { background: #ffebe9; color: #b91c1c; }
+  .tag.after { background: #dafbe1; color: #15803d; }
+  .focus { outline: 3px dashed #f59e0b; outline-offset: 5px; border-radius: 4px; }
+  /* 切り出した見本を載せる台。対象の背景色（ダーク・紙・カード）に合わせて style で上書きする */
+  .stage { border-radius: 10px; padding: 22px 18px; min-height: 100px; display: flex; gap: 8px; align-items: center; justify-content: center; background: #fff; border: 1px solid #d0d7de; }
+
+  /* 型 1: 左右（2-up）。小さな部品・色・アイコン・短い文言。変わる部分を拡大して切り出す */
+  .ba-2up { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: start; }
+  .ba-2up figure { margin: 0; } .ba-2up figcaption { margin-bottom: 8px; }
+  .ba-2up .arrow { font-size: 28px; color: #8c959f; align-self: center; padding-top: 18px; }
+  @media (max-width: 640px) { .ba-2up { grid-template-columns: 1fr; } .ba-2up .arrow { transform: rotate(90deg); justify-self: center; padding: 0; } }
+
+  /* 型 2: 上下（stacked）。横幅が広く、左右に並べると実寸より縮むもの（ヘッダー全幅・表・長い行） */
+  .ba-stack { display: grid; grid-template-columns: 72px 1fr; gap: 10px 12px; align-items: center; }
+  .ba-stack .tag { justify-self: start; }
+
+  /* 型 3: スライダー（swipe）。同じ位置で重ね、つまみを動かして切り替える。位置・余白・改行のずれ */
+  .ba-swipe { position: relative; overflow: hidden; border-radius: 10px; user-select: none; }
+  .ba-swipe .layer { position: relative; }
+  .ba-swipe .layer.after { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--x, 50%)); }
+  .ba-swipe .bar { position: absolute; top: 0; bottom: 0; left: var(--x, 50%); width: 2px; background: #f59e0b; pointer-events: none; }
+  .ba-swipe .tag { position: absolute; top: 8px; z-index: 1; } .ba-swipe .tag.before { left: 8px; } .ba-swipe .tag.after { right: 8px; }
+  .ba-swipe input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+
+  /* 型 4: 切り替え（toggle）。同じ位置で Before / After を押して切り替える。並べると気づけない微妙な色・太さの差 */
+  .ba-toggle .switch { display: inline-flex; border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
+  .ba-toggle .switch button { font: inherit; font-size: 13px; font-weight: 700; padding: 4px 14px; border: 0; background: #fff; color: #57606a; cursor: pointer; }
+  .ba-toggle .switch button[aria-pressed="true"].b { background: #ffebe9; color: #b91c1c; }
+  .ba-toggle .switch button[aria-pressed="true"].a { background: #dafbe1; color: #15803d; }
+  .ba-toggle .view { display: none; } .ba-toggle[data-show="before"] .view.before, .ba-toggle[data-show="after"] .view.after { display: block; }
+
+  /* 型 5: 文言の差分（インライン）。1 行の中で削る語に赤の取り消し線、足す語に緑の下線 */
+  .diff-line { font-size: 16px; line-height: 1.8; }
+  .diff-line del { color: #b91c1c; background: #ffebe9; text-decoration: line-through; }
+  .diff-line ins { color: inherit; background: #dafbe1; text-decoration: none; box-shadow: inset 0 -2px #15803d; }
+</style>
+<div class="wrap">
+<h1><!-- TITLE --></h1>
+
+<!-- 型 1: 左右（2-up） -->
+<div class="item">
+  <h2>① <!-- 何をどう変えるか --></h2>
+  <p class="when"><!-- どの画面・どの条件で見えるか --></p>
+  <div class="ba-2up">
+    <figure><figcaption><span class="tag before">Before</span></figcaption>
+      <div class="stage"><!-- 現状の切り出し。変わる要素に class="focus" --></div>
+      <p class="note"><!-- どう見えるかを 1 行 --></p></figure>
+    <div class="arrow">→</div>
+    <figure><figcaption><span class="tag after">After</span></figcaption>
+      <div class="stage"><!-- 直した後の切り出し。同じ要素に class="focus" --></div>
+      <p class="note"><!-- どう見えるかを 1 行 --></p></figure>
+  </div>
+</div>
+
+<!-- 型 2: 上下（stacked） -->
+<div class="item">
+  <h2>② <!-- 何をどう変えるか --></h2>
+  <p class="when"><!-- 条件 --></p>
+  <div class="ba-stack">
+    <span class="tag before">Before</span><div class="stage"><!-- 現状（実寸の幅） --></div>
+    <span class="tag after">After</span><div class="stage"><!-- 直した後（実寸の幅） --></div>
+  </div>
+</div>
+
+<!-- 型 3: スライダー（swipe）。2 枚は同じ大きさ・同じ位置に作る -->
+<div class="item">
+  <h2>③ <!-- 何をどう変えるか --></h2>
+  <p class="when">つまみを左右に動かすと切り替わる</p>
+  <div class="ba-swipe">
+    <span class="tag before">Before</span><span class="tag after">After</span>
+    <div class="layer before"><div class="stage"><!-- 現状 --></div></div>
+    <div class="layer after"><div class="stage"><!-- 直した後 --></div></div>
+    <div class="bar"></div>
+    <input type="range" min="0" max="100" value="50" aria-label="Before と After の境目">
+  </div>
+</div>
+
+<!-- 型 4: 切り替え（toggle） -->
+<div class="item">
+  <h2>④ <!-- 何をどう変えるか --></h2>
+  <p class="when">Before / After を押して見比べる</p>
+  <div class="ba-toggle" data-show="before">
+    <div class="switch"><button type="button" class="b" aria-pressed="true">Before</button><button type="button" class="a" aria-pressed="false">After</button></div>
+    <div class="view before"><div class="stage"><!-- 現状 --></div></div>
+    <div class="view after"><div class="stage"><!-- 直した後 --></div></div>
+  </div>
+</div>
+
+<!-- 型 5: 文言の差分（インライン） -->
+<div class="item">
+  <h2>⑤ <!-- 何をどう変えるか --></h2>
+  <p class="when"><!-- どの文書のどの節 --></p>
+  <div class="stage" style="justify-content:flex-start">
+    <p class="diff-line"><!-- 例: 技術選定から<del>開発まで一気通貫で</del><ins>開発・運用まで</ins>担当 --></p>
+  </div>
+</div>
+</div>
+<script>
+  document.querySelectorAll(".ba-swipe").forEach((el) => {
+    const input = el.querySelector("input");
+    const set = () => el.style.setProperty("--x", input.value + "%");
+    input.addEventListener("input", set); set();
+  });
+  document.querySelectorAll(".ba-toggle").forEach((el) => {
+    el.querySelectorAll(".switch button").forEach((btn) => btn.addEventListener("click", () => {
+      el.dataset.show = btn.classList.contains("a") ? "after" : "before";
+      el.querySelectorAll(".switch button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    }));
+  });
+</script>

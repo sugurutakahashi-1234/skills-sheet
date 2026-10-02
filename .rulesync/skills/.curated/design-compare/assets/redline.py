@@ -237,10 +237,12 @@ function save(){{try{{const st={{}};rows.forEach(r=>{{const s=state[r.dataset.ke
   if(curCh!==null)chc[curCh]=B('chc').value;
   localStorage.setItem(KEY,JSON.stringify({{st,chc,all:B('all').value,allSent,sent,cur:curCh}}));}}catch(e){{}}}}
 function restore(){{let d=null;try{{d=JSON.parse(localStorage.getItem(KEY)||'null');}}catch(e){{}}if(!d)return null;
-  rows.forEach(r=>{{const v=d.st&&d.st[r.dataset.sid];if(!v)return;const key=r.dataset.key;state[key]={{rev:!!v.rev,c:v.c||''}};
+  /* 送った後に内容が変わった章（更新あり）と反映済みの章は、前の印とコメントを読み込まない。反映済みの意見が残ると、新しい案と混ざって読みにくい */
+  const stale=ch=>DONE.includes(ch)||!!(d.sent&&d.sent[ch]&&d.sent[ch].hash!==hashOf(ch));
+  rows.forEach(r=>{{if(stale(r.dataset.ch))return;const v=d.st&&d.st[r.dataset.sid];if(!v)return;const key=r.dataset.key;state[key]={{rev:!!v.rev,c:v.c||''}};
     if(v.rev){{r.classList.add('marked');const b=r.querySelector('[data-act="rev"]');if(b)b.classList.add('on');}}
     if((v.c||'').trim()){{const box=document.querySelector(`.cbox[data-for="${{key}}"]`);box.hidden=false;box.querySelector('textarea').value=v.c;r.classList.add('has-c');r.querySelector('[data-act="cmt"]').classList.add('on2');}}}});
-  chc=d.chc||{{}};sent=d.sent||{{}};allSent=d.allSent||'';B('all').value=d.all||'';return d.cur||null;}}
+  chc=Object.fromEntries(Object.entries(d.chc||{{}}).filter(([ch])=>!stale(ch)));sent=d.sent||{{}};allSent=d.allSent||'';B('all').value=d.all||'';return d.cur||null;}}
 function sum(){{const rv=Object.values(state).filter(s=>s.rev).length,cm=Object.values(state).filter(s=>(s.c||'').trim()).length;B('sum').textContent=`戻す ${{rv}} 件 / コメント ${{cm}} 件`;refresh();save();}}
 document.querySelectorAll('.act button').forEach(b=>b.onclick=e=>{{
   const row=e.target.closest('.row'),key=row.dataset.key;state[key]=state[key]||{{}};

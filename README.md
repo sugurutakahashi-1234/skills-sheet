@@ -396,7 +396,6 @@
   - Protocol Buffers に対応した [SwiftProtobuf](https://github.com/apple/swift-protobuf) を用いたデータ連携
   - Swift Concurrency（async/await, AsyncStream, TaskGroup, Actor）を用いた非同期処理のハンドリング
   - [AWS Amplify SDK](https://github.com/aws-amplify/amplify-swift) を用いた Cognito による SMS 認証・認可、AppSync による GraphQL 疎通、Pinpoint によるログイベント送信、S3 とのデータ連携
-  - デザインシステムに沿った UI の実装
   - AVFoundation を用いた動画の再生
   - ReplayKit を用いた画面の録画
   - Combine を用いた視線や感情の時系列データのハンドリング
@@ -407,7 +406,6 @@
   - [Periphery](https://github.com/peripheryapp/periphery) による Swift の未使用コードの静的解析
   - Swift-DocC によるドメイン層のドキュメント化
   - [Mockolo](https://github.com/uber/mockolo) によるテスト用モックの自動生成
-  - GitHub Copilot・ChatGPT の活用
 
 #### 取り組み・貢献
 

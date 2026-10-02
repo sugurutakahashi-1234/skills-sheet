@@ -40,7 +40,7 @@
 
 ## 3. 職務経歴
 
-### フリーランス（2021年7月〜現在）
+### 3.1 フリーランス（2021年7月〜現在）
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO（IT コンサルティング / SIer / SES）
   - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
@@ -57,7 +57,7 @@
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
   - iOS エンジニア / `Swift`・`SwiftUI`・`VIPER` / 飛行の安定性改善と複数メーカーのドローン対応
 
-### 外資系ITコンサル A社（2017年4月〜2021年6月）
+### 3.2 外資系ITコンサル A社（2017年4月〜2021年6月）
 
 - [No.4] ショッピングアプリ開発
   - Flutter エンジニア / `Flutter`・`Firebase`・`Google Maps API` / iOS・Android のデモアプリ開発
@@ -748,7 +748,7 @@
 
 ## 5. 技術スタック
 
-### AI
+### 5.1 AI
 
 - **AI アプリケーション開発**
   - LLM: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`
@@ -765,7 +765,7 @@
   - エージェント拡張: `Skills`, `Chrome DevTools MCP`
   - プロトタイピング: `v0`, `Claude Design`
 
-### フロントエンド / モバイル
+### 5.2 フロントエンド / モバイル
 
 - **Web アプリ開発**
   - フレームワーク: `React`, `Next.js`, `Astro`, `TanStack Start`
@@ -786,7 +786,7 @@
   - モノレポ: `Bun workspaces`
   - 独自アーキテクチャ: 「[Framework-Independent Architecture (FIA)](https://github.com/sugurutakahashi-1234/framework-independent-architecture)」の考案・公開（[スライド](https://speakerdeck.com/sugurutakahashi/framework-independent-architecture-fia-clean-architecture-de-ios-apuriwobao-su-debirudosuru) / [YouTube](https://www.youtube.com/watch?v=5blwYSQcL2E)）
 
-### バックエンド
+### 5.3 バックエンド
 
 - **サーバーサイド**
   - API 設計: `REST API`, `GraphQL`
@@ -804,7 +804,7 @@
   - 認証サービス: `LINE Login`, `Amazon Cognito`, `Firebase Authentication`, `Cloudflare Access`
   - クラウド間連携: `Workload Identity Federation (OIDC)`
 
-### クラウド / インフラ
+### 5.4 クラウド / インフラ
 
 - **Cloudflare**
   - コンピュート: `Workers`, `Browser Rendering`
@@ -824,7 +824,7 @@
   - IaC: `Terraform`, `tflint`
   - シークレット管理: `dotenvx`
 
-### 品質 / CI/CD
+### 5.5 品質 / CI/CD
 
 - **テスト**
   - ユニット / 結合: `Vitest`, `Swift Testing`, `XCTest`, `Quick/Nimble`
@@ -843,7 +843,7 @@
   - CI: `GitHub Actions`, `Xcode Cloud`, `Bitrise`, `CircleCI`, `Codemagic`
   - リリース / デプロイ: `release-please`, `Wrangler`, `Fastlane`
 
-### OSS 開発（自作 CLI ツール）
+### 5.6 OSS 開発（自作 CLI ツール）
 
 - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export)（AI チャット履歴の Markdown 変換）
 - [mermaid-markdown-wrap](https://github.com/sugurutakahashi-1234/mermaid-markdown-wrap)（Mermaid 図の Markdown コードブロック化）

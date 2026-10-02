@@ -18,6 +18,7 @@ import { parseHTML } from "linkedom";
 import { marked, type Token, type Tokens } from "marked";
 import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
 import { CAREER_RE, careerYears } from "./career";
+import { renumber } from "./section-numbers";
 import { expandDetails } from "./expand-details";
 
 const SOURCE = "README.md";
@@ -41,6 +42,8 @@ const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const inline = (src: string) => marked.parseInline(src, { async: false }) as string;
 const block = (ts: Token[]) => (ts.length ? marked.parser(ts) : "");
+/** 見出しの先頭の番号（`1. ` `5.1 `）を外す。README の番号は pre-commit が振り、Web 版は表示する節で振り直す */
+const stripNo = (text: string) => text.replace(/^\d+(?:\.\d+)*\.?\s+/, "");
 const idOf = (text: string) => text.replace(/\s+/g, "-").replace(/[^\p{L}\p{N}\-_.]/gu, "");
 const isHeading = (t: Token, depth: number): t is Tokens.Heading => t.type === "heading" && (t as Tokens.Heading).depth === depth;
 
@@ -100,8 +103,8 @@ function items(list: Tokens.List, tags = false): string {
 }
 
 /** 節（h3 があればその帯付き）を 1 枚の枠にまとめる */
-const group = (body: string, heading?: Tokens.Heading, icon = "") =>
-  `<div class="group"${heading ? ` id="${idOf(heading.text)}"` : ""}>${heading ? `<h3>${icon}${inline(heading.text)}</h3>` : ""}${body}</div>`;
+const group = (body: string, heading?: Tokens.Heading, icon = "", label?: string) =>
+  `<div class="group"${heading ? ` id="${idOf(stripNo(heading.text))}"` : ""}>${heading ? `<h3>${icon}${label ?? inline(heading.text)}</h3>` : ""}${body}</div>`;
 
 // ---- 見出しでトークンを区切る ---------------------------------------------
 
@@ -127,7 +130,7 @@ const title = titleToken?.text ?? "スキルシート";
 const { groups: h2Groups } = groupBy(tokens.filter((t) => t !== titleToken), 2);
 const sections: Section[] = h2Groups.map((g) => {
   const { lead, groups } = groupBy(g.body, 3);
-  return { heading: g.heading, name: g.heading.text.replace(/^\d+\.\s+/, ""), body: lead, subs: groups };
+  return { heading: g.heading, name: stripNo(g.heading.text), body: lead, subs: groups };
 });
 
 // ---- 節ごとの描画 ------------------------------------------------------------
@@ -225,7 +228,7 @@ function renderGroups(sec: Section) {
   const tags = sec.name === "技術スタック";
   const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? items(t as Tokens.List, tags) : block([t]))).join("");
   const hasBody = sec.body.some((t) => t.type !== "space");
-  return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading, tags ? stackIcon(s.heading.text) : "")).join("");
+  return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading, tags ? stackIcon(stripNo(s.heading.text)) : "", subNumbered(sec, s))).join("");
 }
 
 /** 案件詳細の本文と見出しを No. で引けるようにする（本文は h4 の定型節ごとに <section>） */
@@ -278,7 +281,7 @@ function renderCareer(sec: Section) {
     sec.subs
       .map(
         (s) =>
-          `<h3 id="${idOf(s.heading.text)}">${inline(s.heading.text)}</h3>` +
+          `<h3 id="${idOf(stripNo(s.heading.text))}">${subNumbered(sec, s)}</h3>` +
           s.body.map((t) => (t.type === "list" ? rows(t as Tokens.List) : block([t]))).join(""),
       )
       .join("")
@@ -296,6 +299,10 @@ const RENDERERS: Record<string, (sec: Section) => string> = {
 const visibleSections = sections.filter((sec) => sec.name !== "案件詳細");
 // README の番号は案件詳細も数えているので、そのままだと Web 版では番号が飛ぶ。表示する節だけで 1 から振り直す
 const numbered = (sec: Section) => `${visibleSections.indexOf(sec) + 1}. ${inline(sec.name)}`;
+/** 小節の番号（Web 版では「4.1」）。案件の見出し（[No.N]）は独自の番号を持つので振らない */
+const isCase = (g: Group) => stripNo(g.heading.text).startsWith("[No.");
+const subNo = (sec: Section, s: Group) => (isCase(s) ? "" : `${visibleSections.indexOf(sec) + 1}.${sec.subs.filter((g) => !isCase(g)).indexOf(s) + 1}`);
+const subNumbered = (sec: Section, s: Group) => (isCase(s) ? inline(s.heading.text) : `${subNo(sec, s)} ${inline(stripNo(s.heading.text))}`);
 
 /**
  * 日本語の改行位置を文節の切れ目に寄せる（BudouX）。切れ目に <wbr> を入れ、`.bx` の word-break: keep-all で
@@ -339,9 +346,10 @@ const tocHtml = `<ol class="toc">${visibleSections
       .map((s) => {
         const cases = sec.name === "職務経歴" ? casesOf(s) : "";
         // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
-        const m = cases ? s.heading.text.match(PERIOD_RE) : null;
-        const label = m ? `${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : inline(s.heading.text);
-        return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
+        const name = stripNo(s.heading.text);
+        const m = cases ? name.match(PERIOD_RE) : null;
+        const label = m ? `${subNo(sec, s)} ${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : subNumbered(sec, s);
+        return `<li><a href="#${idOf(name)}" title="${esc(name)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
       })
       .join("");
     return `<li><a href="#${idOf(sec.name)}">${numbered(sec)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
@@ -353,7 +361,7 @@ const caseCount = caseBodies.size;
 // ---- 前提が崩れていないかの確認（止めずに警告。認識できない部分は普通の Markdown として描かれる） ----
 const warnings: string[] = [];
 for (const s of sections.find((sec) => sec.name === "技術スタック")?.subs ?? []) {
-  if (!stackIcon(s.heading.text)) warnings.push(`技術スタックの「${s.heading.text}」にアイコンの対応が無い（STACK_ICONS に足す）`);
+  if (!stackIcon(stripNo(s.heading.text))) warnings.push(`技術スタックの「${s.heading.text}」にアイコンの対応が無い（STACK_ICONS に足す）`);
 }
 for (const name of ["基本情報", "強み", "技術スタック", "職務経歴", "案件詳細"]) {
   if (!sections.some((sec) => sec.name === name)) warnings.push(`h2「${name}」が無い。この節の専用の見せ方が外れる`);
@@ -364,11 +372,14 @@ for (const s of sections.find((sec) => sec.name === "案件詳細")?.subs ?? [])
   if (h4.join("/") !== expected.join("/")) warnings.push(`${s.heading.text}: h4 が定型 6 節と違う（${h4.join(" / ")}）`);
 }
 for (const s of sections.find((sec) => sec.name === "職務経歴")?.subs ?? []) {
-  if (!PERIOD_RE.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が （YYYY年M月〜YYYY年M月|現在） の形でないので目次に年が出ない`);
+  if (!PERIOD_RE.test(stripNo(s.heading.text))) warnings.push(`職務経歴「${s.heading.text}」: 期間が （YYYY年M月〜YYYY年M月|現在） の形でないので目次に年が出ない`);
 }
+// 番号は pre-commit が振るが、GitHub の画面で直接直したときなどは振り直されない。Web 版は自分で振り直すので崩れないが、README と PDF はずれる
+if (renumber(md) !== md) warnings.push("README の見出し番号がずれている（手元で bun scripts/number-sections.ts を実行してコミットすると直る）");
 if (!/^- \*\*現職\*\*/m.test(md)) warnings.push("基本情報に **現職** が無いので大きい表示にならない");
 if (!/^  - GitHub: https:\/\/github\.com\/[^/\s]+\/?$/m.test(md)) warnings.push("外部リンクに GitHub のプロフィール URL が無いのでアバターが出ない");
-for (const w of warnings) console.warn(`警告: ${w}`);
+// GitHub Actions では注釈にも出し、ビルドの画面で気づけるようにする
+for (const w of warnings) console.warn(process.env.GITHUB_ACTIONS ? `::warning::${w}` : `警告: ${w}`);
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 

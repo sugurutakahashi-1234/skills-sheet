@@ -2,7 +2,7 @@
 
 同じ内容を 2 つの形式で公開 — [Markdown](https://github.com/sugurutakahashi-1234/skills-sheet)（GitHub 原本） ・ [Web](https://sugurutakahashi-1234.github.io/skills-sheet/)（目次つき）
 
-## 基本情報
+## 1. 基本情報
 
 - **氏名**: 高橋 俊
 - **拠点**: 東京都江戸川区
@@ -14,7 +14,7 @@
   - Qiita（技術記事）: https://qiita.com/sugurutakahashi12345
   - Zenn（技術記事）: https://zenn.dev/ikuraikura
 
-## 強み
+## 2. 強み
 
 - **立ち上げの技術責任者（CTO 1 社・0 → 1 リード 4 件）**
   - 創業期の会社の CTO として、プロダクトの公開・運用から社内インフラまで担当
@@ -38,7 +38,7 @@
   - [Zenn](https://zenn.dev/ikuraikura) と [ZENSHIN の技術ブログ](https://tech.zenshin-inc.co.jp/)で、AI 活用やプロダクト開発の知見を記事・スライドで発信
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew で配布
 
-## 職務経歴
+## 3. 職務経歴
 
 ### フリーランス（2021年7月〜現在）
 
@@ -68,7 +68,7 @@
 - [No.1] クレジットカードアプリ API 開発
   - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
 
-## 案件詳細
+## 4. 案件詳細
 
 <details>
 <summary>[No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES） — CTO / Cloudflare・RAG・MCP</summary>
@@ -746,7 +746,7 @@
   - `OpenAPI`, `PlantUML`, `draw.io`
 </details>
 
-## 技術スタック
+## 5. 技術スタック
 
 ### AI
 

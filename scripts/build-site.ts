@@ -106,7 +106,8 @@ const group = (body: string, heading?: Tokens.Heading, icon = "") =>
 // ---- 見出しでトークンを区切る ---------------------------------------------
 
 type Group = { heading: Tokens.Heading; body: Token[] };
-type Section = Group & { subs: Group[] };
+/** name は見出しから番号（`1. `）を外した節の名前。節の見分けと id に使い、番号は Web 版で振り直す */
+type Section = Group & { subs: Group[]; name: string };
 
 function groupBy(ts: Token[], depth: number): { lead: Token[]; groups: Group[] } {
   const lead: Token[] = [];
@@ -126,7 +127,7 @@ const title = titleToken?.text ?? "スキルシート";
 const { groups: h2Groups } = groupBy(tokens.filter((t) => t !== titleToken), 2);
 const sections: Section[] = h2Groups.map((g) => {
   const { lead, groups } = groupBy(g.body, 3);
-  return { heading: g.heading, body: lead, subs: groups };
+  return { heading: g.heading, name: g.heading.text.replace(/^\d+\.\s+/, ""), body: lead, subs: groups };
 });
 
 // ---- 節ごとの描画 ------------------------------------------------------------
@@ -221,7 +222,7 @@ const stackIcon = (heading: string) => {
 
 /** 強み（h3 なし）は h2 直下を 1 枠、技術スタックは h3 ごとに 1 枠 */
 function renderGroups(sec: Section) {
-  const tags = sec.heading.text === "技術スタック";
+  const tags = sec.name === "技術スタック";
   const lists = (ts: Token[]) => ts.map((t) => (t.type === "list" ? items(t as Tokens.List, tags) : block([t]))).join("");
   const hasBody = sec.body.some((t) => t.type !== "space");
   return (hasBody ? group(lists(sec.body)) : "") + sec.subs.map((s) => group(lists(s.body), s.heading, tags ? stackIcon(s.heading.text) : "")).join("");
@@ -230,7 +231,7 @@ function renderGroups(sec: Section) {
 /** 案件詳細の本文と見出しを No. で引けるようにする（本文は h4 の定型節ごとに <section>） */
 const caseBodies = new Map<string, string>();
 const caseNames = new Map<string, string>();
-for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.subs ?? []) {
+for (const s of sections.find((sec) => sec.name === "案件詳細")?.subs ?? []) {
   const { no, name } = parseCaseHeading(s.heading.text);
   caseNames.set(no, name);
   const { lead, groups } = groupBy(s.body, 4);
@@ -292,7 +293,9 @@ const RENDERERS: Record<string, (sec: Section) => string> = {
 };
 
 // 案件詳細は職務経歴の行に合体させるので、節としては出さない
-const visibleSections = sections.filter((sec) => sec.heading.text !== "案件詳細");
+const visibleSections = sections.filter((sec) => sec.name !== "案件詳細");
+// README の番号は案件詳細も数えているので、そのままだと Web 版では番号が飛ぶ。表示する節だけで 1 から振り直す
+const numbered = (sec: Section) => `${visibleSections.indexOf(sec) + 1}. ${inline(sec.name)}`;
 
 /**
  * 日本語の改行位置を文節の切れ目に寄せる（BudouX）。切れ目に <wbr> を入れ、`.bx` の word-break: keep-all で
@@ -312,8 +315,9 @@ function phraseBreaks(html: string) {
 
 const mainHtml = visibleSections
   .map((sec) => {
-    const render = RENDERERS[sec.heading.text] ?? ((s: Section) => block(s.body) + s.subs.map((g) => block([g.heading, ...g.body])).join(""));
-    return `<section class="sec" id="${idOf(sec.heading.text)}"><h2>${inline(sec.heading.text)}</h2>${render(sec)}</section>`;
+    const render = RENDERERS[sec.name] ?? ((s: Section) => block(s.body) + s.subs.map((g) => block([g.heading, ...g.body])).join(""));
+    // id は番号を含めない（節の並びが変わってもリンクが切れないように）
+    return `<section class="sec" id="${idOf(sec.name)}"><h2>${numbered(sec)}</h2>${render(sec)}</section>`;
   })
   .join("");
 
@@ -331,16 +335,16 @@ const casesOf = (g: Group) =>
     .join("");
 const tocHtml = `<ol class="toc">${visibleSections
   .map((sec) => {
-    const subs = (TOC_H2_ONLY.has(sec.heading.text) ? [] : sec.subs)
+    const subs = (TOC_H2_ONLY.has(sec.name) ? [] : sec.subs)
       .map((s) => {
-        const cases = sec.heading.text === "職務経歴" ? casesOf(s) : "";
+        const cases = sec.name === "職務経歴" ? casesOf(s) : "";
         // 職務経歴の会社名は「名前 + 年だけの期間」で 1 行に収める（全文は title に）
         const m = cases ? s.heading.text.match(PERIOD_RE) : null;
         const label = m ? `${inline(m[1])}<span class="years">${m[2]}年 - ${m[3] ? `${m[3]}年` : m[4]}</span>` : inline(s.heading.text);
         return `<li><a href="#${idOf(s.heading.text)}" title="${esc(s.heading.text)}">${label}</a>${cases ? `<ol>${cases}</ol>` : ""}</li>`;
       })
       .join("");
-    return `<li><a href="#${idOf(sec.heading.text)}">${inline(sec.heading.text)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
+    return `<li><a href="#${idOf(sec.name)}">${numbered(sec)}</a>${subs ? `<ol>${subs}</ol>` : ""}</li>`;
   })
   .join("")}</ol>`;
 
@@ -348,18 +352,18 @@ const caseCount = caseBodies.size;
 
 // ---- 前提が崩れていないかの確認（止めずに警告。認識できない部分は普通の Markdown として描かれる） ----
 const warnings: string[] = [];
-for (const s of sections.find((sec) => sec.heading.text === "技術スタック")?.subs ?? []) {
+for (const s of sections.find((sec) => sec.name === "技術スタック")?.subs ?? []) {
   if (!stackIcon(s.heading.text)) warnings.push(`技術スタックの「${s.heading.text}」にアイコンの対応が無い（STACK_ICONS に足す）`);
 }
 for (const name of ["基本情報", "強み", "技術スタック", "職務経歴", "案件詳細"]) {
-  if (!sections.some((sec) => sec.heading.text === name)) warnings.push(`h2「${name}」が無い。この節の専用の見せ方が外れる`);
+  if (!sections.some((sec) => sec.name === name)) warnings.push(`h2「${name}」が無い。この節の専用の見せ方が外れる`);
 }
-for (const s of sections.find((sec) => sec.heading.text === "案件詳細")?.subs ?? []) {
+for (const s of sections.find((sec) => sec.name === "案件詳細")?.subs ?? []) {
   const h4 = s.body.filter((t) => isHeading(t, 4)).map((t) => (t as Tokens.Heading).text);
   const expected = ["期間", "チーム体制", "案件概要・担当業務", "経験した技術", "取り組み・貢献", "開発環境"];
   if (h4.join("/") !== expected.join("/")) warnings.push(`${s.heading.text}: h4 が定型 6 節と違う（${h4.join(" / ")}）`);
 }
-for (const s of sections.find((sec) => sec.heading.text === "職務経歴")?.subs ?? []) {
+for (const s of sections.find((sec) => sec.name === "職務経歴")?.subs ?? []) {
   if (!PERIOD_RE.test(s.heading.text)) warnings.push(`職務経歴「${s.heading.text}」: 期間が （YYYY年M月〜YYYY年M月|現在） の形でないので目次に年が出ない`);
 }
 if (!/^- \*\*現職\*\*/m.test(md)) warnings.push("基本情報に **現職** が無いので大きい表示にならない");

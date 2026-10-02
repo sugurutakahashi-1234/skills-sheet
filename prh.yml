@@ -31,3 +31,9 @@ rules:
     pattern: /横断管理/
   - expected: 以上の Skills
     pattern: /以上のスキル/
+  - expected: CAC
+    pattern: /獲得コスト/
+  - expected: 分類モデル
+    pattern: /分類専用モデル/
+  - expected: 処理ごと
+    pattern: /工程ごと/

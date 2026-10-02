@@ -59,7 +59,7 @@
 ### 外資系ITコンサル A社（2017年4月〜2021年6月）
 
 - [No.4] ショッピングアプリ開発
-  - Flutter エンジニア / `Flutter`・`Firebase`・`Google Maps API` / 両 OS 対応のデモアプリ開発
+  - Flutter エンジニア / `Flutter`・`Firebase`・`Google Maps API` / iOS・Android のデモアプリ開発
 - [No.3] 飲食店管理アプリ開発
   - iOS リードエンジニア / `Swift`・`SwiftUI`・`MVVM` / BtoB 向け MVP 開発
 - [No.2] クレジットカードアプリ iOS 開発

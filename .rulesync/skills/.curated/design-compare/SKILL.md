@@ -19,14 +19,14 @@ description: "デザイン・見た目の変更案、Markdown 文書の構成案
 - **まとめて直した後**に、何がどう変わったかを確認してもらうとき
 - 使わない場面: ユーザーが変更内容を具体的に指示したとき・誤字や記法の明らかな修正・見た目に差の出ない 1 か所の変更
 
-## 4 つの型
+## 5 つの型
 
-| | 比較型 | 選択票型 | 点検報告型 | 変更履歴ビュー |
-|---|---|---|---|---|
-| 使う場面 | 1 つの箇所に案が 2〜5 個 | 箇所が多数で、件ごとに判断が要る | 点検で見つけた問題を報告し、直すかを決めてもらう | まとめて適用した結果を確認してもらう |
-| ユーザーの操作 | 案を 1 つ選ぶ | 件ごとに案を押す／編集欄を直す | 件ごとに直す／直さないを決める | 章ごとに読み、気になる行だけ「戻す」かコメント |
-| 雛形 | `assets/markdown-compare.html` | `assets/review-picker.html` | `assets/before-after.html` | `assets/redline.py` |
-| 手順 | `references/compare.md` | `references/review.md` | `references/inspection.md` | `references/review.md` |
+| | 比較型 | 選択票型 | 点検報告型 | 変更履歴ビュー | 編集ビュー |
+|---|---|---|---|---|---|
+| 使う場面 | 1 つの箇所に案が 2〜5 個 | 箇所が多数で、件ごとに判断が要る | 点検で見つけた問題を報告し、直すかを決めてもらう | まとめて適用した結果を確認してもらう | 文言をユーザー自身に直してもらう（言い回しの好みが強い・案を出しても往復が続く） |
+| ユーザーの操作 | 案を 1 つ選ぶ | 件ごとに案を押す／編集欄を直す | 件ごとに直す／直さないを決める | 章ごとに読み、気になる行だけ「戻す」かコメント | 右の欄をその場で書き換える（違いが色で出る）。行の横にコメント |
+| 雛形 | `assets/markdown-compare.html` | `assets/review-picker.html` | `assets/before-after.html` | `assets/redline.py` | `assets/redline.py --edit` |
+| 手順 | `references/compare.md` | `references/review.md` | `references/inspection.md` | `references/review.md` | `references/review.md` |
 
 **判断の回数を最小にするのが設計の軸**。人が 1 件ずつ承認できるのは 30〜40 件が限度（実測）。それを超える指摘は「検証を通った分は先に当てて変更履歴ビューで確認 → 判断が要る分だけ選択票」の二段にする。詳細は `references/review.md`。
 

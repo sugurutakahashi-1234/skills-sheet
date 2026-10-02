@@ -461,11 +461,12 @@ aside { position: sticky; top: calc(var(--header-h) + 16px); align-self: start; 
 .toc ol ol a { font-weight: 400; color: var(--muted); padding: 2px 10px 2px 16px; display: flex; align-items: center; gap: 8px; }
 .toc ol ol a > span:last-child { overflow: hidden; text-overflow: ellipsis; }
 /* No. は 2 桁（No.11）の幅に揃え、案件名の開始位置をそろえる */
-.toc .k { flex: none; min-width: 4.4em; text-align: center; font-variant-numeric: tabular-nums; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--soft); border-radius: 999px; padding: 0 7px; line-height: 18px; }
+.toc .k { flex: none; min-width: 4.4em; text-align: center; font-variant-numeric: tabular-nums; font-size: 11px; font-weight: 700; color: var(--fg); background: var(--tag); border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; line-height: 16px; }
 /* 現在位置: 今いる項目だけを帯 + 左のアクセント線で示す（親の節・会社には印を付けない。選択が 2 つに見えるため） */
 .toc a.active { color: var(--h); background: var(--soft); box-shadow: inset 3px 0 0 var(--accent); border-radius: 0 6px 6px 0; }
 .toc ol ol a.active { font-weight: 600; }
-.toc ol ol a.active .k { background: var(--bg); }
+/* 選択中のバッジだけ青で塗る。行の背景（--soft）と同じ系統の薄い色だと、選択中の行でバッジが背景に溶ける（ライト 1.1:1） */
+.toc ol ol a.active .k { background: var(--btn); border-color: var(--btn); color: #fff; }
 main { min-width: 0; }
 /* BudouX が文節の切れ目に <wbr> を入れた要素。切れ目以外では折り返さない（長い英数字は body の overflow-wrap で折れる） */
 .bx { word-break: keep-all; }

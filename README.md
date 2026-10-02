@@ -21,6 +21,7 @@
   - 少人数でも維持できる構成の選定（Cloudflare 中心に寄せ、運用コストを抑制）
 - **AI を業務に組み込むシステム開発とその導入支援**
   - LLM・RAG・MCP・AI エージェントによる業務システムを、設計から本番運用まで担当
+  - 処理ごとに分類モデル・LLM・プログラム・人を使い分け、AI の使用量を抑える設計
   - 非エンジニアが Claude Code / Codex から業務を操作できる、MCP 前提のシステム設計
   - 経営層から現場の担当者まで、相手に合わせた AI 活用の相談・提案
   - FDE として、顧客企業の AI 導入を営業・商談から要件定義・実装まで支援を経験
@@ -87,7 +88,7 @@
   - **[業務1] 自社サービスの企画・立ち上げ**: 3 サービスとマッチング 2 サイトの公開
   - **[業務2] AI 活用支援 / 提案活動（FDE）**: 商談・要件定義から実装・導入まで担当
   - **[業務3] AI マッチングシステム開発**: Cloudflare 上での RAG / MCP / AI エージェント基盤
-  - **[業務4] AI 案件選別システム開発**: 外部案件を LLM で自動評価する社内ツール
+  - **[業務4] AI 案件選別システム開発**: 分類モデル（Jev）と LLM による外部案件の自動評価
   - **[業務5] [ホームページ](https://www.zenshin-inc.co.jp/)・[技術ブログ](https://tech.zenshin-inc.co.jp/)**: 設計・構築・運用
   - **[業務6] 社内インフラ管理**: Terraform によるマルチクラウド IaC
 
@@ -103,15 +104,10 @@
 - **MCP サーバー / AI エージェント運用（業務3）**
   - 70 以上のツールを提供する MCP サーバーの開発（OAuth 認証・マルチテナント認可）
   - 定期実行と 50 以上の Skills による業務自動化（Claude Code / Codex 両対応）
-- **LINE 公式アカウント基盤（業務3）**
-  - Better Auth による LINE・Google ログインの実装（マルチログイン対応）
-  - スタッフ向けの双方向チャット
-  - LINE の Quick Reply（選択式の返信）による稼働状況の定期ヒアリング
 - **Cloudflare フルスタック（業務1・3・4・5）**
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
   - Hono + oRPC + React 19 / TanStack Start によるマッチング 2 サイトと社内 Web アプリ
   - Astro によるホームページと技術ブログ
-  - Email Sending・Slack Interactivity による採用応募対応の自動化
 - **マルチクラウド IaC（業務6）**
   - GCP / Cloudflare / AWS / Google Workspace を Terraform で一元管理
   - Workload Identity Federation（OIDC）による鍵レス認証
@@ -131,13 +127,16 @@
 - **AI の判定を本人への提案まで自動で届ける仕組みの構築（業務3・4）**
   - 案件収集 → AI 採点 → 本人 LINE への自動提案 → 回答まで、人手を介さない運用を実現
   - AI エージェントの返信・提案には人間の承認と監査記録を必須化
-- **AI を過信しない設計・運用（業務3・4）**
-  - 条件ミスマッチにはサーバー側で決定論的にスコア上限を設け、AI の過大評価を防止
+- **処理ごとに AI・プログラム・人の担当を分ける設計（業務3・4）**
+  - 一次判定は分類専用モデル（TypeSafe Jev）で行い、LLM に渡す前に約 4 割を除外
+  - 構造化と条件の照合はプログラムで決定論的に処理し、AI の担当範囲を限定
+  - 定期実行は Claude Code / Codex の定額プランで回し、API の従量課金を抑制
   - AI の判定と人間の判断のずれを本番データで分析し、プロンプトを 25 回以上改修
-  - データの構造化はプログラムによる処理に任せ、AI の担当範囲を限定
 - **社外への技術発信（業務5）**
   - 技術ブログを Astro で立ち上げ、AI 活用やプロダクト開発の知見を記事とスライドで公開
-  - SEO 施策（構造化データ・sitemap・llms.txt）を入れ、Lighthouse 100 を目標に改善
+- **検索エンジンと AI 検索への対策（業務1・5）**
+  - ホームページと技術ブログに構造化データと llms.txt を実装し、AI 検索からの参照に対応
+  - ホームページ・技術ブログ・マッチング 2 サイトを、構造化データで同じ会社に紐付け
 - **運用を継続できる仕組みの整備（業務6）**
   - 社内インフラを IaC 化し、コード変更 → PR → plan CI → apply のフローを確立
   - 採用しなかった選択肢も含め、技術的な意思決定の根拠をリポジトリに記録
@@ -208,7 +207,6 @@
 
 - **CAC と LTV を起点としたグロース施策**
   - CAC を LTV が上回る状態を目標に、LTV を上げる施策を CEO と設計
-  - 設計した施策の実装からリリースまでを担当
   - 課金導線・ガチャ・デイリーミッション・無料開放を実装し、サブスク数と ARPU を改善
   - 課金転換しない層からはリワード広告・オファーウォールで収益化
 - **施策の検証サイクル**
@@ -217,7 +215,6 @@
   - 効果が出なかった施策はすぐに削除し、その結果も次の意思決定に反映
 - **デザイナーとの協業**
   - 表示内容や画面遷移、コンポーネントの色や配置まで踏み込んだ UI 仕様の改善提案
-  - 仮実装を早い段階で共有し、議論しながらリリース前に改善
   - リリースごとの KPI をデザイナーに共有し、次の改善対象の優先順位を決定
 
 #### 開発環境
@@ -285,8 +282,9 @@
 
 #### 取り組み・貢献
 
-- **開発体制の改善**
-  - GitHub Projects のスクラムボードで、タスクの進捗を可視化
+- **チーム全体の開発リード**
+  - サーバーサイド・インフラのメンバーも統括し、リードエンジニアとして開発体制を主導
+  - GitHub Projects のスクラムボードで、チーム全体のタスクの進捗を可視化
   - デイリーミーティングで、メンバー間の情報共有と開発プロセスの改善を推進
   - バグの発見から修正までのプロセスを整備し、チーム内で運用
 - **API インターフェース設計と UI 先行開発**
@@ -335,7 +333,6 @@
 #### 経験した技術
 
 - **Swift**
-  - Xcode 16 Beta での Swift 6 対応（Strict Concurrency を含む）
   - AVFoundation を活用した録音・再生機能の実装
   - [WhisperKit](https://github.com/argmaxinc/WhisperKit), [Speech](https://developer.apple.com/documentation/speech/) SDK を活用した音声データの文字起こし機能の実装
 - **開発プロセス改善**
@@ -346,16 +343,11 @@
 
 - **アジャイル開発**
   - テスタブルなアーキテクチャの導入: モック化したレスポンスで、API 提供前から実装に着手
-  - 検証用デバッグ画面の作成: 新機能や View を早期に確認
   - Docs as Code の導入: [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) や [tbls](https://github.com/k1LoW/tbls) によるドキュメント生成を調査し、サーバーサイドチームに展開
   - 先行着手: ワイヤフレーム段階から iOS アプリを形にし、仕様と実装の課題をチームへ共有
 - **CI/CD 環境の構築**
   - Xcode Cloud 導入: PR マージをトリガーに TestFlight 配信を自動化し、新機能を随時検証
   - API インターフェース変更への追従: OpenAPI の差分をトリガーに、iOS リポジトリへ Pull Request を自動作成する GitHub Actions を構築
-  - スナップショットテスト: View の差分検出環境を構築し、不具合を早期に発見
-- **iOS メンバーの増員や引き継ぎを見越したドキュメント・進捗の整備**
-  - ドキュメント整備: 環境構築手順・ライブラリ選定理由・アーキテクチャ・CI/CD 構成図・ブランチ戦略を README に記載
-  - プロジェクト管理: リリースノート・タグ・マイルストーン・GitHub Projects を整備し、タスクの進捗を時系列で追跡
 - **Swift 6 移行とテストコードの自動生成**
   - コード生成: View 層・UseCase 層のボイラープレートとテストコードを [Sourcery](https://github.com/krzysztofzablocki/Sourcery) や [Mockolo](https://github.com/uber/mockolo) で自動生成
   - Swift 5 → Swift 6 への移行: Beta 版 Xcode で先行検証し、Strict Concurrency 対応を完了
@@ -520,7 +512,6 @@
   - Firebase Crashlytics・Xcode Organizer を用いたバグの原因調査
   - Logger API を用いたログ出力
   - Quick/Nimble と Mock を用いたテストコードの記述
-  - iPad の画面サイズへの対応
 - **IoT**
   - 外部ライブラリを用いたドローン制御の Swift 実装
   - PID 制御などの制御工学に基づく適切な制御モデルの Swift 実装
@@ -529,7 +520,6 @@
 #### 取り組み・貢献
 
 - Clean Architecture でドローン SDK を UI から分離し、メーカーごとの差し替えに対応
-- レイヤーごとに独立したテストを実現
 - UIKit と Delegate パターンによる実装を SwiftUI・Combine・Swift Concurrency へ置き換え
 - **チーム運用の改善**
   - スクラムイベントの整備（見積会・レトロスペクティブ・朝ハドル）
@@ -678,12 +668,9 @@
 
 - **Swift**
   - UIKit での画面実装
-  - API 疎通の実装
   - Realm でのデータ永続化
   - XCTest でのテストコード実装
   - MVVM での画面とロジックの分離
-  - Delegate パターンの実装
-  - Human Interface Guidelines に基づいた UI 実装
   - Moneytree LINK SDK などサードパーティ製 SDK の組み込み
 
 #### 取り組み・貢献
@@ -766,6 +753,7 @@
 - **AI アプリケーション開発**
   - LLM: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`
   - 埋め込みモデル: `bge-m3`
+  - 分類モデル: `TypeSafe Jev`
   - 基盤: `Workers AI`, `Cloudflare AI Gateway`
   - ベクトル DB: `Cloudflare Vectorize`
   - MCP: `@modelcontextprotocol/sdk v2`, `WebMCP`

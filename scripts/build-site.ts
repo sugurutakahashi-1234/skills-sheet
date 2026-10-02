@@ -419,7 +419,8 @@ a { color: var(--link); text-decoration: none; } a:hover { text-decoration: unde
 code { font-size: .9em; background: var(--tag); border: 1px solid var(--line); padding: 0 .3em; border-radius: 4px; }
 
 /* ヘッダー */
-.header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 16px; background: var(--bg); border-bottom: 1px solid var(--line); transition: transform .25s ease; }
+/* 背景と下線は画面いっぱい、中身（タイトルとボタン）は本文の枠（.layout: 幅 1180px・左右 24px）に揃える。狭い画面では 16px */
+.header { position: sticky; top: 0; z-index: 20; height: var(--header-h); display: flex; align-items: center; gap: 8px; padding: 0 max(16px, calc((100% - 1180px) / 2 + 24px)); background: var(--bg); border-bottom: 1px solid var(--line); transition: transform .25s ease; }
 /* 下にスクロールしている間は隠し、上に戻すと現れる */
 body.header-hidden .header { transform: translateY(-100%); }
 #toc-toggle { display: none; width: 36px; height: 36px; padding: 0; border: 0; background: transparent; cursor: pointer; align-items: center; justify-content: center; }

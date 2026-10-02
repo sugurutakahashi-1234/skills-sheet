@@ -9,6 +9,7 @@
   --notes は {行の文字列: 理由} の JSON。変更・削除・追加した行のうち、文字列が一致する行の下に理由を出す
   （行の文字列は先頭の `- ` と字下げを除いたもの。書き換えた行は変更後の文字列で引く）。
   --done は回答を反映し終えた章（`|` 区切り）。タブに「反映済み」と出し、もう一度の回答を求めない。
+  開始章・第 6 引数・--done の章名は、見出しの番号（`4. ` `5.1 `）を除いて比べる。番号付きの文書でも `案件詳細` と書けばよい。
 
   入力中の印とコメントはブラウザに保存する（localStorage。キーは出力先のパス）。同じ出力先に作り直したページは、
   「再読み込み」ボタンで読み込めば入力が残る。ページは自動では読み込み直さない。
@@ -25,7 +26,10 @@ if len(argv) < 4:
     print(__doc__); sys.exit(1)
 repo, path, before_ref, out = argv[0:4]
 start = argv[4] if len(argv) > 4 else ''
-split_h3 = set(argv[5].split(',')) if len(argv) > 5 else set()
+# 見出しに番号（`## 4. 案件詳細` `### 5.1 AI`）が付いた文書でも、章の名前は番号を除いて比べる
+strip_no = lambda t: re.sub(r'^\d+(?:\.\d+)*\.?\s+', '', t.strip())
+norm = lambda ch: ' › '.join(strip_no(x) for x in ch.split(' › '))
+split_h3 = {strip_no(x) for x in argv[5].split(',')} if len(argv) > 5 else set()
 old = subprocess.run(['git','show',f'{before_ref}:{path}'],capture_output=True,text=True,cwd=repo).stdout.split('\n')
 new = io.open(os.path.join(repo,path),encoding='utf-8').read().split('\n')
 
@@ -62,7 +66,7 @@ CH=['（冒頭）']; H2=['']; chapters=['（冒頭）']
 def chapter_of(line):
     if line.startswith('## '): H2[0]=line[3:].strip(); return H2[0]
     m=re.match(r'^### (.*)$', line)
-    if m and H2[0] in split_h3: return f'{H2[0]} › {m.group(1).strip()}'
+    if m and strip_no(H2[0]) in split_h3: return f'{H2[0]} › {m.group(1).strip()}'
     return None
 def enter(line):
     ch=chapter_of(line)
@@ -185,7 +189,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 const TEXTS={json.dumps(texts,ensure_ascii=False)};
 const CHAPTERS={json.dumps(list(dict.fromkeys(chapters)),ensure_ascii=False)};
 const CH_HASH={json.dumps({c:hashlib.sha1(chr(2).join(v).encode()).hexdigest()[:12] for c,v in chsrc.items()},ensure_ascii=False)};
-const DONE={json.dumps(DONE,ensure_ascii=False)};
+const DONE={json.dumps([next((c for c in dict.fromkeys(chapters) if norm(c)==norm(d)), d) for d in DONE],ensure_ascii=False)};
 const KEY='redline:'+{json.dumps(os.path.abspath(out),ensure_ascii=False)};
 const rows=[...document.querySelectorAll('.row')];
 const B=id=>document.getElementById(id);
@@ -269,6 +273,6 @@ B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
 B('reload').onclick=()=>{{save();location.reload();}};
 B('sel').onclick=()=>{{const t=B('out');t.select();t.setSelectionRange(0,t.value.length);}};
 const RESUME=restore();sum();
-const START={json.dumps(start,ensure_ascii=False)};showCh(RESUME&&CHAPTERS.includes(RESUME)?RESUME:CHAPTERS.includes(START)?START:CHAPTERS.find(c=>c!=='（冒頭）')||CHAPTERS[0]);
+const START={json.dumps(next((c for c in dict.fromkeys(chapters) if norm(c)==norm(start)), start) if start else '',ensure_ascii=False)};showCh(RESUME&&CHAPTERS.includes(RESUME)?RESUME:CHAPTERS.includes(START)?START:CHAPTERS.find(c=>c!=='（冒頭）')||CHAPTERS[0]);
 </script></html>'''
 io.open(out,'w',encoding='utf-8').write(page); print(f'変更 {stats["chg"]} / 追加 {stats["ins"]} / 削除 {stats["del"]} 行 → {out}')

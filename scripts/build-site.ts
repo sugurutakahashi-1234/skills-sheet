@@ -164,12 +164,13 @@ const btnIcon = (svg: string) =>
 
 /**
  * 基本情報: `- **項目**: 値` の一覧をプロフィール型に配置する。
- * 「現職」を大きく、子の箇条書きを持つ項目（外部リンク）はチップ、残りは横並びの事実。
+ * 「氏名」を一番上に大きく、その下に「現職」、子の箇条書きを持つ項目（外部リンク）はチップ、残りは横並びの事実。
  * 外部リンクに GitHub があればアバター（https://github.com/<user>.png）を左に置く。
  */
 function renderBasic(sec: Section) {
   const list = sec.body.find((t): t is Tokens.List => t.type === "list");
   if (!list) return group(`<div class="items"><div class="item">${block(sec.body)}</div></div>`);
+  let name = "";
   let position = "";
   const facts: string[] = [];
   const chips: string[] = [];
@@ -188,6 +189,8 @@ function renderBasic(sec: Section) {
         const gh = m[2].match(/^https:\/\/github\.com\/([^/?#]+)\/?$/);
         if (gh) avatar = `https://github.com/${gh[1]}.png?size=160`;
       }
+    } else if (p.label === "氏名") {
+      name = inline(p.rest);
     } else if (p.label === "現職") {
       position = inline(p.rest);
     } else {
@@ -196,7 +199,7 @@ function renderBasic(sec: Section) {
       facts.push(`<span><b>${inline(p.label)}</b>${value}</span>`);
     }
   }
-  return `<div class="group profile">${avatar ? `<img class="avatar" src="${avatar}" alt="" width="80" height="80">` : ""}<div class="profile-main">${position ? `<div class="position">${position}</div>` : ""}<div class="facts">${facts.join("")}</div>${chips.length ? `<div class="chips">${chips.join("")}</div>` : ""}</div></div>`;
+  return `<div class="group profile">${avatar ? `<img class="avatar" src="${avatar}" alt="" width="80" height="80">` : ""}<div class="profile-main">${name ? `<div class="name">${name}</div>` : ""}${position ? `<div class="position">${position}</div>` : ""}<div class="facts">${facts.join("")}</div>${chips.length ? `<div class="chips">${chips.join("")}</div>` : ""}</div></div>`;
 }
 
 /**
@@ -453,7 +456,7 @@ main { min-width: 0; }
 
 /* 本文 */
 h1 { font-size: 26px; margin: 8px 0 12px; }
-h1, h2, h3, h4, .row-name, .row-no, .item-title, .position, .toc > li > a, .toc ol > li > a { color: var(--h); }
+h1, h2, h3, h4, .row-name, .row-no, .item-title, .name, .position, .toc > li > a, .toc ol > li > a { color: var(--h); }
 /* マウスで押したときの青い枠（フォーカスリング）は出さない。キーボード操作のときだけ出す */
 :focus:not(:focus-visible) { outline: none; }
 .sec { margin-top: 40px; }
@@ -468,6 +471,7 @@ ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-to
 .profile { display: flex; gap: 20px; align-items: flex-start; padding: 16px 20px; }
 .avatar { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); flex: none; }
 .profile-main { min-width: 0; }
+.name { font-size: 24px; font-weight: 700; line-height: 1.3; margin: 2px 0 0; }
 .position { font-size: 18px; font-weight: 600; line-height: 1.3; margin: 4px 0 6px; }
 .facts { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 15px; }
 .facts b { color: var(--muted); font-weight: 600; margin-right: .4em; }

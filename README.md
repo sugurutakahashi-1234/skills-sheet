@@ -260,7 +260,7 @@
 
 - **Flutter**
   - `Riverpod` と `Hooks` を用いた状態管理
-  - `Google Maps API` と `google_maps_flutter`・`geolocator` による地図表示と位置情報の取得
+  - `Google Maps API` と `google_maps_flutter`・`geolocator` による地図表示と位置情報取得
   - `go_router` を用いた画面遷移の実装
   - `openapi_generator` を用いた API クライアントコードの自動生成
   - `dio` を用いた HTTP 通信と、インターセプターによる JWT 認証の実装
@@ -769,7 +769,7 @@
   - アクセス解析: `Cloudflare Analytics`
 - **モバイルアプリ開発**
   - クロスプラットフォーム: `React Native (Expo)`, `Flutter (Dart)`
-  - ネイティブ: `Swift (SwiftUI, UIKit)`, `Combine`, `Swift Concurrency`, `Swift Package Manager`
+  - iOS: `Swift (SwiftUI, UIKit)`, `Combine`, `Swift Concurrency`, `Swift Package Manager`
 - **アーキテクチャ**
   - 全体の構成: `Clean Architecture`, `レイヤードアーキテクチャ`
   - 画面の設計パターン: `MVVM`, `VIPER`
@@ -791,8 +791,8 @@
   - モバイル: `Realm`
 - **認証 / 認可**
   - 規格: `OAuth 2.0`, `OIDC`, `JWT`
-  - 認証ライブラリ: `Better Auth`
-  - 認証サービス: `LINE Login`, `Amazon Cognito`, `Firebase Authentication`, `Cloudflare Access`
+  - ライブラリ: `Better Auth`
+  - サービス: `LINE Login`, `Amazon Cognito`, `Firebase Authentication`, `Cloudflare Access`
   - クラウド間連携: `Workload Identity Federation (OIDC)`
 
 ### 5.4 クラウド / インフラ
@@ -824,7 +824,7 @@
   - API モック: `MSW`, `Prism`
   - アクセシビリティ検査: `@axe-core/playwright`
 - **コード品質**
-  - Lint / フォーマット: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`, `SwiftLint`, `SwiftFormat`
+  - Lint / 整形: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`, `SwiftLint`, `SwiftFormat`
   - 未使用コード検出: `knip`, `Periphery`
   - 依存関係ルールの強制: `dependency-cruiser`
   - コミット規約の強制: `commitlint`

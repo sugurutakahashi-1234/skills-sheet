@@ -98,7 +98,7 @@
   - LLM ツールの使い分けの提案、プロンプト改善、MCP 化・Skills 設計の方針策定
 - **RAG / ベクトル検索マッチング（業務3）**
   - ベクトル検索（Workers AI + Vectorize）で絞り込み、AI エージェントが精査する 2 段構成
-  - 自作の評価スクリプトで GLM・Kimi・DeepSeek を比較検証し、シーンごとに使い分け
+  - 自作の評価スクリプトで GLM・Kimi・DeepSeek を比較し、シーンごとに使うモデルを選定
 - **MCP サーバー / AI エージェント運用（業務3）**
   - 70 以上のツールを提供する MCP サーバーの開発（OAuth 認証・マルチテナント認可）
   - 定期実行と 50 以上の Skills による業務自動化（Claude Code / Codex 両対応）
@@ -339,7 +339,7 @@
   - Docs as Code の導入: [Swagger UI Action](https://github.com/Legion2/swagger-ui-action) や [tbls](https://github.com/k1LoW/tbls) によるドキュメント生成を調査し、サーバーサイドチームに展開
   - 先行着手: ワイヤフレーム段階から iOS アプリを形にし、仕様と実装の課題をチームへ共有
 - **CI/CD 環境の構築**
-  - Xcode Cloud 導入: PR マージをトリガーに TestFlight 配信を自動化し、新機能を随時検証
+  - Xcode Cloud 導入: PR マージをトリガーに TestFlight へ自動配信する仕組みを構築
   - API インターフェース変更への追従: OpenAPI の差分をトリガーに、iOS リポジトリへ Pull Request を自動作成する GitHub Actions を構築
 - **Swift 6 移行とテストコードの自動生成**
   - コード生成: View 層・UseCase 層のボイラープレートとテストコードを [Sourcery](https://github.com/krzysztofzablocki/Sourcery) や [Mockolo](https://github.com/uber/mockolo) で自動生成
@@ -666,7 +666,7 @@
 
 #### 取り組み・貢献
 
-- API 側の実装も担当していたため、不具合の原因が iOS と API のどちらにあるかを切り分け
+- API 側の実装も担当し、不具合の原因が iOS と API のどちらにあるかの特定から修正まで対応
 - `mitmproxy` で実機の通信をキャプチャし、リクエストとレスポンスから API の不具合を調査
 - API の仕様を把握している立場から、Android チームにも実装方針を助言
 

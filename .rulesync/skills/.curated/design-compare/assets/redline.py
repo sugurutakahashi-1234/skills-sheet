@@ -3,7 +3,7 @@
 行ごとに「戻す」とコメントを付け、章ごとに回答をまとめてコピーできる。
 
 使い方:
-  python3 redline.py <repo> <file> <before_ref> <out.html> [開始章] [###で章を割るH2名,…] [--notes notes.json] [--done 章名,…] [--edit]
+  python3 redline.py <repo> <file> <before_ref> <out.html> [開始章] [###で章を割るH2名,…] [--notes notes.json] [--done 章名,…] [--edit] [--alts alts.json]
   例: python3 redline.py . README.md HEAD~5 /tmp/redline.html "案件詳細 › [No.11] …" 案件詳細 --notes /tmp/notes.json
 
   --notes は {行の文字列: 理由} の JSON。変更・削除・追加した行のうち、文字列が一致する行の下に理由を出す
@@ -15,6 +15,9 @@
   書き換えるたびに元の文との違いを色で出す。行ごとに「元の文にする」「案に戻す」とコメント。送る内容は、案から直した行の
   「案 → 直した文」（行頭の `- ` や見出しの # も含めた 1 行）とコメント。
 
+  --alts は {案の行の文字列: [候補, …]} の JSON（--edit と一緒に使う）。その行の下に候補を並べ、押すと右の欄に入る。
+  案が通らなかった行・言い回しの好みが分かれる行にだけ付ける（全部の行に付けると読むのがつらい）。
+
   入力中の印とコメントはブラウザに保存する（localStorage。キーは出力先のパス）。同じ出力先に作り直したページは、
   「再読み込み」ボタンで読み込めば入力が残る。ページは自動では読み込み直さない。
 
@@ -24,6 +27,9 @@ import sys, io, re, html, difflib, subprocess, json, os, hashlib
 argv = sys.argv[1:]; NOTES = {}; DONE = []
 EDIT = '--edit' in argv
 if EDIT: argv.remove('--edit')
+ALTS = {}
+if '--alts' in argv:
+    k = argv.index('--alts'); ALTS = json.load(io.open(argv[k+1], encoding='utf-8')); del argv[k:k+2]
 if '--notes' in argv:
     k = argv.index('--notes'); NOTES = json.load(io.open(argv[k+1], encoding='utf-8')); del argv[k:k+2]
 if '--done' in argv:
@@ -92,7 +98,10 @@ def add(kind, cls, left, right, n, plain, raw=None):
     if EDIT and raw and cls not in ('h1','h2') and not (kind=='eq' and not plain):
         # 右は書き換えられる欄。下に同じ文字を色付きで描く層（mir）を敷き、透明な textarea を重ねてカーソルだけ見せる
         act='<button data-act="orig" title="元の文にする">元の文</button><button data-act="prop" title="案に戻す">案</button><button data-act="cmt">コメント</button>'
-        rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span><span class="r"><span class="edw"><span class="mir"></span><textarea class="ta" rows="1" spellcheck="false" placeholder="（削除）"></textarea></span></span><span class="act">{act}<span class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント"></textarea></span></span>{why}</div>')
+        alts=''.join(f'<button class="alt" data-alt="{html.escape(a)}">{html.escape(a)}</button>' for a in ALTS.get(plain,[]))
+        alts=f'<span class="alts"><span class="altl">候補（押すと右の欄に入る）</span>{alts}</span>' if alts else ''
+        # コメント欄は行の下に横いっぱいで開く（右の狭い列だと、書くほど文字が見えなくなる）
+        rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span><span class="r"><span class="edw"><span class="mir"></span><textarea class="ta" rows="1" spellcheck="false" placeholder="（削除）"></textarea></span></span><span class="act">{act}</span>{why}{alts}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（直した理由、迷っている点、など）"></textarea></div>')
         return
     rows.append(f'<div class="row {kind} {cls}" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l">{left}</span><span class="r">{right}</span><span class="act">{act}</span>{why}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（戻す理由、別の言い方、など）"></textarea></div>')
 sm = difflib.SequenceMatcher(None, old, new, autojunk=False)
@@ -149,7 +158,7 @@ for op,i1,i2,j1,j2 in sm.get_opcodes():
                 add('chg',cb,da,db,j1+ib+1,tb,(pre(a[ia],ta),ta,pre(b[ib],tb),tb)); stats['chg']+=1
 
 EDIT_CSS = '''
-body.edit .row{grid-template-columns:34px 1fr 1fr 230px}
+body.edit .row{grid-template-columns:34px 1fr 1fr 150px}
 body.edit .bar #side,body.edit .bar #stack{display:none}
 .er .l,.er .r{display:flex;gap:6px}.er.li .l::before,.er.li .r::before{flex:none}
 .lt,.mir,.ta{font:inherit;line-height:1.7;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;box-sizing:border-box;margin:0;padding:2px 6px;border:1px solid transparent;border-radius:4px}
@@ -160,8 +169,12 @@ body.edit .bar #side,body.edit .bar #stack{display:none}
 .er.eq .lt,.er.eq .mir{color:#57606a}.er.diff .lt{background:#fff5f5}.er.diff .mir{background:#f0fff4}
 .er.edited .ta{border-color:#d4a72c;background:transparent}.er.edited .n{color:#9a6700;font-weight:700}
 .mir ins{text-decoration:none;background:#acf2bd;color:#0f5323}.lt del{background:#ffcecb}
-body.edit .act{flex-wrap:wrap;align-content:flex-start;justify-content:flex-start;gap:4px;opacity:1}body.edit .act button{flex:1 1 auto;padding:3px 6px}
-body.edit .act .cbox{flex:1 1 100%;padding:0}body.edit .act .cbox[hidden]{display:none}body.edit .act .cbox textarea{min-height:64px}
+body.edit .act{flex-wrap:nowrap;justify-content:flex-end;gap:3px;opacity:.35}body.edit .act button{flex:0 0 auto;padding:2px 6px;font-size:11px}
+body.edit .row:hover .act,body.edit .row.edited .act,body.edit .row.has-c .act{opacity:1}
+body.edit .cbox textarea{min-height:64px}
+.alts{grid-column:3/5;display:flex;flex-direction:column;gap:4px;margin:2px 0 8px}.altl{font-size:12px;font-weight:600;color:#59636e}
+.alt{text-align:left;font:inherit;line-height:1.6;padding:4px 10px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa;cursor:pointer;color:#1f2328}
+.alt:hover{border-color:#54aeff;background:#ddf4ff}.alt.on{border-color:#1f883d;background:#dafbe1;font-weight:600}
 '''
 page=f'''<!doctype html><html lang="ja"><meta charset="utf-8"><title>{html.escape(path)} の変更履歴ビュー</title>
 <style>
@@ -255,8 +268,9 @@ function diffHtml(a,b){{const A=tok(a),Bt=tok(b),n=A.length,m=Bt.length,dp=Array
 const curOf=key=>{{const s=state[key];return s&&s.t!==undefined?s.t:TEXTS[key].rt;}};
 function upd(r){{const key=r.dataset.key,t=TEXTS[key],v=curOf(key),[L,R]=diffHtml(t.lt,v);
   r.querySelector('.lt').innerHTML=L;r.querySelector('.mir').innerHTML=R+(v.endsWith('\\n')||!v?'\\u200b':'');
-  r.classList.toggle('edited',v!==t.rt);r.classList.toggle('diff',v!==t.lt);}}
+  r.classList.toggle('edited',v!==t.rt);r.classList.toggle('diff',v!==t.lt);markAlt(r);}}
 function setText(r,v){{const key=r.dataset.key;state[key]=state[key]||{{}};if(v===TEXTS[key].rt)delete state[key].t;else state[key].t=v;r.querySelector('.ta').value=v;upd(r);}}
+const markAlt=r=>r.querySelectorAll('.alt').forEach(b=>b.classList.toggle('on',b.dataset.alt===curOf(r.dataset.key)));
 function per(ch){{const ls=[];rows.forEach(r=>{{if(r.dataset.ch!==ch||!marked(r.dataset.key))return;const s=state[r.dataset.key],t=TEXTS[r.dataset.key];
     /* 編集モード: 案から直した行は「案 → 直した文」を行頭ごと出す。受け手はこの 1 行で置き換えればよい */
     if(EDIT&&s.t!==undefined){{const lab=s.t===t.lt?'[元の文に戻す]':s.t===''?'[削除]':'[直した]';
@@ -299,7 +313,8 @@ document.querySelectorAll('.act button').forEach(b=>b.onclick=e=>{{
   sum();}});
 document.querySelectorAll('.cbox textarea').forEach(t=>t.oninput=()=>{{const key=t.closest('.cbox').dataset.for;state[key]=state[key]||{{}};state[key].c=t.value;(t.closest('.row')||t.closest('.cbox').previousElementSibling).classList.toggle('has-c',!!t.value.trim());sum();}});
 /* 編集モード: 欄に案（または保存してあった直し）を入れ、書き換えるたびに差分を描き直す */
-if(EDIT)rows.forEach(r=>{{const ta=r.querySelector('.ta');if(!ta)return;ta.oninput=()=>{{setText(r,ta.value);sum();}};}});
+if(EDIT)rows.forEach(r=>{{const ta=r.querySelector('.ta');if(!ta)return;ta.oninput=()=>{{setText(r,ta.value);sum();}};
+  r.querySelectorAll('.alt').forEach(b=>b.onclick=()=>{{setText(r,b.dataset.alt);sum();ta.focus();}});}});
 B('chc').oninput=()=>{{chc[curCh]=B('chc').value;refresh();save();}};
 B('all').oninput=()=>save();
 /* 1 章分の回答。前に送った章をもう一度送るときは「置き換え」と書き、受け手が前の回答を捨てられるようにする */

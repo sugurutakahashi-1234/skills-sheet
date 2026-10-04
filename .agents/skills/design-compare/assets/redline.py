@@ -181,7 +181,9 @@ for op,i1,i2,j1,j2 in sm.get_opcodes():
 EDIT_CSS = '''
 body.edit .row{grid-template-columns:34px 1fr 1fr 150px}
 body.edit .bar #side,body.edit .bar #stack{display:none}
-.er .l,.er .r{display:flex;gap:6px}.er.li .l::before,.er.li .r::before{flex:none}
+.er .l,.er .r{display:flex;gap:2px}
+/* 行頭の点は、欄の枠（1px）と内側の余白（2px）のぶん下げて本文の 1 行目に揃える。点と文字の間は欄の内側の余白だけにする */
+.er.li .l::before,.er.li .r::before{flex:none;margin-right:0;line-height:1.7;padding-top:3px}
 .lt,.ce{display:block;flex:1;min-width:0;font:inherit;line-height:1.7;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;box-sizing:border-box;margin:0;padding:2px 6px;border:1px solid transparent;border-radius:4px}
 .ce{border-color:#d1d9e0;min-height:1.7em;outline:none;color:#1f2328}.ce:focus{outline:2px solid #54aeff;outline-offset:-1px}
 .ce:empty::before{content:'（削除）';color:#a40e26}
@@ -298,6 +300,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 #chc,#all{{min-height:56px}}#out{{min-height:160px;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px}}
 .foot .btns{{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}}.foot .btns .sp{{flex:1}}
 .foot .main{{font-size:14px;font-weight:600;padding:8px 18px;border-radius:6px;border:1px solid #1f883d;background:#1f883d;color:#fff}}
+.bar .topmain{{font-weight:600;border:1px solid #1f883d;background:#1f883d;color:#fff;border-radius:6px;padding:4px 12px}}
 .foot #next{{font-size:14px;font-weight:600;padding:7px 14px;border-color:#54aeff;background:#ddf4ff;color:#0550ae}}
 .foot .flow{{font-size:12px;color:#59636e;margin:8px 0 0}}#msg{{font-size:13px;font-weight:600;color:#1a7f37}}
 .tabs .st.more{{background:#fff8c5;color:#7d4e00}}.tabs .st.applied{{background:#ddf4ff;color:#0550ae}}.tabs .st.upd{{background:#ffebe9;color:#a40e26}}
@@ -308,7 +311,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 <p class="note">{('左が元の文（' + html.escape(before_ref) + ' 時点）、右が案です。右の欄はそのまま書き換えられ、元の文との違いがその場で色で出ます（左の赤 = 消える部分、右の緑 = 足した部分）。行の「元の文」「案」ボタンで一度に戻せ、「コメント」で右の余白に一言書けます。') if EDIT else (html.escape(before_ref) + ' 時点（左）→ 現在（右）。<del>消した部分</del>は赤の取り消し線、<ins>足した部分</ins>は緑の下線。気になる行は「戻す」を押すか「コメント」で一言書いてください。')}章を見終えたら「この章の回答をコピー」でチャットに貼ってください。章ごとに送れば、こちらが反映している間に次の章を見られます。直すところがない章も送ると「送信済み」になります。</p>
 <div class="bar"><span>変更 {stats["chg"]} 行 / 追加 {stats["ins"]} 行 / 削除 {stats["del"]} 行</span>
 <button id="side" class="on">左右に並べる</button><button id="stack">1 列で重ねる</button>
-<button id="allv" class="on">全文</button><button id="focus">変更の前後だけ</button><button id="reload" title="入力中の印とコメントは残ります">再読み込み</button><span class="sp"></span><span id="warn"></span><span id="sum"></span></div>
+<button id="allv" class="on">全文</button><button id="focus">変更の前後だけ</button><button id="reload" title="入力中の印とコメントは残ります">再読み込み</button><span class="sp"></span><span id="warn"></span><button id="goAllTop" class="topmain" hidden>回答をまとめてコピー</button><span id="sum"></span></div>
 <div class="tabs" id="tabs"></div>
 <div class="doc">{''.join(rows)}</div>
 <div class="foot">
@@ -332,9 +335,9 @@ const BUILD={json.dumps(str(time.time_ns()))};let allBuild='';
 const rows=[...document.querySelectorAll('.row')];
 const B=id=>document.getElementById(id);
 let curCh=null;
-const NCH={{}};let chc={{}},sent={{}},allSent='';
+const NCH={{}};let chc={{}},sent={{}},allSent='',seen={{}};
 const short=ch=>ch.replace(/^[^›]+› /,'');
-function showCh(ch){{if(curCh!==null)chc[curCh]=B('chc').value;curCh=ch;B('chc').value=chc[ch]||'';B('chHint').textContent=`「${{short(ch)}}」の回答に付きます`;
+function showCh(ch){{if(curCh!==null)chc[curCh]=B('chc').value;curCh=ch;seen[ch]=hashOf(ch);B('chc').value=chc[ch]||'';B('chHint').textContent=`「${{short(ch)}}」の回答に付きます`;
   rows.forEach(r=>{{r.style.display=(r.dataset.ch===ch)?'':'none';}});
   /* 行コメントの欄は行の外にあるので、行と一緒に隠さないと別の章のコメントが残って見える */
   document.querySelectorAll('.cbox').forEach(c=>{{const t=TEXTS[c.dataset.for];c.style.display=(t&&t.ch===ch)?'':'none';}});
@@ -380,18 +383,20 @@ function status(ch){{const s=sentNow(ch);if(s)return sig(ch)===s.sig?'ok':'more'
 const need=()=>CHAPTERS.filter(ch=>NCH[ch]||touched(ch)||sent[ch]);
 function refresh(){{const ns=need();document.querySelectorAll('.tabs button').forEach(b=>{{const ch=b.dataset.ch,st=b.querySelector('.st');st.hidden=!ns.includes(ch);if(st.hidden)return;const k=status(ch);st.className='st '+k;st.textContent=LBL[k];}});
   const rest=ns.filter(ch=>!FIN.has(status(ch)));B('warn').classList.toggle('ok',!rest.length);
-  B('warn').textContent=rest.length?`回答待ちの章 ${{rest.length}} / ${{ns.length}}`:`全 ${{ns.length}} 章の回答がそろいました`;}}
+  B('warn').textContent=rest.length?`回答待ちの章 ${{rest.length}} / ${{ns.length}}`:`全 ${{ns.length}} 章の回答がそろいました`;
+  /* 回答の要る章が 2 つ以上なら、上にも「まとめてコピー」を出す。細かく分かれたページを 1 回で送れるように */
+  const many=ns.length>=2;B('goAllTop').hidden=!many||!rest.length;B('goAllTop').textContent=`回答をまとめてコピー（${{rest.length}} 章）`;B('goAll').classList.toggle('main',many);}}
 /* 入力はブラウザに保存し、再読み込みや作り直したページでも引き継ぐ。行は data-sid で引き当てる */
 function save(){{try{{const st={{}};rows.forEach(r=>{{const s=state[r.dataset.key];if(s&&(s.rev||(s.c||'').trim()||s.t!==undefined))st[r.dataset.sid]={{rev:!!s.rev,c:s.c||'',t:s.t}};}});
   if(curCh!==null)chc[curCh]=B('chc').value;
-  localStorage.setItem(KEY,JSON.stringify({{st,chc,all:B('all').value,allSent,allBuild,sent,cur:curCh}}));}}catch(e){{}}}}
+  localStorage.setItem(KEY,JSON.stringify({{st,chc,all:B('all').value,allSent,allBuild,sent,seen,cur:curCh}}));}}catch(e){{}}}}
 function restore(){{let d=null;try{{d=JSON.parse(localStorage.getItem(KEY)||'null');}}catch(e){{}}if(!d)return null;
   /* 送った後に内容が変わった章（更新あり）と反映済みの章は、前の印とコメントを読み込まない。反映済みの意見が残ると、新しい案と混ざって読みにくい */
   const stale=ch=>DONE.includes(ch)||!!(d.sent&&d.sent[ch]&&d.sent[ch].hash!==hashOf(ch));
   rows.forEach(r=>{{if(stale(r.dataset.ch))return;const v=d.st&&d.st[r.dataset.sid];if(!v)return;const key=r.dataset.key;state[key]={{rev:!!v.rev,c:v.c||''}};if(v.t!==undefined&&v.t!==null)state[key].t=v.t;
     if(v.rev){{r.classList.add('marked');const b=r.querySelector('[data-act="rev"]');if(b)b.classList.add('on');}}
     if((v.c||'').trim()){{const box=document.querySelector(`.cbox[data-for="${{key}}"]`);box.hidden=false;box.querySelector('textarea').value=v.c;r.classList.add('has-c');r.querySelector('[data-act="cmt"]').classList.add('on2');}}}});
-  chc=Object.fromEntries(Object.entries(d.chc||{{}}).filter(([ch])=>!stale(ch)));sent=d.sent||{{}};allSent=d.allSent||'';allBuild=d.allBuild||'';B('all').value=d.all||'';
+  chc=Object.fromEntries(Object.entries(d.chc||{{}}).filter(([ch])=>!stale(ch)));sent=d.sent||{{}};seen=d.seen||{{}};allSent=d.allSent||'';allBuild=d.allBuild||'';B('all').value=d.all||'';
   /* 送ったままの全体へのコメントは、作り直したページでは読み込まない（反映済みの意見が残ると、次の回答に混ざって紛らわしい） */
   if(allSent&&B('all').value.trim()===allSent&&allBuild!==BUILD){{B('all').value='';allSent='';allBuild='';}}
   return d.cur||null;}}
@@ -424,10 +429,14 @@ B('go').onclick=()=>{{chc[curCh]=B('chc').value;const lines=block(curCh);sent[cu
   const nx=need().find(ch=>!FIN.has(status(ch)));B('next').hidden=!nx;
   if(nx){{B('next').textContent=`次の章へ: ${{short(nx)}} →`;B('next').onclick=()=>showCh(nx);}}}};
 B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
-  need().filter(ch=>!FIN.has(status(ch))).forEach(ch=>{{const k=status(ch);if(k==='todo'||k==='upd'){{lines.push(`[章: ${{ch}}]`,k==='todo'?'未回答（この章はまだ見ていない）':'未回答（更新した案をまだ見ていない）','');return;}}lines.push(...block(ch),'');sent[ch]={{sig:sig(ch),hash:hashOf(ch)}};}});
+  /* 開いて見たが印もコメントもない章は「指摘なし」として送る。開いていない章だけを未回答にする */
+  need().filter(ch=>!FIN.has(status(ch))).forEach(ch=>{{const k=status(ch),looked=seen[ch]===hashOf(ch);
+    if((k==='todo'||k==='upd')&&!looked){{lines.push(`[章: ${{ch}}]`,k==='todo'?'未回答（この章はまだ開いていない）':'未回答（更新した案をまだ開いていない）','');return;}}
+    lines.push(...block(ch),'');sent[ch]={{sig:sig(ch),hash:hashOf(ch)}};}});
   if(!lines.length)lines.push('（回答待ちの章はありません）');emit(lines);refresh();save();B('next').hidden=true;}};
 /* 作り直したページを読み込む。入力は保存してあるので消えない。自動では読み込み直さない */
 B('reload').onclick=()=>{{save();location.reload();}};
+B('goAllTop').onclick=()=>{{B('goAll').click();B('out').scrollIntoView({{block:'center'}});}};
 B('sel').onclick=()=>{{const t=B('out');t.select();t.setSelectionRange(0,t.value.length);}};
 const RESUME=restore();allMark();if(EDIT)initEdit();sum();
 const START={json.dumps(next((c for c in dict.fromkeys(chapters) if norm(c)==norm(start)), start) if start else '',ensure_ascii=False)};showCh(RESUME&&CHAPTERS.includes(RESUME)?RESUME:CHAPTERS.includes(START)?START:CHAPTERS.find(c=>c!=='（冒頭）')||CHAPTERS[0]);

@@ -3,11 +3,11 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "a4d1305df107065db15c2dfc61e39b4cc7235266",
-      "resolvedAt": "2026-10-04T10:52:37.755Z",
+      "resolvedRef": "1df8fa0851a5a77c530c854e9ba59bbbb7d23656",
+      "resolvedAt": "2026-10-04T13:02:28.834Z",
       "skills": {
         "design-compare": {
-          "integrity": "sha256-fa26455bbde360569760a71d610188228fda85c85303f381ade8d4d7d686cc49"
+          "integrity": "sha256-017b6cefe793b45abb9a6164d0b065a9036bbe29b80df8e9b1eb5101435813f8"
         }
       },
       "skillSelection": [
@@ -39,7 +39,7 @@
     "coji/natural-japanese": {
       "requestedRef": "main",
       "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
-      "resolvedAt": "2026-10-04T10:52:47.292Z",
+      "resolvedAt": "2026-10-04T13:02:38.361Z",
       "skills": {
         "natural-japanese": {
           "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"

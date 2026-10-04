@@ -98,9 +98,9 @@ def add(kind, cls, left, right, n, plain, raw=None):
     if EDIT and raw and cls not in ('h1','h2') and not (kind=='eq' and not plain):
         # 右は書き換えられる欄（contenteditable）。太字・リンク・コードを描いたまま直せ、送るときに Markdown へ戻す
         act='<button data-act="orig" title="元の文にする">元の文</button><button data-act="prop" title="案に戻す">案</button><button data-act="cmt">コメント</button>'
-        # 候補: ⠿ をドラッグすると候補をまるごと、文字を選んでドラッグすると一部だけを右の欄に入れられる。「使う」で置き換え
-        alts=''.join(f'<span class="alt" data-alt="{html.escape(a)}"><span class="grip" draggable="true" title="ドラッグして右の欄に入れる">⠿</span><span class="altx"></span><button class="use">使う</button></span>' for a in ALTS.get(plain,[]))
-        alts=f'<span class="alts"><span class="altl">候補（「使う」で置き換え。⠿ や選んだ文字をドラッグすると右の欄に入る）</span>{alts}</span>' if alts else ''
+        # 候補は全体が 1 つのボタン。押すと右の欄を置き換え、ドラッグすると落とした位置に入る。「コピー」でクリップボードへ
+        alts=''.join(f'<span class="alt" role="button" tabindex="0" draggable="true" data-alt="{html.escape(a)}" title="押すと右の欄に入る / ドラッグで落とした位置に入る"><span class="altx"></span><span class="cp" role="button" tabindex="0" title="クリップボードにコピー">コピー</span></span>' for a in ALTS.get(plain,[]))
+        alts=f'<span class="alts"><span class="altl">候補（押すと右の欄に入る。ドラッグすると落とした位置に入る）</span>{alts}</span>' if alts else ''
         # コメント欄は行の下に横いっぱいで開く（右の狭い列だと、書くほど文字が見えなくなる）
         rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span><span class="r"><span class="ce" contenteditable="true" spellcheck="false"></span></span><span class="act">{act}</span>{why}{alts}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（直した理由、迷っている点、など）"></textarea></div>')
         return
@@ -173,11 +173,11 @@ body.edit .act{flex-wrap:nowrap;justify-content:flex-end;gap:3px;opacity:.35}bod
 body.edit .row:hover .act,body.edit .row.edited .act,body.edit .row.has-c .act{opacity:1}
 body.edit .cbox textarea{min-height:64px}
 .alts{grid-column:3/5;display:flex;flex-direction:column;gap:4px;margin:2px 0 8px}.altl{font-size:12px;font-weight:600;color:#59636e}
-.alt{display:flex;align-items:center;gap:8px;line-height:1.6;padding:4px 8px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa}
-.alt.on{border-color:#1f883d;background:#dafbe1}.altx{flex:1;min-width:0}
-.grip{cursor:grab;color:#8c959f;user-select:none;font-size:14px}.grip:active{cursor:grabbing}
-.alt .use{flex:none;font-size:11px;padding:2px 8px;border:1px solid #d1d9e0;border-radius:6px;background:#fff;cursor:pointer}
-.alt .use:hover{border-color:#54aeff;background:#ddf4ff}
+.alt{display:flex;align-items:center;gap:8px;line-height:1.6;padding:4px 8px 4px 10px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa;cursor:pointer;user-select:none}
+.alt:hover{border-color:#54aeff;background:#ddf4ff}.alt:active{cursor:grabbing}.alt:focus-visible{outline:2px solid #54aeff}
+.alt.on{border-color:#1f883d;background:#dafbe1;font-weight:600}.altx{flex:1;min-width:0}
+.alt .cp{flex:none;font-size:11px;font-weight:400;padding:2px 8px;border:1px solid #d1d9e0;border-radius:6px;background:#fff;color:#59636e}
+.alt .cp:hover{border-color:#54aeff;color:#0969da}.alt .cp.done{border-color:#1f883d;color:#1a7f37}
 '''
 EDIT_JS = r'''
 /* ---- 編集ビュー: 太字・リンク・コードを描いたまま、その場で書き換える（contenteditable） ---- */
@@ -220,6 +220,9 @@ function caretOf(el){const s=getSelection();if(!s.rangeCount||!el.contains(s.anc
 function setCaret(el,off){if(off===null)return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n,acc=0;const put=(node,o)=>{const r=document.createRange();if(node)r.setStart(node,o);else{r.selectNodeContents(el);r.collapse(false);}r.collapse(true);const s=getSelection();s.removeAllRanges();s.addRange(r);};
   while((n=w.nextNode())){if(acc+n.length>=off){put(n,off-acc);return;}acc+=n.length;}put(null,0);}
 const curOf=key=>{const s=state[key];return s&&s.t!==undefined?s.t:TEXTS[key].rtn;};
+function clip(v){const fb=()=>{const t=document.createElement('textarea');t.value=v;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy');}catch(_){}t.remove();return ok;};
+  if(!navigator.clipboard)return Promise.resolve(fb());
+  return Promise.race([navigator.clipboard.writeText(v).then(()=>true),new Promise((_,rej)=>setTimeout(()=>rej(0),800))]).catch(fb);}
 function paint(r,keep){const key=r.dataset.key,t=TEXTS[key],v=curOf(key),A=parseMd(t.ltn),Bc=parseMd(v),d=diffCs(A,Bc),ce=r.querySelector('.ce');
   r.querySelector('.lt').innerHTML=renderCs(A,d[0]);const off=keep?caretOf(ce):null;ce.innerHTML=renderCs(Bc,d[1]);if(keep)setCaret(ce,off);
   r.classList.toggle('edited',v!==t.rtn);r.classList.toggle('diff',v!==t.ltn);
@@ -242,8 +245,11 @@ function initEdit(){rows.forEach(r=>{const ce=r.querySelector('.ce');if(!ce)retu
     const sel=getSelection();if(rg&&ce.contains(rg.startContainer)){sel.removeAllRanges();sel.addRange(rg);}else{const r=document.createRange();r.selectNodeContents(ce);r.collapse(false);sel.removeAllRanges();sel.addRange(r);}
     document.execCommand('insertText',false,txt);});
   r.querySelectorAll('.alt').forEach(a=>{a.querySelector('.altx').innerHTML=renderCs(parseMd(a.dataset.alt));
-    a.querySelector('.use').onclick=()=>{setText(r,a.dataset.alt);sum();ce.focus();};
-    a.querySelector('.grip').addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',a.dataset.alt);e.dataTransfer.effectAllowed='copy';});});
+    const use=()=>{setText(r,a.dataset.alt);sum();ce.focus();};
+    a.addEventListener('click',use);a.addEventListener('keydown',e=>{if(e.target===a&&(e.key==='Enter'||e.key===' ')){e.preventDefault();use();}});
+    a.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',a.dataset.alt);e.dataTransfer.effectAllowed='copy';});
+    const cp=a.querySelector('.cp');const doCp=e=>{e.stopPropagation();e.preventDefault();clip(a.dataset.alt).then(ok=>{cp.textContent=ok?'コピーした':'失敗';cp.classList.toggle('done',ok);setTimeout(()=>{cp.textContent='コピー';cp.classList.remove('done');},1200);});};
+    cp.addEventListener('click',doCp);cp.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')doCp(e);});});
   paint(r,false);});}
 '''
 page=f'''<!doctype html><html lang="ja"><meta charset="utf-8"><title>{html.escape(path)} の変更履歴ビュー</title>

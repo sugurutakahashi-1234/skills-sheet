@@ -30,7 +30,10 @@
   .gh ul { padding-left: 2em; margin: 0; }
   .gh > ul > li { margin: 2px 0; }
   .gh a { color: #0969da; text-decoration: none; }
-  .gh code { background: #eff1f3; border-radius: 6px; padding: 1px 5px; font-size: 85%; }
+  /* コードと太字は GitHub と同じ値。font-family を書かないと、ブラウザ既定の monospace が 13px 基準になり、実物より狭く描いて「1 行に収まる」と見誤る */
+  .gh code { background: #eff1f3; border-radius: 6px; padding: 0.2em 0.4em; font-size: 85%;
+             font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
+  .gh strong { font-weight: 600; }
   .gh .dots { color: #8c959f; padding-left: 2em; margin: 4px 0 0; }
   /* 差分 */
   .ch { background: #fff3c4; border-radius: 3px; }

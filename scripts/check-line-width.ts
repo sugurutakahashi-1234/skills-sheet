@@ -46,13 +46,27 @@ const toDisplayText = (s: string) =>
     .replace(/\*\*([^*]*)\*\*/g, "$1")
     .replace(/\*([^*]*)\*/g, "$1");
 
-type Target = { line: number; depth: number; text: string; usable: number };
+/**
+ * 測るための HTML。コード（`名前`）と太字は GitHub と同じ描き方で測る。
+ * 記号を外しただけの文字列で測ると、等幅の字体と左右の余白のぶん狭く出て、
+ * 技術名が並ぶ行（職務経歴の一覧行など）を「1 行に収まる」と見誤る（664px と出た行が実際は折り返した）
+ */
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const toMeasureHtml = (s: string) =>
+  esc(s)
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/`([^`]*)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]*)\*\*/g, "<b>$1</b>")
+    .replace(/\*([^*]*)\*/g, "<i>$1</i>");
+
+type Target = { line: number; depth: number; text: string; html: string; usable: number };
 
 const targets: Target[] = [];
 if (texts.length > 0) {
   const depth = flag("depth", 2);
   texts.forEach((t, i) => {
-    targets.push({ line: i + 1, depth, text: toDisplayText(t), usable: width - depth * INDENT_PX });
+    targets.push({ line: i + 1, depth, text: toDisplayText(t), html: toMeasureHtml(t), usable: width - depth * INDENT_PX });
   });
 } else {
   const src = await Bun.file(file).text();
@@ -64,6 +78,7 @@ if (texts.length > 0) {
       line: i + 1,
       depth,
       text: toDisplayText(m[2]),
+      html: toMeasureHtml(m[2]),
       usable: width - depth * INDENT_PX,
     });
   });
@@ -76,16 +91,19 @@ try {
     `<!doctype html><meta charset="utf-8"><style>
       body { margin: 0; font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif; }
       #probe { position: absolute; white-space: nowrap; visibility: hidden; }
+      /* GitHub の Markdown 表示と同じ値 */
+      #probe code { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 85%; padding: 0.2em 0.4em; }
+      #probe b { font-weight: 600; }
     </style><span id="probe"></span>`,
     { waitUntil: "load" },
   );
-  const widths: number[] = await page.evaluate((texts: string[]) => {
+  const widths: number[] = await page.evaluate((htmls: string[]) => {
     const probe = document.getElementById("probe") as HTMLElement;
-    return texts.map((t) => {
-      probe.textContent = t;
+    return htmls.map((h) => {
+      probe.innerHTML = h;
       return Math.round(probe.getBoundingClientRect().width);
     });
-  }, targets.map((t) => t.text));
+  }, targets.map((t) => t.html));
 
   const rows = targets.map((t, i) => ({ ...t, px: widths[i] }));
   const over = rows.filter((r) => r.px > r.usable);

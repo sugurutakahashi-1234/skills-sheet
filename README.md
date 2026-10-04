@@ -824,7 +824,8 @@
   - API モック: `MSW`, `Prism`
   - アクセシビリティ検査: `@axe-core/playwright`
 - **コード品質**
-  - Lint / 整形: `Biome`, `oxlint`, `oxfmt`, `ESLint`, `Prettier`, `SwiftLint`, `SwiftFormat`
+  - Linter: `Biome`, `oxlint`, `ESLint`, `SwiftLint`
+  - Formatter: `Biome`, `oxfmt`, `Prettier`, `SwiftFormat`
   - 未使用コード検出: `knip`, `Periphery`
   - 依存関係ルールの強制: `dependency-cruiser`
   - コミット規約の強制: `commitlint`

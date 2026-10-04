@@ -364,7 +364,7 @@ function restore(){{let d=null;try{{d=JSON.parse(localStorage.getItem(KEY)||'nul
     if((v.c||'').trim()){{const box=document.querySelector(`.cbox[data-for="${{key}}"]`);box.hidden=false;box.querySelector('textarea').value=v.c;r.classList.add('has-c');r.querySelector('[data-act="cmt"]').classList.add('on2');}}}});
   chc=Object.fromEntries(Object.entries(d.chc||{{}}).filter(([ch])=>!stale(ch)));sent=d.sent||{{}};allSent=d.allSent||'';allBuild=d.allBuild||'';B('all').value=d.all||'';
   /* 送ったままの全体へのコメントは、作り直したページでは読み込まない（反映済みの意見が残ると、次の回答に混ざって紛らわしい） */
-  if(allSent&&B('all').value.trim()===allSent&&allBuild&&allBuild!==BUILD){{B('all').value='';allSent='';allBuild='';}}
+  if(allSent&&B('all').value.trim()===allSent&&allBuild!==BUILD){{B('all').value='';allSent='';allBuild='';}}
   return d.cur||null;}}
 function sum(){{const rv=Object.values(state).filter(s=>s.rev).length,ed=Object.values(state).filter(s=>s.t!==undefined).length,cm=Object.values(state).filter(s=>(s.c||'').trim()).length;B('sum').textContent=EDIT?`直した ${{ed}} 行 / コメント ${{cm}} 件`:`戻す ${{rv}} 件 / コメント ${{cm}} 件`;refresh();save();}}
 document.querySelectorAll('.act button').forEach(b=>b.onclick=e=>{{

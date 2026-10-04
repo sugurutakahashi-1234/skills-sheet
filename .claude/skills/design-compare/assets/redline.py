@@ -3,7 +3,7 @@
 行ごとに「戻す」とコメントを付け、章ごとに回答をまとめてコピーできる。
 
 使い方:
-  python3 redline.py <repo> <file> <before_ref> <out.html> [開始章] [###で章を割るH2名,…] [--notes notes.json] [--done 章名,…] [--edit] [--alts alts.json]
+  python3 redline.py <repo> <file> <before_ref> <out.html> [開始章] [###で章を割るH2名,…] [--split H2名,…] [--page-lines 60] [--notes notes.json] [--done 章名,…] [--edit] [--alts alts.json]
   例: python3 redline.py . README.md HEAD~5 /tmp/redline.html "案件詳細 › [No.11] …" 案件詳細 --notes /tmp/notes.json
 
   --notes は {行の文字列: 理由} の JSON。変更・削除・追加した行のうち、文字列が一致する行の下に理由を出す
@@ -21,7 +21,10 @@
   入力中の印とコメントはブラウザに保存する（localStorage。キーは出力先のパス）。同じ出力先に作り直したページは、
   「再読み込み」ボタンで読み込めば入力が残る。ページは自動では読み込み直さない。
 
-  before_ref は git のリビジョン。章は `## ` 見出しごと。第 6 引数に H2 名を渡すと、その H2 の配下だけ `### ` でさらに割る。
+  before_ref は git のリビジョン。章（ページ）は `## ` 見出しごと。長い章（--page-lines、既定 60 行を超える）に `### ` が 2 つ以上あれば、
+  自動で `### ` ごとのページに割る（スクロール量が多いと読みにくいため）。--page-lines 0 で自動の分割をやめる。
+  --split（または第 6 引数）に H2 名を渡すと、長さによらずその H2 を `### ` で割る。
+  長いページは「変更の前後だけ」の表示で開き、変えていない行の続きは「… N 行」に畳む（押すと開く）。
 """
 import sys, io, re, html, difflib, subprocess, json, os, hashlib, time
 argv = sys.argv[1:]; NOTES = {}; DONE = []
@@ -30,6 +33,12 @@ if EDIT: argv.remove('--edit')
 ALTS = {}
 if '--alts' in argv:
     k = argv.index('--alts'); ALTS = json.load(io.open(argv[k+1], encoding='utf-8')); del argv[k:k+2]
+SPLIT_ARG = ''
+if '--split' in argv:
+    k = argv.index('--split'); SPLIT_ARG = argv[k+1]; del argv[k:k+2]
+PAGE_LINES = 60
+if '--page-lines' in argv:
+    k = argv.index('--page-lines'); PAGE_LINES = int(argv[k+1]); del argv[k:k+2]
 if '--notes' in argv:
     k = argv.index('--notes'); NOTES = json.load(io.open(argv[k+1], encoding='utf-8')); del argv[k:k+2]
 if '--done' in argv:
@@ -41,9 +50,20 @@ start = argv[4] if len(argv) > 4 else ''
 # 見出しに番号（`## 4. 案件詳細` `### 5.1 AI`）が付いた文書でも、章の名前は番号を除いて比べる
 strip_no = lambda t: re.sub(r'^\d+(?:\.\d+)*\.?\s+', '', t.strip())
 norm = lambda ch: ' › '.join(strip_no(x) for x in ch.split(' › '))
-split_h3 = {strip_no(x) for x in argv[5].split(',')} if len(argv) > 5 else set()
+split_h3 = {strip_no(x) for x in (argv[5] if len(argv) > 5 else SPLIT_ARG).split(',') if x.strip()}
 old = subprocess.run(['git','show',f'{before_ref}:{path}'],capture_output=True,text=True,cwd=repo).stdout.split('\n')
 new = io.open(os.path.join(repo,path),encoding='utf-8').read().split('\n')
+# 長い章は ### ごとのページに自動で割る。1 ページが長いとスクロールが増え、どこを見ているか分からなくなる
+if PAGE_LINES:
+    sec = None; size = {}; h3 = {}; fence = False
+    for line in new:
+        if line.startswith('```'): fence = not fence
+        if fence: continue
+        if line.startswith('## '): sec = strip_no(line[3:]); size[sec] = 0; h3[sec] = 0; continue
+        if sec is None: continue
+        size[sec] += 1
+        if line.startswith('### '): h3[sec] += 1
+    split_h3 |= {k for k in size if size[k] > PAGE_LINES and h3[k] >= 2}
 
 def md_inline(t):
     t = html.escape(t)
@@ -272,7 +292,7 @@ code{{background:#eff1f3;border-radius:5px;padding:0 4px;font-size:90%}}.lnk{{co
 body.stack .row{{grid-template-columns:34px 1fr 110px}}body.stack .eq .l,body.stack .ins .l,body.stack .del .r{{display:none}}
 body.stack .chg .l{{grid-column:2}}body.stack .chg .r{{grid-column:2}}body.stack .chg .r::before{{content:"→ ";color:#8c959f}}body.stack .chg .act{{grid-row:1}}
 body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.ctx .l,body.focus .eq.ctx .r{{color:#9aa3ad}}
-.gap{{display:none;color:#8c959f;font-size:12px;text-align:center;padding:4px 0;border-top:1px dashed #d1d9e0;margin:4px 0}}body.focus .gap{{display:block}}
+.gap{{display:none;color:#59636e;font-size:12px;text-align:center;padding:5px 0;border:1px dashed #d1d9e0;border-radius:6px;margin:6px 0;cursor:pointer;background:#f6f8fa}}.gap:hover{{border-color:#54aeff;color:#0969da}}body.focus .gap{{display:block}}
 .foot{{margin-top:18px;padding-top:14px;border-top:1px solid #d1d9e0}}.foot textarea{{width:100%;box-sizing:border-box;border:1px solid #d1d9e0;border-radius:6px;padding:8px;font:13px/1.5 inherit}}
 .foot .lbl{{display:block;font-weight:600;margin:10px 0 4px}}.foot .lbl .hint{{font-weight:400;font-size:12px;color:#59636e;margin-left:8px}}
 #chc,#all{{min-height:56px}}#out{{min-height:160px;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px}}
@@ -288,7 +308,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 <p class="note">{('左が元の文（' + html.escape(before_ref) + ' 時点）、右が案です。右の欄はそのまま書き換えられ、元の文との違いがその場で色で出ます（左の赤 = 消える部分、右の緑 = 足した部分）。行の「元の文」「案」ボタンで一度に戻せ、「コメント」で右の余白に一言書けます。') if EDIT else (html.escape(before_ref) + ' 時点（左）→ 現在（右）。<del>消した部分</del>は赤の取り消し線、<ins>足した部分</ins>は緑の下線。気になる行は「戻す」を押すか「コメント」で一言書いてください。')}章を見終えたら「この章の回答をコピー」でチャットに貼ってください。章ごとに送れば、こちらが反映している間に次の章を見られます。直すところがない章も送ると「送信済み」になります。</p>
 <div class="bar"><span>変更 {stats["chg"]} 行 / 追加 {stats["ins"]} 行 / 削除 {stats["del"]} 行</span>
 <button id="side" class="on">左右に並べる</button><button id="stack">1 列で重ねる</button>
-<button id="allv" class="on">全文</button><button id="focus">変更箇所だけ</button><button id="reload" title="入力中の印とコメントは残ります">再読み込み</button><span class="sp"></span><span id="warn"></span><span id="sum"></span></div>
+<button id="allv" class="on">全文</button><button id="focus">変更の前後だけ</button><button id="reload" title="入力中の印とコメントは残ります">再読み込み</button><span class="sp"></span><span id="warn"></span><span id="sum"></span></div>
 <div class="tabs" id="tabs"></div>
 <div class="doc">{''.join(rows)}</div>
 <div class="foot">
@@ -302,6 +322,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 <script>
 const TEXTS={json.dumps(texts,ensure_ascii=False)};
 const CHAPTERS={json.dumps(list(dict.fromkeys(chapters)),ensure_ascii=False)};
+const LONG=40; /* これより行の多いページは「変更の前後だけ」で開く */
 const CH_HASH={json.dumps({c:hashlib.sha1(chr(2).join(v).encode()).hexdigest()[:12] for c,v in chsrc.items()},ensure_ascii=False)};
 const DONE={json.dumps([next((c for c in dict.fromkeys(chapters) if norm(c)==norm(d)), d) for d in DONE],ensure_ascii=False)};
 const EDIT={'true' if EDIT else 'false'};if(EDIT)document.body.classList.add('edit');
@@ -317,17 +338,24 @@ function showCh(ch){{if(curCh!==null)chc[curCh]=B('chc').value;curCh=ch;B('chc')
   rows.forEach(r=>{{r.style.display=(r.dataset.ch===ch)?'':'none';}});
   /* 行コメントの欄は行の外にあるので、行と一緒に隠さないと別の章のコメントが残って見える */
   document.querySelectorAll('.cbox').forEach(c=>{{const t=TEXTS[c.dataset.for];c.style.display=(t&&t.ch===ch)?'':'none';}});
-  document.querySelectorAll('.gap').forEach(g=>{{const nx=g.nextElementSibling;g.style.display=(nx&&nx.dataset.ch===ch)?'':'none';}});
+  document.querySelectorAll('.gap').forEach(g=>{{g.style.display=(g.dataset.ch===ch)?'':'none';}});
+  /* 長いページは「変更の前後だけ」で開く。短いページは全文 */
+  setView(rows.filter(r=>r.dataset.ch===ch).length>LONG?'focus':'all');
   document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.ch===ch));
   /* 前の章の回答が残っていると貼り間違えるので、章を移ったら回答欄を空にする */
   B('out').value='';B('msg').textContent='';B('next').hidden=true;refresh();save();window.scrollTo({{top:0}});}}
 (function(){{const tabs=B('tabs');CHAPTERS.forEach(ch=>{{const n=rows.filter(r=>r.dataset.ch===ch&&!r.classList.contains('eq')).length;NCH[ch]=n;if(!n&&ch==='（冒頭）')return;const b=document.createElement('button');b.dataset.ch=ch;b.innerHTML=`${{short(ch)}}<span class="c">${{n}}</span><span class="st" hidden></span>`;b.onclick=()=>showCh(ch);tabs.appendChild(b);}});}})();
 rows.forEach((r,i)=>{{ if(!r.classList.contains('eq')) for(let k=Math.max(0,i-2);k<=Math.min(rows.length-1,i+2);k++) rows[k].classList.add('ctx'); }});
-let prevq=null; rows.forEach(r=>{{ const c=r.classList.contains('eq')&&!r.classList.contains('ctx'); if(c&&!prevq){{ const g=document.createElement('div'); g.className='gap'; g.textContent='…'; r.before(g); }} prevq=c; }});
+/* 変えていない行の続きを 1 つの「… N 行」に畳む。押すとその部分だけ開く */
+let run=null; rows.forEach(r=>{{ const c=r.classList.contains('eq')&&!r.classList.contains('ctx');
+  if(!c){{run=null;return;}}
+  if(!run||run.ch!==r.dataset.ch){{const g=document.createElement('div');g.className='gap';g.dataset.ch=r.dataset.ch;r.before(g);run={{g,rs:[],ch:r.dataset.ch}};
+    const R=run;g.onclick=()=>{{R.rs.forEach(x=>x.classList.add('ctx'));g.remove();}};}}
+  run.rs.push(r);run.g.textContent=`… ${{run.rs.length}} 行（押すと開く）`; }});
 B('side').onclick=()=>{{document.body.classList.remove('stack');B('side').classList.add('on');B('stack').classList.remove('on');}};
 B('stack').onclick=()=>{{document.body.classList.add('stack');B('stack').classList.add('on');B('side').classList.remove('on');}};
-B('allv').onclick=()=>{{document.body.classList.remove('focus');B('allv').classList.add('on');B('focus').classList.remove('on');}};
-B('focus').onclick=()=>{{document.body.classList.add('focus');B('focus').classList.add('on');B('allv').classList.remove('on');}};
+function setView(v){{document.body.classList.toggle('focus',v==='focus');B('focus').classList.toggle('on',v==='focus');B('allv').classList.toggle('on',v!=='focus');}}
+B('allv').onclick=()=>setView('all');B('focus').onclick=()=>setView('focus');
 const state={{}};
 const marked=key=>{{const s=state[key];return !!s&&(s.rev||!!(s.c||'').trim()||s.t!==undefined);}};
 {EDIT_JS if EDIT else ''}

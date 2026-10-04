@@ -385,7 +385,9 @@ function refresh(){{const ns=need();document.querySelectorAll('.tabs button').fo
   const rest=ns.filter(ch=>!FIN.has(status(ch)));B('warn').classList.toggle('ok',!rest.length);
   B('warn').textContent=rest.length?`回答待ちの章 ${{rest.length}} / ${{ns.length}}`:`全 ${{ns.length}} 章の回答がそろいました`;
   /* 回答の要る章が 2 つ以上なら、上にも「まとめてコピー」を出す。細かく分かれたページを 1 回で送れるように */
-  const many=ns.length>=2;B('goAllTop').hidden=!many||!rest.length;B('goAllTop').textContent=`回答をまとめてコピー（${{rest.length}} 章）`;B('goAll').classList.toggle('main',many);}}
+  const many=ns.length>=2;B('goAllTop').hidden=!many;
+  B('goAllTop').textContent=rest.length?`回答をまとめてコピー（${{rest.length}} 章）`:`回答を全部コピーし直す（${{ns.length}} 章）`;
+  B('goAll').textContent=rest.length?'送っていない章をまとめてコピー':'全部の章をコピーし直す';B('goAll').classList.toggle('main',many);}}
 /* 入力はブラウザに保存し、再読み込みや作り直したページでも引き継ぐ。行は data-sid で引き当てる */
 function save(){{try{{const st={{}};rows.forEach(r=>{{const s=state[r.dataset.key];if(s&&(s.rev||(s.c||'').trim()||s.t!==undefined))st[r.dataset.sid]={{rev:!!s.rev,c:s.c||'',t:s.t}};}});
   if(curCh!==null)chc[curCh]=B('chc').value;
@@ -430,7 +432,9 @@ B('go').onclick=()=>{{chc[curCh]=B('chc').value;const lines=block(curCh);sent[cu
   if(nx){{B('next').textContent=`次の章へ: ${{short(nx)}} →`;B('next').onclick=()=>showCh(nx);}}}};
 B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
   /* 開いて見たが印もコメントもない章は「指摘なし」として送る。開いていない章だけを未回答にする */
-  need().filter(ch=>!FIN.has(status(ch))).forEach(ch=>{{const k=status(ch),looked=seen[ch]===hashOf(ch);
+  /* 送っていない章が残っていなければ、全章を送り直す（コピーした回答を貼りそびれても、もう一度出せるように） */
+  const pend=need().filter(ch=>!FIN.has(status(ch)));
+  (pend.length?pend:need()).forEach(ch=>{{const k=status(ch),looked=seen[ch]===hashOf(ch);
     if((k==='todo'||k==='upd')&&!looked){{lines.push(`[章: ${{ch}}]`,k==='todo'?'未回答（この章はまだ開いていない）':'未回答（更新した案をまだ開いていない）','');return;}}
     lines.push(...block(ch),'');sent[ch]={{sig:sig(ch),hash:hashOf(ch)}};}});
   if(!lines.length)lines.push('（回答待ちの章はありません）');emit(lines);refresh();save();B('next').hidden=true;}};

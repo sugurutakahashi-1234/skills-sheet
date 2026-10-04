@@ -41,9 +41,9 @@
 ### 3.1 フリーランス（2021年7月〜現在）
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO（IT コンサルティング / SIer / SES）
-  - CTO / `Cloudflare`・`RAG`・`MCP` / 自社プロダクト開発と FDE としての顧客支援
+  - CTO / `Cloudflare`・`RAG`・`MCP` / AI 業務システム開発と FDE としての顧客支援
 - [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
-  - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 施策
+  - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 改善
 - [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
   - Flutter リードエンジニア / `Flutter`・`Riverpod` / 位置情報 NFT ゲームの 0 → 1 立ち上げ
 - [No.8] SNS アプリ開発（SIer E社）

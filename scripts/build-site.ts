@@ -263,16 +263,14 @@ function renderCareer(sec: Section) {
           throw new Error(`[No.${no}] の案件名が一覧と詳細で違います: "${plainName}" / "${caseNames.get(no)}"`);
         }
         const sub = children.find((t): t is Tokens.List => t.type === "list");
-        // 子行の `役割 / 技術 / 概要` を 3 つに分けて表示する（文章は原文のまま）。役割はピル、技術と概要は薄い色
-        const metaClass = ["r", "t", "s"];
-        const meta = sub
-          ? sub.items
-              .map((i) => (i.tokens[0] as Tokens.Text).text)
-              .join(" / ")
-              .split(" / ")
-              .map((s, i) => `<span class="${metaClass[Math.min(i, 2)]}">${inline(s.trim())}</span>`)
-              .join("")
-          : "";
+        // 子行 `**役割**（技術）: 概要` を 3 つに分けて表示する（文章は原文のまま）。役割はピル、技術と概要は薄い色
+        let meta = "";
+        if (sub) {
+          const line = (sub.items[0].tokens[0] as Tokens.Text).text;
+          const m = line.match(/^\*\*(.+?)\*\*（(.+?)）: (.+)$/);
+          if (!m) throw new Error(`[No.${no}] の一覧行の子行が「**役割**（技術）: 概要」の形ではありません: "${line}"`);
+          meta = [["r", m[1]], ["t", m[2]], ["s", m[3]]].map(([c, v]) => `<span class="${c}">${inline(v)}</span>`).join("");
+        }
         return `<details class="case" id="no-${no}"><summary><span class="row-no">No.${no}</span><span class="row-main"><span class="row-name">${inline(name)}</span><span class="row-meta">${meta}</span></span></summary><div class="case-body">${body}</div></details>`;
       })
       .join("");

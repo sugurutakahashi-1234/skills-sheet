@@ -41,35 +41,35 @@
 ### 3.1 フリーランス（2021年7月〜現在）
 
 - [No.11] [株式会社ZENSHIN](https://www.zenshin-inc.co.jp/) CTO（IT コンサルティング / SIer / SES）
-  - CTO / `Cloudflare`・`RAG`・`MCP` / AI 業務システム開発と FDE としての顧客支援
+  - **CTO**（`Cloudflare`・`RAG`・`MCP`・`FDE`）: AI 業務システム開発と FDE としての顧客支援
 - [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
-  - フロントエンドエンジニア / `React Native (Expo)`・`Next.js` / モバイル・Web 開発と KPI 改善
+  - **フロントエンドエンジニア**（`React Native`・`Next.js`）: モバイル・Web 開発と KPI 改善
 - [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
-  - Flutter リードエンジニア / `Flutter`・`Riverpod` / 位置情報 NFT ゲームの 0 → 1 立ち上げ
+  - **Flutter リードエンジニア**（`Flutter`・`Riverpod`）: 位置情報 NFT ゲームの 0 → 1 立ち上げ
 - [No.8] SNS アプリ開発（SIer E社）
-  - iOS リードエンジニア / `Swift (SwiftUI)` / 音声 SNS の 0 → 1 立ち上げと Swift 6 移行
+  - **iOS リードエンジニア**（`Swift`・`WhisperKit`）: 音声 SNS の 0 → 1 立ち上げと Swift 6 移行
 - [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
-  - iOS リードエンジニア / `Swift (SwiftUI)`・`Amplify` / 0 → 1 立ち上げと iOS 3 名のリード
+  - **iOS リードエンジニア**（`Swift`・`Amplify`）: 0 → 1 立ち上げと iOS 3 名のリード
 - [No.6] ファンクラブアプリ開発（メガベンチャー C社）
-  - iOS エンジニア / `Swift (UIKit)`・`Redux` / スタンプラリー機能・景品交換機能の開発
+  - **iOS エンジニア**（`Swift`・`Redux`）: スタンプラリー機能・景品交換機能の開発
 - [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
-  - iOS エンジニア / `Swift (SwiftUI)`・`VIPER` / 飛行の安定性改善と複数メーカーのドローン対応
+  - **iOS エンジニア**（`Swift`・`VIPER`）: 飛行の安定性改善と複数メーカーのドローン対応
 
 ### 3.2 外資系ITコンサル A社（2017年4月〜2021年6月）
 
 - [No.4] ショッピングアプリ開発
-  - Flutter エンジニア / `Flutter`・`Firebase`・`Google Maps API` / iOS・Android のデモアプリ開発
+  - **Flutter エンジニア**（`Flutter`・`Firebase`）: iOS・Android のデモアプリ開発
 - [No.3] 飲食店管理アプリ開発
-  - iOS リードエンジニア / `Swift (SwiftUI)`・`MVVM` / BtoB 向け MVP 開発
+  - **iOS リードエンジニア**（`Swift`・`MVVM`）: BtoB 向け MVP 開発
 - [No.2] クレジットカードアプリ iOS 開発
-  - iOS エンジニア / `Swift (UIKit)`・`MVVM` / サーバーサイドと兼任での画面実装・レビュー
+  - **iOS エンジニア**（`Swift`・`MVVM`）: サーバーサイドと兼任での画面実装・レビュー
 - [No.1] クレジットカードアプリ API 開発
-  - サーバーサイドエンジニア / `PHP (CodeIgniter)`・`Java` / リニューアルに伴う API・バッチ開発
+  - **サーバーサイドエンジニア**（`PHP`・`Java`）: リニューアルに伴う API・バッチ開発
 
 ## 4. 案件詳細
 
 <details>
-<summary>[No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES） — CTO / Cloudflare・RAG・MCP</summary>
+<summary>[No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES） — CTO（Cloudflare・RAG・MCP・FDE）</summary>
 
 ### [No.11] 株式会社ZENSHIN CTO（IT コンサルティング / SIer / SES）
 
@@ -156,7 +156,7 @@
 </details>
 
 <details>
-<summary>[No.10] ショートドラマアプリ開発（エンタメ企業 G社） — フロントエンドエンジニア / React Native (Expo)・Next.js</summary>
+<summary>[No.10] ショートドラマアプリ開発（エンタメ企業 G社） — フロントエンドエンジニア（React Native・Next.js）</summary>
 
 ### [No.10] ショートドラマアプリ開発（エンタメ企業 G社）
 
@@ -232,7 +232,7 @@
 </details>
 
 <details>
-<summary>[No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社） — Flutter リードエンジニア / Flutter・Riverpod</summary>
+<summary>[No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社） — Flutter リードエンジニア（Flutter・Riverpod）</summary>
 
 ### [No.9] NFT ゲームアプリ開発（Web3 特化 SIer F社）
 
@@ -304,7 +304,7 @@
 </details>
 
 <details>
-<summary>[No.8] SNS アプリ開発（SIer E社） — iOS リードエンジニア / Swift (SwiftUI)</summary>
+<summary>[No.8] SNS アプリ開発（SIer E社） — iOS リードエンジニア（Swift・WhisperKit）</summary>
 
 ### [No.8] SNS アプリ開発（SIer E社）
 
@@ -362,7 +362,7 @@
 </details>
 
 <details>
-<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社） — iOS リードエンジニア / Swift (SwiftUI)・Amplify</summary>
+<summary>[No.7] マーケティングリサーチアプリ開発（スタートアップ D社） — iOS リードエンジニア（Swift・Amplify）</summary>
 
 ### [No.7] マーケティングリサーチアプリ開発（スタートアップ D社）
 
@@ -429,7 +429,7 @@
 </details>
 
 <details>
-<summary>[No.6] ファンクラブアプリ開発（メガベンチャー C社） — iOS エンジニア / Swift (UIKit)・Redux</summary>
+<summary>[No.6] ファンクラブアプリ開発（メガベンチャー C社） — iOS エンジニア（Swift・Redux）</summary>
 
 ### [No.6] ファンクラブアプリ開発（メガベンチャー C社）
 
@@ -476,7 +476,7 @@
 </details>
 
 <details>
-<summary>[No.5] ドローン制御アプリ開発（ドローンベンチャー B社） — iOS エンジニア / Swift (SwiftUI)・VIPER</summary>
+<summary>[No.5] ドローン制御アプリ開発（ドローンベンチャー B社） — iOS エンジニア（Swift・VIPER）</summary>
 
 ### [No.5] ドローン制御アプリ開発（ドローンベンチャー B社）
 
@@ -534,7 +534,7 @@
 </details>
 
 <details>
-<summary>[No.4] ショッピングアプリ開発 — Flutter エンジニア / Flutter・Firebase・Google Maps API</summary>
+<summary>[No.4] ショッピングアプリ開発 — Flutter エンジニア（Flutter・Firebase）</summary>
 
 ### [No.4] ショッピングアプリ開発
 
@@ -588,7 +588,7 @@
 </details>
 
 <details>
-<summary>[No.3] 飲食店管理アプリ開発 — iOS リードエンジニア / Swift (SwiftUI)・MVVM</summary>
+<summary>[No.3] 飲食店管理アプリ開発 — iOS リードエンジニア（Swift・MVVM）</summary>
 
 ### [No.3] 飲食店管理アプリ開発
 
@@ -637,7 +637,7 @@
 </details>
 
 <details>
-<summary>[No.2] クレジットカードアプリ iOS 開発 — iOS エンジニア / Swift (UIKit)・MVVM</summary>
+<summary>[No.2] クレジットカードアプリ iOS 開発 — iOS エンジニア（Swift・MVVM）</summary>
 
 ### [No.2] クレジットカードアプリ iOS 開発
 
@@ -685,7 +685,7 @@
 </details>
 
 <details>
-<summary>[No.1] クレジットカードアプリ API 開発 — サーバーサイドエンジニア / PHP (CodeIgniter)・Java</summary>
+<summary>[No.1] クレジットカードアプリ API 開発 — サーバーサイドエンジニア（PHP・Java）</summary>
 
 ### [No.1] クレジットカードアプリ API 開発
 

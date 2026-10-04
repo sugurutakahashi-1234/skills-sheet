@@ -96,12 +96,13 @@ def add(kind, cls, left, right, n, plain, raw=None):
     act=('<button data-act="rev">戻す</button>' if kind!='eq' else '')+'<button data-act="cmt">コメント</button>'
     why=f'<span class="why">{html.escape(NOTES[plain])}</span>' if kind!='eq' and plain in NOTES else ''
     if EDIT and raw and cls not in ('h1','h2') and not (kind=='eq' and not plain):
-        # 右は書き換えられる欄。下に同じ文字を色付きで描く層（mir）を敷き、透明な textarea を重ねてカーソルだけ見せる
+        # 右は書き換えられる欄（contenteditable）。太字・リンク・コードを描いたまま直せ、送るときに Markdown へ戻す
         act='<button data-act="orig" title="元の文にする">元の文</button><button data-act="prop" title="案に戻す">案</button><button data-act="cmt">コメント</button>'
-        alts=''.join(f'<button class="alt" data-alt="{html.escape(a)}">{html.escape(a)}</button>' for a in ALTS.get(plain,[]))
-        alts=f'<span class="alts"><span class="altl">候補（押すと右の欄に入る）</span>{alts}</span>' if alts else ''
+        # 候補: ⠿ をドラッグすると候補をまるごと、文字を選んでドラッグすると一部だけを右の欄に入れられる。「使う」で置き換え
+        alts=''.join(f'<span class="alt" data-alt="{html.escape(a)}"><span class="grip" draggable="true" title="ドラッグして右の欄に入れる">⠿</span><span class="altx"></span><button class="use">使う</button></span>' for a in ALTS.get(plain,[]))
+        alts=f'<span class="alts"><span class="altl">候補（「使う」で置き換え。⠿ や選んだ文字をドラッグすると右の欄に入る）</span>{alts}</span>' if alts else ''
         # コメント欄は行の下に横いっぱいで開く（右の狭い列だと、書くほど文字が見えなくなる）
-        rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span><span class="r"><span class="edw"><span class="mir"></span><textarea class="ta" rows="1" spellcheck="false" placeholder="（削除）"></textarea></span></span><span class="act">{act}</span>{why}{alts}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（直した理由、迷っている点、など）"></textarea></div>')
+        rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span><span class="r"><span class="ce" contenteditable="true" spellcheck="false"></span></span><span class="act">{act}</span>{why}{alts}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（直した理由、迷っている点、など）"></textarea></div>')
         return
     rows.append(f'<div class="row {kind} {cls}" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l">{left}</span><span class="r">{right}</span><span class="act">{act}</span>{why}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（戻す理由、別の言い方、など）"></textarea></div>')
 sm = difflib.SequenceMatcher(None, old, new, autojunk=False)
@@ -161,20 +162,89 @@ EDIT_CSS = '''
 body.edit .row{grid-template-columns:34px 1fr 1fr 150px}
 body.edit .bar #side,body.edit .bar #stack{display:none}
 .er .l,.er .r{display:flex;gap:6px}.er.li .l::before,.er.li .r::before{flex:none}
-.lt,.mir,.ta{font:inherit;line-height:1.7;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;box-sizing:border-box;margin:0;padding:2px 6px;border:1px solid transparent;border-radius:4px}
-.lt{display:block;flex:1;min-width:0}.edw{position:relative;display:block;flex:1;min-width:0}
-.mir{display:block;min-height:1.7em;color:#1f2328}
-.ta{position:absolute;inset:0;width:100%;height:100%;resize:none;overflow:hidden;background:transparent;color:transparent;caret-color:#1f2328;border-color:#d1d9e0}
-.ta:focus{outline:2px solid #54aeff;outline-offset:-1px}.ta::placeholder{color:#a40e26}
-.er.eq .lt,.er.eq .mir{color:#57606a}.er.diff .lt{background:#fff5f5}.er.diff .mir{background:#f0fff4}
-.er.edited .ta{border-color:#d4a72c;background:transparent}.er.edited .n{color:#9a6700;font-weight:700}
-.mir ins{text-decoration:none;background:#acf2bd;color:#0f5323}.lt del{background:#ffcecb}
+.lt,.ce{display:block;flex:1;min-width:0;font:inherit;line-height:1.7;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;box-sizing:border-box;margin:0;padding:2px 6px;border:1px solid transparent;border-radius:4px}
+.ce{border-color:#d1d9e0;min-height:1.7em;outline:none;color:#1f2328}.ce:focus{outline:2px solid #54aeff;outline-offset:-1px}
+.ce:empty::before{content:'（削除）';color:#a40e26}
+.ce b,.lt b,.altx b{font-weight:700}.ce .lnk,.lt .lnk,.altx .lnk{color:#0969da;text-decoration:underline}
+.er.eq .lt,.er.eq .ce{color:#57606a}.er.diff .lt{background:#fff5f5}.er.diff .ce{background:#f0fff4}
+.er.edited .ce{border-color:#d4a72c}.er.edited .n{color:#9a6700;font-weight:700}
+.ce ins,.altx ins{text-decoration:none;background:#acf2bd;color:#0f5323}.lt del{background:#ffcecb}
 body.edit .act{flex-wrap:nowrap;justify-content:flex-end;gap:3px;opacity:.35}body.edit .act button{flex:0 0 auto;padding:2px 6px;font-size:11px}
 body.edit .row:hover .act,body.edit .row.edited .act,body.edit .row.has-c .act{opacity:1}
 body.edit .cbox textarea{min-height:64px}
 .alts{grid-column:3/5;display:flex;flex-direction:column;gap:4px;margin:2px 0 8px}.altl{font-size:12px;font-weight:600;color:#59636e}
-.alt{text-align:left;font:inherit;line-height:1.6;padding:4px 10px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa;cursor:pointer;color:#1f2328}
-.alt:hover{border-color:#54aeff;background:#ddf4ff}.alt.on{border-color:#1f883d;background:#dafbe1;font-weight:600}
+.alt{display:flex;align-items:center;gap:8px;line-height:1.6;padding:4px 8px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa}
+.alt.on{border-color:#1f883d;background:#dafbe1}.altx{flex:1;min-width:0}
+.grip{cursor:grab;color:#8c959f;user-select:none;font-size:14px}.grip:active{cursor:grabbing}
+.alt .use{flex:none;font-size:11px;padding:2px 8px;border:1px solid #d1d9e0;border-radius:6px;background:#fff;cursor:pointer}
+.alt .use:hover{border-color:#54aeff;background:#ddf4ff}
+'''
+EDIT_JS = r'''
+/* ---- 編集ビュー: 太字・リンク・コードを描いたまま、その場で書き換える（contenteditable） ---- */
+const escH=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+/* Markdown の 1 行を、文字ごとの見た目（b: 太字 / c: コード / h: リンク先）に分ける */
+function parseMd(s,st={}){const out=[],re=/\*\*(.+?)\*\*|`([^`]+)`|\[([^\]]+)\]\(([^)]*)\)/g;let i=0,m;
+  while((m=re.exec(s))){for(const ch of s.slice(i,m.index))out.push({ch,...st});
+    if(m[1]!==undefined)out.push(...parseMd(m[1],{...st,b:true}));
+    else if(m[2]!==undefined)for(const ch of m[2])out.push({ch,...st,c:true});
+    else out.push(...parseMd(m[3],{...st,h:m[4]}));
+    i=re.lastIndex;}
+  for(const ch of s.slice(i))out.push({ch,...st});return out;}
+/* 文字ごとの見た目から Markdown に戻す。太字は続く範囲を 1 組の ** でくくる */
+function toMd(cs){let o='',b=false,i=0;
+  while(i<cs.length){const c=cs[i];if(!!c.b!==b){o+='**';b=!!c.b;}
+    if(c.h!==undefined){let t='';const h=c.h;while(i<cs.length&&cs[i].h===h&&!!cs[i].b===b){t+=cs[i].ch;i++;}o+='['+t+']('+h+')';continue;}
+    if(c.c){let t='';while(i<cs.length&&cs[i].c&&!!cs[i].b===b&&cs[i].h===undefined){t+=cs[i].ch;i++;}o+='`'+t+'`';continue;}
+    o+=c.ch;i++;}
+  if(b)o+='**';return o;}
+const normMd=s=>toMd(parseMd(s));
+/* 見た目つきの文字を HTML にする。marks は文字ごとの ins / del */
+function renderCs(cs,marks){let o='',i=0;const key=k=>{const c=cs[k];return [c.b?1:0,c.c?1:0,c.h===undefined?'\u0000':c.h,marks?marks[k]:''].join('\u0001');};
+  while(i<cs.length){const k0=key(i),c=cs[i],mk=marks?marks[i]:'';let t='';while(i<cs.length&&key(i)===k0){t+=cs[i].ch;i++;}
+    let h=escH(t);if(c.c)h='<code>'+h+'</code>';if(c.h!==undefined)h='<span class="lnk" data-href="'+escH(c.h)+'">'+h+'</span>';if(c.b)h='<b>'+h+'</b>';if(mk)h='<'+mk+'>'+h+'</'+mk+'>';o+=h;}
+  return o;}
+/* 見えている文字どうしを比べ、左に消える文字（del）・右に足した文字（ins）の印を付ける */
+function diffCs(A,B){const n=A.length,m=B.length,dp=Array.from({length:n+1},()=>new Uint16Array(m+1));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=A[i].ch===B[j].ch?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const ma=new Array(n).fill(''),mb=new Array(m).fill('');let i=0,j=0;
+  while(i<n&&j<m){if(A[i].ch===B[j].ch){i++;j++;}else if(dp[i+1][j]>=dp[i][j+1])ma[i++]='del';else mb[j++]='ins';}
+  while(i<n)ma[i++]='del';while(j<m)mb[j++]='ins';return [ma,mb];}
+/* 欄の中身（HTML）を Markdown に戻す。ins / del や貼り付けで入った要素は中身だけ使う */
+function domMd(node){let o='';node.childNodes.forEach(n=>{if(n.nodeType===3){o+=n.nodeValue;return;}if(n.nodeType!==1)return;const t=n.tagName,inner=domMd(n);
+  if(t==='B'||t==='STRONG')o+='**'+inner+'**';else if(t==='CODE')o+='`'+inner+'`';
+  else if(n.classList.contains('lnk'))o+='['+inner+']('+(n.dataset.href||'')+')';else if(t==='A')o+='['+inner+']('+(n.getAttribute('href')||'')+')';
+  else if(t!=='BR')o+=inner;});
+  return o.replace(/ /g,' ').replace(/\n/g,' ');}
+/* 描き直してもカーソルが動かないよう、見えている文字の何文字目かで覚えて戻す */
+function caretOf(el){const s=getSelection();if(!s.rangeCount||!el.contains(s.anchorNode))return null;const pre=document.createRange();pre.selectNodeContents(el);const r=s.getRangeAt(0);pre.setEnd(r.endContainer,r.endOffset);return pre.toString().length;}
+function setCaret(el,off){if(off===null)return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n,acc=0;const put=(node,o)=>{const r=document.createRange();if(node)r.setStart(node,o);else{r.selectNodeContents(el);r.collapse(false);}r.collapse(true);const s=getSelection();s.removeAllRanges();s.addRange(r);};
+  while((n=w.nextNode())){if(acc+n.length>=off){put(n,off-acc);return;}acc+=n.length;}put(null,0);}
+const curOf=key=>{const s=state[key];return s&&s.t!==undefined?s.t:TEXTS[key].rtn;};
+function paint(r,keep){const key=r.dataset.key,t=TEXTS[key],v=curOf(key),A=parseMd(t.ltn),Bc=parseMd(v),d=diffCs(A,Bc),ce=r.querySelector('.ce');
+  r.querySelector('.lt').innerHTML=renderCs(A,d[0]);const off=keep?caretOf(ce):null;ce.innerHTML=renderCs(Bc,d[1]);if(keep)setCaret(ce,off);
+  r.classList.toggle('edited',v!==t.rtn);r.classList.toggle('diff',v!==t.ltn);
+  r.querySelectorAll('.alt').forEach(a=>a.classList.toggle('on',normMd(a.dataset.alt)===v));}
+function setText(r,md){const key=r.dataset.key;state[key]=state[key]||{};const v=normMd(md);if(v===TEXTS[key].rtn)delete state[key].t;else state[key].t=v;paint(r,false);}
+function initEdit(){rows.forEach(r=>{const ce=r.querySelector('.ce');if(!ce)return;const key=r.dataset.key,t=TEXTS[key];t.rtn=normMd(t.rt);t.ltn=normMd(t.lt);
+  let composing=false;
+  const commit=()=>{const v=normMd(domMd(ce));state[key]=state[key]||{};if(v===t.rtn)delete state[key].t;else state[key].t=v;paint(r,true);sum();};
+  /* 日本語の変換中に描き直すと変換が壊れるので、確定してから差分を描く */
+  ce.addEventListener('compositionstart',()=>{composing=true;});
+  ce.addEventListener('compositionend',()=>{composing=false;commit();});
+  ce.addEventListener('input',e=>{if(composing||e.isComposing)return;commit();});
+  ce.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.isComposing)e.preventDefault();});
+  ce.addEventListener('paste',e=>{e.preventDefault();document.execCommand('insertText',false,(e.clipboardData.getData('text/plain')||'').replace(/\s*\n\s*/g,' '));});
+  /* 候補（⠿ か選んだ文字）を落とした位置に、文字だけを入れる。欄の中で文字を動かすときはブラウザに任せる */
+  let inner=false;ce.addEventListener('dragstart',()=>{inner=true;});ce.addEventListener('dragend',()=>{inner=false;});
+  ce.addEventListener('dragover',e=>{if(inner)return;e.preventDefault();e.dataTransfer.dropEffect='copy';});
+  ce.addEventListener('drop',e=>{if(inner)return;const txt=(e.dataTransfer.getData('text/plain')||'').replace(/\s*\n\s*/g,' ');if(!txt)return;e.preventDefault();
+    const rg=document.caretRangeFromPoint?document.caretRangeFromPoint(e.clientX,e.clientY):null;ce.focus();
+    const sel=getSelection();if(rg&&ce.contains(rg.startContainer)){sel.removeAllRanges();sel.addRange(rg);}else{const r=document.createRange();r.selectNodeContents(ce);r.collapse(false);sel.removeAllRanges();sel.addRange(r);}
+    document.execCommand('insertText',false,txt);});
+  r.querySelectorAll('.alt').forEach(a=>{a.querySelector('.altx').innerHTML=renderCs(parseMd(a.dataset.alt));
+    a.querySelector('.use').onclick=()=>{setText(r,a.dataset.alt);sum();ce.focus();};
+    a.querySelector('.grip').addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',a.dataset.alt);e.dataTransfer.effectAllowed='copy';});});
+  paint(r,false);});}
 '''
 page=f'''<!doctype html><html lang="ja"><meta charset="utf-8"><title>{html.escape(path)} の変更履歴ビュー</title>
 <style>
@@ -257,23 +327,10 @@ B('allv').onclick=()=>{{document.body.classList.remove('focus');B('allv').classL
 B('focus').onclick=()=>{{document.body.classList.add('focus');B('focus').classList.add('on');B('allv').classList.remove('on');}};
 const state={{}};
 const marked=key=>{{const s=state[key];return !!s&&(s.rev||!!(s.c||'').trim()||s.t!==undefined);}};
-/* 編集モード: 元の文（lt）と欄の文字を、`名前` とリンクをひとかたまりにした単位で比べ、左に消える部分・右に足した部分を出す */
-const tok=s=>s.match(/`[^`]+`|\\[[^\\]]+\\]\\([^)]*\\)|[\\s\\S]/g)||[];
-const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-function diffHtml(a,b){{const A=tok(a),Bt=tok(b),n=A.length,m=Bt.length,dp=Array.from({{length:n+1}},()=>new Uint16Array(m+1));
-  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=A[i]===Bt[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
-  let i=0,j=0,L='',R='',dl='',ir='';const fl=()=>{{if(dl){{L+=`<del>${{esc(dl)}}</del>`;dl='';}}if(ir){{R+=`<ins>${{esc(ir)}}</ins>`;ir='';}}}};
-  while(i<n&&j<m){{if(A[i]===Bt[j]){{fl();L+=esc(A[i]);R+=esc(Bt[j]);i++;j++;}}else if(dp[i+1][j]>=dp[i][j+1])dl+=A[i++];else ir+=Bt[j++];}}
-  while(i<n)dl+=A[i++];while(j<m)ir+=Bt[j++];fl();return [L,R];}}
-const curOf=key=>{{const s=state[key];return s&&s.t!==undefined?s.t:TEXTS[key].rt;}};
-function upd(r){{const key=r.dataset.key,t=TEXTS[key],v=curOf(key),[L,R]=diffHtml(t.lt,v);
-  r.querySelector('.lt').innerHTML=L;r.querySelector('.mir').innerHTML=R+(v.endsWith('\\n')||!v?'\\u200b':'');
-  r.classList.toggle('edited',v!==t.rt);r.classList.toggle('diff',v!==t.lt);markAlt(r);}}
-function setText(r,v){{const key=r.dataset.key;state[key]=state[key]||{{}};if(v===TEXTS[key].rt)delete state[key].t;else state[key].t=v;r.querySelector('.ta').value=v;upd(r);}}
-const markAlt=r=>r.querySelectorAll('.alt').forEach(b=>b.classList.toggle('on',b.dataset.alt===curOf(r.dataset.key)));
+{EDIT_JS if EDIT else ''}
 function per(ch){{const ls=[];rows.forEach(r=>{{if(r.dataset.ch!==ch||!marked(r.dataset.key))return;const s=state[r.dataset.key],t=TEXTS[r.dataset.key];
     /* 編集モード: 案から直した行は「案 → 直した文」を行頭ごと出す。受け手はこの 1 行で置き換えればよい */
-    if(EDIT&&s.t!==undefined){{const lab=s.t===t.lt?'[元の文に戻す]':s.t===''?'[削除]':'[直した]';
+    if(EDIT&&s.t!==undefined){{const lab=s.t===t.ltn?'[元の文に戻す]':s.t===''?'[削除]':'[直した]';
       ls.push(`#${{t.n||'(削除行)'}} ${{lab}} ${{t.rp||t.lp||''}}${{s.t.replace(/\\n/g,' ⏎ ')}}`+(t.rt?`\\n    （案: ${{t.rt}}）`:'')+((s.c||'').trim()?`\\n    → ${{s.c.trim().replace(/\\n/g,' / ')}}`:''));return;}}
     ls.push(`#${{t.n||'(削除行)'}} ${{s.rev?'[戻す] ':''}}${{t.text}}`+((s.c||'').trim()?`\\n    → ${{s.c.trim().replace(/\\n/g,' / ')}}`:''));}});return ls;}}
 const cmt=ch=>((ch===curCh?B('chc').value:chc[ch])||'').trim();
@@ -313,8 +370,6 @@ document.querySelectorAll('.act button').forEach(b=>b.onclick=e=>{{
   sum();}});
 document.querySelectorAll('.cbox textarea').forEach(t=>t.oninput=()=>{{const key=t.closest('.cbox').dataset.for;state[key]=state[key]||{{}};state[key].c=t.value;(t.closest('.row')||t.closest('.cbox').previousElementSibling).classList.toggle('has-c',!!t.value.trim());sum();}});
 /* 編集モード: 欄に案（または保存してあった直し）を入れ、書き換えるたびに差分を描き直す */
-if(EDIT)rows.forEach(r=>{{const ta=r.querySelector('.ta');if(!ta)return;ta.oninput=()=>{{setText(r,ta.value);sum();}};
-  r.querySelectorAll('.alt').forEach(b=>b.onclick=()=>{{setText(r,b.dataset.alt);sum();ta.focus();}});}});
 B('chc').oninput=()=>{{chc[curCh]=B('chc').value;refresh();save();}};
 B('all').oninput=()=>save();
 /* 1 章分の回答。前に送った章をもう一度送るときは「置き換え」と書き、受け手が前の回答を捨てられるようにする */
@@ -339,7 +394,7 @@ B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
 /* 作り直したページを読み込む。入力は保存してあるので消えない。自動では読み込み直さない */
 B('reload').onclick=()=>{{save();location.reload();}};
 B('sel').onclick=()=>{{const t=B('out');t.select();t.setSelectionRange(0,t.value.length);}};
-const RESUME=restore();if(EDIT)rows.forEach(r=>{{if(r.querySelector('.ta')){{r.querySelector('.ta').value=curOf(r.dataset.key);upd(r);}}}});sum();
+const RESUME=restore();if(EDIT)initEdit();sum();
 const START={json.dumps(next((c for c in dict.fromkeys(chapters) if norm(c)==norm(start)), start) if start else '',ensure_ascii=False)};showCh(RESUME&&CHAPTERS.includes(RESUME)?RESUME:CHAPTERS.includes(START)?START:CHAPTERS.find(c=>c!=='（冒頭）')||CHAPTERS[0]);
 </script></html>'''
 io.open(out,'w',encoding='utf-8').write(page); print(f'変更 {stats["chg"]} / 追加 {stats["ins"]} / 削除 {stats["del"]} 行 → {out}')

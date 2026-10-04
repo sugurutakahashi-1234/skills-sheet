@@ -23,7 +23,7 @@
 
   before_ref は git のリビジョン。章は `## ` 見出しごと。第 6 引数に H2 名を渡すと、その H2 の配下だけ `### ` でさらに割る。
 """
-import sys, io, re, html, difflib, subprocess, json, os, hashlib
+import sys, io, re, html, difflib, subprocess, json, os, hashlib, time
 argv = sys.argv[1:]; NOTES = {}; DONE = []
 EDIT = '--edit' in argv
 if EDIT: argv.remove('--edit')
@@ -293,7 +293,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 <div class="foot">
 <label class="lbl" for="chc">この章へのコメント<span class="hint" id="chHint"></span></label>
 <textarea id="chc" placeholder="この章全体への話（項目の並び、足したい行、など）"></textarea>
-<label class="lbl" for="all">全体へのコメント<span class="hint">章によらない話。次に送る回答に 1 回だけ付きます</span></label>
+<label class="lbl" for="all">全体へのコメント<span class="hint">章によらない話。次に送る回答に 1 回だけ付き、送った後でページを作り直すと消えます</span><span class="hint" id="allst"></span></label>
 <textarea id="all" placeholder="章によらない話があればここに"></textarea>
 <div class="btns"><button class="main" id="go">この章の回答をコピー</button><button id="next" hidden></button><span id="msg"></span><span class="sp"></span><button id="goAll">送っていない章をまとめてコピー</button><button id="sel">全選択</button></div>
 <p class="flow">章ごとに送ると、こちらが反映している間に次の章を見られます。送った後に印やコメントを変えた章はタブが「追加あり」になり、もう一度送ると前の回答を置き換えます。</p>
@@ -305,6 +305,8 @@ const CH_HASH={json.dumps({c:hashlib.sha1(chr(2).join(v).encode()).hexdigest()[:
 const DONE={json.dumps([next((c for c in dict.fromkeys(chapters) if norm(c)==norm(d)), d) for d in DONE],ensure_ascii=False)};
 const EDIT={'true' if EDIT else 'false'};if(EDIT)document.body.classList.add('edit');
 const KEY='redline:'+{json.dumps(os.path.abspath(out),ensure_ascii=False)};
+/* ページを作った時刻。送った全体へのコメントは、ページが作り直されたら反映済みとみなして消す */
+const BUILD={json.dumps(str(time.time_ns()))};let allBuild='';
 const rows=[...document.querySelectorAll('.row')];
 const B=id=>document.getElementById(id);
 let curCh=null;
@@ -353,14 +355,17 @@ function refresh(){{const ns=need();document.querySelectorAll('.tabs button').fo
 /* 入力はブラウザに保存し、再読み込みや作り直したページでも引き継ぐ。行は data-sid で引き当てる */
 function save(){{try{{const st={{}};rows.forEach(r=>{{const s=state[r.dataset.key];if(s&&(s.rev||(s.c||'').trim()||s.t!==undefined))st[r.dataset.sid]={{rev:!!s.rev,c:s.c||'',t:s.t}};}});
   if(curCh!==null)chc[curCh]=B('chc').value;
-  localStorage.setItem(KEY,JSON.stringify({{st,chc,all:B('all').value,allSent,sent,cur:curCh}}));}}catch(e){{}}}}
+  localStorage.setItem(KEY,JSON.stringify({{st,chc,all:B('all').value,allSent,allBuild,sent,cur:curCh}}));}}catch(e){{}}}}
 function restore(){{let d=null;try{{d=JSON.parse(localStorage.getItem(KEY)||'null');}}catch(e){{}}if(!d)return null;
   /* 送った後に内容が変わった章（更新あり）と反映済みの章は、前の印とコメントを読み込まない。反映済みの意見が残ると、新しい案と混ざって読みにくい */
   const stale=ch=>DONE.includes(ch)||!!(d.sent&&d.sent[ch]&&d.sent[ch].hash!==hashOf(ch));
   rows.forEach(r=>{{if(stale(r.dataset.ch))return;const v=d.st&&d.st[r.dataset.sid];if(!v)return;const key=r.dataset.key;state[key]={{rev:!!v.rev,c:v.c||''}};if(v.t!==undefined&&v.t!==null)state[key].t=v.t;
     if(v.rev){{r.classList.add('marked');const b=r.querySelector('[data-act="rev"]');if(b)b.classList.add('on');}}
     if((v.c||'').trim()){{const box=document.querySelector(`.cbox[data-for="${{key}}"]`);box.hidden=false;box.querySelector('textarea').value=v.c;r.classList.add('has-c');r.querySelector('[data-act="cmt"]').classList.add('on2');}}}});
-  chc=Object.fromEntries(Object.entries(d.chc||{{}}).filter(([ch])=>!stale(ch)));sent=d.sent||{{}};allSent=d.allSent||'';B('all').value=d.all||'';return d.cur||null;}}
+  chc=Object.fromEntries(Object.entries(d.chc||{{}}).filter(([ch])=>!stale(ch)));sent=d.sent||{{}};allSent=d.allSent||'';allBuild=d.allBuild||'';B('all').value=d.all||'';
+  /* 送ったままの全体へのコメントは、作り直したページでは読み込まない（反映済みの意見が残ると、次の回答に混ざって紛らわしい） */
+  if(allSent&&B('all').value.trim()===allSent&&allBuild&&allBuild!==BUILD){{B('all').value='';allSent='';allBuild='';}}
+  return d.cur||null;}}
 function sum(){{const rv=Object.values(state).filter(s=>s.rev).length,ed=Object.values(state).filter(s=>s.t!==undefined).length,cm=Object.values(state).filter(s=>(s.c||'').trim()).length;B('sum').textContent=EDIT?`直した ${{ed}} 行 / コメント ${{cm}} 件`:`戻す ${{rv}} 件 / コメント ${{cm}} 件`;refresh();save();}}
 document.querySelectorAll('.act button').forEach(b=>b.onclick=e=>{{
   const row=e.target.closest('.row'),key=row.dataset.key;state[key]=state[key]||{{}};
@@ -371,7 +376,8 @@ document.querySelectorAll('.act button').forEach(b=>b.onclick=e=>{{
 document.querySelectorAll('.cbox textarea').forEach(t=>t.oninput=()=>{{const key=t.closest('.cbox').dataset.for;state[key]=state[key]||{{}};state[key].c=t.value;(t.closest('.row')||t.closest('.cbox').previousElementSibling).classList.toggle('has-c',!!t.value.trim());sum();}});
 /* 編集モード: 欄に案（または保存してあった直し）を入れ、書き換えるたびに差分を描き直す */
 B('chc').oninput=()=>{{chc[curCh]=B('chc').value;refresh();save();}};
-B('all').oninput=()=>save();
+const allMark=()=>{{const v=B('all').value.trim();B('allst').textContent=v&&v===allSent?'（送信済み）':'';}};
+B('all').oninput=()=>{{allMark();save();}};
 /* 1 章分の回答。前に送った章をもう一度送るときは「置き換え」と書き、受け手が前の回答を捨てられるようにする */
 function block(ch){{const ls=per(ch),c=cmt(ch);const tag=!sent[ch]?'':sentNow(ch)?'（再送。前に送ったこの章の回答と置き換え）':'（更新した案への回答。前に送ったこの章の回答と置き換え）';
   return [`[章: ${{ch}}]`+tag,...(ls.length?ls:['指摘なし']),...(c?[`[この章へのコメント] ${{c.replace(/\\n/g,' / ')}}`]:[])];}}
@@ -382,7 +388,7 @@ function progressLine(){{const ns=need(),rest=ns.filter(ch=>!FIN.has(status(ch))
 function copy(v){{const fb=()=>{{const t=B('out');t.focus();t.select();let ok=false;try{{ok=document.execCommand('copy');}}catch(_){{}}B('msg').textContent=ok?'コピーしました。チャットに貼ってください':'下の欄を全選択してコピーしてください';}};
   B('msg').textContent='コピーしています…';if(!navigator.clipboard){{fb();return;}}
   Promise.race([navigator.clipboard.writeText(v),new Promise((_,rej)=>setTimeout(()=>rej(0),800))]).then(()=>{{B('msg').textContent='コピーしました。チャットに貼ってください';}}).catch(fb);}}
-function emit(lines){{const a=B('all').value.trim();if(a&&a!==allSent){{lines.push('','[全体へのコメント]',a);allSent=a;}}
+function emit(lines){{const a=B('all').value.trim();if(a&&a!==allSent){{lines.push('','[全体へのコメント]',a);allSent=a;allBuild=BUILD;}}allMark();
   while(lines.length&&lines[lines.length-1]==='')lines.pop();
   lines.push('',progressLine());const v=lines.join('\\n').trim();B('out').value=v;copy(v);save();}}
 B('go').onclick=()=>{{chc[curCh]=B('chc').value;const lines=block(curCh);sent[curCh]={{sig:sig(curCh),hash:hashOf(curCh)}};emit(lines);refresh();save();
@@ -394,7 +400,7 @@ B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
 /* 作り直したページを読み込む。入力は保存してあるので消えない。自動では読み込み直さない */
 B('reload').onclick=()=>{{save();location.reload();}};
 B('sel').onclick=()=>{{const t=B('out');t.select();t.setSelectionRange(0,t.value.length);}};
-const RESUME=restore();if(EDIT)initEdit();sum();
+const RESUME=restore();allMark();if(EDIT)initEdit();sum();
 const START={json.dumps(next((c for c in dict.fromkeys(chapters) if norm(c)==norm(start)), start) if start else '',ensure_ascii=False)};showCh(RESUME&&CHAPTERS.includes(RESUME)?RESUME:CHAPTERS.includes(START)?START:CHAPTERS.find(c=>c!=='（冒頭）')||CHAPTERS[0]);
 </script></html>'''
 io.open(out,'w',encoding='utf-8').write(page); print(f'変更 {stats["chg"]} / 追加 {stats["ins"]} / 削除 {stats["del"]} 行 → {out}')

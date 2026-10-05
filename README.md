@@ -106,6 +106,7 @@
 - **Cloudflare フルスタック（業務1・3・4・5）**
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
   - Hono + oRPC + React 19 / TanStack Start によるマッチング 2 サイトと社内 Web アプリ
+  - dependency-cruiser で層の依存方向を強制する、Bun workspaces のモノレポ構成を採用
 - **マルチクラウド IaC（業務6）**
   - Google Cloud / Cloudflare / AWS / Google Workspace を Terraform で一元管理
   - Workload Identity Federation（OIDC）による鍵レス認証

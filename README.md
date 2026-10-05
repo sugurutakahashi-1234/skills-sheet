@@ -27,7 +27,7 @@
 - **フルスタックの実装力**
   - フロントエンド / モバイル: Swift・React Native・Flutter・Next.js・Astro での実装経験
   - サーバーサイド: Bun・Hono・oRPC・Drizzle・TanStack Start で構築し、本番で運用
-  - インフラ: GCP / Cloudflare / AWS のマルチクラウドを Terraform で IaC 化し、運用まで担当
+  - インフラ: Google Cloud / Cloudflare / AWS を Terraform で IaC 化し、運用まで担当
 - **ビジネス観点での事業成長の支援**
   - CTO として、提供サービスの企画からマッチングサイトの事業立ち上げまで担当
   - CAC と LTV から、課金層と無課金層それぞれの収益施策を逆算し、企画から実装まで担当
@@ -96,6 +96,7 @@
 - **FDE としての AI 活用支援（業務2）**
   - Claude Design や v0 による商談前の高速プロトタイピング
   - LLM ツールの使い分けの提案、プロンプト改善、MCP 化・Skills 設計の方針策定
+  - 図面（DWG / DXF）・PDF・Excel を AI が読める形に変換し、Word / PDF で出力（Python）
 - **RAG / ベクトル検索マッチング（業務3）**
   - ベクトル検索（Workers AI + Vectorize）で絞り込み、AI エージェントが精査する 2 段構成
   - 自作の評価スクリプトで 15 種を比べ、抽出のモデルを Kimi K2.6 から GLM 5.3 Flash に変更
@@ -106,7 +107,7 @@
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
   - Hono + oRPC + React 19 / TanStack Start によるマッチング 2 サイトと社内 Web アプリ
 - **マルチクラウド IaC（業務6）**
-  - GCP / Cloudflare / AWS / Google Workspace を Terraform で一元管理
+  - Google Cloud / Cloudflare / AWS / Google Workspace を Terraform で一元管理
   - Workload Identity Federation（OIDC）による鍵レス認証
 
 #### 取り組み・貢献
@@ -139,18 +140,22 @@
 - **フロントエンド**
   - `Astro`, `React 19`, `TanStack Start / Router / Query`, `shadcn/ui`, `Tailwind CSS v4`
 - **バックエンド / AI システム**
-  - フレームワーク: `Hono`, `oRPC`, `Drizzle ORM`, `Zod`, `Better Auth`
+  - フレームワーク: `Hono`, `oRPC`, `Drizzle ORM`, `Zod`
+  - 認証: `Better Auth`, `LINE Login`
+  - AI 基盤: `Workers AI`, `AI Gateway`, `Vectorize`
+  - モデル: `GLM`, `Kimi`, `gpt-oss`, `DeepSeek`, `bge-m3`, `TypeSafe Jev`
   - MCP: `@modelcontextprotocol/sdk v2`, `WebMCP`
   - 外部 API 連携: `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
+  - 文書・図面の処理: `pandoc`, `python-docx`, `ezdxf`
 - **クラウド / インフラ**
-  - Cloudflare: `Workers AI`, `AI Gateway`, `Vectorize`, `Workflows`, `Queues`, `Browser Rendering`, `Email Sending`
-  - マルチクラウド / IaC: `GCP`, `AWS`, `Terraform`, `tflint`, `dotenvx`, `mise`
+  - Cloudflare: `Workers`, `Pages`, `D1`, `R2`, `KV`, `Workflows`, `Queues`, `Cron Triggers`, `Browser Rendering`, `Access`, `Turnstile`, `Email Routing`, `Email Sending`
+  - マルチクラウド / IaC: `Google Cloud`, `AWS`, `Terraform`, `tflint`, `dotenvx`, `mise`
 - **CI/CD**
   - `GitHub Actions`, `release-please`, `Wrangler`, `Renovate`
 - **テスト / 品質**
-  - `Vitest`, `Playwright`, `Storybook`, `MSW`, `@axe-core/playwright`, `oxlint`, `oxfmt`, `knip`, `lefthook`
+  - `Vitest`, `Playwright`, `Storybook`, `MSW`, `@axe-core/playwright`, `oxlint`, `oxfmt`, `knip`, `dependency-cruiser`, `lefthook`, `commitlint`, `gitleaks`
 - **AI ツール（提案活動・開発）**
-  - `Claude Code`, `Codex`, `v0`, `Chrome DevTools MCP`
+  - `Claude Code`, `Codex`, `Claude Design`, `v0`, `Chrome DevTools MCP`, `rulesync`
 - **分析**
   - `Google Search Console`, `PageSpeed Insights`, `PostHog`, `Cloudflare Analytics`
 </details>
@@ -754,6 +759,7 @@
   - コーディングエージェント: `Claude Code`, `Codex`, `Antigravity`
   - 定期実行: `Claude Code Routines`, `Codex Automation`
   - エージェント拡張: `Skills`, `Chrome DevTools MCP`
+  - ルールの共有: `rulesync`
   - プロトタイピング: `v0`, `Claude Design`
 
 ### 5.2 フロントエンド / モバイル
@@ -782,7 +788,9 @@
 - **サーバーサイド**
   - API 設計: `REST API`, `GraphQL`
   - 実装: `TypeScript`, `Bun`, `Node.js`, `Hono`, `oRPC`, `Python`, `PHP (CodeIgniter)`, `Java`
+  - スキーマ検証: `Zod`
   - 外部 API 連携: `LINE Messaging API`, `Slack API`, `Google Drive API`, `GitHub App`
+  - 文書・図面の処理: `pandoc`, `python-docx`, `ezdxf`
 - **DB**
   - ORM: `Prisma`, `Drizzle`
   - RDBMS: `PostgreSQL`, `MySQL`, `SQLite (Cloudflare D1)`
@@ -803,7 +811,7 @@
   - AI: `Workers AI`, `AI Gateway`, `Vectorize`
   - データ: `D1`, `R2`, `KV`
   - 非同期処理: `Queues`, `Workflows`, `Cron Triggers`
-  - ネットワーク / セキュリティ: `DNS`, `Access`, `Turnstile`
+  - ネットワーク / セキュリティ: `DNS`, `Access`, `Turnstile`, `WAF`
   - メール: `Email Routing`, `Email Sending`
 - **Google Cloud**
   - `Cloud Run`, `Cloud Storage`, `IAM`, `Cloud Identity`, `Workload Identity Federation`
@@ -830,6 +838,8 @@
   - 依存関係ルールの強制: `dependency-cruiser`
   - コミット規約の強制: `commitlint`
   - Git フック: `lefthook`, `husky`
+  - シークレット検知: `gitleaks`
+  - GitHub Actions の検査: `actionlint`, `pinact`
   - 依存更新: `Renovate`
 - **CI/CD**
   - CI: `GitHub Actions`, `Xcode Cloud`, `Bitrise`, `CircleCI`, `Codemagic`

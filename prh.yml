@@ -37,3 +37,5 @@ rules:
     pattern: /分類専用モデル/
   - expected: 処理ごと
     pattern: /工程ごと/
+  - expected: Google Cloud
+    pattern: /\bGCP\b/

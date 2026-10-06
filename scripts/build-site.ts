@@ -607,6 +607,12 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 @media (max-width: 480px) {
   .md-label, .gh-label { display: none; }
 }
+/* Android の標準幅 360px（Galaxy S / A・Xperia 10・AQUOS sense）ではまだ 14px 足りないので、左の題名を消す。
+   真下の h1 と <title> に同じ文字があるので重複を消すだけで、ボタンの文字は全部残る */
+@media (max-width: 400px) {
+  .header .brand { display: none; }
+  .header nav { margin-left: auto; }
+}
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
 @media print {

@@ -13,7 +13,7 @@ description: スキルシートの Web 版（GitHub Pages）を README.md から
 
 ```bash
 bun run dev               # http://localhost:3000/ で配信。README.md / build-site.ts の保存で自動再生成（ブラウザは手動で再読み込み）
-bun run build:site        # dist/index.html と dist/index.md（展開済み Markdown）を生成するだけ（最新 PDF も dist/ に同梱）
+bun run build:site        # dist/index.html・index.md（展開済み Markdown）・llms.txt を生成するだけ（最新 PDF も dist/ に同梱）
 ```
 
 file:// で開くと PDF ビューワー（iframe）やアバター取得が動かないことがあるので、確認は `bun run dev` を使う。

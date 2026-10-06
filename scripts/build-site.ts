@@ -11,7 +11,9 @@
  * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
  * - 印刷時は案件詳細をすべて開く。右上に「Markdown としてコピー」「Markdown」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
  * - 同じ内容を展開済みの Markdown として dist/index.md にも書き出す（ページの URL + .md。AI に URL で渡して読ませるため）。
- *   コピーボタンが渡すのと同じ文字列
+ *   コピーボタンが渡すのと同じ文字列。HTML の URL を渡された AI が index.md を見つけられるよう、head の
+ *   <link rel="alternate" type="text/markdown"> と、ルートの llms.txt（llmstxt.org の慣習）からも指す
+ * - <title> と description / og は基本情報の氏名・現職から組み立てる（タブやリンクのプレビューで誰の文書か分かるように）
  */
 import { $, Glob } from "bun";
 import { HTMLProcessingParser, jaModel } from "budoux";
@@ -29,6 +31,8 @@ const REPO_URL = "https://github.com/sugurutakahashi-1234/skills-sheet";
 const PDF_GLOB = "*_高橋俊スキルシート.pdf";
 /** 展開済み Markdown の配信先。ページ（index.html）の URL に .md を足した形 */
 const MD_NAME = "index.md";
+/** 配信先の URL（canonical・og:url・llms.txt のリンクに使う）。末尾のスラッシュ込み */
+const SITE_URL = "https://sugurutakahashi-1234.github.io/skills-sheet/";
 /** 職務経歴の所属見出しの期間。半角 `(2021年7月 - 現在)` と全角 `（2021年7月〜現在）` の両方を受ける */
 const PERIOD_RE = /^(.*?)\s*[（(](\d{4})年\d+月\s*[-–—〜～]\s*(?:(\d{4})年\d+月|(現在))[）)]$/;
 
@@ -391,12 +395,45 @@ const publishedMd = expanded.replace(/^(# [^\n]*\n\n)同じ内容を[^\n]*\n\n/,
 // <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
 const embeddedMd = publishedMd.replace(/<\/script/gi, "<\\/script");
 
+// ---- ページの題名と説明（基本情報から） ---------------------------------------
+// README の h1 は「スキルシート」だけなので、<title> と description には氏名と現職を足す。
+// リンク記法 [名前](URL) は名前だけにする（description はプレーンテキスト）
+const plain = (src: string) => src.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").trim();
+const personName = plain(md.match(/^- \*\*氏名\*\*:\s*(.+)$/m)?.[1] ?? "");
+const position = plain(md.match(/^- \*\*現職\*\*:\s*(.+)$/m)?.[1] ?? "");
+const githubUser = md.match(/^\s*- GitHub:\s*https:\/\/github\.com\/([^/?#\s]+)\/?$/m)?.[1];
+if (!personName) warnings.push("基本情報に `- **氏名**:` が無い（<title> と description に氏名を出せない）");
+const pageTitle = personName ? `${personName} ${title}` : title;
+const sectionNames = sections.map((s) => s.name).join("・");
+const description = `${personName}${position ? `（${position}）` : ""}の${title}。${sectionNames}。`;
+const ogImage = githubUser ? `https://github.com/${githubUser}.png?size=400` : "";
+
+// AI 向けの入口（llmstxt.org の形式）: 題名・1 行の説明・全文へのリンク
+const llmsTxt = `# ${pageTitle}
+
+> ${description}
+
+- [Markdown 全文](${SITE_URL}${MD_NAME}): ${sectionNames}の全文。折りたたみを展開した Markdown
+- [GitHub 原本](${REPO_URL}): README.md
+- [PDF](${SITE_URL}${encodeURI(pdfName)})
+`;
+
 const html = `<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)}</title>
+<title>${esc(pageTitle)}</title>
+<meta name="description" content="${esc(description)}">
+<link rel="canonical" href="${SITE_URL}">
+<link rel="alternate" type="text/markdown" href="${MD_NAME}" title="Markdown">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="${esc(pageTitle)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${SITE_URL}">
+<meta property="og:locale" content="ja_JP">${ogImage ? `
+<meta property="og:image" content="${ogImage}">
+<meta name="twitter:card" content="summary">` : ""}
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -742,6 +779,7 @@ await $`rm -rf ${OUT_DIR}`;
 await $`mkdir -p ${OUT_DIR}`;
 await Bun.write(`${OUT_DIR}/index.html`, html);
 await Bun.write(`${OUT_DIR}/${MD_NAME}`, publishedMd);
+await Bun.write(`${OUT_DIR}/llms.txt`, llmsTxt);
 await $`cp ${pdfName} ${OUT_DIR}/`;
 await $`cp assets/favicon.svg assets/favicon-32.png assets/apple-touch-icon.png ${OUT_DIR}/`;
 

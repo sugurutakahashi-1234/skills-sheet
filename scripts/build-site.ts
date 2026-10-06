@@ -389,11 +389,10 @@ for (const w of warnings) console.warn(process.env.GITHUB_ACTIONS ? `::warning::
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 
-// 配信する Markdown（コピーボタンと index.md で同じもの）。折りたたみは展開済み（コピー先に <details> の HTML タグを持ち込まないため）。
-// h1 直下の「2 つの形式で公開」の案内行は GitHub で読む人向けなので外す（チャットに貼る人や AI には要らない）
+// 配信する Markdown（index.md。コピーボタンもこれを取りに行く）。折りたたみは展開済み（コピー先に <details> の HTML タグを持ち込まないため）。
+// h1 直下の「2 つの形式で公開」の案内行は GitHub で読む人向けなので外す（チャットに貼る人や AI には要らない）。
+// HTML には埋め込まない。埋め込むと AI が HTML の URL を読んだときに本文が 2 回入り、ページも 2 割重くなる
 const publishedMd = expanded.replace(/^(# [^\n]*\n\n)同じ内容を[^\n]*\n\n/, "$1");
-// <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
-const embeddedMd = publishedMd.replace(/<\/script/gi, "<\\/script");
 
 // ---- ページの題名と説明（基本情報から） ---------------------------------------
 // README の h1 は「スキルシート」だけなので、<title> と description には氏名と現職を足す。
@@ -657,7 +656,6 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 ${phraseBreaks(`<h1>${inline(title)}</h1>${mainHtml}`)}
 </main>
 </div>
-<script type="text/markdown" id="source-md">${embeddedMd}</script>
 <script>
 (() => {
   // エンジニア歴: 4 月 1 日に年数が上がる（scripts/career.ts と同じ関数）
@@ -693,12 +691,20 @@ ${phraseBreaks(`<h1>${inline(title)}</h1>${mainHtml}`)}
     try { localStorage.setItem("theme", root.dataset.theme); } catch {}
   });
 
-  // Markdown をコピー
+  // Markdown をコピー: index.md を取りに行く。ページを開いた時点で先読みしておき、クリック時は手元の文字列を書く。
+  // Safari はクリックから fetch を待ったあとの clipboard 書き込みを拒否する（ユーザー操作の有効期間が切れる）ので、
+  // 先読みが間に合わないときだけ fetch を待つ
   const copy = document.getElementById("copy-md");
   const copyLabel = copy.innerHTML;
+  let sourceMd = "";
+  const loadMd = fetch("${MD_NAME}").then((r) => { if (!r.ok) throw new Error(r.statusText); return r.text(); }).then((t) => { sourceMd = t; });
+  loadMd.catch(() => {});
   copy.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(document.getElementById("source-md").textContent); copy.textContent = "コピーしました"; }
-    catch { copy.textContent = "コピーに失敗しました"; }
+    try {
+      if (!sourceMd) await loadMd;
+      await navigator.clipboard.writeText(sourceMd);
+      copy.textContent = "コピーしました";
+    } catch { copy.textContent = "コピーに失敗しました"; }
     setTimeout(() => { copy.innerHTML = copyLabel; }, 1500);
   });
 

@@ -1,10 +1,23 @@
 {
   "lockfileVersion": 1,
   "sources": {
+    "coji/natural-japanese": {
+      "requestedRef": "main",
+      "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
+      "resolvedAt": "2026-10-04T13:05:12.632Z",
+      "skills": {
+        "natural-japanese": {
+          "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"
+        }
+      },
+      "skillSelection": [
+        "natural-japanese"
+      ]
+    },
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "5c10b72639ba6d79d13f84d3be6228ede6a12a85",
-      "resolvedAt": "2026-10-04T13:05:01.005Z",
+      "resolvedRef": "89d85c7471d367d93c1aea5b25d5d94d4a9dfd44",
+      "resolvedAt": "2026-10-06T01:12:14.884Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-82ad4b5bbbc6312dc6f8af409a9b94fd69e12247d5bb46b3595ce647b41a536b"
@@ -22,31 +35,23 @@
         },
         "language-and-commits": {
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
+        },
+        "output-style": {
+          "integrity": "sha256-ecb408aafa8288b6ce83d2c3c09cf09370dec8ded6c68d41effa7e9f9015cf3a"
         }
       },
       "ruleSelection": [
         "git-safety",
         "japanese-writing",
-        "language-and-commits"
+        "language-and-commits",
+        "output-style"
       ],
       "rulesPath": "rules",
       "resolvedRuleNames": [
         "git-safety",
         "japanese-writing",
-        "language-and-commits"
-      ]
-    },
-    "coji/natural-japanese": {
-      "requestedRef": "main",
-      "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
-      "resolvedAt": "2026-10-04T13:05:12.632Z",
-      "skills": {
-        "natural-japanese": {
-          "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"
-        }
-      },
-      "skillSelection": [
-        "natural-japanese"
+        "language-and-commits",
+        "output-style"
       ]
     }
   }

@@ -442,14 +442,14 @@ const html = `<!doctype html>
   /* 文字は本文色 / グレーだけ。アクセント色は線・帯・バッジ・現在位置に使い、文字には使わない */
   --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
   --accent: #2563eb; --btn: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
-  --card: #ffffff; --h: #1f2328; --shadow: 0 1px 3px rgba(31, 35, 40, .08);
+  --card: #ffffff; --h: #1f2328;
   --header-h: 52px;
 }
 /* ダーク: OS の設定（手動で light にしていない場合）か、ヘッダーで dark を選んだとき */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --btn: #1f6feb; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
+  :root:not([data-theme="light"]) { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --btn: #1f6feb; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; }
 }
-:root[data-theme="dark"] { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --btn: #1f6feb; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; --shadow: none; }
+:root[data-theme="dark"] { --bg: #0f1318; --card: #161b22; --fg: #c9d1d9; --h: #e2e8f0; --muted: #8b949e; --line: #2a3139; --soft: #1c2733; --accent: #4c8dff; --btn: #1f6feb; --link: #7cb3ff; --tag: #1f252d; --role-fg: #a8c8ff; --role-line: #3b5a8a; }
 * { box-sizing: border-box; }
 /* scroll-behavior: smooth は付けない。スムーズスクロールを無効にしている環境では
    smooth 指定のスクロールがまるごと無視され、目次やアンカーのジャンプが動かなくなる */
@@ -521,7 +521,7 @@ h1, h2, h3, h4, .row-name, .row-no, .item-title, .name, .position, .toc > li > a
 .sec h3 { font-size: 17px; margin: 28px 0 12px; }
 ul { padding-left: 1.4em; margin: 0; } li { margin: 2px 0; } li > ul { margin-top: 2px; }
 /* 節の枠: h3 があればタイトル帯、中は左バー付きの項目見出しと字下げした子 */
-.group { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; box-shadow: var(--shadow); }
+.group { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-top: 16px; }
 .group > h3 { margin: 0; padding: 10px 16px; font-size: 15px; background: var(--soft); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; }
 .group-icon { width: 18px; height: 18px; flex: none; stroke: var(--muted); stroke-width: 1.8; }
 /* 基本情報 */
@@ -556,7 +556,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 /* 職務経歴: 一覧行が案件詳細の見出し（<summary>）を兼ねる */
 .case { border: 1px solid var(--line); border-radius: 8px; margin: 8px 0; background: var(--card); }
 .case > summary { list-style: none; display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; cursor: pointer; }
-.case > summary:hover { border-color: var(--accent); }
+.case:hover { border-color: var(--accent); }
 .case > summary::-webkit-details-marker { display: none; }
 /* 開閉の印は左端・1 行目に揃える（行頭の No. と一緒に縦に追える）。閉じているときは右向き、開くと下向き */
 .case > summary::before { content: ""; flex: none; width: 8px; height: 8px; margin: 9px 0 0 2px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(-45deg); transition: transform .15s; }
@@ -621,7 +621,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
     color-scheme: light;
     --bg: #ffffff; --fg: #1f2328; --muted: #424a53; --line: #d0d7de; --soft: #e8f0fe;
     --accent: #2563eb; --btn: #2563eb; --link: #1d4ed8; --tag: #f6f8fa; --role-fg: #1d4ed8; --role-line: #60a5fa;
-    --card: #ffffff; --h: #1f2328; --shadow: none;
+    --card: #ffffff; --h: #1f2328;
   }
   .header, aside, .pdf-modal { display: none; }
   .layout { display: block; padding: 0; max-width: none; }

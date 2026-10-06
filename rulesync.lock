@@ -1,19 +1,6 @@
 {
   "lockfileVersion": 1,
   "sources": {
-    "coji/natural-japanese": {
-      "requestedRef": "main",
-      "resolvedRef": "9a78a42964096da509b8f3e011f0085a5f080151",
-      "resolvedAt": "2026-10-04T13:05:12.632Z",
-      "skills": {
-        "natural-japanese": {
-          "integrity": "sha256-dde348f62ccdd0f932b7e22478d3e66360d0fb23962e383e18a45239fc39178b"
-        }
-      },
-      "skillSelection": [
-        "natural-japanese"
-      ]
-    },
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
       "resolvedRef": "89d85c7471d367d93c1aea5b25d5d94d4a9dfd44",

@@ -17,23 +17,23 @@
 ## 2. 強み
 
 - **立ち上げの技術責任者（CTO 1 社・0 → 1 リード 4 件）**
-  - 創業期の会社の CTO として、プロダクトの公開・運用から社内インフラまで担当
-  - iOS 3 件・Flutter 1 件の 0 → 1 の開発案件で、リードエンジニアを経験
+  - 創業期の会社の CTO としてプロダクトの公開・運用から社内インフラまで担当
+  - iOS 3 件・Flutter 1 件の 0 → 1 開発でリードエンジニアを経験
 - **AI を業務に組み込むシステム開発とその導入支援**
   - LLM・RAG・MCP・AI エージェントによる業務システムの設計から実装、運用までを担当
-  - 分類モデル（Jev）による一次判定で LLM の呼び出しを絞る、コストを見据えた設計
-  - 非エンジニアが Claude Code / Codex から業務を操作できる、MCP 前提のシステム設計
-  - FDE として、経営層への相談・提案から現場への実装まで、顧客企業の AI 導入支援を経験
+  - LLM のコストを見据えて一次判定を分類モデル（Jev）に任せる設計
+  - 非エンジニアが Claude Code / Codex から MCP 経由で業務を操作できるシステムの設計
+  - FDE として経営層への相談・提案から現場への実装まで支援
 - **フルスタックの実装力**
   - フロントエンド / モバイル: Swift・React Native・Flutter・Next.js・Astro での実装経験
   - サーバーサイド: Bun・Hono・oRPC・Drizzle・TanStack Start で構築し、本番で運用
   - インフラ: Google Cloud / Cloudflare / AWS を Terraform で IaC 化し、運用まで担当
 - **ビジネス観点での事業成長の支援**
-  - CTO として、提供サービスの企画からマッチングサイトの事業立ち上げまで担当
-  - CAC と LTV から、課金層と無課金層それぞれの収益施策を逆算し、企画から実装まで担当
+  - CTO として提供サービスの企画からマッチングサイトの事業立ち上げまで担当
+  - CAC と LTV から課金層・無課金層それぞれの収益施策を逆算し、企画から実装まで担当
   - ファネル分析で改善点を見つけ、A/B テストで効果を検証する改善サイクルの運用
 - **技術発信・OSS 開発**
-  - [Zenn](https://zenn.dev/ikuraikura) と [ZENSHIN の技術ブログ](https://tech.zenshin-inc.co.jp/)で、AI 活用やプロダクト開発の知見を記事・スライドで発信
+  - AI 活用やプロダクト開発の知見を [Zenn](https://zenn.dev/ikuraikura) と [ZENSHIN の技術ブログ](https://tech.zenshin-inc.co.jp/)で発信
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew で配布
 
 ## 3. 職務経歴
@@ -106,7 +106,7 @@
 - **Cloudflare フルスタック（業務1・3・4・5）**
   - Workers / Workflows / Queues / D1 / Vectorize / Browser Rendering によるサーバーレス構成
   - Hono + oRPC + React 19 / TanStack Start によるマッチング 2 サイトと社内 Web アプリ
-  - dependency-cruiser で層の依存方向を強制する、Bun workspaces のモノレポ構成を採用
+  - dependency-cruiser で層の依存方向を強制する Bun workspaces のモノレポ構成
 - **マルチクラウド IaC（業務6）**
   - Google Cloud / Cloudflare / AWS / Google Workspace を Terraform で一元管理
   - Workload Identity Federation（OIDC）による鍵レス認証

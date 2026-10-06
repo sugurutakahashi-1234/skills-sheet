@@ -13,7 +13,7 @@ description: スキルシートの Web 版（GitHub Pages）を README.md から
 
 ```bash
 bun run dev               # http://localhost:3000/ で配信。README.md / build-site.ts の保存で自動再生成（ブラウザは手動で再読み込み）
-bun run build:site        # dist/index.html を生成するだけ（README.md と最新 PDF も dist/ に同梱）
+bun run build:site        # dist/index.html と dist/index.md（展開済み Markdown）を生成するだけ（最新 PDF も dist/ に同梱）
 ```
 
 file:// で開くと PDF ビューワー（iframe）やアバター取得が動かないことがあるので、確認は `bun run dev` を使う。
@@ -38,7 +38,7 @@ await browser.close();
 止まるもの（ビルド失敗 = コミットも失敗）:
 
 - 職務経歴の一覧行 `[No.N] 案件名（客先）` と案件詳細の `### [No.N] 案件名（客先）` は同じ文字列（リンク記法だけ見出しに無くてよい）。一覧行に対応する詳細が無い番号も失敗
-- README の案件詳細は `<details>` で畳む。`build-site.ts` は README 側の `<details>`/`</details>` トークンを読み飛ばし（Web 版は一覧行から自前で折りたたみを組む）、コピー用 Markdown は `expandDetails()` を通して渡す
+- README の案件詳細は `<details>` で畳む。`build-site.ts` は README 側の `<details>`/`</details>` トークンを読み飛ばし（Web 版は一覧行から自前で折りたたみを組む）、コピー用 Markdown と `dist/index.md` は `expandDetails()` を通した同じ文字列（h1 直下の案内行は外す）
 
 警告だけ出して普通の描画に落ちるもの（`bun run build:site` の出力に `警告:` が出る）:
 

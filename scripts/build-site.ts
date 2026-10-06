@@ -9,14 +9,16 @@
  * - 基本情報はプロフィール型（外部リンクの GitHub からアバターを引く）。強み・技術スタックは節ごとの枠
  * - 技術スタック・案件の開発環境・職務経歴の行では、バッククォートで囲んだ名前（<code>）をタグ表示
  * - 職務経歴の一覧行と案件詳細は `[No.N]` で突き合わせ、一覧行を <details> の見出しにして詳細を中に入れる（Web 版だけの合体）
- * - 印刷時は案件詳細をすべて開く。右上に「Markdown としてコピー」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
+ * - 印刷時は案件詳細をすべて開く。右上に「Markdown としてコピー」「Markdown」「PDF」「GitHub」。PDF は広い画面ではページ内のビューワーで開く
+ * - 同じ内容を展開済みの Markdown として dist/index.md にも書き出す（ページの URL + .md。AI に URL で渡して読ませるため）。
+ *   コピーボタンが渡すのと同じ文字列
  */
 import { $, Glob } from "bun";
 import { HTMLProcessingParser, jaModel } from "budoux";
 import { Cloud, Copy, FileText, MonitorSmartphone, Server, ShieldCheck, Sparkles, SquareTerminal } from "lucide-static";
 import { parseHTML } from "linkedom";
 import { marked, type Token, type Tokens } from "marked";
-import { siGithub, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
+import { siGithub, siMarkdown, siQiita, siX, siZenn, type SimpleIcon } from "simple-icons";
 import { CAREER_RE, careerYears } from "./career";
 import { renumber } from "./section-numbers";
 import { expandDetails } from "./expand-details";
@@ -25,6 +27,8 @@ const SOURCE = "README.md";
 const OUT_DIR = "dist";
 const REPO_URL = "https://github.com/sugurutakahashi-1234/skills-sheet";
 const PDF_GLOB = "*_高橋俊スキルシート.pdf";
+/** 展開済み Markdown の配信先。ページ（index.html）の URL に .md を足した形 */
+const MD_NAME = "index.md";
 /** 職務経歴の所属見出しの期間。半角 `(2021年7月 - 現在)` と全角 `（2021年7月〜現在）` の両方を受ける */
 const PERIOD_RE = /^(.*?)\s*[（(](\d{4})年\d+月\s*[-–—〜～]\s*(?:(\d{4})年\d+月|(現在))[）)]$/;
 
@@ -381,9 +385,11 @@ for (const w of warnings) console.warn(process.env.GITHUB_ACTIONS ? `::warning::
 const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 
-// コピー用の Markdown は <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
-// 折りたたみは展開してから渡す（コピー先に <details> の HTML タグを持ち込まないため）
-const embeddedMd = expanded.replace(/<\/script/gi, "<\\/script");
+// 配信する Markdown（コピーボタンと index.md で同じもの）。折りたたみは展開済み（コピー先に <details> の HTML タグを持ち込まないため）。
+// h1 直下の「2 つの形式で公開」の案内行は GitHub で読む人向けなので外す（チャットに貼る人や AI には要らない）
+const publishedMd = expanded.replace(/^(# [^\n]*\n\n)同じ内容を[^\n]*\n\n/, "$1");
+// <script type="text/markdown"> に埋め込む。終了タグと衝突しないよう念のためエスケープ
+const embeddedMd = publishedMd.replace(/<\/script/gi, "<\\/script");
 
 const html = `<!doctype html>
 <html lang="ja">
@@ -561,9 +567,9 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
   /* 一覧行: 狭い画面では概要を出さず、役割 │ 技術 だけ（技術は「…」で縮む） */
   .row-meta .s { display: none; }
 }
-/* スマホ幅は 390px に収めるため、GitHub はロゴだけにする（名前は title と aria-label に残す） */
+/* スマホ幅は 390px に収めるため、Markdown と GitHub はロゴだけにする（名前は title と aria-label に残す） */
 @media (max-width: 480px) {
-  .gh-label { display: none; }
+  .md-label, .gh-label { display: none; }
 }
 
 /* 印刷: 目次とヘッダーを消し、案件はすべて開く（JS が beforeprint で open にする） */
@@ -592,6 +598,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
   <span class="brand">${esc(title)}</span>
   <nav>
     <button type="button" class="btn primary" id="copy-md" title="このページの内容を Markdown としてコピー">${btnIcon(Copy)}<span><span class="long">Markdown として</span>コピー</span></button>
+    <a class="btn" href="${MD_NAME}" target="_blank" rel="noopener" title="Markdown を開く（AI に URL で渡して読ませるときはこれ）" aria-label="Markdown を開く"><svg class="btn-i" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="${siMarkdown.path}"/></svg><span class="md-label">Markdown</span></a>
     <a class="btn" id="open-pdf" href="${encodeURI(pdfName)}" target="_blank" rel="noopener" title="PDF を表示・ダウンロード">${btnIcon(FileText)}PDF</a>
     <a class="btn" href="${REPO_URL}" title="GitHub の Markdown 原本を開く" aria-label="GitHub の Markdown 原本を開く"><svg class="btn-i" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="${siGithub.path}"/></svg><span class="gh-label">GitHub</span></a>
     <button type="button" class="btn icon" id="theme-toggle" aria-label="ライト / ダークを切り替え" title="ライト / ダークを切り替え"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
@@ -734,7 +741,8 @@ ${phraseBreaks(`<h1>${inline(title)}</h1>${mainHtml}`)}
 await $`rm -rf ${OUT_DIR}`;
 await $`mkdir -p ${OUT_DIR}`;
 await Bun.write(`${OUT_DIR}/index.html`, html);
-await $`cp ${SOURCE} ${pdfName} ${OUT_DIR}/`;
+await Bun.write(`${OUT_DIR}/${MD_NAME}`, publishedMd);
+await $`cp ${pdfName} ${OUT_DIR}/`;
 await $`cp assets/favicon.svg assets/favicon-32.png assets/apple-touch-icon.png ${OUT_DIR}/`;
 
-console.log(`生成: ${OUT_DIR}/index.html（案件 ${caseCount} 件, PDF: ${pdfName}）`);
+console.log(`生成: ${OUT_DIR}/index.html, ${OUT_DIR}/${MD_NAME}（案件 ${caseCount} 件, PDF: ${pdfName}）`);

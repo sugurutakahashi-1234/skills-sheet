@@ -3,8 +3,8 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "4208480943d19bba8a9d451fceab25db2f44a097",
-      "resolvedAt": "2026-10-06T02:41:19.037Z",
+      "resolvedRef": "e362acad5468ec56042e5edadae23f97b21791a7",
+      "resolvedAt": "2026-10-06T02:45:46.343Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-82ad4b5bbbc6312dc6f8af409a9b94fd69e12247d5bb46b3595ce647b41a536b"
@@ -18,7 +18,7 @@
           "integrity": "sha256-4d8944e61681a7a3ae8e2bf0a51d2123a44f57b55d45173f87b615b4c9d4c7b6"
         },
         "japanese-writing": {
-          "integrity": "sha256-9d5ddbe68a9f49faf4cc638254f467ce4ac93ff7f5aa34fa088d768a9c8b3276"
+          "integrity": "sha256-92b893f2e98ae4746f86d89f251793a0b8395d22e8eb723ecbf7b6108634a10a"
         },
         "language-and-commits": {
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"

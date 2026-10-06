@@ -3,8 +3,8 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "89d85c7471d367d93c1aea5b25d5d94d4a9dfd44",
-      "resolvedAt": "2026-10-06T01:24:47.648Z",
+      "resolvedRef": "a52812fb599f58f6462b85e4c43b8e2ace357808",
+      "resolvedAt": "2026-10-06T02:26:48.394Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-82ad4b5bbbc6312dc6f8af409a9b94fd69e12247d5bb46b3595ce647b41a536b"

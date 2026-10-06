@@ -584,8 +584,9 @@
 
 - **Flutter**
   - アーキテクチャ: `Provider`
-- **クラウド連携**
-  - Firebase: `Authentication`, `Firestore`, `Storage`, `Crashlytics`, `App Distribution`, `Analytics`
+- **Firebase**
+  - `Authentication`, `Firestore`, `Storage`, `Crashlytics`, `App Distribution`, `Analytics`
+- **外部 API**
   - `Google Maps API`
 - **CI/CD**
   - `Codemagic`, `Fastlane`

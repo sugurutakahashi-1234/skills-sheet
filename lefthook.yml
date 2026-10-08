@@ -1,5 +1,6 @@
 # pre-commit:
 # - career-years: README のエンジニア歴「N 年目」を今日の日付で計算し直す（4 月 1 日に 1 つ上がる）。変わったときだけ README と PDF を更新して同じコミットに含める。README を触らないコミットでも毎回走る
+# - commas: README の箇条書きのうち、足した行・書き換えた行に読点（、）があれば止める。新しく書く行は読点なしにし、並べるときは「・」で区切る（skillsheet-wording「読点」）
 # - heading-numbers: README の大節（## 見出し）に 1. 2. … の番号を上から振り直す。節を足しても並べ替えても番号が飛ばない。lefthook はコマンドを名前順に走らせるので、PDF と Web 版のビルドより先に動く
 # - textlint: README.md の日本語文章から AI 臭（誇張表現・コロン直後のブロック等）を検査する。
 #   スキルシートの様式として必要な「太字 + コロン + 箇条書き」の検査は .textlintrc.json で無効化している
@@ -11,6 +12,9 @@ pre-commit:
   commands:
     career-years:
       run: bun scripts/update-career.ts
+    commas:
+      glob: "README.md"
+      run: bun scripts/check-commas.ts
     heading-numbers:
       glob: "README.md"
       run: bun scripts/number-sections.ts

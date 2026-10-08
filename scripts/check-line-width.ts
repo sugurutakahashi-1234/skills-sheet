@@ -4,6 +4,8 @@
  * 使い方: bun run check:width [README.md] [--width 730] [--slack 1.1] [--top 12] [--all]
  *        bun run check:width --text "候補の文字列" --text "別の候補" [--depth 2]
  *
+ * --text の候補には、読点（、）があれば数も出す。新しく書く行は読点なしにする（skillsheet-wording「読点」）。
+ *
  * --text は README に書く前の候補を、一時ファイルを作らずにその場で測るためのもの。
  * --depth は箇条書きの深さ（既定 2 = `  - ` で始まる説明行）。
  *
@@ -120,8 +122,13 @@ try {
     for (const r of rows) {
       const mark = r.px > r.usable ? "折返" : "1行";
       const label = texts.length > 0 ? `#${r.line}` : `L${r.line}`;
-      console.log(`  ${mark}  ${String(r.px).padStart(4)}/${r.usable}px  ${label}  ${r.text}`);
+      // 新しく書く行は読点なしにする（skillsheet-wording「読点」）。下書きの段階で気づけるよう、候補には読点の数も出す
+      const commas = (r.text.match(/、/g) ?? []).length;
+      const ten = texts.length > 0 && commas ? `【読点 ${commas}】` : "";
+      console.log(`  ${mark}  ${String(r.px).padStart(4)}/${r.usable}px  ${label}  ${ten}${r.text}`);
     }
+    const withCommas = texts.length > 0 ? rows.filter((r) => r.text.includes("、")).length : 0;
+    if (withCommas) console.log(`読点のある候補: ${withCommas} 件。新しく書く行は読点なしにし、並べるときは「・」で区切る（skillsheet-wording「読点」）`);
   }
 
   if (close.length === 0) {

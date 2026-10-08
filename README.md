@@ -31,7 +31,7 @@
 - **ビジネス観点での事業成長の支援**
   - CTO として提供サービスの企画からマッチングサイトの事業立ち上げまで担当
   - CAC と LTV から課金層・無課金層それぞれの収益施策を逆算し、企画から実装まで担当
-  - ファネル分析で改善点を見つけ、A/B テストで効果を検証する改善サイクルの運用
+  - ファネル分析で改善点を見つけて A/B テストで効果を検証する改善サイクルの運用
 - **技術発信・OSS 開発**
   - AI 活用やプロダクト開発の知見を [Zenn](https://zenn.dev/ikuraikura) と [ZENSHIN の技術ブログ](https://tech.zenshin-inc.co.jp/)で発信
   - [ai-chat-md-export](https://github.com/sugurutakahashi-1234/ai-chat-md-export) など TypeScript 製 CLI ツール 4 本を npm / Homebrew で配布
@@ -195,6 +195,9 @@
   - Storybook による UI コンポーネントカタログの作成
   - Maestro によるモバイルアプリの E2E テスト導入
   - mise による開発環境セットアップの簡略化とツールバージョンの統一
+- **BytePlus DI**
+  - SDK によるイベントログの送信
+  - 施策の効果を測るためのログの埋め込み箇所の設計
 - **AI・MCP 活用**
   - Figma MCP を用いたデザインからの実装
   - Storybook で作成したコンポーネントを Claude Code が Chrome DevTools MCP / Playwright MCP で検証
@@ -207,7 +210,7 @@
   - 課金導線・ガチャ・デイリーミッション・無料開放を実装し、サブスク数と ARPU を改善
   - 課金転換しない層からはリワード広告・オファーウォールで収益化
 - **施策の検証サイクル**
-  - ファネル分析で改善する段階を見極め、施策の企画に反映
+  - Looker Studio と BigQuery の集計をもとに改善する段階を見極めて施策に反映
   - 施策立案からリリースまでを 1 週間で回し、スプリントごとに反復
   - 同時期のキャンペーンや曜日の波と切り分け、A/B テストで施策単体の効果を測定
   - 効果が出なかった施策はすぐに削除し、その結果も次の意思決定に反映
@@ -226,7 +229,7 @@
 - **Google Cloud**
   - `Cloud Run`
 - **分析ツール**
-  - `BytePlus DI`, `Looker Studio`, `Adjust`
+  - `BytePlus DI`, `Looker Studio`, `Adjust`, `BigQuery`
 - **CI/CD**
   - `GitHub Actions`
 - **プロジェクト管理**

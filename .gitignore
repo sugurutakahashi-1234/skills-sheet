@@ -7,8 +7,11 @@ node_modules/
 # Python (uv)
 .venv/
 
-# 比較モック（使い捨て）
+# 比較モック・動画の作業ディレクトリ（使い捨て）
 .tmp/
+
+# 動画の見本（X で拾った参考動画。他人の作品なのでコミットしない）
+動画サンプル/
 
 # Web 版（GitHub Actions が生成して Pages に配信する）
 dist/

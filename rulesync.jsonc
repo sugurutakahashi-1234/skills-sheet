@@ -12,8 +12,18 @@
       "source": "sugurutakahashi-1234/ai-rules",
       // skill-layering: スキル・ルールを足す・直すときの置き場所と、共有スキルを変える前の影響確認
       "rules": ["language-and-commits", "git-safety", "japanese-writing", "skill-layering"],
-      // 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
-      "skills": ["design-compare"]
+      // design-compare: 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
+      // motion-video: スキルシートを題材にしたモーショングラフィックス動画の聞き出しとテイスト（HyperFrames と組）
+      "skills": ["design-compare", "motion-video"]
+    },
+    {
+      // 動画を HTML と GSAP で組んで MP4 にする。HyperFrames 自身のスキル更新は mise.toml の HYPERFRAMES_SKIP_SKILLS で止め、更新は rulesync に任せる。
+      // ファイル数が多く、匿名の取り込みは GitHub の回数制限に当たるので `GITHUB_TOKEN=$(gh auth token) bun run rulesync` で取る
+      "source": "heygen-com/hyperframes",
+      "skills": [
+        "hyperframes", "hyperframes-core", "hyperframes-animation", "hyperframes-creative", "hyperframes-keyframes", "hyperframes-cli",
+        "hyperframes-registry", "hyperframes-audio", "hyperframes-studio", "media-use", "motion-graphics", "general-video"
+      ]
     }
   ]
 }

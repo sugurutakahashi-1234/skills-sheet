@@ -28,6 +28,8 @@
 """
 import sys, io, re, html, difflib, subprocess, json, os, hashlib, time
 argv = sys.argv[1:]; NOTES = {}; DONE = []
+if '-h' in argv or '--help' in argv:
+    print(__doc__.strip()); sys.exit(0)
 EDIT = '--edit' in argv
 if EDIT: argv.remove('--edit')
 ALTS = {}
@@ -44,7 +46,7 @@ if '--notes' in argv:
 if '--done' in argv:
     k = argv.index('--done'); DONE = [c for c in argv[k+1].split('|') if c]; del argv[k:k+2]
 if len(argv) < 4:
-    print(__doc__); sys.exit(1)
+    print(__doc__.strip(), file=sys.stderr); sys.exit(2)
 repo, path, before_ref, out = argv[0:4]
 start = argv[4] if len(argv) > 4 else ''
 # 見出しに番号（`## 4. 案件詳細` `### 5.1 AI`）が付いた文書でも、章の名前は番号を除いて比べる

@@ -3,3 +3,7 @@ bun = "latest"
 node = "latest"
 python = "latest"
 uv = "latest"
+
+[env]
+# HyperFrames は `npx hyperframes init` のたびに自分でスキルを更新しにいく。スキルは rulesync（rulesync.jsonc）で取って lock で固定しているので、更新役を rulesync だけにする
+HYPERFRAMES_SKIP_SKILLS = "1"

@@ -3,15 +3,19 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "c34c75000da457b95927e778c0223cf3606de202",
-      "resolvedAt": "2026-10-08T00:53:44.796Z",
+      "resolvedRef": "b3f3e833b4f81f74c699deacc81df176994f3475",
+      "resolvedAt": "2026-10-08T01:07:08.808Z",
       "skills": {
         "design-compare": {
-          "integrity": "sha256-82ad4b5bbbc6312dc6f8af409a9b94fd69e12247d5bb46b3595ce647b41a536b"
+          "integrity": "sha256-7b2e5ed4bed6d005a4a7c3e532812963091816ab9ea77c2f35e83e0061ee2954"
+        },
+        "motion-video": {
+          "integrity": "sha256-c9778cd864f0075b16374fa876973bd9bd4e339f14b7db6b43b8172f21d9c8e4"
         }
       },
       "skillSelection": [
-        "design-compare"
+        "design-compare",
+        "motion-video"
       ],
       "rules": {
         "git-safety": {
@@ -24,7 +28,7 @@
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
         },
         "skill-layering": {
-          "integrity": "sha256-62009da957ef9be99113ae50c9968771a8ca8223e52b6d8fd9883207828a0134"
+          "integrity": "sha256-81c7b39909f1472606021a40edd20c166cabfdb6cc2daad94337a6930ee35a73"
         }
       },
       "ruleSelection": [
@@ -39,6 +43,63 @@
         "japanese-writing",
         "language-and-commits",
         "skill-layering"
+      ]
+    },
+    "heygen-com/hyperframes": {
+      "requestedRef": "main",
+      "resolvedRef": "b66e8a195e5a08b5bdd654337973d50e08c1ea51",
+      "resolvedAt": "2026-10-08T01:09:03.982Z",
+      "skills": {
+        "general-video": {
+          "integrity": "sha256-b254eb95852777f9a55763bf71a1522b4e74d362a77be98a8248c4407817e665"
+        },
+        "hyperframes-animation": {
+          "integrity": "sha256-0eca3f2b814c7949c317f9b66e9fa0e985f45b1212be34221cc8cd0cf9c30cb4"
+        },
+        "hyperframes-audio": {
+          "integrity": "sha256-6573f28d1447bffab93aebf55a4b414d478e73e18d43fcfc06fc785ea1ac7d04"
+        },
+        "hyperframes-cli": {
+          "integrity": "sha256-874fcfab2406c83668e519bb2ce624a0fe49db8ac13a1a75b130abded78785cb"
+        },
+        "hyperframes-core": {
+          "integrity": "sha256-3a5c7607e38e2baac22e4488cfba6ca4b38ee5cae4a19de9be942165280d7285"
+        },
+        "hyperframes-creative": {
+          "integrity": "sha256-8c534edf12f84b442fbcf873b50b273589aa230ca842a904ca6ba95e6d547ef5"
+        },
+        "hyperframes-keyframes": {
+          "integrity": "sha256-32c2eb5ef34cdc3502d87cba5b562c63304674b1cb251334ed8f78cff9f1d071"
+        },
+        "hyperframes-registry": {
+          "integrity": "sha256-7b597d36bcc2e64631f98b4c2922386170d8cc70f3d1101c50decaa8b21592ff"
+        },
+        "hyperframes-studio": {
+          "integrity": "sha256-f5e0b44d68152c124c694f42ae0a1a6df7e0973ec8f0445f752d30046dfab698"
+        },
+        "hyperframes": {
+          "integrity": "sha256-f8b2dc8d8aa258c39cb308ca721bac82fff76ab4bb263a77fb0edb6a4deaf9a1"
+        },
+        "media-use": {
+          "integrity": "sha256-715fa2febc9d19882bd6f463b515939be96453456f542bc61118ffbf2993f8de"
+        },
+        "motion-graphics": {
+          "integrity": "sha256-eacdd43b420cfac2192e22de45295b03db7c910ee6eaebd19d97e7496981b8c9"
+        }
+      },
+      "skillSelection": [
+        "general-video",
+        "hyperframes",
+        "hyperframes-animation",
+        "hyperframes-audio",
+        "hyperframes-cli",
+        "hyperframes-core",
+        "hyperframes-creative",
+        "hyperframes-keyframes",
+        "hyperframes-registry",
+        "hyperframes-studio",
+        "media-use",
+        "motion-graphics"
       ]
     }
   }

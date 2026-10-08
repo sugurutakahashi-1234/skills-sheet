@@ -310,7 +310,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 {EDIT_CSS if EDIT else ''}
 </style><div class="wrap">
 <h1>{html.escape(path)} の{'編集ビュー' if EDIT else '変更履歴ビュー'}</h1>
-<p class="note">{('左が元の文（' + html.escape(before_ref) + ' 時点）、右が案です。右の欄はそのまま書き換えられ、元の文との違いがその場で色で出ます（左の赤 = 消える部分、右の緑 = 足した部分）。行の「元の文」「案」ボタンで一度に戻せ、「コメント」で右の余白に一言書けます。') if EDIT else (html.escape(before_ref) + ' 時点（左）→ 現在（右）。<del>消した部分</del>は赤の取り消し線、<ins>足した部分</ins>は緑の下線。気になる行は「戻す」を押すか「コメント」で一言書いてください。')}章を見終えたら「この章の回答をコピー」でチャットに貼ってください。章ごとに送れば、こちらが反映している間に次の章を見られます。直すところがない章も送ると「送信済み」になります。</p>
+<p class="note">{('左が元の文（' + html.escape(before_ref) + ' 時点）、右が案です。右の欄はそのまま書き換えられ、元の文との違いがその場で色で出ます（左の赤 = 消える部分、右の緑 = 足した部分）。行の「元の文」「案」ボタンで一度に戻せ、「コメント」で右の余白に一言書けます。') if EDIT else (html.escape(before_ref) + ' 時点（左）→ 現在（右）。<del>消した部分</del>は赤の取り消し線、<ins>足した部分</ins>は緑の下線。気になる行は「戻す」を押すか「コメント」で一言書いてください。')}章を見終えたら「この章の回答をコピー」でチャットに貼ってください。章ごとに送れば、こちらが反映している間に次の章を見られます。直すところがない章は「直すところなし（この章を OK で送る）」を押すと「指摘なし」で送られ、タブが「OK」になります。</p>
 <div class="bar"><span>変更 {stats["chg"]} 行 / 追加 {stats["ins"]} 行 / 削除 {stats["del"]} 行</span>
 <button id="side" class="on">左右に並べる</button><button id="stack">1 列で重ねる</button>
 <button id="allv" class="on">全文</button><button id="focus">変更の前後だけ</button><button id="reload" title="入力中の印とコメントは残ります">再読み込み</button><span class="sp"></span><span id="warn"></span><button id="goAllTop" class="topmain" hidden>回答をまとめてコピー</button><span id="sum"></span></div>
@@ -383,13 +383,18 @@ function status(ch){{const s=sentNow(ch);if(s)return sig(ch)===s.sig?'ok':'more'
   return touched(ch)?'wip':'todo';}}
 /* 回答が要る章 = 変更のある章 + 変更はないが印やコメントを付けた章 + 前に送った章 */
 const need=()=>CHAPTERS.filter(ch=>NCH[ch]||touched(ch)||sent[ch]);
-function refresh(){{const ns=need();document.querySelectorAll('.tabs button').forEach(b=>{{const ch=b.dataset.ch,st=b.querySelector('.st');st.hidden=!ns.includes(ch);if(st.hidden)return;const k=status(ch);st.className='st '+k;st.textContent=LBL[k];}});
+/* 印もコメントもない章は、送ると「指摘なし」になる。押す前にそれと分かるよう、ボタンの文言とタブの表示を変える */
+const none=ch=>!touched(ch);
+function refresh(){{const ns=need();document.querySelectorAll('.tabs button').forEach(b=>{{const ch=b.dataset.ch,st=b.querySelector('.st');st.hidden=!ns.includes(ch);if(st.hidden)return;const k=status(ch);st.className='st '+k;st.textContent=k==='ok'&&none(ch)?'OK':LBL[k];}});
+  if(curCh!==null)B('go').textContent=none(curCh)?'直すところなし（この章を OK で送る）':'この章の回答をコピー';
   const rest=ns.filter(ch=>!FIN.has(status(ch)));B('warn').classList.toggle('ok',!rest.length);
   B('warn').textContent=rest.length?`回答待ちの章 ${{rest.length}} / ${{ns.length}}`:`全 ${{ns.length}} 章の回答がそろいました`;
   /* 回答の要る章が 2 つ以上なら、上にも「まとめてコピー」を出す。細かく分かれたページを 1 回で送れるように */
   const many=ns.length>=2;B('goAllTop').hidden=!many;
-  B('goAllTop').textContent=rest.length?`回答をまとめてコピー（${{rest.length}} 章）`:`回答を全部コピーし直す（${{ns.length}} 章）`;
-  B('goAll').textContent=rest.length?'送っていない章をまとめてコピー':'全部の章をコピーし直す';B('goAll').classList.toggle('main',many);}}
+  /* 残りの章をすべて開いて見て、どれにも印もコメントもないなら「全部 OK」と分かる文言にする（開いていない章は未回答として送るので含めない） */
+  const allOk=rest.length>0&&rest.every(ch=>none(ch)&&seen[ch]===hashOf(ch));
+  B('goAllTop').textContent=allOk?`全部 OK で送る（${{rest.length}} 章）`:rest.length?`回答をまとめてコピー（${{rest.length}} 章）`:`回答を全部コピーし直す（${{ns.length}} 章）`;
+  B('goAll').textContent=allOk?'残りの章を全部 OK で送る':rest.length?'送っていない章をまとめてコピー':'全部の章をコピーし直す';B('goAll').classList.toggle('main',many);}}
 /* 入力はブラウザに保存し、再読み込みや作り直したページでも引き継ぐ。行は data-sid で引き当てる */
 function save(){{try{{const st={{}};rows.forEach(r=>{{const s=state[r.dataset.key];if(s&&(s.rev||(s.c||'').trim()||s.t!==undefined))st[r.dataset.sid]={{rev:!!s.rev,c:s.c||'',t:s.t}};}});
   if(curCh!==null)chc[curCh]=B('chc').value;
@@ -423,13 +428,13 @@ function block(ch){{const ls=per(ch),c=cmt(ch);const tag=!sent[ch]?'':sentNow(ch
 function progressLine(){{const ns=need(),rest=ns.filter(ch=>!FIN.has(status(ch)));
   return rest.length?`（全 ${{ns.length}} 章のうち ${{ns.length-rest.length}} 章が回答済み。まだ: ${{rest.map(short).join(' / ')}}）`:`（全 ${{ns.length}} 章の回答がそろいました）`;}}
 /* 画面の状態は先に更新し、クリップボードへのコピーは後から試す（file:// では許可待ちで止まることがあるので 0.8 秒で諦めて選択状態にする） */
-function copy(v){{const fb=()=>{{const t=B('out');t.focus();t.select();let ok=false;try{{ok=document.execCommand('copy');}}catch(_){{}}B('msg').textContent=ok?'コピーしました。チャットに貼ってください':'下の欄を全選択してコピーしてください';}};
+function copy(v,done='コピーしました。チャットに貼ってください'){{const fb=()=>{{const t=B('out');t.focus();t.select();let ok=false;try{{ok=document.execCommand('copy');}}catch(_){{}}B('msg').textContent=ok?done:'下の欄を全選択してコピーしてください';}};
   B('msg').textContent='コピーしています…';if(!navigator.clipboard){{fb();return;}}
-  Promise.race([navigator.clipboard.writeText(v),new Promise((_,rej)=>setTimeout(()=>rej(0),800))]).then(()=>{{B('msg').textContent='コピーしました。チャットに貼ってください';}}).catch(fb);}}
-function emit(lines){{const a=B('all').value.trim();if(a&&a!==allSent){{lines.push('','[全体へのコメント]',a);allSent=a;allBuild=BUILD;}}allMark();
+  Promise.race([navigator.clipboard.writeText(v),new Promise((_,rej)=>setTimeout(()=>rej(0),800))]).then(()=>{{B('msg').textContent=done;}}).catch(fb);}}
+function emit(lines,done){{const a=B('all').value.trim();if(a&&a!==allSent){{lines.push('','[全体へのコメント]',a);allSent=a;allBuild=BUILD;}}allMark();
   while(lines.length&&lines[lines.length-1]==='')lines.pop();
-  lines.push('',progressLine());const v=lines.join('\\n').trim();B('out').value=v;copy(v);save();}}
-B('go').onclick=()=>{{chc[curCh]=B('chc').value;const lines=block(curCh);sent[curCh]={{sig:sig(curCh),hash:hashOf(curCh)}};emit(lines);refresh();save();
+  lines.push('',progressLine());const v=lines.join('\\n').trim();B('out').value=v;copy(v,done);save();}}
+B('go').onclick=()=>{{chc[curCh]=B('chc').value;const ok=none(curCh);const lines=block(curCh);sent[curCh]={{sig:sig(curCh),hash:hashOf(curCh)}};emit(lines,ok?'「指摘なし」でコピーしました。チャットに貼ってください':undefined);refresh();save();
   const nx=need().find(ch=>!FIN.has(status(ch)));B('next').hidden=!nx;
   if(nx){{B('next').textContent=`次の章へ: ${{short(nx)}} →`;B('next').onclick=()=>showCh(nx);}}}};
 B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
@@ -439,7 +444,7 @@ B('goAll').onclick=()=>{{chc[curCh]=B('chc').value;const lines=[];
   (pend.length?pend:need()).forEach(ch=>{{const k=status(ch),looked=seen[ch]===hashOf(ch);
     if((k==='todo'||k==='upd')&&!looked){{lines.push(`[章: ${{ch}}]`,k==='todo'?'未回答（この章はまだ開いていない）':'未回答（更新した案をまだ開いていない）','');return;}}
     lines.push(...block(ch),'');sent[ch]={{sig:sig(ch),hash:hashOf(ch)}};}});
-  if(!lines.length)lines.push('（回答待ちの章はありません）');emit(lines);refresh();save();B('next').hidden=true;}};
+  if(!lines.length)lines.push('（回答待ちの章はありません）');emit(lines,B('goAll').textContent.includes('OK')?'全部「指摘なし」でコピーしました。チャットに貼ってください':undefined);refresh();save();B('next').hidden=true;}};
 /* 作り直したページを読み込む。入力は保存してあるので消えない。自動では読み込み直さない */
 B('reload').onclick=()=>{{save();location.reload();}};
 B('goAllTop').onclick=()=>{{B('goAll').click();B('out').scrollIntoView({{block:'center'}});}};

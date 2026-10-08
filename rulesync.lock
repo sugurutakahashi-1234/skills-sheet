@@ -3,11 +3,11 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "b3f3e833b4f81f74c699deacc81df176994f3475",
-      "resolvedAt": "2026-10-08T01:07:08.808Z",
+      "resolvedRef": "e238543e99861c1fee7e3cce18dd0abe9f961bf4",
+      "resolvedAt": "2026-10-08T02:17:02.953Z",
       "skills": {
         "design-compare": {
-          "integrity": "sha256-7b2e5ed4bed6d005a4a7c3e532812963091816ab9ea77c2f35e83e0061ee2954"
+          "integrity": "sha256-392fada49d52fb9cec68d5df8c0d5536695c9e53cc509affd9de4c3cc4f7ea05"
         },
         "motion-video": {
           "integrity": "sha256-c9778cd864f0075b16374fa876973bd9bd4e339f14b7db6b43b8172f21d9c8e4"
@@ -28,7 +28,7 @@
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
         },
         "skill-layering": {
-          "integrity": "sha256-81c7b39909f1472606021a40edd20c166cabfdb6cc2daad94337a6930ee35a73"
+          "integrity": "sha256-2928b39fd4f31bc8af101e68c5651a7124d255d5c0620c36486355cddd6d95f8"
         }
       },
       "ruleSelection": [
@@ -48,7 +48,7 @@
     "heygen-com/hyperframes": {
       "requestedRef": "main",
       "resolvedRef": "b66e8a195e5a08b5bdd654337973d50e08c1ea51",
-      "resolvedAt": "2026-10-08T01:09:03.982Z",
+      "resolvedAt": "2026-10-08T02:19:01.946Z",
       "skills": {
         "general-video": {
           "integrity": "sha256-b254eb95852777f9a55763bf71a1522b4e74d362a77be98a8248c4407817e665"

@@ -305,6 +305,60 @@
     "source": "simple-icons:openjdk",
     "license": "CC0-1.0（simple-icons）"
   },
+  "vitest": {
+    "name": "Vitest",
+    "category": "品質",
+    "source": "simple-icons:vitest",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "playwright": {
+    "name": "Playwright",
+    "category": "品質",
+    "source": "logos:playwright",
+    "license": "CC0-1.0（gilbarbara/logos、Iconify の logos）"
+  },
+  "storybook": {
+    "name": "Storybook",
+    "category": "品質",
+    "source": "simple-icons:storybook",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "redux": {
+    "name": "Redux",
+    "category": "モバイル",
+    "source": "simple-icons:redux",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "line": {
+    "name": "LINE",
+    "category": "サーバー",
+    "source": "simple-icons:line",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "slack": {
+    "name": "Slack",
+    "category": "サーバー",
+    "source": "logos:slack-icon",
+    "license": "CC0-1.0（gilbarbara/logos、Iconify の logos）"
+  },
+  "npm": {
+    "name": "npm",
+    "category": "発信",
+    "source": "simple-icons:npm",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "homebrew": {
+    "name": "Homebrew",
+    "category": "発信",
+    "source": "simple-icons:homebrew",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "speakerdeck": {
+    "name": "Speaker Deck",
+    "category": "発信",
+    "source": "simple-icons:speakerdeck",
+    "license": "CC0-1.0（simple-icons）"
+  },
   "github": {
     "name": "GitHub",
     "category": "アカウント",

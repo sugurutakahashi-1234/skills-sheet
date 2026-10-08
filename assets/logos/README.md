@@ -61,6 +61,15 @@
 | 分析 | PostHog | `posthog.svg` | simple-icons `posthog` |
 | サーバー | PHP | `php.svg` | simple-icons `php` |
 | サーバー | Java | `java.svg` | simple-icons `openjdk` |
+| 品質 | Vitest | `vitest.svg` | simple-icons `vitest` |
+| 品質 | Playwright | `playwright.svg` | Iconify logos `playwright` |
+| 品質 | Storybook | `storybook.svg` | simple-icons `storybook` |
+| モバイル | Redux | `redux.svg` | simple-icons `redux` |
+| サーバー | LINE | `line.svg` | simple-icons `line` |
+| サーバー | Slack | `slack.svg` | Iconify logos `slack-icon` |
+| 発信 | npm | `npm.svg` | simple-icons `npm` |
+| 発信 | Homebrew | `homebrew.svg` | simple-icons `homebrew` |
+| 発信 | Speaker Deck | `speakerdeck.svg` | simple-icons `speakerdeck` |
 | アカウント | GitHub | `github.svg` | simple-icons `github` |
 | アカウント | X | `x.svg` | simple-icons `x` |
 | アカウント | Zenn | `zenn.svg` | simple-icons `zenn` |

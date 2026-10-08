@@ -1,0 +1,332 @@
+{
+  "claude-code": {
+    "name": "Claude Code",
+    "category": "AI",
+    "source": "simple-icons:claudecode",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "claude": {
+    "name": "Claude",
+    "category": "AI",
+    "source": "simple-icons:claude",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "anthropic": {
+    "name": "Anthropic",
+    "category": "AI",
+    "source": "simple-icons:anthropic",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "codex": {
+    "name": "Codex",
+    "category": "AI",
+    "source": "logos:codex",
+    "license": "CC0-1.0（gilbarbara/logos、Iconify の logos）"
+  },
+  "openai": {
+    "name": "OpenAI / ChatGPT",
+    "category": "AI",
+    "source": "logos:openai-icon",
+    "license": "CC0-1.0（gilbarbara/logos、Iconify の logos）"
+  },
+  "antigravity": {
+    "name": "Antigravity",
+    "category": "AI",
+    "source": "logos:antigravity",
+    "license": "CC0-1.0（gilbarbara/logos、Iconify の logos）"
+  },
+  "gemini": {
+    "name": "Gemini",
+    "category": "AI",
+    "source": "simple-icons:googlegemini",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "kimi": {
+    "name": "Kimi",
+    "category": "AI",
+    "source": "simple-icons:kimi",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "deepseek": {
+    "name": "DeepSeek",
+    "category": "AI",
+    "source": "simple-icons:deepseek",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "mcp": {
+    "name": "MCP",
+    "category": "AI",
+    "source": "simple-icons:modelcontextprotocol",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "v0": {
+    "name": "v0",
+    "category": "AI",
+    "source": "simple-icons:v0",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "cloudflare": {
+    "name": "Cloudflare",
+    "category": "インフラ",
+    "source": "simple-icons:cloudflare",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "cloudflare-workers": {
+    "name": "Cloudflare Workers",
+    "category": "インフラ",
+    "source": "simple-icons:cloudflareworkers",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "cloudflare-pages": {
+    "name": "Cloudflare Pages",
+    "category": "インフラ",
+    "source": "simple-icons:cloudflarepages",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "google-cloud": {
+    "name": "Google Cloud",
+    "category": "インフラ",
+    "source": "simple-icons:googlecloud",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "aws": {
+    "name": "AWS",
+    "category": "インフラ",
+    "source": "logos:aws",
+    "license": "CC0-1.0（gilbarbara/logos、Iconify の logos）"
+  },
+  "firebase": {
+    "name": "Firebase",
+    "category": "インフラ",
+    "source": "simple-icons:firebase",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "terraform": {
+    "name": "Terraform",
+    "category": "インフラ",
+    "source": "simple-icons:terraform",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "github-actions": {
+    "name": "GitHub Actions",
+    "category": "CI/CD",
+    "source": "simple-icons:githubactions",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "xcode-cloud": {
+    "name": "Xcode Cloud",
+    "category": "CI/CD",
+    "source": "simple-icons:xcode",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "bitrise": {
+    "name": "Bitrise",
+    "category": "CI/CD",
+    "source": "simple-icons:bitrise",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "circleci": {
+    "name": "CircleCI",
+    "category": "CI/CD",
+    "source": "simple-icons:circleci",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "codemagic": {
+    "name": "Codemagic",
+    "category": "CI/CD",
+    "source": "simple-icons:codemagic",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "fastlane": {
+    "name": "Fastlane",
+    "category": "CI/CD",
+    "source": "simple-icons:fastlane",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "renovate": {
+    "name": "Renovate",
+    "category": "CI/CD",
+    "source": "simple-icons:renovate",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "react": {
+    "name": "React / React Native",
+    "category": "Web・モバイル",
+    "source": "simple-icons:react",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "nextjs": {
+    "name": "Next.js",
+    "category": "Web",
+    "source": "simple-icons:nextdotjs",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "astro": {
+    "name": "Astro",
+    "category": "Web",
+    "source": "simple-icons:astro",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "tanstack": {
+    "name": "TanStack",
+    "category": "Web",
+    "source": "simple-icons:tanstack",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "tailwindcss": {
+    "name": "Tailwind CSS",
+    "category": "Web",
+    "source": "simple-icons:tailwindcss",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "shadcn-ui": {
+    "name": "shadcn/ui",
+    "category": "Web",
+    "source": "simple-icons:shadcnui",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "swift": {
+    "name": "Swift（SwiftUI・UIKit にも使う）",
+    "category": "モバイル",
+    "source": "simple-icons:swift",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "flutter": {
+    "name": "Flutter（Riverpod にも使う）",
+    "category": "モバイル",
+    "source": "simple-icons:flutter",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "dart": {
+    "name": "Dart",
+    "category": "モバイル",
+    "source": "simple-icons:dart",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "expo": {
+    "name": "Expo",
+    "category": "モバイル",
+    "source": "simple-icons:expo",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "typescript": {
+    "name": "TypeScript",
+    "category": "サーバー",
+    "source": "simple-icons:typescript",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "bun": {
+    "name": "Bun",
+    "category": "サーバー",
+    "source": "simple-icons:bun",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "nodejs": {
+    "name": "Node.js",
+    "category": "サーバー",
+    "source": "simple-icons:nodedotjs",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "hono": {
+    "name": "Hono",
+    "category": "サーバー",
+    "source": "simple-icons:hono",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "drizzle": {
+    "name": "Drizzle",
+    "category": "サーバー",
+    "source": "simple-icons:drizzle",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "prisma": {
+    "name": "Prisma",
+    "category": "サーバー",
+    "source": "simple-icons:prisma",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "postgresql": {
+    "name": "PostgreSQL",
+    "category": "サーバー",
+    "source": "simple-icons:postgresql",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "mysql": {
+    "name": "MySQL",
+    "category": "サーバー",
+    "source": "simple-icons:mysql",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "sqlite": {
+    "name": "SQLite",
+    "category": "サーバー",
+    "source": "simple-icons:sqlite",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "python": {
+    "name": "Python",
+    "category": "サーバー",
+    "source": "simple-icons:python",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "zod": {
+    "name": "Zod",
+    "category": "サーバー",
+    "source": "simple-icons:zod",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "better-auth": {
+    "name": "Better Auth",
+    "category": "サーバー",
+    "source": "simple-icons:betterauth",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "graphql": {
+    "name": "GraphQL",
+    "category": "サーバー",
+    "source": "simple-icons:graphql",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "posthog": {
+    "name": "PostHog",
+    "category": "分析",
+    "source": "simple-icons:posthog",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "php": {
+    "name": "PHP",
+    "category": "サーバー",
+    "source": "simple-icons:php",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "java": {
+    "name": "Java",
+    "category": "サーバー",
+    "source": "simple-icons:openjdk",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "github": {
+    "name": "GitHub",
+    "category": "アカウント",
+    "source": "simple-icons:github",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "x": {
+    "name": "X",
+    "category": "アカウント",
+    "source": "simple-icons:x",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "zenn": {
+    "name": "Zenn",
+    "category": "アカウント",
+    "source": "simple-icons:zenn",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "qiita": {
+    "name": "Qiita",
+    "category": "アカウント",
+    "source": "simple-icons:qiita",
+    "license": "CC0-1.0（simple-icons）"
+  }
+}

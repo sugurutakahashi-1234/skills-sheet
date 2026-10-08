@@ -359,6 +359,18 @@
     "source": "simple-icons:speakerdeck",
     "license": "CC0-1.0（simple-icons）"
   },
+  "bigquery": {
+    "name": "BigQuery",
+    "category": "分析",
+    "source": "simple-icons:googlebigquery",
+    "license": "CC0-1.0（simple-icons）"
+  },
+  "looker-studio": {
+    "name": "Looker Studio（Looker のロゴで代える）",
+    "category": "分析",
+    "source": "simple-icons:looker",
+    "license": "CC0-1.0（simple-icons）"
+  },
   "github": {
     "name": "GitHub",
     "category": "アカウント",

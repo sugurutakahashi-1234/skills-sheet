@@ -4,7 +4,7 @@
 
 - 出どころ: [simple-icons](https://simpleicons.org/)（CC0-1.0、ブランドの色で塗ってある）と [gilbarbara/logos](https://github.com/gilbarbara/logos)（CC0-1.0、Iconify の `logos` から取った多色の SVG）
 - 素材のライセンスは CC0 だが、ロゴそのものは各社の商標。技術を使った経験を示す目的で使い、提携や推薦を示すような使い方はしない
-- ロゴの無い技術は、近いもので代える（SwiftUI・UIKit は Swift、Riverpod は Flutter、Codex は Codex のロゴ、ChatGPT は OpenAI のロゴ）。概念（LLM・RAG など）にはロゴを付けない
+- ロゴの無い技術は、近いもので代える（SwiftUI・UIKit は Swift、Riverpod は Flutter、Codex は Codex のロゴ、ChatGPT は OpenAI のロゴ、Looker Studio は Looker のロゴ）。概念（LLM・RAG など）にはロゴを付けない
 - 足すときは README の技術スタックにある名前だけにする
 - 白に近いブランドの色（Better Auth・Drizzle・TanStack）は明るい地で見えないので、墨色（`#111318`）で塗ってある
 
@@ -70,6 +70,8 @@
 | 発信 | npm | `npm.svg` | simple-icons `npm` |
 | 発信 | Homebrew | `homebrew.svg` | simple-icons `homebrew` |
 | 発信 | Speaker Deck | `speakerdeck.svg` | simple-icons `speakerdeck` |
+| 分析 | BigQuery | `bigquery.svg` | simple-icons `googlebigquery` |
+| 分析 | Looker Studio（Looker のロゴで代える） | `looker-studio.svg` | simple-icons `looker` |
 | アカウント | GitHub | `github.svg` | simple-icons `github` |
 | アカウント | X | `x.svg` | simple-icons `x` |
 | アカウント | Zenn | `zenn.svg` | simple-icons `zenn` |

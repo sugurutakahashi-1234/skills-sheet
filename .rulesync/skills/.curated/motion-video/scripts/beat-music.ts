@@ -3,6 +3,7 @@
  * 拍の表（JSON）から BGM と効果音を合成し、48 kHz ステレオの WAV を書き出す。
  * 映像と同じ拍番号で音を置くので、場面の切り替わり・一撃・文字の出とずれない。
  * 曲を持ち込めないとき（HyperFrames の BGM 検索は heygen CLI が無いと使えない）の代わり。乱数は種付きで、同じ表なら同じ音になる。
+ * 音作りは軽めに寄せてある。低音を厚くした版は「BGM が重い」と 2 本続けて言われたため、キックとベースは控えめにし、明るい分散和音で拍を刻む。
  */
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -16,7 +17,7 @@ export type BeatTable = {
   halfTime?: [number, number];
   /** 4 拍ごとの和音。既定 "Am F C G" */
   chords?: string;
-  /** 重い一撃（低い衝撃音）を置く拍 */
+  /** 一撃（短い打撃と明るい余韻）を置く拍。場面の着地に使う */
   drops?: number[];
   /** 軽い切り替えの風切り音を置く拍（音の山がその拍に来る） */
   whooshes?: number[];
@@ -87,7 +88,7 @@ export function synth(table: BeatTable, seed = 7) {
   const kick = () => {
     const t = time(0.45), n = noise(t.length);
     let ph = 0;
-    return t.map((s, i) => { ph += (2 * Math.PI * (45 + 95 * Math.exp(-s * 28))) / SR; return Math.tanh((Math.sin(ph) * Math.exp(-s * 7) + n[i] * Math.exp(-s * 400) * 0.25) * 1.6); });
+    return t.map((s, i) => { ph += (2 * Math.PI * (62 + 110 * Math.exp(-s * 40))) / SR; return Math.sin(ph) * Math.exp(-s * 13) + n[i] * Math.exp(-s * 500) * 0.3; });
   };
   const clap = () => {
     const t = time(0.25), n = highpass(noise(t.length));
@@ -112,12 +113,23 @@ export function synth(table: BeatTable, seed = 7) {
       for (const f of tones) for (const d of [-0.15, 0.15]) for (let k = 1; k <= 4; k++) v += Math.sin(2 * Math.PI * (f + d) * k * x) / k;
       return v * Math.min(1, x / 0.4) * Math.min(1, (dur - x) / 0.4);
     });
-    return lowpass(s, 18).map((v) => v * 0.05);
+    return lowpass(s, 4).map((v) => v * 0.035);
   };
   const boom = () => {
-    const t = time(1.6), n = lowpass(noise(t.length), 30);
+    const t = time(1.2), n = highpass(noise(t.length));
     let ph = 0;
-    return t.map((s, i) => { ph += (2 * Math.PI * (38 + 40 * Math.exp(-s * 6))) / SR; return Math.tanh((Math.sin(ph) * Math.exp(-s * 2.4) + n[i] * Math.exp(-s * 5) * 0.6) * 1.4) * 0.9; });
+    return t.map((s, i) => {
+      ph += (2 * Math.PI * (70 + 90 * Math.exp(-s * 30))) / SR;
+      const hit = Math.sin(ph) * Math.exp(-s * 9) * 0.6;
+      const air = n[i] * Math.exp(-s * 6) * 0.22;
+      const bell = [1046.5, 1568, 2093].reduce((v, f) => v + Math.sin(2 * Math.PI * f * s), 0) * Math.exp(-s * 3.5) * 0.08;
+      return hit + air + bell;
+    });
+  };
+  // 明るい分散和音の 1 音（ベル風。基音と 2 倍音を短く減衰させる）
+  const pluck = (f: number) => {
+    const t = time(0.4);
+    return t.map((s) => (Math.sin(2 * Math.PI * f * s) + 0.35 * Math.sin(4 * Math.PI * f * s)) * Math.min(1, s * 400) * Math.exp(-s * 9));
   };
   const riser = (beats: number) => {
     const t = time(beats * beatSec), n = noise(t.length), lo = lowpass(n, 40), hi = highpass(n);
@@ -140,11 +152,13 @@ export function synth(table: BeatTable, seed = 7) {
   const half = (b: number) => !!table.halfTime && b >= table.halfTime[0] && b < table.halfTime[1];
   const kicks: number[] = [];
   for (let b = g0; b < g1; b++) {
-    if (!half(b) || b % 2 === 0) { add(kick(), b, 0.95); kicks.push(b); }
+    if (!half(b) || b % 2 === 0) { add(kick(), b, 0.6); kicks.push(b); }
     if (b % 2 === 1 && !half(b)) add(clap(), b, 0.55, 0.05);
-    add(hat(false), b + 0.5, 0.6, 0.3);
+    add(hat(false), b + 0.5, 0.75, 0.3);
     if (b % 4 === 3) add(hat(true), b + 0.5, 0.5, -0.3);
-    for (const h of half(b) ? [0] : [0, 0.5]) add(bass(chordAt(b).bass, beatSec * 0.48), b + h, 0.9);
+    for (const h of half(b) ? [0] : [0, 0.5]) add(bass(chordAt(b).bass * 2, beatSec * 0.48), b + h, 0.42);
+    const tones = chordAt(b).tones;
+    [0, 0.5].forEach((h, k) => { const step = (b * 2 + k) % 4; add(pluck(tones[[0, 1, 2, 1][step]] * 2), b + h, 0.16, step % 2 ? 0.35 : -0.35); });
   }
   for (const [start, length] of table.risers ?? []) add(riser(length), start, 0.75);
   for (const b of table.drops ?? []) add(boom(), b);
@@ -160,12 +174,15 @@ export function synth(table: BeatTable, seed = 7) {
   const duckLen = Math.floor(0.25 * SR);
   for (const b of kicks) {
     const i = at(b);
-    for (let k = 0; k < duckLen && i + k < N; k++) { const g = 0.55 + 0.45 * (k / duckLen); L[i + k] *= g; R[i + k] *= g; }
+    for (let k = 0; k < duckLen && i + k < N; k++) { const g = 0.78 + 0.22 * (k / duckLen); L[i + k] *= g; R[i + k] *= g; }
   }
   if (table.fadeFrom !== undefined) {
     const i0 = at(table.fadeFrom);
     for (let i = Math.max(0, i0); i < N; i++) { const g = (1 - (i - i0) / Math.max(1, N - i0)) ** 1.5; L[i] *= g; R[i] *= g; }
   }
+  // 約 70 Hz 以下を削る（1 次のハイパス）。スマホやノートの小さいスピーカーで低音がこもらないように
+  const a = 1 / (1 + 2 * Math.PI * 70 / SR);
+  for (const ch of [L, R]) { let px = 0, py = 0; for (let i = 0; i < N; i++) { const y = a * (py + ch[i] - px); px = ch[i]; py = y; ch[i] = y; } }
   // 柔らかく潰してから -1 dBFS に揃える
   let peak = 1e-9;
   for (let i = 0; i < N; i++) { L[i] = Math.tanh(L[i] * 0.9); R[i] = Math.tanh(R[i] * 0.9); peak = Math.max(peak, Math.abs(L[i]), Math.abs(R[i])); }
@@ -199,7 +216,7 @@ export function main(args: string[]): number {
     "groove": [4, 58],                         キック・クラップ・ハイハット・ベースを鳴らす区間
     "halfTime": [26, 34],                      テンポを半分に感じさせる区間（任意）
     "chords": "Am F C G",                      4 拍ごとの和音（任意）
-    "drops": [4, 18, 36, 52],                  重い一撃
+    "drops": [4, 18, 36, 52],                  一撃（場面の着地）
     "whooshes": [10, 26, 44],                  軽い切り替え
     "risers": [[14, 4], [34, 2], [50, 2]],     盛り上げ [開始拍, 長さ]
     "ticks": [18, 19, 20],                     短いクリック

@@ -3,14 +3,14 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "e238543e99861c1fee7e3cce18dd0abe9f961bf4",
-      "resolvedAt": "2026-10-08T02:17:02.953Z",
+      "resolvedRef": "d2d46134e3c8fc26bc635f4e719d26c3ac3157e4",
+      "resolvedAt": "2026-10-08T14:23:11.299Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-392fada49d52fb9cec68d5df8c0d5536695c9e53cc509affd9de4c3cc4f7ea05"
         },
         "motion-video": {
-          "integrity": "sha256-c9778cd864f0075b16374fa876973bd9bd4e339f14b7db6b43b8172f21d9c8e4"
+          "integrity": "sha256-75dd0b5626e5bcd1f05d86fa18877ce88d21e5e1977c37a32113c9626ed5c470"
         }
       },
       "skillSelection": [
@@ -47,8 +47,8 @@
     },
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "b66e8a195e5a08b5bdd654337973d50e08c1ea51",
-      "resolvedAt": "2026-10-08T02:19:01.946Z",
+      "resolvedRef": "188475aaf2cc94d05a5a641341cab3020c131f16",
+      "resolvedAt": "2026-10-08T14:25:26.851Z",
       "skills": {
         "general-video": {
           "integrity": "sha256-b254eb95852777f9a55763bf71a1522b4e74d362a77be98a8248c4407817e665"
@@ -60,7 +60,7 @@
           "integrity": "sha256-6573f28d1447bffab93aebf55a4b414d478e73e18d43fcfc06fc785ea1ac7d04"
         },
         "hyperframes-cli": {
-          "integrity": "sha256-874fcfab2406c83668e519bb2ce624a0fe49db8ac13a1a75b130abded78785cb"
+          "integrity": "sha256-1445200e6c2f071fed7890cfcce996b127e7cd45b28aed9b97106225c934b41d"
         },
         "hyperframes-core": {
           "integrity": "sha256-3a5c7607e38e2baac22e4488cfba6ca4b38ee5cae4a19de9be942165280d7285"

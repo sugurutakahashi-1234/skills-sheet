@@ -776,6 +776,7 @@
 - **分析**
   - プロダクト分析: `PostHog`, `Firebase Analytics`, `BytePlus DI`
   - 広告の効果計測: `Adjust`
+  - データウェアハウス: `BigQuery`
   - ダッシュボード: `Looker Studio`
   - アクセス解析: `Cloudflare Analytics`
 - **モバイルアプリ開発**

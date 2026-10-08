@@ -10,7 +10,8 @@
   "sources": [
     {
       "source": "sugurutakahashi-1234/ai-rules",
-      "rules": ["language-and-commits", "git-safety", "japanese-writing"],
+      // skill-layering: スキル・ルールを足す・直すときの置き場所と、共有スキルを変える前の影響確認
+      "rules": ["language-and-commits", "git-safety", "japanese-writing", "skill-layering"],
       // 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
       "skills": ["design-compare"]
     }

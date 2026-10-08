@@ -4,7 +4,7 @@
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
       "resolvedRef": "e362acad5468ec56042e5edadae23f97b21791a7",
-      "resolvedAt": "2026-10-06T02:45:46.343Z",
+      "resolvedAt": "2026-10-08T00:51:36.664Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-82ad4b5bbbc6312dc6f8af409a9b94fd69e12247d5bb46b3595ce647b41a536b"
@@ -22,18 +22,23 @@
         },
         "language-and-commits": {
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
+        },
+        "skill-layering": {
+          "integrity": "sha256-cd652e4e778f6f104e3cc9221b2683de2922ea0c92e862a88a3805a007d23928"
         }
       },
       "ruleSelection": [
         "git-safety",
         "japanese-writing",
-        "language-and-commits"
+        "language-and-commits",
+        "skill-layering"
       ],
       "rulesPath": "rules",
       "resolvedRuleNames": [
         "git-safety",
         "japanese-writing",
-        "language-and-commits"
+        "language-and-commits",
+        "skill-layering"
       ]
     }
   }

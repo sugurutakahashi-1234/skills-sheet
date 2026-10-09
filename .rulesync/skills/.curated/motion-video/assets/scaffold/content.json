@@ -1,0 +1,33 @@
+{
+  "scenes": [
+    {"id": "title", "file": "compositions/title.html", "length": 8, "entry": {"type": "cut"},
+     "pose": {"start": {}, "end": {}},
+     "beats": {"titleIn": 0.5, "subIn": 2},
+     "limits": {"shown": 3}},
+    {"id": "items", "file": "compositions/items.html", "length": 10, "entry": {"type": "band", "cover": 1, "leave": 1.75, "gone": 2.5},
+     "pose": {"start": {"boxes": {"x": 160, "y": 300, "scale": 1}}, "end": {"boxes": {"x": 160, "y": 300, "scale": 1}}},
+     "beats": {"first": 3.5, "every": 1},
+     "limits": {"shown": 3}},
+    {"id": "focus", "file": "compositions/focus.html", "length": 13, "entry": {"type": "swap", "out": 0.2},
+     "pose": {"start": {"boxes": {"x": 160, "y": 300, "scale": 1}}, "end": {"boxes": {"x": 160, "y": 300, "scale": 1}}},
+     "beats": {"picks": [1, 4, 7, 10]},
+     "limits": {"shown": 4, "gaps": {"picks": {"each": 1.4, "avg": 1.4}}}},
+    {"id": "ending", "file": "compositions/ending.html", "length": 9, "entry": {"type": "fade", "out": 0.25},
+     "pose": {"start": {}, "end": {}},
+     "beats": {"lands": 0.5},
+     "limits": {"shown": 3}}
+  ],
+  "theme": {"bg": "#f3f4f6", "panel": "#ffffff", "ink": "#18181b", "accent": "#93c5fd", "muted": "#52525b"},
+  "title": {"text": "20 秒でわかる 〇〇", "sub": "題材を一言で"},
+  "headings": {
+    "items": {"text": "並べる項目"},
+    "focus": {"text": "1 つずつ見る"}
+  },
+  "items": [
+    {"label": "項目 A", "detail": "項目 A の説明を 1 行で", "color": "#60a5fa"},
+    {"label": "項目 B", "detail": "項目 B の説明を 1 行で", "color": "#34d399"},
+    {"label": "項目 C", "detail": "項目 C の説明を 1 行で", "color": "#fbbf24"},
+    {"label": "項目 D", "detail": "項目 D の説明を 1 行で", "color": "#f472b6"}
+  ],
+  "ending": {"lead": "詳しくはこちら", "url": "https://example.com/"}
+}

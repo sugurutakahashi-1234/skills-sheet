@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="heads-template">
+      <style>
+        #heads-root { position: absolute; inset: 0; pointer-events: none; }
+        /* 帯: 画面より広い平行四辺形。文字は傾けずに立てる */
+        #heads-root .h-band { position: absolute; left: 0; top: 0; display: flex; align-items: center; justify-content: center; background: var(--accent); border-top: 8px solid var(--ink); border-bottom: 8px solid var(--ink); }
+        #heads-root .h-band span { display: block; font-weight: 800; font-size: 112px; line-height: 1; white-space: nowrap; }
+        /* 左上に残る見出し。画面と同じ大きさの入れ物ごと、次の帯の前の縁で消える */
+        #heads-root .h-cwrap { position: absolute; inset: 0; }
+        #heads-root .h-corner { position: absolute; left: 100px; top: 96px; height: 90px; display: flex; align-items: center; }
+        #heads-root .h-corner .tx { font-weight: 800; font-size: 68px; line-height: 1; white-space: nowrap; padding: 0 6px 4px; background: linear-gradient(transparent 64%, var(--accent) 64%, var(--accent) 96%, transparent 96%); }
+      </style>
+      <div id="heads-root" data-composition-id="heads" data-width="1920" data-height="1080" data-layout-allow-overflow data-layout-allow-overlap></div>
+      <script>
+        (() => {
+          // 場面の切り替え（場面の並びは content.json の scenes）。帯（band）で入る場面は、見出しを載せた帯が左から画面を横切り、
+          // 帯の前の縁が通り過ぎたところから入れ替わる。帯が抜けると、見出しは左上に残る。見出しの入れ替え（swap）で入る場面は帯を通さず、
+          // 前の見出しが下へ沈んで消え、新しい見出しが上から降りて出る。左上の見出しは、次の場面の入り方で消える
+          // （帯なら帯の前の縁で、swap なら沈んで、fade なら薄くなって）。見出しは content.json の headings[場面の id]
+          const root = document.getElementById("heads-root");
+          const { CONTENT, beat, BAND } = B;
+          const HD = CONTENT.headings || {};
+          const SWAP_OUT = 0.2; // swap で古い見出しが沈みきるまでの秒（新しい見出しはその後に出る）
+          const LIST = B.SCENES.filter((S) => HD[S.id]).map((S) => ({ S, head: HD[S.id] }));
+          const rise = B.E("back.out(1.7)"), sink = B.E("power2.in");
+          LIST.forEach((H) => {
+            const { S } = H;
+            if (S.band) {
+              const band = document.createElement("div");
+              band.className = "h-band";
+              Object.assign(band.style, { visibility: "hidden", width: BAND.w + "px", height: BAND.h + "px", left: 960 - BAND.w / 2 + "px", top: BAND.cy - BAND.h / 2 + "px" });
+              band.innerHTML = `<span data-layout-allow-overlap>${H.head.text}</span>`; // 帯の文字が下の場面の文字と重なるのは意図どおり
+              H.bandEl = band;
+              H.bandTx = band.querySelector("span");
+              root.append(band);
+            }
+            H.appear = S.band ? beat(S.band.leave) + 0.12 : S.t0 + SWAP_OUT;
+            const wrap = document.createElement("div");
+            wrap.className = "h-cwrap";
+            wrap.style.visibility = "hidden";
+            wrap.innerHTML = `<div class="h-corner"><span class="tx">${H.head.text}</span></div>`;
+            H.wrap = wrap;
+            H.corner = wrap.querySelector(".h-corner");
+            root.insertBefore(wrap, root.querySelector(".h-band")); // 帯はどの見出しよりも手前
+          });
+
+          function render(t) {
+            LIST.forEach((H) => {
+              const sp = H.S.band, N = H.S.next;
+              if (sp) {
+                const onBand = t >= beat(sp.in) && t < beat(sp.gone);
+                B.vis(H.bandEl, onBand);
+                if (onBand) {
+                  H.bandEl.style.transform = `translateX(${B.bandOff(t, sp).toFixed(1)}px) skewX(-12deg)`;
+                  const p = B.prog(t, beat(sp.in) + 0.45 * (beat(sp.cover) - beat(sp.in)), beat(sp.cover) + 0.12);
+                  H.bandTx.style.opacity = B.prog(p, 0, 0.35).toFixed(3);
+                  H.bandTx.style.transform = `skewX(12deg) translateX(${(-140 * (1 - B.E("power3.out")(p))).toFixed(1)}px)`;
+                }
+              }
+              const a = H.appear;
+              const swapOut = N && N.entry.type === "swap" ? N.t0 : null;
+              if (t < a || (swapOut !== null && t >= swapOut + SWAP_OUT)) { H.wrap.style.visibility = "hidden"; return; }
+              B.applyWipe(H.wrap, N && N.band ? B.wipeClip(t, N.band, "out") : "none");
+              const p = B.prog(t, a, a + 0.38);
+              const out = N && N.entry.type === "fade" ? B.prog(t, N.t0, N.t0 + N.entry.out) : 0;
+              const sw = swapOut !== null ? sink(B.prog(t, swapOut, swapOut + SWAP_OUT)) : 0;
+              H.corner.style.opacity = (B.prog(t, a, a + 0.12) * (1 - out) * (1 - sw)).toFixed(3);
+              H.corner.style.transform = `translateY(${(-26 * (1 - rise(p)) + 22 * sw).toFixed(1)}px)`;
+            });
+          }
+
+          B.clock("heads", render);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

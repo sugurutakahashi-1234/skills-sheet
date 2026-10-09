@@ -8,6 +8,7 @@
  * - mode "keep": 案（列）を最大 N 個「残す」。足切りは keep 3、方向やキービジュアルを決めるときは keep 1
  * - mode "pick": 場面（行）ごとに 1 案を選び、「この方向でもっと」を付けられる。本人が場面ごとに混ぜたいときだけ
  * - mode "view": 選ばせずに見せるだけ（言われたとおりに直した点の確認など）。案ごとのメモ欄だけ付く
+ * - 案が文だけ（text だけで画像・動画が無い）のページは、横並びにせず縦に 1 列で並べる。文は改行ごとの行・「1. 」の番号つきの並び・空行の段落の間で出す
  * - recommend で推す案を明示する（札「おすすめ」と理由 1 行）
  * - BGM は何曲でも並べられる。1 曲を再生すると他は止まる（止めた位置は残す。頭に戻すと聴き直しづらい）
  * - 入力はブラウザに保存する（作り直しても同じ storageKey なら残る）。作り直したら開き直さず、本人に再読み込みしてもらう
@@ -22,8 +23,8 @@ export type Page = {
   mode?: "keep" | "pick" | "view";
   /** mode "keep" で残せる数。既定 3 */
   keep?: number;
-  /** 案。file は画像とメモのファイル名に入る名前（既定は key） */
-  columns?: { key: string; name: string; file?: string }[];
+  /** 案。file は画像とメモのファイル名に入る名前（既定は key）。text を書くと画像の代わりにその文を出す（文言・URL・尺のような、絵を作るまでもない直しの「直す前 → 直した後」） */
+  columns?: { key: string; name: string; file?: string; text?: string }[];
   /** 場面 */
   rows?: { key: string; name: string; sub?: string }[];
   /** 画像の場所。出力 HTML からの相対パスで、{file} と {row} を置き換える。.mp4 / .webm なら音なしで繰り返し再生する動画として並べる */
@@ -56,7 +57,19 @@ function renderPage(p: Page, pi: number, baseDir: string, next: string | null): 
   };
   const rows = p.rows ?? [];
   const cols = p.columns ?? [];
-  const figure = (file: string, row: NonNullable<Page["rows"]>[number], index: number, label: boolean) => {
+  // 文は改行ごとに 1 行として出す。「1. 」で始まる行は番号つきの並び、空の行は段落の間
+  const textBlock = (text: string) => {
+    let html = "", list = false;
+    for (const line of text.split("\n")) {
+      const m = line.match(/^(\d+)\.\s+(.*)$/);
+      if (m) { html += `${list ? "" : "<ol>"}<li value="${m[1]}">${esc(m[2])}</li>`; list = true; continue; }
+      if (list) { html += "</ol>"; list = false; }
+      html += line.trim() ? `<p>${esc(line)}</p>` : '<p class="gap"></p>';
+    }
+    return `<div class="txt">${html}${list ? "</ol>" : ""}</div>`;
+  };
+  const figure = (file: string, row: NonNullable<Page["rows"]>[number], index: number, label: boolean, text?: string) => {
+    if (text !== undefined) return `<figure>${textBlock(text)}</figure>`;
     const src = fill(p.images ?? "", file, row.key);
     const cap = `${label ? `${esc(row.name)}：` : ""}${esc(noteOf(file, row.key, index))}`;
     const media = /\.(mp4|webm|mov)$/i.test(src)
@@ -69,10 +82,12 @@ function renderPage(p: Page, pi: number, baseDir: string, next: string | null): 
   const rec = p.recommend?.key;
   const badge = (key: string) => (key === rec ? '<span class="rec">おすすめ</span>' : "");
   const mode = p.mode ?? "keep";
+  // 案が文だけなら縦に 1 列で並べる（横並びの狭いカードでは 1 行が短く折れて読みにくい）
+  const textOnly = cols.length > 0 && (mode === "keep" || mode === "view") && cols.every((c) => c.text !== undefined);
   let body = "";
   if (cols.length && (mode === "keep" || mode === "view")) {
-    body = `<div class="grid">${cols
-      .map((c) => `<div class="card${mode === "keep" ? " col" : ""}" data-col="${esc(c.key)}"><div class="head"><b>${esc(c.key)}</b> ${esc(c.name)}${badge(c.key)}${mode === "keep" ? '<button class="keep">残す</button>' : ""}</div>${rows.map((r, i) => figure(c.file ?? c.key, r, i, rows.length > 1)).join("")}<textarea class="memo" data-memo="${esc(c.key)}" placeholder="この案への一言（任意）"></textarea></div>`)
+    body = `<div class="grid${textOnly ? " list" : ""}">${cols
+      .map((c) => `<div class="card${mode === "keep" ? " col" : ""}" data-col="${esc(c.key)}"><div class="head"><b>${esc(c.key)}</b><span class="nm">${esc(c.name)}</span>${badge(c.key)}${mode === "keep" ? '<button class="keep">残す</button>' : ""}</div>${rows.map((r, i) => figure(c.file ?? c.key, r, i, rows.length > 1, c.text)).join("")}<textarea class="memo" data-memo="${esc(c.key)}" placeholder="この案への一言（任意）"></textarea></div>`)
       .join("")}</div>`;
   } else if (cols.length) {
     body = rows
@@ -88,7 +103,7 @@ function renderPage(p: Page, pi: number, baseDir: string, next: string | null): 
     : "";
   const head = `<div class="phead"><h2>${esc(p.title)}</h2><span class="chip st"></span>${p.note ? `<span class="warn">${esc(p.note)}</span>` : ""}${rec ? `<span class="recline"><span class="rec">おすすめ</span> ${esc(rec)}${p.recommend?.reason ? `：${esc(p.recommend.reason)}` : ""}</span>` : ""}<span class="count"></span></div>`;
   const nav = next === null ? "" : `<div class="nextbar"><button class="next on" data-go="${pi + 1}">${esc(next)} →</button></div>`;
-  return `<section class="page" data-p="${pi}">${head}${body}${audio}<textarea class="memo" data-memo="page" placeholder="このページへの一言（任意）"></textarea>${nav}</section>`;
+  return `<section class="page${textOnly ? " narrow" : ""}" data-p="${pi}">${head}${body}${audio}<textarea class="memo" data-memo="page" placeholder="このページへの一言（任意）"></textarea>${nav}</section>`;
 }
 
 export function build(spec: Spec, baseDir: string): string {
@@ -161,11 +176,18 @@ export function build(spec: Spec, baseDir: string): string {
   .cards { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 12px; }
   @media (max-width: 1100px) { .grid, .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 640px) { .grid, .cards { grid-template-columns: 1fr; } }
+  .page.narrow { max-width: 880px; }
+  .grid.list { grid-template-columns: minmax(0, 1fr); }
+  .list .card { padding: 14px 18px; gap: 10px; }
+  .list .card .head { font-size: 16px; }
   .card { background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
   .card.on { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47, 91, 255, .25); }
-  .rec { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #ff4f8b; color: #fff; font-size: 12px; font-weight: 700; }
+  .rec { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #ff4f8b; color: #fff; font-size: 12px; font-weight: 700; white-space: nowrap; }
   .recline { flex-basis: 100%; font-size: 13px; }
-  .card .head { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+  /* 記号・札・ボタンは折り返さず縮めない。長い案の名前の方を折り返す */
+  .card .head { display: flex; align-items: baseline; gap: 8px; font-size: 15px; }
+  .card .head > b, .card .head > .rec, .card .head > button, .card .meta b, .card .btns button, .track .song { white-space: nowrap; flex-shrink: 0; }
+  .card .head .nm { min-width: 0; }
   .card .head button { margin-left: auto; }
   .card .meta { font-size: 13px; }
   .card .btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; }
@@ -173,6 +195,12 @@ export function build(spec: Spec, baseDir: string): string {
   figure img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; cursor: zoom-in; }
   figure video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; background: #000; }
   figcaption { font-size: 12px; color: var(--sub); margin-top: 4px; line-height: 1.5; }
+  .txt { font-size: 15px; line-height: 1.75; padding: 14px 16px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); overflow-wrap: anywhere; }
+  .txt p, .txt li { margin: 0 0 6px; }
+  .txt ol { margin: 0 0 6px; padding-left: 1.6em; }
+  .txt li::marker { font-weight: 700; color: var(--sub); }
+  .txt .gap { height: 6px; }
+  .txt > :last-child, .txt li:last-child { margin-bottom: 0; }
   .missing { aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--sub); border: 1px dashed var(--line); border-radius: 8px; }
   .row, .box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
   .row h3, .box h3 { font-size: 16px; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
@@ -373,7 +401,7 @@ spec.json の例（ページが 1 つ）:
     const hasCards = !!p.columns?.length;
     if (!p.title) throw new Error("各ページに title が要る");
     if (!hasCards && !p.audio?.length) throw new Error(`${p.title}: columns か audio のどちらかが要る`);
-    if (hasCards && (!p.rows?.length || !p.images || !["keep", "pick", "view", undefined].includes(p.mode))) throw new Error(`${p.title}: columns を書くときは rows・images が要り、mode は keep・pick・view`);
+    if (hasCards && (!p.rows?.length || (!p.images && !p.columns!.every((c) => c.text !== undefined)) || !["keep", "pick", "view", undefined].includes(p.mode))) throw new Error(`${p.title}: columns を書くときは rows・images が要り、mode は keep・pick・view`);
   }
   writeFileSync(args[1], build(spec, dirname(args[1])));
   console.error(`${args[1]}: ページ ${pages.length}・案 ${pages.reduce((n, p) => n + (p.columns?.length ?? 0), 0)}・BGM ${pages.reduce((n, p) => n + (p.audio?.length ?? 0), 0)}`);

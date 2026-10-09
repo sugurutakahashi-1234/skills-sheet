@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="focus-template">
+      <style>
+        #focus-root { position: absolute; inset: 0; }
+        #focus-root .f-world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+        #focus-root .f-card { position: absolute; left: 760px; top: 330px; width: 1000px; height: 360px; display: flex; flex-direction: column; justify-content: center; gap: 24px; padding: 0 56px; border-radius: 28px; border: 5px solid var(--ink); background: var(--panel); box-shadow: 0 10px 0 var(--ink); }
+        #focus-root .f-card b { font-weight: 800; font-size: 64px; line-height: 1.1; white-space: nowrap; }
+        #focus-root .f-card span { font-weight: 700; font-size: 34px; line-height: 1.2; color: var(--muted); white-space: nowrap; }
+      </style>
+      <div id="focus-root" data-composition-id="focus" data-width="1920" data-height="1080">
+        <div class="f-world" data-layout-allow-overflow data-layout-allow-overlap></div>
+      </div>
+      <script>
+        (() => {
+          // 1 つずつ見る。共通の部品（箱の列）を同じ姿勢で描き直し、拍ごとに 1 つを選んで、ほかの箱を薄くし、右に説明の札を出す
+          const S = B.scene("focus"), K = S.beats;
+          const root = document.getElementById("focus-root");
+          const world = root.querySelector(".f-world");
+          const boxes = B.boxes(world, S.pose.start.boxes);
+          const picks = K.picks.map((b, i) => ({ i, at: S.at(b), until: i + 1 < K.picks.length ? S.at(K.picks[i + 1]) : S.t1 }));
+          const cards = picks.map((p) => {
+            const it = B.CONTENT.items[p.i];
+            const card = document.createElement("div");
+            card.className = "f-card";
+            card.style.visibility = "hidden";
+            card.innerHTML = `<b>${it.label}</b><span>${it.detail}</span>`;
+            world.appendChild(card);
+            return card;
+          });
+
+          function render(t) {
+            const P = B.presence(S, t);
+            B.applyWipe(root, P.clip);
+            root.style.opacity = 1 - P.out;
+            if (!P.on) return;
+            boxes.el.style.visibility = B.handsOff(S, t, "boxes") ? "hidden" : "";
+            const dim = {};
+            picks.forEach((p, n) => {
+              // 札は右から入って止まり、次の札の 0.2 秒前に下へ抜ける（出る動きと消える動きを重ねない）
+              const a = B.E("power3.out")(B.prog(t, p.at - 0.2, p.at));
+              const z = n + 1 < picks.length ? B.E("power2.in")(B.prog(t, p.until - 0.4, p.until - 0.2)) : 0;
+              B.vis(cards[n], t >= p.at - 0.2 && z < 1);
+              cards[n].style.transform = `translate(${(400 * (1 - a)).toFixed(1)}px, ${(60 * z).toFixed(1)}px)`;
+              cards[n].style.opacity = ((1 - z) * B.prog(a, 0, 0.3)).toFixed(3);
+              const on = B.prog(t, p.at - 0.2, p.at) * (1 - z);
+              B.CONTENT.items.forEach((_, i) => { if (i !== p.i) dim[i] = Math.max(dim[i] || 0, on); });
+            });
+            boxes.dim(dim);
+          }
+
+          B.clock(S, render);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

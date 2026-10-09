@@ -3,14 +3,14 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "d2d46134e3c8fc26bc635f4e719d26c3ac3157e4",
-      "resolvedAt": "2026-10-08T14:23:11.299Z",
+      "resolvedRef": "0af501fd0326d672d3a31866598af8f6b972acb0",
+      "resolvedAt": "2026-10-09T10:33:25.085Z",
       "skills": {
         "design-compare": {
           "integrity": "sha256-392fada49d52fb9cec68d5df8c0d5536695c9e53cc509affd9de4c3cc4f7ea05"
         },
         "motion-video": {
-          "integrity": "sha256-75dd0b5626e5bcd1f05d86fa18877ce88d21e5e1977c37a32113c9626ed5c470"
+          "integrity": "sha256-aac9521e48b5b51e6aeaeaa2ffac4d1f9da22356cfc75619fcfe99d1c6f3627e"
         }
       },
       "skillSelection": [
@@ -28,7 +28,7 @@
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
         },
         "skill-layering": {
-          "integrity": "sha256-2928b39fd4f31bc8af101e68c5651a7124d255d5c0620c36486355cddd6d95f8"
+          "integrity": "sha256-b18f138f415e354ed9975337eaebf93aa2ebbae1246f182bb54f24e85c58e6b5"
         }
       },
       "ruleSelection": [
@@ -47,20 +47,20 @@
     },
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "188475aaf2cc94d05a5a641341cab3020c131f16",
-      "resolvedAt": "2026-10-08T14:25:26.851Z",
+      "resolvedRef": "46f6cb356785bed79e1ce7b79d7e7accc697786a",
+      "resolvedAt": "2026-10-09T10:35:39.804Z",
       "skills": {
         "general-video": {
           "integrity": "sha256-b254eb95852777f9a55763bf71a1522b4e74d362a77be98a8248c4407817e665"
         },
         "hyperframes-animation": {
-          "integrity": "sha256-0eca3f2b814c7949c317f9b66e9fa0e985f45b1212be34221cc8cd0cf9c30cb4"
+          "integrity": "sha256-389afdbbadc99c465b09bf83f92cdab75ceca6cbd4380263420e16f6b948e564"
         },
         "hyperframes-audio": {
           "integrity": "sha256-6573f28d1447bffab93aebf55a4b414d478e73e18d43fcfc06fc785ea1ac7d04"
         },
         "hyperframes-cli": {
-          "integrity": "sha256-1445200e6c2f071fed7890cfcce996b127e7cd45b28aed9b97106225c934b41d"
+          "integrity": "sha256-2ebd4fb8d0d1dc62c1a25c782481d9bad3707e2791c1190c21c1a8e43dc46f51"
         },
         "hyperframes-core": {
           "integrity": "sha256-3a5c7607e38e2baac22e4488cfba6ca4b38ee5cae4a19de9be942165280d7285"
@@ -81,7 +81,7 @@
           "integrity": "sha256-f8b2dc8d8aa258c39cb308ca721bac82fff76ab4bb263a77fb0edb6a4deaf9a1"
         },
         "media-use": {
-          "integrity": "sha256-715fa2febc9d19882bd6f463b515939be96453456f542bc61118ffbf2993f8de"
+          "integrity": "sha256-531e11d7dc4e957abd5db08a0d264a8f584d01acdebdcc3ad7464ae58c9e9341"
         },
         "motion-graphics": {
           "integrity": "sha256-eacdd43b420cfac2192e22de45295b03db7c910ee6eaebd19d97e7496981b8c9"

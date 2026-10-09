@@ -1,0 +1,11 @@
+{
+  "file": null,
+  "title": "曲を決めたら書く",
+  "source": null,
+  "sourceOffset": null,
+  "beatSeconds": 0.5,
+  "beatsPerBar": 4,
+  "duration": 20,
+  "markers": {},
+  "note": "曲の測った値。曲を決めたら beat-grid.py --music-json で書き出す（file・beatSeconds・duration・markers が埋まる）。file が null の間は音なしで組む"
+}

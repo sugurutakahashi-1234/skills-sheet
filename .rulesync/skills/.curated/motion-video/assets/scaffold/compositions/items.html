@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="items-template">
+      <style>
+        #items-root { position: absolute; inset: 0; }
+        #items-root .i-world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+        #items-root .i-line { position: absolute; display: flex; align-items: center; height: 92px; font-weight: 700; font-size: 34px; line-height: 1; white-space: nowrap; transform-origin: 0 50%; }
+      </style>
+      <div id="items-root" data-composition-id="items" data-width="1920" data-height="1080">
+        <div class="i-world" data-layout-allow-overflow data-layout-allow-overlap></div>
+      </div>
+      <script>
+        (() => {
+          // 項目を並べる。共通の部品（箱の列）を場面の始まりの姿勢で描き直し、その右に項目の説明を 1 つずつ線で結んで出す
+          const S = B.scene("items"), K = S.beats;
+          const root = document.getElementById("items-root");
+          const world = root.querySelector(".i-world");
+          const boxes = B.boxes(world, S.pose.start.boxes);
+          const NS = "http://www.w3.org/2000/svg";
+          const svg = document.createElementNS(NS, "svg");
+          svg.setAttribute("width", "1920");
+          svg.setAttribute("height", "1080");
+          Object.assign(svg.style, { position: "absolute", left: "0px", top: "0px", overflow: "visible" });
+          world.appendChild(svg);
+          const X = 760; // 説明の左端
+          const lines = B.CONTENT.items.map((it, i) => {
+            const at = S.at(K.first + i * K.every);
+            const { x, y } = boxes.side(i);
+            const path = document.createElementNS(NS, "path");
+            path.setAttribute("d", `M ${x} ${y} C ${x + 90} ${y}, ${X - 110} ${y}, ${X - 16} ${y}`);
+            path.setAttribute("fill", "none");
+            path.style.stroke = "var(--ink)";
+            path.setAttribute("stroke-width", 4);
+            path.setAttribute("stroke-linecap", "round");
+            svg.appendChild(path);
+            const len = path.getTotalLength();
+            path.setAttribute("stroke-dasharray", `${len} ${len}`);
+            const text = document.createElement("div");
+            text.className = "i-line";
+            Object.assign(text.style, { left: X + "px", top: y - 46 + "px", visibility: "hidden" });
+            text.textContent = it.detail;
+            world.appendChild(text);
+            return { at, path, len, text };
+          });
+
+          function render(t) {
+            const P = B.presence(S, t);
+            B.applyWipe(root, P.clip);
+            root.style.opacity = 1 - P.out;
+            if (!P.on) return;
+            // 次の場面が同じ姿勢で箱を描き直すなら、終わった後は自分の箱を消す
+            boxes.el.style.visibility = B.handsOff(S, t, "boxes") ? "hidden" : "";
+            lines.forEach((ln) => {
+              const p = B.E("power2.out")(B.prog(t, ln.at - 0.3, ln.at));
+              ln.path.style.visibility = t >= ln.at - 0.3 ? "" : "hidden";
+              ln.path.setAttribute("stroke-dashoffset", (ln.len * (1 - p)).toFixed(1));
+              const q = B.prog(t, ln.at, ln.at + 0.3);
+              B.vis(ln.text, t >= ln.at);
+              ln.text.style.opacity = B.prog(q, 0, 0.5).toFixed(3);
+              ln.text.style.transform = `translateX(${(-24 * (1 - B.E("back.out(1.7)")(q))).toFixed(1)}px)`;
+            });
+          }
+
+          B.clock(S, render);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

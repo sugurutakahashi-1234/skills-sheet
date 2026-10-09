@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="ending-template">
+      <style>
+        #ending-root { position: absolute; inset: 0; }
+        #ending-root .e-card { position: absolute; left: 260px; top: 260px; width: 1400px; height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 44px; border-radius: 36px; border: 6px solid var(--ink); background: var(--accent); box-shadow: 0 14px 0 var(--ink); }
+        #ending-root .e-lead { font-weight: 800; font-size: 88px; line-height: 1; white-space: nowrap; }
+        #ending-root .e-url { padding: 22px 36px; border-radius: 18px; border: 4px solid var(--ink); background: var(--panel); font-weight: 700; font-size: 40px; line-height: 1; white-space: nowrap; }
+      </style>
+      <div id="ending-root" data-composition-id="ending" data-width="1920" data-height="1080">
+        <div class="e-card"><div class="e-lead"></div><div class="e-url"></div></div>
+      </div>
+      <script>
+        (() => {
+          // 締め: 詳細の URL を主役の札にする。前の場面は同じ時刻から薄くなって消え、札は上から落ちて着地する
+          const S = B.scene("ending"), K = S.beats;
+          const root = document.getElementById("ending-root");
+          const card = root.querySelector(".e-card");
+          root.querySelector(".e-lead").textContent = B.CONTENT.ending.lead;
+          root.querySelector(".e-url").textContent = B.CONTENT.ending.url;
+          const T_LAND = S.at(K.lands);
+
+          function render(t) {
+            const P = B.presence(S, t);
+            B.applyWipe(root, P.clip);
+            root.style.opacity = 1 - P.out;
+            if (!P.on) return;
+            const p = B.prog(t, T_LAND - 0.35, T_LAND);
+            const u = Math.max(0, t - T_LAND);
+            const bounce = u < 0.5 ? 10 * Math.exp(-8 * u) * Math.sin(20 * u) : 0; // 着地で小さく弾む
+            B.vis(card, t >= T_LAND - 0.35);
+            card.style.transform = `translateY(${(-900 * (1 - p * p) - bounce).toFixed(1)}px)`;
+          }
+
+          B.clock(S, render);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

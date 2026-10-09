@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template id="title-template">
+      <style>
+        #title-root { position: absolute; inset: 0; }
+        #title-root .t-box { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+        #title-root .t-main { font-weight: 800; font-size: 120px; line-height: 1; white-space: nowrap; }
+        #title-root .t-sub { font-weight: 700; font-size: 44px; line-height: 1; white-space: nowrap; color: var(--muted); }
+      </style>
+      <div id="title-root" data-composition-id="title" data-width="1920" data-height="1080">
+        <div class="t-box"><div class="t-main"></div><div class="t-sub"></div></div>
+      </div>
+      <script>
+        (() => {
+          // 冒頭のタイトル。0 秒のコマから見えていて、弾んで大きくなる。次の場面の帯の前の縁で入れ替わる
+          const S = B.scene("title"), K = S.beats;
+          const root = document.getElementById("title-root");
+          const main = root.querySelector(".t-main"), sub = root.querySelector(".t-sub");
+          main.textContent = B.CONTENT.title.text;
+          sub.textContent = B.CONTENT.title.sub;
+
+          function render(t) {
+            const P = B.presence(S, t);
+            B.applyWipe(root, P.clip);
+            root.style.opacity = 1 - P.out;
+            if (!P.on) return;
+            const pm = B.prog(t, S.at(K.titleIn), S.at(K.titleIn) + 0.5);
+            main.style.transform = `scale(${0.6 + 0.4 * B.E("back.out(2)")(pm)})`;
+            const ps = B.prog(t, S.at(K.subIn), S.at(K.subIn) + 0.4);
+            sub.style.opacity = B.prog(ps, 0, 0.4).toFixed(3);
+            sub.style.transform = `translateY(${(30 * (1 - B.E("back.out(1.6)")(ps))).toFixed(1)}px)`;
+          }
+
+          B.clock(S, render);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

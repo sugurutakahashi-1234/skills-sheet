@@ -47,7 +47,8 @@ puppeteer（使う側のリポジトリに入っているもの）と ffmpeg が
   if (!files.length) { console.error(help); return 2; }
   let puppeteer: typeof import("puppeteer").default;
   try {
-    puppeteer = (await import("puppeteer")).default;
+    // スクリプトの置き場所（ai-rules）ではなく、実行したリポジトリから探す
+    puppeteer = (await import(Bun.resolveSync("puppeteer", process.cwd()))).default;
   } catch {
     console.error("puppeteer が読めない。使う側のリポジトリで `bun add -d puppeteer` してから、そのリポジトリの中で実行する");
     return 1;

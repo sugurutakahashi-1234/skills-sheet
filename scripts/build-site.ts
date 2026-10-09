@@ -16,6 +16,7 @@
  * - <title> と description / og は基本情報の氏名・現職から組み立てる（タブやリンクのプレビューで誰の文書か分かるように）
  */
 import { $, Glob } from "bun";
+import { existsSync } from "node:fs";
 import { HTMLProcessingParser, jaModel } from "budoux";
 import { Cloud, Copy, FileText, MonitorSmartphone, Server, ShieldCheck, Sparkles, SquareTerminal } from "lucide-static";
 import { parseHTML } from "linkedom";
@@ -390,9 +391,9 @@ const pdfName = [...new Glob(PDF_GLOB).scanSync(".")][0];
 if (!pdfName) throw new Error(`PDF が見つかりません: ${PDF_GLOB}`);
 
 // 配信する Markdown（index.md。コピーボタンもこれを取りに行く）。折りたたみは展開済み（コピー先に <details> の HTML タグを持ち込まないため）。
-// h1 直下の「2 つの形式で公開」の案内行は GitHub で読む人向けなので外す（チャットに貼る人や AI には要らない）。
+// h1 直下の「2 つの形式で公開」の案内行と紹介動画の行は GitHub で読む人向けなので外す（チャットに貼る人や AI には要らない）。
 // HTML には埋め込まない。埋め込むと AI が HTML の URL を読んだときに本文が 2 回入り、ページも 2 割重くなる
-const publishedMd = expanded.replace(/^(# [^\n]*\n\n)同じ内容を[^\n]*\n\n/, "$1");
+const publishedMd = expanded.replace(/^(# [^\n]*\n\n)[\s\S]*?(?=^## )/m, "$1");
 
 // ---- ページの題名と説明（基本情報から） ---------------------------------------
 // README の h1 は「スキルシート」だけなので、<title> と description には氏名と現職を足す。
@@ -405,7 +406,17 @@ if (!personName) warnings.push("基本情報に `- **氏名**:` が無い（<tit
 const pageTitle = personName ? `${personName} ${title}` : title;
 const sectionNames = sections.map((s) => s.name).join("・");
 const description = `${personName}${position ? `（${position}）` : ""}の${title}。${sectionNames}。`;
-const ogImage = githubUser ? `https://github.com/${githubUser}.png?size=400` : "";
+// 紹介動画（assets/video/）。あれば h1 の下・基本情報の上に置き、共有したときの絵もそのサムネにする（本人が選んだ P3・O1）。
+// 長さは README の案内の「N 秒の紹介動画」から取る（README が正本）。開いただけでは読み込まず（preload=none）、音は再生を押したときだけ鳴る
+const VIDEO = "assets/video/intro.mp4";
+const POSTER = "assets/video/intro-poster.jpg";
+const hasVideo = existsSync(VIDEO) && existsSync(POSTER);
+const videoSeconds = md.match(/(\d+) 秒の紹介動画/)?.[1];
+const videoLabel = videoSeconds ? `${videoSeconds} 秒の紹介動画` : "紹介動画";
+const videoHtml = hasVideo
+  ? `<figure class="intro-video" id="video"><video controls preload="none" playsinline poster="intro-poster.jpg" src="intro.mp4" aria-label="${esc(videoLabel)}"></video><figcaption>${esc(videoLabel)}</figcaption></figure>`
+  : "";
+const ogImage = hasVideo ? `${SITE_URL}intro-poster.jpg` : githubUser ? `https://github.com/${githubUser}.png?size=400` : "";
 
 // AI 向けの入口（llmstxt.org の形式）: 題名・1 行の説明・全文へのリンク
 const llmsTxt = `# ${pageTitle}
@@ -431,8 +442,10 @@ const html = `<!doctype html>
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${SITE_URL}">
 <meta property="og:locale" content="ja_JP">${ogImage ? `
-<meta property="og:image" content="${ogImage}">
-<meta name="twitter:card" content="summary">` : ""}
+<meta property="og:image" content="${ogImage}">${hasVideo ? `
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">` : ""}
+<meta name="twitter:card" content="${hasVideo ? "summary_large_image" : "summary"}">` : ""}
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -513,6 +526,9 @@ main { min-width: 0; }
 
 /* 本文 */
 h1 { font-size: 26px; margin: 8px 0 12px; }
+.intro-video { margin: 16px 0 0; max-width: 640px; }
+.intro-video video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 8px; background: #000; }
+.intro-video figcaption { margin: 6px 2px 0; font-size: 13px; color: var(--muted); }
 h1, h2, h3, h4, .row-name, .row-no, .item-title, .name, .position, .toc > li > a, .toc ol > li > a { color: var(--h); }
 /* マウスで押したときの青い枠（フォーカスリング）は出さない。キーボード操作のときだけ出す */
 :focus:not(:focus-visible) { outline: none; }
@@ -659,7 +675,7 @@ a.chip { display: inline-flex; align-items: center; gap: 6px; }
 <div class="layout">
 <aside aria-label="目次">${tocHtml}</aside>
 <main>
-${phraseBreaks(`<h1>${inline(title)}</h1>${mainHtml}`)}
+${phraseBreaks(`<h1>${inline(title)}</h1>${videoHtml}${mainHtml}`)}
 </main>
 </div>
 <script>
@@ -794,5 +810,6 @@ await Bun.write(`${OUT_DIR}/${MD_NAME}`, publishedMd);
 await Bun.write(`${OUT_DIR}/llms.txt`, llmsTxt);
 await $`cp ${pdfName} ${OUT_DIR}/`;
 await $`cp assets/favicon.svg assets/favicon-32.png assets/apple-touch-icon.png ${OUT_DIR}/`;
+if (hasVideo) await $`cp ${VIDEO} ${POSTER} ${OUT_DIR}/`;
 
 console.log(`生成: ${OUT_DIR}/index.html, ${OUT_DIR}/${MD_NAME}（案件 ${caseCount} 件, PDF: ${pdfName}）`);

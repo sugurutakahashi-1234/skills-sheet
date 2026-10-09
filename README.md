@@ -1,6 +1,8 @@
 # スキルシート
 
-同じ内容を 2 つの形式で公開 — [Markdown](https://github.com/sugurutakahashi-1234/skills-sheet)（GitHub 原本） ・ [Web](https://sugurutakahashi-1234.github.io/skills-sheet/)（目次つき）
+同じ内容を 2 つの形式で公開 — [Markdown](https://github.com/sugurutakahashi-1234/skills-sheet)（GitHub 原本） ・ [Web](https://sugurutakahashi-1234.github.io/skills-sheet/)（目次・45 秒の紹介動画つき）
+
+https://github.com/user-attachments/assets/f2d431c8-0a8c-4133-b968-5d4d2f0cf703
 
 ## 1. 基本情報
 

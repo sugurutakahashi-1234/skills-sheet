@@ -7,6 +7,8 @@
  *   - PDF: md-to-pdf は Chromium で描画するため、<details> は閉じた状態で出力され中身が消える
  *   - Web 版の「Markdown としてコピー」: コピー先に HTML タグが混ざる
  *   どちらも展開した Markdown を渡せば解決する。
+ *   同じ理由で、GitHub の画面でだけ再生できる添付の動画の行（`https://github.com/user-attachments/assets/…` だけの行）も外す。
+ *   PDF やコピー先では再生できず、URL の文字列だけが残るため。
  *
  * 前提とする構造:
  *   <details>
@@ -23,7 +25,9 @@ export function expandDetails(md: string): string {
   // 2. <details ...> 開始タグと </details> 終了タグを除去して中身を本文化する
   md = md.replace(/<details[^>]*>/gi, "");
   md = md.replace(/<\/details>/gi, "");
-  // 3. タグ除去で生じた 3 行以上の連続空行を 2 行に圧縮する
+  // 3. GitHub の添付の動画の行（URL だけの行）を外す
+  md = md.replace(/^https:\/\/github\.com\/user-attachments\/assets\/[\w-]+[ \t]*$/gm, "");
+  // 4. タグ除去で生じた 3 行以上の連続空行を 2 行に圧縮する
   md = md.replace(/\n{3,}/g, "\n\n");
   return md.replace(/^\n+/, "");
 }

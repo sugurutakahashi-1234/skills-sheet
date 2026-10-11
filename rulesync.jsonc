@@ -1,3 +1,5 @@
+// AI エージェント向けのルールは非公開のルール集（ai-rules）から取り込んでいる。取り込み済みのファイルは .rulesync/ に入っているので、
+// generate と check はそのまま動く。sources の更新（install --update）だけは取り込み元を読める人に限られる。
 {
   "$schema": "https://github.com/dyoshikawa/rulesync/releases/latest/download/config-schema.json",
   // Claude Code (CLAUDE.md) と Codex (AGENTS.md) を .rulesync/ から生成する。生成物は直接編集しない。

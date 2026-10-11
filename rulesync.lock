@@ -3,18 +3,18 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "0af501fd0326d672d3a31866598af8f6b972acb0",
-      "resolvedAt": "2026-10-09T10:33:25.085Z",
+      "resolvedRef": "8cb3dbe43593ef8055cbcbe5ce44af8db2bf5632",
+      "resolvedAt": "2026-10-11T05:00:26.079Z",
       "skills": {
-        "design-compare": {
-          "integrity": "sha256-392fada49d52fb9cec68d5df8c0d5536695c9e53cc509affd9de4c3cc4f7ea05"
+        "decision-page": {
+          "integrity": "sha256-778c3d0bdd1b87fce9a783b4e53a4dec9a22aec30e6aceac2c690a4e348bb899"
         },
         "motion-video": {
-          "integrity": "sha256-aac9521e48b5b51e6aeaeaa2ffac4d1f9da22356cfc75619fcfe99d1c6f3627e"
+          "integrity": "sha256-17bbdbe812819619e84a60832387f92810eadf385043662cf053efa04e8df4a2"
         }
       },
       "skillSelection": [
-        "design-compare",
+        "decision-page",
         "motion-video"
       ],
       "rules": {
@@ -22,13 +22,13 @@
           "integrity": "sha256-4d8944e61681a7a3ae8e2bf0a51d2123a44f57b55d45173f87b615b4c9d4c7b6"
         },
         "japanese-writing": {
-          "integrity": "sha256-92b893f2e98ae4746f86d89f251793a0b8395d22e8eb723ecbf7b6108634a10a"
+          "integrity": "sha256-531262fe1a6739c455c305a8c09cacd6939af59357b47b2925930c9b1ee98ee9"
         },
         "language-and-commits": {
           "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
         },
         "skill-layering": {
-          "integrity": "sha256-b18f138f415e354ed9975337eaebf93aa2ebbae1246f182bb54f24e85c58e6b5"
+          "integrity": "sha256-7f39fb6a41a9ca434f252f21ae41d9cc9bbb251549dcea3ad942eccbbcb0aef7"
         }
       },
       "ruleSelection": [
@@ -47,20 +47,20 @@
     },
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "46f6cb356785bed79e1ce7b79d7e7accc697786a",
-      "resolvedAt": "2026-10-09T10:35:39.804Z",
+      "resolvedRef": "8bca7c4417b59b47fca851183a8d47a4565bad0c",
+      "resolvedAt": "2026-10-11T05:02:25.173Z",
       "skills": {
         "general-video": {
-          "integrity": "sha256-b254eb95852777f9a55763bf71a1522b4e74d362a77be98a8248c4407817e665"
+          "integrity": "sha256-e7ca62c930f846ae8b436d8ece7706198748bae037db08001eaeec5c6e00071e"
         },
         "hyperframes-animation": {
-          "integrity": "sha256-389afdbbadc99c465b09bf83f92cdab75ceca6cbd4380263420e16f6b948e564"
+          "integrity": "sha256-b7623479ce65d24cac480ed4d9d6430a197887af7de3868103cfb432ef537ae0"
         },
         "hyperframes-audio": {
-          "integrity": "sha256-6573f28d1447bffab93aebf55a4b414d478e73e18d43fcfc06fc785ea1ac7d04"
+          "integrity": "sha256-5faca3e221f8a94b0ae50e5fb2b11131b25173c22010f82550515394fc30e61d"
         },
         "hyperframes-cli": {
-          "integrity": "sha256-2ebd4fb8d0d1dc62c1a25c782481d9bad3707e2791c1190c21c1a8e43dc46f51"
+          "integrity": "sha256-fdc37206e0911a323d48341fb49c93a3bd8ed2a9460ce3021e74181f3055f591"
         },
         "hyperframes-core": {
           "integrity": "sha256-3a5c7607e38e2baac22e4488cfba6ca4b38ee5cae4a19de9be942165280d7285"
@@ -78,10 +78,10 @@
           "integrity": "sha256-f5e0b44d68152c124c694f42ae0a1a6df7e0973ec8f0445f752d30046dfab698"
         },
         "hyperframes": {
-          "integrity": "sha256-f8b2dc8d8aa258c39cb308ca721bac82fff76ab4bb263a77fb0edb6a4deaf9a1"
+          "integrity": "sha256-7820253dfd54b92c16b5df83a0c67c5b9fad7f76051922797038bd5fe4b52d4f"
         },
         "media-use": {
-          "integrity": "sha256-531e11d7dc4e957abd5db08a0d264a8f584d01acdebdcc3ad7464ae58c9e9341"
+          "integrity": "sha256-18f3d314e23ab63aefc8ddbf36cb7f55cba46d0189f57be6e5b77a16635ad1d2"
         },
         "motion-graphics": {
           "integrity": "sha256-eacdd43b420cfac2192e22de45295b03db7c910ee6eaebd19d97e7496981b8c9"

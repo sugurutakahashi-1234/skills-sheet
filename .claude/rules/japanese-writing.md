@@ -44,4 +44,4 @@ Markdown の文章（README・設計メモ・議事録・レポート・記事�
 
 - textlint の `@textlint-ja/preset-ai-writing` を pre-commit で回す（設定テンプレート: sugurutakahashi-1234/ai-rules の `templates/.textlintrc.json`）。誇張表現・太字とコロンの機械的な組み合わせ・箇条書きの機械的パターンを検出する
 - AI 臭の除去を謳うスキルは追加導入しない。英語圏のもの（no-ai-slop / humanizer / stop-slop / humanize）は、禁止語が `delve` `leverage` `robust` といった英語語彙、構造規則が em dash の頻度・tricolon・`not X but Y` の対句で、日本語には移せない。日本語向け（coji/natural-japanese など）は段落の文書向けで箇条書き中心の文書には効かず、言語に依存しない原則（具体性で接地する・無生物主語を避ける・リズムの単調さを避ける）はこのルールと重なる。残りはモデル世代ごとの癖のリストで、モデルが変わると当たらなくなる
-- 禁止語リストを育てる方向は取らない。モデルが変わると癖も変わるため、リストは当たらない項目が増えて保守だけが残る。代わりに機械検査（textlint）と、書かれた文章を通読して直す手順（`design-compare` の選択票型）で回す
+- 禁止語リストを育てる方向は取らない。モデルが変わると癖も変わるため、リストは当たらない項目が増えて保守だけが残る。代わりに機械検査（textlint）と、書かれた文章を通読して直す手順（`decision-page` の選択票型）で回す

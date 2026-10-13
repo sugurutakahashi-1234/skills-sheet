@@ -3,64 +3,58 @@
   "sources": {
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
-      "resolvedRef": "8cb3dbe43593ef8055cbcbe5ce44af8db2bf5632",
-      "resolvedAt": "2026-10-11T05:00:26.079Z",
+      "resolvedRef": "a9343cfddbb10c784900f604fa6ac611bdffefa5",
+      "resolvedAt": "2026-10-13T06:42:28.372Z",
       "skills": {
         "decision-page": {
-          "integrity": "sha256-778c3d0bdd1b87fce9a783b4e53a4dec9a22aec30e6aceac2c690a4e348bb899"
+          "integrity": "sha256-e31e79748a7bfe351ee1bb52eeb02c8cc1bc4190ee3c8df1c28eb509f6b6fc1a"
         },
         "motion-video": {
-          "integrity": "sha256-17bbdbe812819619e84a60832387f92810eadf385043662cf053efa04e8df4a2"
+          "integrity": "sha256-27d8af26d09239438c7030644c1bf2c8e66cedb2ddc1606b9710ac11ff2e6065"
+        },
+        "skill-layering": {
+          "integrity": "sha256-4fe5f519953d12c4d960d3e46d51a6410a023a4b5ce4c8a3821e2b2a09e28d95"
         }
       },
       "skillSelection": [
         "decision-page",
-        "motion-video"
+        "motion-video",
+        "skill-layering"
       ],
       "rules": {
         "git-safety": {
-          "integrity": "sha256-4d8944e61681a7a3ae8e2bf0a51d2123a44f57b55d45173f87b615b4c9d4c7b6"
-        },
-        "japanese-writing": {
-          "integrity": "sha256-531262fe1a6739c455c305a8c09cacd6939af59357b47b2925930c9b1ee98ee9"
+          "integrity": "sha256-9cc17ed6a3bef47c7d9332d6271803bbe394c0df7905cb1eeaf978b7d458155e"
         },
         "language-and-commits": {
-          "integrity": "sha256-8e91ea8cb9fdc4e11ccad22e58a871aecefef5709b597984c2a02578a216ac33"
-        },
-        "skill-layering": {
-          "integrity": "sha256-7f39fb6a41a9ca434f252f21ae41d9cc9bbb251549dcea3ad942eccbbcb0aef7"
+          "integrity": "sha256-a37331cd1e4f42c89fa54e98c6e88cc8b2e0547ba5043c4dc7e22651f1728340"
         }
       },
       "ruleSelection": [
         "git-safety",
-        "japanese-writing",
-        "language-and-commits",
-        "skill-layering"
+        "language-and-commits"
       ],
       "rulesPath": "rules",
       "resolvedRuleNames": [
         "git-safety",
-        "japanese-writing",
-        "language-and-commits",
-        "skill-layering"
+        "language-and-commits"
       ]
     },
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "8bca7c4417b59b47fca851183a8d47a4565bad0c",
-      "resolvedAt": "2026-10-11T05:02:25.173Z",
+      "resolvedRef": "23d1fe5b42724a5a9c0458475176d6bddfa235b1",
+      "resolvedAt": "2026-10-13T06:44:39.310Z",
       "skills": {
         "general-video": {
-          "integrity": "sha256-e7ca62c930f846ae8b436d8ece7706198748bae037db08001eaeec5c6e00071e"
+          "integrity": "sha256-fd7e61d6de8011481944cd345fd7ce9e2cdb374cf5a54a33bc2cddf6dc7c6272"
         },
         "hyperframes-animation": {
-          "integrity": "sha256-b7623479ce65d24cac480ed4d9d6430a197887af7de3868103cfb432ef537ae0"
+          "integrity": "sha256-3dc5649fb6b39e58e96e8ed5fa4481c7487e84e6f01e9c0ba37b613972eb4ea1"
         },
         "hyperframes-audio": {
-          "integrity": "sha256-5faca3e221f8a94b0ae50e5fb2b11131b25173c22010f82550515394fc30e61d"
+          "integrity": "sha256-d7cca682492712df51f527ce58a7280604e92dd40a942cf1d794d1fc7dd312eb"
         },
         "hyperframes-cli": {
-          "integrity": "sha256-fdc37206e0911a323d48341fb49c93a3bd8ed2a9460ce3021e74181f3055f591"
+          "integrity": "sha256-5983a1c74181e08ca2e3ccc9b181a8a38a2e05d807644b23755946c2973f0e25"
         },
         "hyperframes-core": {
           "integrity": "sha256-3a5c7607e38e2baac22e4488cfba6ca4b38ee5cae4a19de9be942165280d7285"
@@ -78,13 +72,13 @@
           "integrity": "sha256-f5e0b44d68152c124c694f42ae0a1a6df7e0973ec8f0445f752d30046dfab698"
         },
         "hyperframes": {
-          "integrity": "sha256-7820253dfd54b92c16b5df83a0c67c5b9fad7f76051922797038bd5fe4b52d4f"
+          "integrity": "sha256-66a11d0d46af64277d46082aaef0a0084724dd4178034569544648f54c3278c4"
         },
         "media-use": {
-          "integrity": "sha256-18f3d314e23ab63aefc8ddbf36cb7f55cba46d0189f57be6e5b77a16635ad1d2"
+          "integrity": "sha256-539abaee857be8615eeec057ccf8b2db3b4a8065a685a35a8bfe73d334a0bb91"
         },
         "motion-graphics": {
-          "integrity": "sha256-eacdd43b420cfac2192e22de45295b03db7c910ee6eaebd19d97e7496981b8c9"
+          "integrity": "sha256-de6aee841c033d9cdc567e952fa34df1ec671b4a1e7a66fcec02749062f4b59e"
         }
       },
       "skillSelection": [

@@ -1,0 +1,517 @@
+<title>判断ページ</title>
+<!--
+  Claude の Artifact で出す判断ページの雛形。下の <script id="decision-data"> の JSON だけを書き換える。
+  形: 上は「題・リード（短い箇条書き）・論点の一覧（縦 1 列。問いの下に札つきでおすすめ・決めた・要点）」。その下に 1 問 1 枚で、
+  問いごとに「図 → 案ごとの利点・欠点 → 選ぶ」を並べる。選ぶ物の無い報告は kind: "info" で、図 + 3 行にして問いの間に置く。
+  どの部品も縦に積み、横には並べない。読み手は縦長の画面で上から読むため。
+  図は問いに付ける（案ごとに見た目を比べる問いは案に付ける）。どこからどこへ届くかのようなつながりの図は
+  mermaid に文字列で書く。枝分かれ・合流のある図は flowchart TB、1 本の短い流れ（箱 4 個まで）は flowchart LR。
+  囲み（subgraph）は使わず、中に入る物も矢印で表す（囲みから矢印を出すと中の並びが横に崩れ、題が切れる）。
+  箱の幅は雛形が 360px に広げるので、ラベルは全角 20 字ほどまでに収める（それより長いと語の途中で折り返す）。並べるだけの図は fig に HTML で書き、下の CSS の fig-diff（前後。1 件ずつ
+  <div class="it"><b>何が</b><p class="was"><span class="lab">前</span><span>…<del>変わる語</del>…</span></p>
+  <p class="now"><span class="lab">後</span><span>…<ins>変わった語</ins>…</span></p></div> を積む。
+  印は、一部だけ変わる行なら変わった語句に付け、ほぼ全部変わる行なら要の 1 か所だけに付ける。全部を塗ると印が意味を失う）。
+  利点・欠点・報告の行は、決め手の語句を **こう** 囲むと地の色が付く（1 項目に 1 か所まで）・fig-flow（流れ）・
+  fig-file（実物に赤枠）・fig-boxes（箱）・fig-nums（数字）を使う。
+  文の欄（lead・why・prior の各項目・lines の text・案の pro と con・rows の reason）は、文字列のほか箇条書きでも書ける。
+  配列は箇条書き、{"ol": [...]} は番号付き（{"ul": [...]} も書ける）、配列の中の配列は直前の項目の下の入れ子になる。
+  例: "pro": ["決め手を **こう** 囲んだ利点", "別の利点", ["その補足"]]、"why": {"ol": ["先にすること", "次にすること"]}
+  1 項目に 1 つの事柄を書き、違う事柄は項目を分ける。手順は番号付き、補足は入れ子にする。2 つ以上の事柄を長い 1 文に
+  つなぐと、読み手は事柄の切れ目を自分で探すことになり読み疲れるので、縦に長くなっても分ける。`コード` は等幅になる。
+  論点の図（任意）は diagram に Mermaid で書く。論点どうしの関係（どれを決めると次が決まるか等）を見せたいときだけ書き、
+  論点が独立して並ぶだけなら書かない（論点の一覧が図の代わりになる）。
+  前に決めたことは、それを前提にしている問いの prior に書く（問いの中に「前に決めたこと」の札つきで出る）。
+  問いと関係の無い決め（ページの見せ方など）は載せない。
+  公開するときの capabilities は {"db": {}, "user": {}}。
+  押した案は db の answers コレクション（文書 id = 問いの id）に保存され、ArtifactData の list で読める。
+  「回答をコピー」は、選んだ内容をチャットに貼る文にしてクリップボードへ写す（写せない表示では文を選んだ状態で出す）。
+-->
+<style>
+/* 1 列で上から読む: 論点の図 → 決めることの一覧 → 問いごとのカード（案は縦に並べる）→ 送る */
+:root{
+  --bg:#f6f7f9; --fg:#1b2027; --muted:#5b6672; --line:#d5dbe2; --card:#ffffff;
+  --accent:#2457c5; --accent-soft:#e8eefc; --rec:#b7791f; --rec-soft:#fff4dc; --ok:#1a7f37; --ok-soft:#e6f4ea; --ng:#b4442e;
+  --sans:"Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161b; --fg:#e5e9ee; --muted:#9ba6b2; --line:#343e48; --card:#1a2027;
+  --accent:#7aa5ff; --accent-soft:#1d2a44; --rec:#e6b35a; --rec-soft:#3a2e14; --ok:#52c27a; --ok-soft:#173222; --ng:#f0907a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161b; --fg:#e5e9ee; --muted:#9ba6b2; --line:#343e48; --card:#1a2027;
+  --accent:#7aa5ff; --accent-soft:#1d2a44; --rec:#e6b35a; --rec-soft:#3a2e14; --ok:#52c27a; --ok-soft:#173222; --ng:#f0907a; color-scheme:dark}
+/* 日本語は文節で折り返す（auto-phrase。効かない表示では従来どおり）。文の途中の変な位置で行が切れないように */
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.7;word-break:auto-phrase;line-break:strict}
+p,dd,li{text-wrap:pretty}
+main{max-width:820px;margin:0 auto;padding-inline:16px;padding-block:28px 72px}
+h1{font-size:1.55rem;margin:0 0 6px;text-wrap:balance}
+.lead{color:var(--muted);margin:0 0 14px}
+.lead .rich{margin:0}
+.diagram{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin:0 0 16px;overflow-x:auto}
+/* 論点の一覧: 縦 1 列に 1 問 2 行（問い / おすすめ）で積み、状態は右端に置く。一覧だけ見て「おすすめのままでよいか」を決められるように、おすすめを出す */
+.steps{display:flex;flex-direction:column;gap:6px;margin:0 0 10px;padding:0;list-style:none}
+.steps a{display:grid;grid-template-columns:22px minmax(0,1fr) auto;column-gap:10px;row-gap:1px;align-items:start;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.steps .n{grid-column:1;grid-row:1/span 2;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;display:grid;place-items:center;font-size:.75rem}
+.steps .done a{border-color:var(--ok)}
+.steps .done .n{background:var(--ok-soft);color:var(--ok)}
+.steps .info a{border-style:dashed}
+.steps .ttl{grid-column:2;grid-row:1;font-weight:700;line-height:1.5}
+.steps .sub{grid-column:2;grid-row:2;font-size:.88rem;line-height:1.5}
+.steps small{grid-column:3;grid-row:1;color:var(--muted);font-size:.78rem;white-space:nowrap;margin-top:3px}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 22px}
+.primary{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:700}
+.primary[disabled]{opacity:.5;cursor:not-allowed}
+.quiet{background:var(--card);color:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 14px}
+.status{color:var(--muted);font-size:.9rem}
+/* 前に決めたこと: その問いが前提にしている決めを、問いの中に札つきの 1 行で置く。上にまとめると、どの問いの前提かを読み手が突き合わせることになる */
+.prior{margin:0 0 10px;font-size:.88rem;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px;align-items:baseline}
+.prior>.lab{margin:0}
+/* 文の欄の箇条書き。札の右に書き出しをそろえ、項目の間は少し空ける。入れ子は 1 段ずつ字下げする */
+ul.rich,ol.rich{margin:0;padding-left:1.3em}
+ol.rich{padding-left:1.7em}
+.rich li+li{margin-top:4px}
+.rich .rich{margin-top:4px}
+.rich li::marker{color:var(--muted)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:color-mix(in srgb,var(--muted) 15%,transparent);border-radius:3px;padding:0 3px;overflow-wrap:anywhere}
+section.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 18px}
+section.q h2{font-size:1.1rem;margin:0 0 4px;text-wrap:balance}
+.why{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+section.q.info{border-style:dashed}
+/* 見出しの印。問いの題に左の線、図の件名に ■ を付け、縦に流し見たときの区切りにする。
+   線は全部同じ青にそろえ、■ は文字と同じ色にする。状態で色を変えると読み手は色の意味を探すことになり、状態は一覧の札が持っている */
+section.q h2{border-left:4px solid var(--accent);padding-left:10px}
+.tag{font-size:.72rem;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-left:6px;vertical-align:2px}
+/* 見出し語は背景つきの札にする（報告の 3 行は「要点・理由・課題」、案は「利点・欠点」）。札は左にそろえ、本文の書き出しをそろえる。
+   本文の **語句** は <mark> になり、決め手の語句だけに地の色が付く */
+.three,.pc{margin:0}
+.three{font-size:.95rem} .pc{font-size:.9rem}
+.three dt,.pc dt{justify-self:stretch;text-align:center;font-size:.72rem;font-weight:700;line-height:1.6;border-radius:4px;padding:0 6px}
+.three dt.go{background:var(--accent-soft);color:var(--accent)}
+.three dt.pro,.pc dt.pro{background:var(--ok-soft);color:var(--ok)}
+.three dt.con,.pc dt.con{background:color-mix(in srgb,var(--ng) 14%,transparent);color:var(--ng)}
+.three dd,.pc dd{margin:0;min-width:0}
+.three mark,.pc mark{color:inherit;border-radius:3px;padding:0 2px;background:var(--accent-soft)}
+dd.pro mark{background:var(--mk-new);color:var(--mk-ink)} dd.con mark{background:var(--mk-old);color:var(--mk-ink)}
+/* 行の塊（利点・欠点、要点・理由・課題）は、間に細い線と余白を入れて境目を見せる。札は左のまま */
+.three,.pc{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.grp{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:baseline}
+.grp+.grp{border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+/* 札（おすすめ・決めた・要点）。何の行かを札の文字で示し、本文は黒のまま読ませる。札の文字は濃くして薄い地の上でも読めるようにする */
+:root{--rec-ink:#8a4b08}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--rec-ink:#f0c060}}
+:root[data-theme="dark"]{--rec-ink:#f0c060}
+.lab{display:inline-block;font-size:.72rem;font-weight:700;line-height:1.6;border-radius:4px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.lab.rec{background:var(--rec-soft);color:var(--rec-ink)}
+.lab.ok{background:var(--ok-soft);color:var(--ok)}
+.lab.info{background:color-mix(in srgb,var(--muted) 18%,transparent);color:var(--fg)}
+/* 印の地（前後の変わった語句・利点と欠点の決め手）。はっきりした地にして、上の文字は濃いまま読ませる */
+:root{--mk-new:#bbf7d0;--mk-old:#fecaca;--mk-ink:#1b2027}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--mk-new:color-mix(in srgb,var(--ok) 40%,transparent);--mk-old:color-mix(in srgb,var(--ng) 45%,transparent);--mk-ink:var(--fg)}}
+:root[data-theme="dark"]{--mk-new:color-mix(in srgb,var(--ok) 40%,transparent);--mk-old:color-mix(in srgb,var(--ng) 45%,transparent);--mk-ink:var(--fg)}
+/* 図の部品。赤（--mark）は「変わる所・見てほしい所」の印だけに使う */
+:root{--mark:#dc2626}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--mark:#f87171}}
+:root[data-theme="dark"]{--mark:#f87171}
+/* 部品はどれも縦に積む。位置に意味がある図（分岐・合流・囲み）は部品で組まず Mermaid で書く。
+   部品の地はカードと同じ白にして枠線で区切る（灰の地の上では印の色がくすむ） */
+.fig{margin:0 0 12px;font-size:.88rem;line-height:1.5}
+.fig .red{color:var(--mark);font-weight:700}
+.fig pre.mermaid{margin:0;background:transparent;text-align:center}
+.fig svg{max-width:100%;height:auto}
+.fig-flow{display:flex;flex-direction:column;margin:0;padding:0;list-style:none}
+.fig-flow li{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--card);position:relative}
+.fig-flow li+li{margin-top:20px}
+.fig-flow li+li::before{content:"↓";position:absolute;top:-20px;left:18px;line-height:20px;color:var(--muted);font-weight:700}
+.fig-flow li b{display:block}
+.fig-flow li.hot{border:2px dashed var(--mark)} .fig-flow li.hot b{color:var(--mark)}
+/* 前後: 1 件ずつ「前」「後」の札を付けて 2 段に積む。変わった語句だけ、前は <del>、後は <ins> で色の地を付ける。
+   取り消し線と赤の文字を 1 行に並べる形は、読み比べないと何がどう変わったか分からなかった */
+.fig-diff{display:flex;flex-direction:column;gap:8px}
+.fig-diff .it{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--card)}
+.fig-diff .it>b{display:block;font-size:.85rem;margin-bottom:2px}
+.fig-diff .it>b::before{content:"■ ";color:var(--fg)}
+.fig-diff p{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px;align-items:baseline}
+.fig-diff p>.lab{margin:0}
+.fig-diff .was{color:var(--muted)}
+.fig-diff .was>.lab{background:color-mix(in srgb,var(--muted) 18%,transparent);color:var(--muted)}
+.fig-diff .now>.lab{background:var(--ok-soft);color:var(--ok)}
+.fig-diff del{text-decoration:none;color:var(--mk-ink);background:var(--mk-old);border-radius:3px;padding:0 2px}
+.fig-diff ins{text-decoration:none;color:var(--mk-ink);background:var(--mk-new);border-radius:3px;padding:0 2px;font-weight:700}
+.fig-boxes{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.fig-boxes .bx{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--card)}
+.fig-boxes .bx b{margin-right:.6em}
+.fig-boxes .bx.hot{border:2px solid var(--mark)} .fig-boxes .bx.hot b{color:var(--mark)}
+.fig-boxes .bx.to::before{content:"→ ";color:var(--mark);font-weight:700}
+.fig-nums{display:flex;flex-direction:column;gap:4px}
+.fig-nums div{display:grid;grid-template-columns:8em minmax(0,1fr);gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--card)}
+.fig-nums b{font-size:1.3rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fig-nums .hot b{color:var(--mark)}
+.fig-file{border:1px solid var(--line);border-radius:8px;background:var(--card);font-family:ui-monospace,Menlo,monospace;font-size:.8rem;line-height:1.6;overflow-x:auto}
+.fig-file .fn{border-bottom:1px solid var(--line);padding:4px 10px;color:var(--muted)}
+.fig-file .ln{display:grid;grid-template-columns:3em minmax(0,1fr);padding:2px 10px 2px 0}
+.fig-file .ln span:first-child{color:var(--muted);text-align:right;padding-right:10px}
+.fig-file .ln.add{outline:2px solid var(--mark);outline-offset:-2px}
+.fig-file .say{color:var(--mark);font-weight:700;font-family:var(--sans);padding:2px 10px 6px 3.6em}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{text-align:left;width:100%;background:var(--card);color:inherit;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:14px}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+/* 見出しは折り返しても丸い印の右に収める（折り返しを許すと、狭い幅で印だけが 1 行目に残る） */
+.opt .head{display:flex;align-items:flex-start;gap:8px}
+.opt .head .mark{margin-top:3px}
+.opt .head .name{min-width:0}
+.opt .head .badge{flex:none;margin-top:3px}
+.opt .mark{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.opt[aria-pressed="true"] .mark{border-color:var(--accent);background:var(--accent)}
+.opt[aria-pressed="true"] .mark::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.opt .name{font-weight:700}
+.opt img{max-width:100%;max-height:480px;object-fit:contain;align-self:flex-start;border:1px solid var(--line);border-radius:6px;background:#fff}
+.badge{font-size:.72rem;font-weight:700;color:var(--rec-ink);background:var(--rec-soft);border-radius:4px;padding:0 6px}
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.row .rule{font-weight:700}
+.row .reason{color:var(--muted);font-size:.88rem}
+.why .rich{margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);color:inherit;border:1.5px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.9rem;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.pair{display:flex;flex-direction:column;gap:10px}
+.pair figure{margin:0}
+.pair img{width:100%;border:1px solid var(--line);border-radius:6px;background:#fff}
+.pair figcaption{font-size:.8rem;color:var(--muted)}
+.note{display:flex;gap:8px;margin-top:12px}
+/* 欄は書いた量に合わせて縦に伸ばす（grow）。音声入力の長い一言が欄の外に隠れないように */
+.note textarea{flex:1;min-width:0;box-sizing:border-box;overflow-y:hidden;font:inherit;font-size:.9rem;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--bg);color:inherit;resize:vertical;min-height:2.4em}
+.warn{background:var(--rec-soft);border:1px solid var(--rec);border-radius:10px;padding:10px 14px;margin:0 0 18px;font-size:.92rem}
+.copybox{width:100%;box-sizing:border-box;min-height:9em;font:inherit;font-size:.85rem;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--card);color:inherit}
+/* 画面の下に貼り付けない。読み手は一番下まで読んでから押すので、貼り付けると動画や本文の下を隠すだけになる */
+.send{border-top:1px solid var(--line);padding:12px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+</style>
+<main>
+  <h1 id="title"></h1>
+  <div class="lead" id="lead"></div>
+  <div id="diagram"></div>
+  <ol class="steps" id="steps"></ol>
+  <div class="bar">
+    <button class="quiet" id="rest" type="button">おすすめのまま全部決める</button>
+    <span class="status" id="status">保存の準備中…</span>
+  </div>
+  <div id="warn"></div>
+  <div id="questions"></div>
+  <section class="q" id="preview">
+    <h2>コピーされる回答</h2>
+    <p class="why">選ぶたびにこの欄が変わります。下の「回答をコピー」で、この文がそのまま写ります。</p>
+    <textarea class="copybox" id="copybox" readonly></textarea>
+  </section>
+  <div class="send">
+    <button class="primary" id="send" type="button">回答をコピー</button>
+    <span class="status" id="send-status">選び終えたら押して、チャットに貼ってください</span>
+  </div>
+</main>
+
+<script type="application/json" id="decision-data">
+{
+  "title": "今決めること",
+  "lead": ["どの頼みへの続きか", "何を決めるページか（事柄ごとに 1 項目）"],
+  "questions": [
+    {
+      "id": "q1", "kind": "cards", "title": "1 つの案を選ぶ問い",
+      "why": "何を決めるのかと、おすすめの理由を 1 文で。",
+      "prior": ["この問いが前提にしている、前に決めたこと（無ければ書かない）"],
+      "mermaid": "flowchart TB\n  A[\"今の置き場<br>中身を短く\"] -->|配る| C[\"届く先\"]\n  B[\"足す物\"] -->|足す| A\n  class B hot\n  classDef hot stroke:#dc2626,stroke-width:2px,color:#dc2626",
+      "rec": "A",
+      "options": [
+        { "key": "A", "name": "推す案", "img": "", "pro": ["利点を 1 項目に 1 つ。決め手の語句だけ **こう** 囲む", "別の利点は項目を分ける", ["補足は入れ子にする"]], "con": ["欠点も同じ形で書く"] },
+        { "key": "B", "name": "別の案", "img": "", "pro": "事柄が 1 つだけなら文字列のままでよい", "con": "欠点を 1 文" }
+      ]
+    },
+    {
+      "id": "i1", "kind": "info", "title": "選ぶ物の無い報告",
+      "fig": "<div class=\"fig-diff\"><div class=\"it\"><b>何が変わるか</b><p class=\"was\"><span class=\"lab\">前</span><span>変わらない語 <del>前の語</del> 変わらない語</span></p><p class=\"now\"><span class=\"lab\">後</span><span>変わらない語 <ins>後の語</ins> 変わらない語</span></p></div></div>",
+      "lines": [
+        { "label": "要点", "tone": "go", "text": "分かったこと・やったことを 1 文" },
+        { "label": "理由", "tone": "pro", "text": "1 文" },
+        { "label": "課題", "tone": "con", "text": "1 文（残っていること）" }
+      ]
+    },
+    {
+      "id": "q2", "kind": "rows", "title": "項目ごとに残す・外すを決める問い",
+      "why": "項目ごとに選ぶ。選択肢の言葉は choices で変えられる。",
+      "choices": ["残す", "場合による", "外す"],
+      "rows": [
+        { "id": "q2-1", "rule": "項目の中身", "reason": "おすすめの理由を 1 文", "rec": "残す", "pair": [] }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+const DATA = JSON.parse(document.getElementById("decision-data").textContent);
+const answers = {};
+let db = null;
+
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k !== null && k !== undefined && k !== false) n.append(k);
+  return n;
+}
+// 文の中の `語句` を <code>、**語句** を <mark> にする。ほかは文字のまま入れる（HTML としては読まない）
+const em = t => String(t ?? "").split("`").flatMap((c, j) => j % 2 ? [el("code", { text: c })]
+  : c.split("**").map((p, i) => i % 2 ? el("mark", { text: p }) : p));
+// 文の欄は、文字列のほか箇条書きでも書ける。配列は ul、{"ol": [...]} は番号付き、配列の中の配列は直前の項目の下の入れ子
+const isList = v => Array.isArray(v) || (v && typeof v === "object" && (Array.isArray(v.ol) || Array.isArray(v.ul)));
+function list(v) {
+  const l = el(!Array.isArray(v) && v.ol ? "ol" : "ul", { class: "rich" });
+  for (const it of Array.isArray(v) ? v : (v.ol || v.ul)) {
+    if (isList(it)) (l.lastElementChild || l.appendChild(el("li"))).append(list(it));
+    else l.append(el("li", {}, ...em(it)));
+  }
+  return l;
+}
+const rich = v => isList(v) ? [list(v)] : em(v);
+// 一覧の札の横に出す 1 行。箇条書きなら最初の項目だけを、書式の印を外して出す
+const plain = v => isList(v) ? plain((Array.isArray(v) ? v : (v.ol || v.ul)).find(x => !isList(x)) ?? "") : String(v ?? "").replaceAll("**", "").replaceAll("`", "");
+const ids = q => q.kind === "info" ? [] : q.kind === "rows" ? q.rows.map(r => r.id) : [q.id];
+const asks = () => DATA.questions.filter(q => q.kind !== "info");
+const allIds = () => DATA.questions.flatMap(ids);
+function recOf(id) {
+  for (const q of DATA.questions) {
+    if (q.id === id) return q.rec;
+    const r = (q.rows || []).find(x => x.id === id); if (r) return r.rec;
+  }
+}
+const chosen = id => answers[id] && answers[id].choice;
+// 欄の高さを中身に合わせる。隠れている欄は高さが測れないので、表示されてから測る
+const grow = t => { if (!t.offsetParent) return; t.style.height = "auto"; t.style.height = (t.scrollHeight + 2) + "px"; };
+// 図はいちど作った要素を使い回す。毎回作り直すと、Mermaid が描いた絵が元の文字に戻る。
+// mermaid は文字のまま pre に入れる。HTML として読ませると <br> が要素になって消え、箱の中で改行されない
+// 箱の幅を既定の 200px から広げる。狭いと日本語のラベルが「11〜 / 14 個」のように語の途中で切れる
+const WIDE = '%%{init: {"flowchart": {"wrappingWidth": 360}}}%%\n';
+const figs = new Map();
+function fig(key, x) {
+  if (!x.fig && !x.mermaid) return null;
+  if (!figs.has(key)) {
+    const f = el("div", { class: "fig" });
+    if (x.mermaid) f.append(el("pre", { class: "mermaid", text: /^\s*(%%\{|---)/.test(x.mermaid) ? x.mermaid : WIDE + x.mermaid }));
+    else f.innerHTML = x.fig;
+    figs.set(key, f);
+  }
+  return figs.get(key);
+}
+function setStatus(t) { document.getElementById("status").textContent = t; }
+
+async function save(id, patch) {
+  answers[id] = { ...(answers[id] || {}), ...patch };
+  render();
+  if (!db) return;
+  try {
+    await db.doc("answers/" + id).set({ choice: answers[id].choice || null, note: answers[id].note || "", at: Date.now() });
+    setStatus("保存しました");
+  } catch (e) { setStatus("保存できませんでした（" + ((e && e.code) || "不明") + "）"); }
+}
+
+// 書きかけの一言は、打つそばから保存する（この端末には毎回、保存先には手を止めて 1 秒後）。
+// ページが出し直されて読み込み直しになっても、書いている途中の文が消えないように。
+// 打っている間は描き直さない（描き直すとカーソルと日本語の変換が途切れる）。欄を離れたら、待たせていた分を描く
+let typing = false, pending = false;
+const timers = {};
+const localDraft = id => { try { return localStorage.getItem("draft:" + id) || ""; } catch (e) { return ""; } };
+function keepDraft(id, text) {
+  try { localStorage.setItem("draft:" + id, text); } catch (e) {}
+  answers[id] = { ...(answers[id] || {}), note: text };
+  clearTimeout(timers[id]);
+  timers[id] = setTimeout(async () => {
+    if (!db) return;
+    try { await db.doc("answers/" + id).set({ choice: chosen(id) || null, note: text, at: Date.now() }); setStatus("書きかけを保存しました"); }
+    catch (e) { setStatus("保存できませんでした（" + ((e && e.code) || "不明") + "）"); }
+  }, 1000);
+}
+function noteBox(id, placeholder = "ほかの案や気になる点があれば一言（任意・打つそばから保存）") {
+  const ta = el("textarea", { id: "note-" + id, rows: "1", placeholder });
+  ta.value = (answers[id] && answers[id].note) || localDraft(id);
+  ta.addEventListener("focus", () => { typing = true; });
+  ta.addEventListener("blur", () => { typing = false; if (pending) { pending = false; render(); } });
+  ta.addEventListener("change", () => save(id, { note: ta.value, choice: chosen(id) || null }));
+  ta.addEventListener("input", () => { grow(ta); keepDraft(id, ta.value); const box = document.getElementById("copybox"); box.value = summary(); grow(box); });
+  return el("div", { class: "note" }, ta);
+}
+
+// 問いに関係なく、ページ全体への一言を書く欄。報告だけで判断の要らないページでも使う
+const OVERALL = "overall";
+function overallBox() {
+  const sec = el("section", { class: "q", id: "overall" }, el("h2", { text: "全体への一言" }),
+    el("p", { class: "why", text: "問いへの答え以外に伝えたいこと（よかった所・違う所・次に頼みたいこと）があれば書いてください。回答の文の最後に入ります。" }));
+  const box = noteBox(OVERALL, "任意。思ったことをそのまま（打つそばから保存）");
+  box.querySelector("textarea").rows = 3;
+  sec.append(box);
+  return sec;
+}
+
+function render() {
+  // 書きかけの一言を描き直しで消さない
+  const drafts = {}; let focused = null, sel = null;
+  document.querySelectorAll("textarea").forEach(t => { drafts[t.id] = t.value; if (document.activeElement === t) { focused = t.id; sel = [t.selectionStart, t.selectionEnd]; } });
+
+  document.getElementById("steps").replaceChildren(...DATA.questions.map((q, i) => {
+    // 2 行目は札（何の行か）+ 中身。案の記号（A・B）は案を見る前の読み手には意味が無いので出さない
+    const sub = (cls, label, text) => el("span", { class: "sub" }, el("span", { class: "lab " + cls, text: label }), plain(text));
+    if (q.kind === "info") return el("li", { class: "info" }, el("a", { href: "#" + q.id },
+      el("span", { class: "n", text: String(i + 1) }), el("span", { class: "ttl", text: q.title }), el("small", { text: "読むだけ" }),
+      q.lines && q.lines[0] ? sub("info", q.lines[0].label, q.lines[0].text) : null));
+    const total = ids(q).length, done = ids(q).filter(chosen).length;
+    // 一覧の段階でおすすめが分かるようにする。読み手は一覧だけ見て「おすすめのままでよいか」を先に決めることが多い。決めたら、選んだ案に替える
+    const o = q.kind === "cards" && q.options.find(x => x.key === q.rec);
+    const pick = q.kind === "cards" && q.options.find(x => x.key === chosen(q.id));
+    const line = pick ? sub("ok", "決めた", pick.name) : done === total ? sub("ok", "決めた", `${total} 件とも選んだ`)
+      : o ? sub("rec", "おすすめ", o.name) : q.kind === "rows" && q.rows.some(r => r.rec) ? sub("rec", "おすすめ", "件ごとにあり") : null;
+    return el("li", { class: done === total ? "done" : "" }, el("a", { href: "#" + q.id },
+      el("span", { class: "n", text: done === total ? "✓" : String(i + 1) }), el("span", { class: "ttl", text: q.title }),
+      done === total ? null : el("small", { text: total > 1 ? `${done} / ${total}` : "まだ" }), line));
+  }));
+
+  document.getElementById("questions").replaceChildren(...DATA.questions.map((q, i) => {
+    const sec = el("section", { class: q.kind === "info" ? "q info" : "q", id: q.id },
+      el("h2", {}, `${i + 1}. ${q.title}`, q.kind === "info" ? el("span", { class: "tag", text: "読むだけ" }) : null),
+      q.why ? el(isList(q.why) ? "div" : "p", { class: "why" }, ...rich(q.why)) : null);
+    // 図は書き手（エージェント）が JSON に書いた HTML。1 問 1 枚の先頭に置き、案はその下に並べる
+    for (const t of q.prior || []) sec.append(el("div", { class: "prior" }, el("span", { class: "lab ok", text: "前に決めたこと" }), el("div", {}, ...rich(t))));
+    const qf = fig(q.id, q); if (qf) sec.append(qf);
+    if (q.kind === "info") {
+      sec.append(el("dl", { class: "three" }, ...(q.lines || []).map(l => el("div", { class: "grp" }, el("dt", { class: l.tone || "", text: l.label }), el("dd", { class: l.tone || "" }, ...rich(l.text))))),
+        noteBox(q.id, "読んで思ったことがあれば一言（任意・打つそばから保存）"));
+      return sec;
+    }
+    if (q.kind === "cards") {
+      const list = el("div", { class: "opts", role: "radiogroup", "aria-label": q.title });
+      for (const o of q.options) {
+        const on = chosen(q.id) === o.key;
+        const b = el("button", { class: "opt", type: "button", "aria-pressed": String(on) },
+          el("span", { class: "head" }, el("span", { class: "mark" }), el("span", { class: "name", text: `${o.key}. ${o.name}` }),
+            o.key === q.rec ? el("span", { class: "badge", text: "おすすめ" }) : null),
+          o.img ? el("img", { src: o.img, alt: o.name }) : null,
+          fig(q.id + ":" + o.key, o),
+          el("dl", { class: "pc" },
+            el("div", { class: "grp pro" }, el("dt", { class: "pro", text: "利点" }), el("dd", { class: "pro" }, ...rich(o.pro))),
+            el("div", { class: "grp con" }, el("dt", { class: "con", text: "欠点" }), el("dd", { class: "con" }, ...rich(o.con)))));
+        b.addEventListener("click", () => save(q.id, { choice: o.key }));
+        list.append(b);
+      }
+      sec.append(list, noteBox(q.id));
+    } else {
+      const rows = el("div", { class: "rows" });
+      for (const r of q.rows) {
+        const chips = el("div", { class: "chips" });
+        for (const c of q.choices) {
+          const b = el("button", { class: "chip", type: "button", "aria-pressed": String(chosen(r.id) === c) }, c,
+            c === r.rec ? el("span", { class: "badge", text: "おすすめ" }) : null);
+          b.addEventListener("click", () => save(r.id, { choice: c }));
+          chips.append(b);
+        }
+        const pair = r.pair && r.pair.length ? el("div", { class: "pair" },
+          ...r.pair.map(p => el("figure", {}, el("img", { src: p.src, alt: p.cap }), el("figcaption", { text: p.cap })))) : null;
+        rows.append(el("div", { class: "row" }, el("span", { class: "rule", text: r.rule }), el("div", { class: "reason" }, ...rich(r.reason)), pair, chips));
+      }
+      sec.append(rows, noteBox(q.id + "-note"));
+    }
+    return sec;
+  }), overallBox());
+
+  for (const [k, v] of Object.entries(drafts)) { const t = document.getElementById(k); if (t) t.value = v; }
+  const f = focused && document.getElementById(focused);
+  if (f) { f.focus(); if (sel) f.setSelectionRange(sel[0], sel[1]); }
+  document.getElementById("copybox").value = summary();
+  document.querySelectorAll("textarea").forEach(grow);
+}
+
+// 一言は書きかけの欄の文を優先する（保存前でも回答の欄に出す）
+const noteOf = id => { const t = document.getElementById("note-" + id); return t ? t.value : ((answers[id] && answers[id].note) || ""); };
+function summary() {
+  const lines = [asks().length ? `判断ページ「${DATA.title}」の回答です。これで進めてください。` : `報告ページ「${DATA.title}」を読みました。`];
+  DATA.questions.forEach((q, i) => {
+    if (q.kind === "info") {
+      if (noteOf(q.id)) lines.push(`${i + 1}. ${q.title}（読むだけ）`, "   一言: " + noteOf(q.id));
+      return;
+    }
+    if (q.kind === "cards") {
+      const o = q.options.find(x => x.key === chosen(q.id));
+      lines.push(`${i + 1}. ${q.title}: ${o ? o.key + "（" + o.name + "）" : "未回答"}`);
+      if (noteOf(q.id)) lines.push("   一言: " + noteOf(q.id));
+    } else {
+      lines.push(`${i + 1}. ${q.title}`);
+      for (const r of q.rows) lines.push(`   - ${r.rule}: ${chosen(r.id) || "未回答"}`);
+      if (noteOf(q.id + "-note")) lines.push("   一言: " + noteOf(q.id + "-note"));
+    }
+  });
+  if (noteOf(OVERALL)) lines.push("", "全体への一言: " + noteOf(OVERALL));
+  return lines.join("\n");
+}
+
+document.getElementById("title").textContent = DATA.title;
+document.title = DATA.title;
+document.getElementById("lead").replaceChildren(...rich(DATA.lead));
+if (DATA.diagram) document.getElementById("diagram").replaceChildren(el("div", { class: "diagram" }, el("pre", { class: "mermaid", text: /^\s*(%%\{|---)/.test(DATA.diagram) ? DATA.diagram : WIDE + DATA.diagram })));
+
+// 問いの無い報告だけのページでは、問いの一覧とおすすめの一括決定を出さない
+// おすすめを 1 つも付けていないページ（読み手の好みを聞く ○× など）では、一括決定を出さない
+if (!asks().length || !allIds().some(recOf)) document.getElementById("rest").hidden = true;
+if (!DATA.questions.length) document.getElementById("steps").hidden = true;
+
+document.getElementById("rest").addEventListener("click", async () => {
+  for (const id of allIds()) if (!chosen(id)) await save(id, { choice: recOf(id) });
+  setStatus("残りをおすすめで保存しました");
+});
+
+// 回答をチャットに貼る文にして写す。Artifact からの送信は届かないことがあるので、貼ってもらう形にしている
+document.getElementById("send").addEventListener("click", async () => {
+  const out = document.getElementById("send-status"), box = document.getElementById("copybox");
+  // 書きかけの一言も保存してから写す
+  for (const t of document.querySelectorAll("textarea[id^='note-']")) {
+    const id = t.id.slice(5);
+    if (t.value !== ((answers[id] && answers[id].note) || "")) await save(id, { note: t.value, choice: chosen(id) || null });
+  }
+  const text = summary();
+  box.value = text;
+  grow(box);
+  try {
+    await navigator.clipboard.writeText(text);
+    out.textContent = "コピーしました。チャットに貼ってください";
+  } catch (e) {
+    // クリップボードを使えない表示では、文を選んだ状態で見せる
+    box.focus(); box.select();
+    out.textContent = "上の欄の文を選んであるので、⌘C でコピーしてチャットに貼ってください";
+  }
+});
+
+render();
+// Mermaid は表示側がその場で描くが、JS で後から入れた図は描かれないことがある。少し待って文字のまま残った図だけ自分で描く
+setTimeout(() => {
+  const left = [...document.querySelectorAll("pre.mermaid")].filter(n => !n.dataset.processed && !n.querySelector("svg"));
+  if (!left.length) return;
+  const s = el("script", { src: "https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js" });
+  s.onload = () => {
+    const t = document.documentElement.dataset.theme;
+    const dark = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    window.mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "default", flowchart: { wrappingWidth: 360 } });
+    window.mermaid.run({ nodes: left });
+  };
+  document.head.append(s);
+}, 1500);
+(async () => {
+  try { db = await window.claude?.use("db"); } catch (e) { db = null; }
+  if (!db) {
+    setStatus("この表示では保存できません");
+    document.getElementById("warn").replaceChildren(el("div", { class: "warn", text: "この表示では選んだ案を保存できません。選んだ番号をチャットで伝えてください。" }));
+    return;
+  }
+  setStatus("押すとその場で保存されます");
+  db.collection("answers").onSnapshot(snap => {
+    for (const d of snap.docs) if (d.exists) answers[d.id] = { ...d.data() };
+    if (typing) { pending = true; return; }
+    render();
+  }, () => setStatus("保存先とつながりませんでした。チャットで伝えてください"));
+})();
+</script>

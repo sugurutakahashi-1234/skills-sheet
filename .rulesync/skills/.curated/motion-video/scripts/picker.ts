@@ -376,7 +376,8 @@ export function build(spec: Spec, baseDir: string): string {
   .row, .box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
   .row h3, .box h3 { font-size: 16px; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
   .row h3 small { font-size: 13px; font-weight: 400; color: var(--sub); }
-  .memo { width: 100%; margin-top: 8px; min-height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 6px 8px; font: inherit; font-size: 13px; }
+  /* 欄は書いた量に合わせて縦に伸ばす（grow）。音声入力の長い一言が欄の外に隠れないように */
+  .memo { box-sizing: border-box; overflow-y: hidden; width: 100%; margin-top: 8px; min-height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 6px 8px; font: inherit; font-size: 13px; }
   .nextbar { display: flex; justify-content: flex-end; margin: 16px 0 8px; }
   .nextbar .next { font-size: 14px; font-weight: 700; padding: 8px 18px; }
   .tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -393,7 +394,7 @@ export function build(spec: Spec, baseDir: string): string {
   .sumrow h3 { font-size: 15px; margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .sumrow pre { grid-column: 1 / -1; margin: 0; font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; color: var(--sub); }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  #out { width: 100%; min-height: 150px; font-family: ui-monospace, monospace; font-size: 13px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 10px; }
+  #out { box-sizing: border-box; width: 100%; min-height: 150px; font-family: ui-monospace, monospace; font-size: 13px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 10px; }
   #lb { position: fixed; inset: 0; background: rgba(0, 0, 0, .85); display: none; place-items: center; z-index: 10; cursor: zoom-out; padding: 16px; }
   #lb img { max-width: 100%; max-height: 100%; }
 </style>
@@ -410,6 +411,8 @@ ${summary}
 <div id="lb"><img alt=""></div>
 <script>
   const C = ${cfg};
+  // 欄の高さを中身に合わせる。隠れている欄（別のタブ・閉じた行）は高さが測れないので、表示されてから測る
+  const grow = (t) => { if (!t.offsetParent) return; t.style.height = "auto"; t.style.height = (t.scrollHeight + 2) + "px"; };
   const N = C.pages.length, SUM = N;
   const blank = () => ({ keep: [], pick: {}, more: {}, memo: {}, song: [], touched: {}, undo: {} });
   let s = { tab: 0, all: "", allSent: "", seen: [], sent: {}, pages: C.pages.map(blank) };
@@ -506,6 +509,7 @@ ${summary}
     });
     const am = document.getElementById("allmemo");
     if (document.activeElement !== am) am.value = s.all || "";
+    document.querySelectorAll("textarea").forEach(grow);
     if (!C.multi) return;
     sec(SUM).classList.toggle("active", s.tab === SUM);
     $$(".tab").forEach((t) => {
@@ -548,6 +552,7 @@ ${summary}
   });
   $$(".tab, .next").forEach((t) => t.onclick = () => go(+(t.dataset.p ?? t.dataset.go)));
   document.getElementById("allmemo").oninput = (e) => { s.all = e.target.value; save(); };
+  document.addEventListener("input", (e) => { if (e.target.tagName === "TEXTAREA") grow(e.target); });
   // 1 曲を再生すると他は止まる。止めた位置はそのまま残す
   const audios = $$("audio");
   audios.forEach((a) => a.addEventListener("play", () => audios.forEach((b) => { if (b !== a && !b.paused) b.pause(); })));

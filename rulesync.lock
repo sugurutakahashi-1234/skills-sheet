@@ -4,7 +4,7 @@
     "sugurutakahashi-1234/ai-rules": {
       "requestedRef": "main",
       "resolvedRef": "a9343cfddbb10c784900f604fa6ac611bdffefa5",
-      "resolvedAt": "2026-10-13T06:42:28.372Z",
+      "resolvedAt": "2026-10-16T05:01:10.772Z",
       "skills": {
         "decision-page": {
           "integrity": "sha256-e31e79748a7bfe351ee1bb52eeb02c8cc1bc4190ee3c8df1c28eb509f6b6fc1a"
@@ -21,6 +21,7 @@
         "motion-video",
         "skill-layering"
       ],
+      "skillsPath": "skills",
       "rules": {
         "git-safety": {
           "integrity": "sha256-9cc17ed6a3bef47c7d9332d6271803bbe394c0df7905cb1eeaf978b7d458155e"
@@ -42,7 +43,7 @@
     "heygen-com/hyperframes": {
       "requestedRef": "main",
       "resolvedRef": "23d1fe5b42724a5a9c0458475176d6bddfa235b1",
-      "resolvedAt": "2026-10-13T06:44:39.310Z",
+      "resolvedAt": "2026-10-16T05:01:10.916Z",
       "skills": {
         "general-video": {
           "integrity": "sha256-fd7e61d6de8011481944cd345fd7ce9e2cdb374cf5a54a33bc2cddf6dc7c6272"
@@ -94,7 +95,8 @@
         "hyperframes-studio",
         "media-use",
         "motion-graphics"
-      ]
+      ],
+      "skillsPath": "skills"
     }
   }
 }

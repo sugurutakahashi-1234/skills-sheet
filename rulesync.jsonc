@@ -11,7 +11,7 @@
   // source にタグは付けない。固定は rulesync.lock が担い、更新は `rulesync install --update`
   "sources": [
     {
-      "source": "sugurutakahashi-1234/suguru-ai-rules",
+      "source": "sugurutakahashi-1234/harness-ai-rules",
       "rules": ["language-and-commits", "git-safety"],
       // decision-page: 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
       // motion-video: モーショングラフィックス動画を本人と作る進め方と道具（HyperFrames と組）。この題材だけの決めはリポジトリの skillsheet-video

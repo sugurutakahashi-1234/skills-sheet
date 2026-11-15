@@ -20,6 +20,7 @@
 - 案を出す段階では毎回測らず、文字数で足切りする。使える幅は深さ 2 が 666px・深さ 1 が 698px で、文字幅は全角 16px・半角英数 8.7px・半角スペース 2.8px（42 行の実測から算出、平均誤差 3.9px）。バッククォートで囲んだ名前は等幅の字体で描かれ、1 文字 8.2px に左右の余白 11px が付く（`Swift` で約 52px。普通の文字として数えると狭く見積もる）。全角だけなら 41 文字が上限。半角英数は全角の 0.55 倍あり「2 文字で全角 1 文字」と丸めると溢れを見逃すので、英数が多い行は測る。確定した案は適用後に `bun run check:width` で確認する
 - 動画（モーショングラフィックス）は `motion-video`（進め方と道具）と `skillsheet-video`（この題材の決め・作業場所・現在地）のスキルと HyperFrames で作る。題材は README で、README に無い数字・期間・社名・成果は足さない。HyperFrames のスキルは rulesync で取り、`npx hyperframes` 自身の更新は mise の `HYPERFRAMES_SKIP_SKILLS` で止めてある
 - セッション開始に rulesync の遅れの知らせが出て上げるときは `GITHUB_TOKEN=$(gh auth token) bunx rulesync install --update && bunx rulesync generate` を使う。HyperFrames はファイル数が多く、トークンなしでは GitHub の回数制限で途中で止まる
+- このリポジトリは公開なので、自分の共有ルール・スキル（`decision-page`・`motion-video`・`skill-layering` と、言語・git のルール）は取り込まない。手元のグローバルの設定にある物を使う。`rulesync.jsonc` に足してよいのは、元から公開されている外部のスキルだけ（写しをコミットすると公開されるため）
 - `CLAUDE.md` / `AGENTS.md` / `.claude/skills` / `.agents/skills` は `.rulesync/` からの生成物。編集するのは `.rulesync/` と `rulesync.jsonc`
 - `git add` / `git commit` / `git push`（`main` への直接 push を含む）は確認を取らずに実行してよい。コミットの分け方や粒度の判断も任せる。このリポジトリでは、グローバル設定と `git-safety` の「明示的な指示があるまで実行しない」よりこの行を優先する
 - ただし `git push --force` / `git reset --hard` / `git branch -D` など `git-safety` が挙げる破壊的操作は対象外で、従来どおり指示を待つ
@@ -105,20 +106,3 @@ README を直すときの決め。文そのものは README が持ち、経緯�
 - 一覧行の子行は `**役割**（`言語`・`特徴`）: 概要` の 1 行にする。`役割 / 技術 / 概要` のスラッシュ区切りは、案件名（`IT コンサルティング / SIer / SES`）の中のスラッシュと紛れて区切りが読めない。Web 版（build-site）はこの形を前提に役割・技術・概要へ分け、崩れていたらビルドを止める
 - 技術は全部を並べず、「言語 1 つ + 案件を特徴づけるもの」を 2〜4 個（No.8 は `Swift`・`WhisperKit`、No.11 は `Cloudflare`・`RAG`・`MCP`）。`FDE` のような技術でない語は括弧に入れない。技術の全体は案件詳細の開発環境と技術スタックにある
 - 一覧行では言語を `Swift` `PHP` と括弧なしで書く。`Swift (SwiftUI)` を括弧の中に入れると二重括弧になり読みにくい。技術スタック・開発環境の `Swift (SwiftUI, UIKit)` のような書き方はそのまま
-
-# git の操作境界
-
-取り消せない操作と、他人の目に触れる操作は、ユーザーの明示的な指示があるまで実行しない。手元で取り消せる操作（編集・テスト・ブランチ作成）は自由に進めてよい。
-
-- 作業中の変更や履歴を失う操作: `git reset --hard`・`git checkout -- <file>`・`git restore`・`git clean -f`・`git stash drop` / `clear`・`git branch -D`・`git rebase --abort`・`git push --force`・公開済みコミットの amend
-- 他人に見える操作: `git push`、`git commit`（「コミットして」と言われたときだけ）、PR や issue へのコメント、外部サービスへの投稿
-- フックや検査に止められたら、`--no-verify`・見慣れないファイルの削除・`reset --hard` で近道をしない。原因を直すか、直せないならユーザーに状況を伝えて判断を仰ぐ（シークレット検知は `secret-safety`）
-- このルールは文脈であって強制ではない。確実に止めたいリポジトリでは、Claude Code の `permissions.deny` か `PreToolUse` hook で塞ぐ（雛形は ai-rules の `templates/claude-settings.json`）
-
-# 言語とコミット
-
-- 議論・作業の合間の一言・ツールの説明（Bash の description など）・生成するページの文言・コードコメント・ドキュメントは日本語で書く。読み手は途中の表示も読んで進み具合を追うため。識別子とコマンドはそのままでよい
-- コミットメッセージは `type(scope): 日本語の subject`（scope は任意、body も日本語）。例: `improve(ci): bun のバージョン指定を latest 追随へ統一`
-  - type は `feat` `fix` `docs` `style` `refactor` `perf` `test` `build` `ci` `chore` `revert` `improve` だけ。リリースの自動化がこの語彙に依存するので、増減しない
-  - そのリポジトリの `commitlint.config.*` の `type-enum` が違うなら、そちらに従う
-- commitlint を新しく入れるときは、ai-rules の `templates/commitlint.config.ts` を写す（日本語の subject を通す設定と、その理由が書いてある）

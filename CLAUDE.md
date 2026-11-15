@@ -20,6 +20,7 @@
 - 案を出す段階では毎回測らず、文字数で足切りする。使える幅は深さ 2 が 666px・深さ 1 が 698px で、文字幅は全角 16px・半角英数 8.7px・半角スペース 2.8px（42 行の実測から算出、平均誤差 3.9px）。バッククォートで囲んだ名前は等幅の字体で描かれ、1 文字 8.2px に左右の余白 11px が付く（`Swift` で約 52px。普通の文字として数えると狭く見積もる）。全角だけなら 41 文字が上限。半角英数は全角の 0.55 倍あり「2 文字で全角 1 文字」と丸めると溢れを見逃すので、英数が多い行は測る。確定した案は適用後に `bun run check:width` で確認する
 - 動画（モーショングラフィックス）は `motion-video`（進め方と道具）と `skillsheet-video`（この題材の決め・作業場所・現在地）のスキルと HyperFrames で作る。題材は README で、README に無い数字・期間・社名・成果は足さない。HyperFrames のスキルは rulesync で取り、`npx hyperframes` 自身の更新は mise の `HYPERFRAMES_SKIP_SKILLS` で止めてある
 - セッション開始に rulesync の遅れの知らせが出て上げるときは `GITHUB_TOKEN=$(gh auth token) bunx rulesync install --update && bunx rulesync generate` を使う。HyperFrames はファイル数が多く、トークンなしでは GitHub の回数制限で途中で止まる
+- このリポジトリは公開なので、自分の共有ルール・スキル（`decision-page`・`motion-video`・`skill-layering` と、言語・git のルール）は取り込まない。手元のグローバルの設定にある物を使う。`rulesync.jsonc` に足してよいのは、元から公開されている外部のスキルだけ（写しをコミットすると公開されるため）
 - `CLAUDE.md` / `AGENTS.md` / `.claude/skills` / `.agents/skills` は `.rulesync/` からの生成物。編集するのは `.rulesync/` と `rulesync.jsonc`
 - `git add` / `git commit` / `git push`（`main` への直接 push を含む）は確認を取らずに実行してよい。コミットの分け方や粒度の判断も任せる。このリポジトリでは、グローバル設定と `git-safety` の「明示的な指示があるまで実行しない」よりこの行を優先する
 - ただし `git push --force` / `git reset --hard` / `git branch -D` など `git-safety` が挙げる破壊的操作は対象外で、従来どおり指示を待つ

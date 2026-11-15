@@ -1,5 +1,5 @@
-// AI エージェント向けのルールは非公開のルール集（ai-rules）から取り込んでいる。取り込み済みのファイルは .rulesync/ に入っているので、
-// generate と check はそのまま動く。sources の更新（install --update）だけは取り込み元を読める人に限られる。
+// 取り込むのは、元から公開されている外部のスキルだけにする。このリポジトリは公開なので、自分の共有ルール・スキル（ai-rules）は取り込まず、
+// 手元のグローバルの設定に任せる（decision-page・motion-video・skill-layering と、言語・git のルール）。写しをコミットすると公開されるため。
 {
   "$schema": "https://github.com/dyoshikawa/rulesync/releases/latest/download/config-schema.json",
   // Claude Code (CLAUDE.md) と Codex (AGENTS.md) を .rulesync/ から生成する。生成物は直接編集しない。
@@ -10,14 +10,6 @@
   "delete": true,
   // source にタグは付けない。固定は rulesync.lock が担い、更新は `rulesync install --update`
   "sources": [
-    {
-      "source": "sugurutakahashi-1234/harness-ai-rules",
-      "rules": ["language-and-commits", "git-safety"],
-      // decision-page: 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
-      // motion-video: モーショングラフィックス動画を本人と作る進め方と道具（HyperFrames と組）。この題材だけの決めはリポジトリの skillsheet-video
-      // skill-layering: スキル・ルールを足す・直すときの置き場所と、共有スキルを変える前の影響確認
-      "skills": ["decision-page", "motion-video", "skill-layering"]
-    },
     {
       // 動画を HTML と GSAP で組んで MP4 にする。HyperFrames 自身のスキル更新は mise.toml の HYPERFRAMES_SKIP_SKILLS で止め、更新は rulesync に任せる。
       // ファイル数が多く、匿名の取り込みは GitHub の回数制限に当たるので `GITHUB_TOKEN=$(gh auth token) bun run rulesync` で取る

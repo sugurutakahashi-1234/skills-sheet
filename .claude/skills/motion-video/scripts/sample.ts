@@ -54,7 +54,7 @@ const SKIP = new Set(["renders", "snapshots", "samples", "node_modules"]);
 
 export function main(args: string[]): number {
   const help = `usage: bun sample.ts <作品のフォルダ> <名前> [--patch '<JSON>'] [--patch-file <JSON のファイル>] [--at <時刻,…>] [--render <始め-終わり>]
-                    [--fps 30] [--out <写しのフォルダ>] [--hf hyperframes@0.8]
+                    [--fps 30] [--out <写しのフォルダ>] [--hf hyperframes@0.9]
 
 作品の content.json（と music.json）の一部を差し替えた写しを作り、本番のコードの上で見本を撮る。本番のファイルは書き換えない。
 --patch は content.json に重ねる JSON（オブジェクトは中まで重ね、配列はまるごと置き換える）。scenes は場面の id をキーにした
@@ -63,7 +63,7 @@ export function main(args: string[]): number {
 --at は通しの秒か「場面の id@場面の中の拍」（例: 9.5,focus@2）。写しの shots/ に PNG を撮る
 --render は通しの秒の範囲（両端に id@拍 も使える）。全体を下書きの画質で書き出し、その範囲を写しの <名前>.mp4 に切り出す
 --out を省くと、作品の隣の samples/<名前>/ に写す（前の写しは、この道具が作ったものだけ消して作り直す）
---hf は npx で呼ぶ HyperFrames（既定の hyperframes@0.8 は、公開から 3 日たった 0.8 系の最新を使う。版を固定するなら hyperframes@0.8.150 のように）
+--hf は npx で呼ぶ HyperFrames（既定の hyperframes@0.9 は、公開から 3 日たった 0.9 系の最新を使う。版を固定するなら hyperframes@0.9.10 のように）
 場面の窓の印（<!-- scenes:begin -->）がある index.html は、写しの中で窓を作り直す。撮る前に差し替えた値を check-scenes で検査し、写しに check-content.ts があればそれも通す。通らなくても撮る（下限を割る見本も撮れるように）。
 標準出力には撮った静止画のフォルダと動画のパスを出す。`;
   if (args.includes("--help") || args.includes("-h")) { console.log(help); return 0; }
@@ -72,7 +72,7 @@ export function main(args: string[]): number {
   const opt = (k: string) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined; };
   const dir = path.resolve(work);
   if (!existsSync(path.join(dir, "content.json"))) { console.error(`${dir} に content.json が無い`); return 2; }
-  const hf = opt("--hf") ?? "hyperframes@0.8";
+  const hf = opt("--hf") ?? "hyperframes@0.9";
 
   let patch: Obj = {};
   if (opt("--patch-file")) patch = JSON.parse(readFileSync(opt("--patch-file")!, "utf8"));

@@ -19,7 +19,7 @@
  *   文の中の {+足す+} は緑の下線、{-消す-} は赤の取り消し線になる
  * - 選ぶボタンの言葉は場面で変わる（keep 1 と pick は「これにする」、keep 2 以上は「候補に残す」）。ページの button で上書きできる。
  *   押した後は「選択中」になり、もう一度押すと戻る
- * - recommend で推す案を明示する（札「おすすめ」と理由 1 行）。選ばなかった件は回答に「未選択 → おすすめ」と出るので、答えなくても進められる
+ * - recommend で推す案を明示する（札「おすすめ」と理由 1 行。理由の無いおすすめは検査で止める）。選ばなかった件は回答に「未選択 → おすすめ」と出るので、答えなくても進められる
  * - BGM は何曲でも並べられる。1 曲を再生すると他は止まる（止めた位置は残す。頭に戻すと聴き直しづらい）
  * - 入力はブラウザに保存する（作り直しても同じ storageKey なら残る）。作り直したら開き直さず、本人に再読み込みしてもらう
  */
@@ -594,6 +594,10 @@ ${summary}
 export function check(p: Page): string | null {
   const cols = p.columns ?? [], rows = p.rows ?? [];
   if (!p.title) return "各ページに title が要る";
+  // おすすめには理由を付ける。印だけでは、なぜその案を推すのかが読み手に分からない
+  if (p.recommend && !p.recommend.reason?.trim()) return `${p.title}: recommend には reason（推す理由の 1 行）が要る`;
+  const bare = rows.find((r) => r.recommend !== undefined && !r.why?.trim());
+  if (bare) return `${p.title}: 件「${bare.name}」の recommend には why（なぜそう提案するかの 1 行）が要る`;
   if (p.mode === "check") return rows.length ? null : `${p.title}: check には rows が要る`;
   if (!cols.length && !hasRowCards(p) && !p.audio?.length) return `${p.title}: columns か、options / ask を持つ rows か、audio のどれかが要る`;
   if (!cols.length && !hasRowCards(p)) return null;

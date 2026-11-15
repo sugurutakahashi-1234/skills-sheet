@@ -12,7 +12,7 @@
   "sources": [
     {
       "source": "sugurutakahashi-1234/harness-ai-rules",
-      "rules": ["language-and-commits", "git-safety"],
+      "rules": ["cloud-sessions", "language-and-commits", "git-safety"],
       // decision-page: 文書の構成案を 1 枚の比較 HTML にして選ぶ（グローバルには置かない手順型スキル）
       // motion-video: モーショングラフィックス動画を本人と作る進め方と道具（HyperFrames と組）。この題材だけの決めはリポジトリの skillsheet-video
       // skill-layering: スキル・ルールを足す・直すときの置き場所と、共有スキルを変える前の影響確認

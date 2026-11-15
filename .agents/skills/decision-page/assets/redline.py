@@ -16,6 +16,11 @@
   「案 → 直した文」（行頭の `- ` や見出しの # も含めた 1 行）とコメント。
 
   --alts は {案の行の文字列: [候補, …]} の JSON（--edit と一緒に使う）。その行の下に候補を並べ、押すと右の欄に入る。
+  候補は文字列のほか {"label": "出どころの名前", "text": "文"} でも書ける。名前付きの候補がある行は、右の列が選択肢になる。
+  「元の文のまま」・候補ごとの札（元の文への赤入れ。消した字は赤の取消線、足した字は緑）・「自分で書く」を積み、丸で 1 つ選ぶ。
+  複数の校閲の道具の直しを、文脈の中で見比べて採るときの形。
+  このときは before と今のファイルを同じ中身にしておく（右の欄は元の文のままで、採った候補だけが入る）。変えていない行でも、
+  候補のある行は「変更の前後だけ」の表示に残り、章のタブの数にも入る。
   案が通らなかった行・言い回しの好みが分かれる行にだけ付ける（全部の行に付けると読むのがつらい）。
 
   入力中の印とコメントはブラウザに保存する（localStorage。キーは出力先のパス）。同じ出力先に作り直したページは、
@@ -35,6 +40,13 @@ if EDIT: argv.remove('--edit')
 ALTS = {}
 if '--alts' in argv:
     k = argv.index('--alts'); ALTS = json.load(io.open(argv[k+1], encoding='utf-8')); del argv[k:k+2]
+# 候補は {"label", "text"} の形にそろえる。名前（label）には出てきた順に色の番号を振り、同じ道具が同じ色になるようにする
+ALTS = {k: [a if isinstance(a, dict) else {'text': a} for a in v] for k, v in ALTS.items()}
+ALT_LABELS = []
+for v in ALTS.values():
+    for a in v:
+        if a.get('label') and a['label'] not in ALT_LABELS: ALT_LABELS.append(a['label'])
+ALT_ROWS = [0]
 SPLIT_ARG = ''
 if '--split' in argv:
     k = argv.index('--split'); SPLIT_ARG = argv[k+1]; del argv[k:k+2]
@@ -117,14 +129,27 @@ def add(kind, cls, left, right, n, plain, raw=None):
     if kind!='eq': chsrc.setdefault(CH[0],[]).append(f'{kind}\x01{left}\x01{right}')
     act=('<button data-act="rev">戻す</button>' if kind!='eq' else '')+'<button data-act="cmt">コメント</button>'
     why=f'<span class="why">{html.escape(NOTES[plain])}</span>' if kind!='eq' and plain in NOTES else ''
-    if EDIT and raw and cls not in ('h1','h2') and not (kind=='eq' and not plain):
+    # 章の見出しは書き換えの対象にしないが、候補のある見出し（道具が見出しを直した）は採れるように欄にする
+    if EDIT and raw and (cls not in ('h1','h2') or plain in ALTS) and not (kind=='eq' and not plain):
         # 右は書き換えられる欄（contenteditable）。太字・リンク・コードを描いたまま直せ、送るときに Markdown へ戻す
         act='<button data-act="orig" title="元の文にする">元の文</button><button data-act="prop" title="案に戻す">案</button><button data-act="cmt">コメント</button>'
         # 候補は全体が 1 つのボタン。押すと右の欄を置き換える。文字は選べるので、一部をコピーしたりドラッグで右の欄に入れたりできる
-        alts=''.join(f'<span class="alt" role="button" tabindex="0" data-alt="{html.escape(a)}" title="押すと右の欄に入る（文字を選ぶとコピーやドラッグができる）"><span class="altx"></span></span>' for a in ALTS.get(plain,[]))
-        alts=f'<span class="alts"><span class="altl">候補（押すと右の欄に入る。文字を選んでコピー・ドラッグもできる）</span>{alts}</span>' if alts else ''
+        cands=ALTS.get(plain,[]); named=any(a.get('label') for a in cands)
+        tag=lambda a: f'<span class="altn t{ALT_LABELS.index(a["label"])%3}">{html.escape(a["label"])}</span>' if a.get('label') else ''
+        alt=lambda a,extra='': f'<span class="alt{extra}" role="button" tabindex="0" data-alt="{html.escape(a["text"])}" title="押すと右の欄に入る（文字を選ぶとコピーやドラッグができる）">{tag(a)}<span class="altx"></span></span>'
+        if alts_named := (named and cands):
+            # 名前付きの候補（道具ごとの直し）は、右の列を選択肢にする。元の文のまま・道具ごとの直し・自分で書く、を同じ重さの札として積み、
+            # 丸で 1 つ選ぶ。候補の幅がどの行でも右の列の幅にそろい、何を採用しているかが丸で分かる
+            orig=f'<span class="alt" role="button" tabindex="0" data-alt="{html.escape(raw[1])}" title="元の文のままにする"><span class="altn tg">元の文のまま</span><span class="altx"></span></span>'
+            mine='<span class="mine"><span class="altn tg">自分で書く</span><span class="ce" contenteditable="true" spellcheck="false"></span><span class="minehint">採用した文が入る。ここで書き換えられる</span></span>'
+            right=f'<span class="r pick">{orig}{"".join(alt(a) for a in cands)}{mine}</span>'; alts=''
+        else:
+            right='<span class="r"><span class="ce" contenteditable="true" spellcheck="false"></span></span>'
+            alts=''.join(alt(a) for a in cands)
+            alts=f'<span class="alts"><span class="altl">候補（押すと右の欄に入る。文字を選んでコピー・ドラッグもできる）</span>{alts}</span>' if alts else ''
+        if cands and kind=='eq': cls+=' hasalt'; ALT_ROWS[0]+=1
         # コメント欄は行の下に横いっぱいで開く（右の狭い列だと、書くほど文字が見えなくなる）
-        rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span><span class="r"><span class="ce" contenteditable="true" spellcheck="false"></span></span><span class="act">{act}</span>{why}{alts}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（直した理由、迷っている点、など）"></textarea></div>')
+        rows.append(f'<div class="row {kind} {cls} er" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l"><span class="lt"></span></span>{right}<span class="act">{act}</span>{why}{alts}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（直した理由、迷っている点、など）"></textarea></div>')
         return
     rows.append(f'<div class="row {kind} {cls}" data-key="{key}" data-sid="{sid}" data-ch="{html.escape(CH[0])}"><span class="n">{n or ""}</span><span class="l">{left}</span><span class="r">{right}</span><span class="act">{act}</span>{why}</div><div class="cbox" data-for="{key}" hidden><textarea placeholder="この行へのコメント（戻す理由、別の言い方、など）"></textarea></div>')
 sm = difflib.SequenceMatcher(None, old, new, autojunk=False)
@@ -196,7 +221,20 @@ body.edit .bar #side,body.edit .bar #stack{display:none}
 body.edit .act{flex-wrap:nowrap;justify-content:flex-end;gap:3px;opacity:.35}body.edit .act button{flex:0 0 auto;padding:2px 6px;font-size:11px}
 body.edit .row:hover .act,body.edit .row.edited .act,body.edit .row.has-c .act{opacity:1}
 body.edit .cbox textarea{min-height:64px}
-.alts{grid-column:3/5;display:flex;flex-direction:column;gap:4px;margin:2px 0 8px}.altl{font-size:12px;font-weight:600;color:#59636e}
+.alts{grid-column:3/5;display:flex;flex-direction:column;gap:4px;margin:2px 0 8px}
+/* 名前付きの候補は右の列に積み、丸で 1 つ選ぶ（元の文のまま・道具ごとの直し・自分で書く） */
+.r.pick{display:flex;flex-direction:column;gap:6px}
+/* 箇条書きの点と見出しの下線は、選択肢の札の外に出さない（札の上に点だけが残り、列がずれる） */
+.er.li .r.pick::before{content:none;display:none}.er .r.pick{border-bottom:0;padding-left:0}
+.r.pick .alt,.r.pick .mine{display:grid;grid-template-columns:18px minmax(0,1fr);gap:2px 6px;align-items:start;padding:6px 10px;border:1.5px solid #d1d9e0;border-radius:8px;background:#fff;line-height:1.7;font-weight:400}
+.r.pick .alt::before,.r.pick .mine::before{content:"";width:14px;height:14px;margin-top:4px;border-radius:50%;border:2px solid #8c959f;grid-row:1/3}
+.r.pick .on{border-color:#1f883d;background:#f0fff4}.r.pick .on::before{border-color:#1f883d;background:radial-gradient(#1f883d 45%,#fff 50%)}
+.r.pick .altn{justify-self:start}.r.pick .altx,.r.pick .ce{grid-column:2}.r.pick .mine .ce{border:1px solid #d1d9e0;border-radius:6px;padding:2px 6px;background:#fff;min-height:1.8em}
+.minehint{grid-column:2;font-size:11.5px;color:#8c959f}.altn.tg{background:#eaeef2;color:#59636e}
+.altn{font-size:12px;font-weight:700;border-radius:5px;padding:0 8px;line-height:1.7}.altn.t0{background:#e8eefc;color:#2457c5}.altn.t1{background:#fff4dc;color:#8a4b08}.altn.t2{background:#f0e6ff;color:#6639ba}
+.altx del{background:#ffcecb;color:#b4442e;text-decoration:line-through}
+/* 変えていない行でも、候補のある行は読み手が決める行。字を薄くせず、左に印を付ける */
+.er.eq.hasalt .lt,.er.eq.hasalt .ce{color:inherit}.er.hasalt .n{box-shadow:inset 3px 0 0 #bf8700}.altl{font-size:12px;font-weight:600;color:#59636e}
 .alt{display:flex;align-items:center;line-height:1.6;padding:4px 10px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa;cursor:pointer;user-select:text}
 .alt:hover{border-color:#54aeff;background:#ddf4ff}.alt:focus-visible{outline:2px solid #54aeff}
 .alt.on{border-color:#1f883d;background:#dafbe1;font-weight:600}.altx{flex:1;min-width:0}
@@ -245,7 +283,8 @@ const curOf=key=>{const s=state[key];return s&&s.t!==undefined?s.t:TEXTS[key].rt
 function paint(r,keep){const key=r.dataset.key,t=TEXTS[key],v=curOf(key),A=parseMd(t.ltn),Bc=parseMd(v),d=diffCs(A,Bc),ce=r.querySelector('.ce');
   r.querySelector('.lt').innerHTML=renderCs(A,d[0]);const off=keep?caretOf(ce):null;ce.innerHTML=renderCs(Bc,d[1]);if(keep)setCaret(ce,off);
   r.classList.toggle('edited',v!==t.rtn);r.classList.toggle('diff',v!==t.ltn);
-  r.querySelectorAll('.alt').forEach(a=>a.classList.toggle('on',normMd(a.dataset.alt)===v));}
+  let hit=false;r.querySelectorAll('.alt').forEach(a=>{const on=normMd(a.dataset.alt)===v;hit=hit||on;a.classList.toggle('on',on);});
+  const mine=r.querySelector('.mine');if(mine)mine.classList.toggle('on',!hit);}
 function setText(r,md){const key=r.dataset.key;state[key]=state[key]||{};const v=normMd(md);if(v===TEXTS[key].rtn)delete state[key].t;else state[key].t=v;paint(r,false);}
 function initEdit(){rows.forEach(r=>{const ce=r.querySelector('.ce');if(!ce)return;const key=r.dataset.key,t=TEXTS[key];t.rtn=normMd(t.rt);t.ltn=normMd(t.lt);
   let composing=false;
@@ -263,7 +302,12 @@ function initEdit(){rows.forEach(r=>{const ce=r.querySelector('.ce');if(!ce)retu
     const rg=document.caretRangeFromPoint?document.caretRangeFromPoint(e.clientX,e.clientY):null;ce.focus();
     const sel=getSelection();if(rg&&ce.contains(rg.startContainer)){sel.removeAllRanges();sel.addRange(rg);}else{const r=document.createRange();r.selectNodeContents(ce);r.collapse(false);sel.removeAllRanges();sel.addRange(r);}
     document.execCommand('insertText',false,txt);});
-  r.querySelectorAll('.alt').forEach(a=>{a.querySelector('.altx').innerHTML=renderCs(parseMd(a.dataset.alt));
+  r.querySelectorAll('.alt').forEach(a=>{const B2=parseMd(a.dataset.alt);
+    /* 名前付きの候補は、元の文への赤入れ（消した字と足した字を 1 本の文に重ねる）で出す */
+    if(a.querySelector('.altn')){const A2=parseMd(t.ltn),d2=diffCs(A2,B2),cs=[],mk=[];let i2=0,j2=0;
+      while(i2<A2.length||j2<B2.length){if(i2<A2.length&&d2[0][i2]){cs.push(A2[i2++]);mk.push('del');}else if(j2<B2.length&&d2[1][j2]){cs.push(B2[j2++]);mk.push('ins');}else{cs.push(B2[j2++]);mk.push('');i2++;}}
+      a.querySelector('.altx').innerHTML=renderCs(cs,mk);}
+    else a.querySelector('.altx').innerHTML=renderCs(B2);
     const use=()=>{setText(r,a.dataset.alt);sum();ce.focus();};
     /* 文字を選んだ（ドラッグで範囲・ダブルクリックで語）ときは置き換えない。ダブルクリックの 1 回目で置き換わらないよう、少し待ってから選択の有無を見る */
     const picked=()=>{const sl=getSelection();return sl&&!sl.isCollapsed&&a.contains(sl.anchorNode);};
@@ -311,7 +355,7 @@ body.focus .eq{{display:none}}body.focus .eq.ctx{{display:grid}}body.focus .eq.c
 </style><div class="wrap">
 <h1>{html.escape(path)} の{'編集ビュー' if EDIT else '変更履歴ビュー'}</h1>
 <p class="note">{('左が元の文（' + html.escape(before_ref) + ' 時点）、右が案です。右の欄はそのまま書き換えられ、元の文との違いがその場で色で出ます（左の赤 = 消える部分、右の緑 = 足した部分）。行の「元の文」「案」ボタンで一度に戻せ、「コメント」で右の余白に一言書けます。') if EDIT else (html.escape(before_ref) + ' 時点（左）→ 現在（右）。<del>消した部分</del>は赤の取り消し線、<ins>足した部分</ins>は緑の下線。気になる行は「戻す」を押すか「コメント」で一言書いてください。')}章を見終えたら「この章の回答をコピー」でチャットに貼ってください。章ごとに送れば、こちらが反映している間に次の章を見られます。直すところがない章は「直すところなし（この章を OK で送る）」を押すと「指摘なし」で送られ、タブが「OK」になります。</p>
-<div class="bar"><span>変更 {stats["chg"]} 行 / 追加 {stats["ins"]} 行 / 削除 {stats["del"]} 行</span>
+<div class="bar"><span>変更 {stats["chg"]} 行 / 追加 {stats["ins"]} 行 / 削除 {stats["del"]} 行{f" / 候補あり {ALT_ROWS[0]} 行" if ALT_ROWS[0] else ""}</span>
 <button id="side" class="on">左右に並べる</button><button id="stack">1 列で重ねる</button>
 <button id="allv" class="on">全文</button><button id="focus">変更の前後だけ</button><button id="reload" title="入力中の印とコメントは残ります">再読み込み</button><span class="sp"></span><span id="warn"></span><button id="goAllTop" class="topmain" hidden>回答をまとめてコピー</button><span id="sum"></span></div>
 <div class="tabs" id="tabs"></div>
@@ -349,8 +393,8 @@ function showCh(ch){{if(curCh!==null)chc[curCh]=B('chc').value;curCh=ch;seen[ch]
   document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.ch===ch));
   /* 前の章の回答が残っていると貼り間違えるので、章を移ったら回答欄を空にする */
   B('out').value='';B('msg').textContent='';B('next').hidden=true;refresh();save();window.scrollTo({{top:0}});}}
-(function(){{const tabs=B('tabs');CHAPTERS.forEach(ch=>{{const n=rows.filter(r=>r.dataset.ch===ch&&!r.classList.contains('eq')).length;NCH[ch]=n;if(!n&&ch==='（冒頭）')return;const b=document.createElement('button');b.dataset.ch=ch;b.innerHTML=`${{short(ch)}}<span class="c">${{n}}</span><span class="st" hidden></span>`;b.onclick=()=>showCh(ch);tabs.appendChild(b);}});}})();
-rows.forEach((r,i)=>{{ if(!r.classList.contains('eq')) for(let k=Math.max(0,i-2);k<=Math.min(rows.length-1,i+2);k++) rows[k].classList.add('ctx'); }});
+(function(){{const tabs=B('tabs');CHAPTERS.forEach(ch=>{{const n=rows.filter(r=>r.dataset.ch===ch&&(!r.classList.contains('eq')||r.classList.contains('hasalt'))).length;NCH[ch]=n;if(!n&&ch==='（冒頭）')return;const b=document.createElement('button');b.dataset.ch=ch;b.innerHTML=`${{short(ch)}}<span class="c">${{n}}</span><span class="st" hidden></span>`;b.onclick=()=>showCh(ch);tabs.appendChild(b);}});}})();
+rows.forEach((r,i)=>{{ if(!r.classList.contains('eq')||r.classList.contains('hasalt')) for(let k=Math.max(0,i-2);k<=Math.min(rows.length-1,i+2);k++) rows[k].classList.add('ctx'); }});
 /* 変えていない行の続きを 1 つの「… N 行」に畳む。押すとその部分だけ開く */
 let run=null; rows.forEach(r=>{{ const c=r.classList.contains('eq')&&!r.classList.contains('ctx');
   if(!c){{run=null;return;}}
@@ -367,7 +411,7 @@ const marked=key=>{{const s=state[key];return !!s&&(s.rev||!!(s.c||'').trim()||s
 function per(ch){{const ls=[];rows.forEach(r=>{{if(r.dataset.ch!==ch||!marked(r.dataset.key))return;const s=state[r.dataset.key],t=TEXTS[r.dataset.key];
     /* 編集モード: 案から直した行は「案 → 直した文」を行頭ごと出す。受け手はこの 1 行で置き換えればよい */
     if(EDIT&&s.t!==undefined){{const lab=s.t===t.ltn?'[元の文に戻す]':s.t===''?'[削除]':'[直した]';
-      ls.push(`#${{t.n||'(削除行)'}} ${{lab}} ${{t.rp||t.lp||''}}${{s.t.replace(/\\n/g,' ⏎ ')}}`+(t.rt?`\\n    （案: ${{t.rt}}）`:'')+((s.c||'').trim()?`\\n    → ${{s.c.trim().replace(/\\n/g,' / ')}}`:''));return;}}
+      ls.push(`#${{t.n||'(削除行)'}} ${{lab}} ${{t.rp||t.lp||''}}${{s.t.replace(/\\n/g,' ⏎ ')}}`+(t.rt?`\\n    （${{t.rt===t.lt?'元の文':'案'}}: ${{t.rt}}）`:'')+((s.c||'').trim()?`\\n    → ${{s.c.trim().replace(/\\n/g,' / ')}}`:''));return;}}
     ls.push(`#${{t.n||'(削除行)'}} ${{s.rev?'[戻す] ':''}}${{t.text}}`+((s.c||'').trim()?`\\n    → ${{s.c.trim().replace(/\\n/g,' / ')}}`:''));}});return ls;}}
 const cmt=ch=>((ch===curCh?B('chc').value:chc[ch])||'').trim();
 const touched=ch=>per(ch).length>0||!!cmt(ch);

@@ -15,8 +15,8 @@
       // ファイル数が多く、匿名の取り込みは GitHub の回数制限に当たるので `GITHUB_TOKEN=$(gh auth token) bun run rulesync` で取る
       "source": "heygen-com/hyperframes",
       "skills": [
-        "hyperframes", "hyperframes-core", "hyperframes-animation", "hyperframes-creative", "hyperframes-keyframes", "hyperframes-cli",
-        "hyperframes-registry", "hyperframes-audio", "hyperframes-studio", "media-use", "motion-graphics", "general-video"
+        // 上流が 2026-11 にスキルを統合し、core・animation・creative・keyframes・audio・studio・motion-graphics・general-video は hyperframes の references に入った
+        "hyperframes", "hyperframes-cli", "hyperframes-registry", "media-use"
       ]
     }
   ]

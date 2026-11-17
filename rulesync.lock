@@ -3,59 +3,27 @@
   "sources": {
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "23d1fe5b42724a5a9c0458475176d6bddfa235b1",
-      "resolvedAt": "2026-10-16T05:01:10.916Z",
+      "resolvedRef": "d317abcdbad97cef34866ba6698e376ec2c60ad9",
+      "resolvedAt": "2026-11-17T11:00:27.558Z",
       "skills": {
-        "general-video": {
-          "integrity": "sha256-fd7e61d6de8011481944cd345fd7ce9e2cdb374cf5a54a33bc2cddf6dc7c6272"
-        },
-        "hyperframes-animation": {
-          "integrity": "sha256-3dc5649fb6b39e58e96e8ed5fa4481c7487e84e6f01e9c0ba37b613972eb4ea1"
-        },
-        "hyperframes-audio": {
-          "integrity": "sha256-d7cca682492712df51f527ce58a7280604e92dd40a942cf1d794d1fc7dd312eb"
-        },
         "hyperframes-cli": {
-          "integrity": "sha256-5983a1c74181e08ca2e3ccc9b181a8a38a2e05d807644b23755946c2973f0e25"
-        },
-        "hyperframes-core": {
-          "integrity": "sha256-3a5c7607e38e2baac22e4488cfba6ca4b38ee5cae4a19de9be942165280d7285"
-        },
-        "hyperframes-creative": {
-          "integrity": "sha256-8c534edf12f84b442fbcf873b50b273589aa230ca842a904ca6ba95e6d547ef5"
-        },
-        "hyperframes-keyframes": {
-          "integrity": "sha256-32c2eb5ef34cdc3502d87cba5b562c63304674b1cb251334ed8f78cff9f1d071"
+          "integrity": "sha256-3e68fa88a2b2e035cdbd83c515fdce0bcd2593e6cf6af19f4ac8b7f1bbe97296"
         },
         "hyperframes-registry": {
-          "integrity": "sha256-7b597d36bcc2e64631f98b4c2922386170d8cc70f3d1101c50decaa8b21592ff"
-        },
-        "hyperframes-studio": {
-          "integrity": "sha256-f5e0b44d68152c124c694f42ae0a1a6df7e0973ec8f0445f752d30046dfab698"
+          "integrity": "sha256-d6262483d3c2829999b89c6605b4069aec1af92558634eee2bdf48ce0a7eb933"
         },
         "hyperframes": {
-          "integrity": "sha256-66a11d0d46af64277d46082aaef0a0084724dd4178034569544648f54c3278c4"
+          "integrity": "sha256-1c3a5bea0b31a7ea4203039479ad35491f2fe8d9ff59413321d5da2ff2c36dc7"
         },
         "media-use": {
-          "integrity": "sha256-539abaee857be8615eeec057ccf8b2db3b4a8065a685a35a8bfe73d334a0bb91"
-        },
-        "motion-graphics": {
-          "integrity": "sha256-de6aee841c033d9cdc567e952fa34df1ec671b4a1e7a66fcec02749062f4b59e"
+          "integrity": "sha256-185b8be3bb1d5ef6a685c74f77d9771a8fbe2184055d7bb68809406c06e700a3"
         }
       },
       "skillSelection": [
-        "general-video",
         "hyperframes",
-        "hyperframes-animation",
-        "hyperframes-audio",
         "hyperframes-cli",
-        "hyperframes-core",
-        "hyperframes-creative",
-        "hyperframes-keyframes",
         "hyperframes-registry",
-        "hyperframes-studio",
-        "media-use",
-        "motion-graphics"
+        "media-use"
       ],
       "skillsPath": "skills"
     }

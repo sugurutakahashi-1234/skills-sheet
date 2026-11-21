@@ -3,20 +3,20 @@
   "sources": {
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "765883195eb0a40c1062715879270e55f9074a67",
-      "resolvedAt": "2026-11-19T15:14:35.739Z",
+      "resolvedRef": "acdf9e59b2cde84ab11476f6b56db5cb3a5c53b2",
+      "resolvedAt": "2026-11-21T02:03:14.648Z",
       "skills": {
         "hyperframes-cli": {
-          "integrity": "sha256-9f85c028e7bd6007e55c3b64265cff382ab3a0791b5ffb346bcf24bf8a668a61"
+          "integrity": "sha256-d30dc88c05598ea7b5bfd84b5b6f6110b49600266f859fe9d2b4e2b4b14532dd"
         },
         "hyperframes-registry": {
           "integrity": "sha256-d6262483d3c2829999b89c6605b4069aec1af92558634eee2bdf48ce0a7eb933"
         },
         "hyperframes": {
-          "integrity": "sha256-14c877393c8848d5f97a1123e67e1a869946d535568d1afc26d3e33a292c76eb"
+          "integrity": "sha256-374bc03e98755867b50193f8c5684e58c4bf2355a4f0416e3dd36d42f057127d"
         },
         "media-use": {
-          "integrity": "sha256-ee9adf87961399cc3eee3ffcca4fb1bca6de658363976514d8000b0a8590df54"
+          "integrity": "sha256-6866f8db81d4ff273048b29a94db7511b4a782f19e46e7b87aa053d4bf58b58d"
         }
       },
       "skillSelection": [

@@ -3,20 +3,20 @@
   "sources": {
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "0d624100c7bf097177b2ff02700b90f89f14e4f0",
-      "resolvedAt": "2026-11-22T22:39:49.628Z",
+      "resolvedRef": "bebfdd13e909b9aea05f3b7d1319f579cb28f2b2",
+      "resolvedAt": "2026-11-23T16:05:57.205Z",
       "skills": {
         "hyperframes-cli": {
-          "integrity": "sha256-d30dc88c05598ea7b5bfd84b5b6f6110b49600266f859fe9d2b4e2b4b14532dd"
+          "integrity": "sha256-20577b944f4a96eab90d0a07cca64acc430e4d0d61c21067d8155d3bdee6b950"
         },
         "hyperframes-registry": {
-          "integrity": "sha256-cd7ea46905acfa49d90bed3d807c706782e22adfcb82df3f8dcfebcd5705b79f"
+          "integrity": "sha256-6f719bde7f781669bec8ed82d495a09ea37ebfd09868a41b3ddbbaf6caf76872"
         },
         "hyperframes": {
-          "integrity": "sha256-374bc03e98755867b50193f8c5684e58c4bf2355a4f0416e3dd36d42f057127d"
+          "integrity": "sha256-33a70b1094db0a5684b2a23a3bef8630526734bd531a41a4f6906fd09d56292b"
         },
         "media-use": {
-          "integrity": "sha256-f31a3421fba436163421a39d6db90900cf858cf818b3b2aa7e3c6d65c298eb43"
+          "integrity": "sha256-63c653bcfc3f027f68ffdccde112d2a6ffd29e5ad63c72bb557f523f957c0dac"
         }
       },
       "skillSelection": [

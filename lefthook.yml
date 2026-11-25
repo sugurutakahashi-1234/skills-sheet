@@ -10,7 +10,7 @@
 # - rulesync-generate: 正本 .rulesync/ や rulesync.jsonc が変わったらエージェント指示を再生成して同じコミットに含める
 pre-commit:
   commands:
-    # 秘密の混入を commit の前に止める（個人のアカウントの非公開リポジトリでは GitHub の push protection が使えない）。--redact で値を残さない
+    # 秘密の混入を commit の前に止める（公開リポジトリなので、漏れると誰でも読める）。--redact で値を残さない
     gitleaks:
       run: gitleaks git --staged --redact --no-banner
     career-years:

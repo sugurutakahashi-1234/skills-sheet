@@ -1,0 +1,22 @@
+# commit の前の秘密の検知（gitleaks）の設定。lefthook の pre-commit が `gitleaks git --staged` で読む。
+# 既定のルール一式は残す（消すと GitHub の PAT・AWS・Slack などの検知も消える）。
+[extend]
+useDefault = true
+
+# Anthropic のキーは既定のルールに無く、変数名が ANTHROPIC_API_KEY でも素通りする
+[[rules]]
+id = "anthropic-api-key"
+description = "Anthropic API key"
+regex = '''sk-ant-(?:api|admin|sid)[0-9]{2}-[A-Za-z0-9_-]{80,120}'''
+keywords = ["sk-ant-"]
+
+# rulesync で取り込んだ外部のスキル（.curated/）と、その生成物（.claude/skills・.agents/skills）は見ない。
+# 公開して使う前提の値（PostHog の公開キー・OAuth の利用者 ID）が入っていて、取り込みを上げる commit が毎回止まるため。
+# 自分で書いたスキルの正本（.rulesync/skills/<名前>/）は見る。生成物は正本の写しなので見なくてよい
+[[allowlists]]
+description = "取り込んだ外部のスキルと、スキルの生成物"
+paths = [
+  '''(^|/)\.rulesync/skills/\.curated/''',
+  '''(^|/)\.claude/skills/''',
+  '''(^|/)\.agents/skills/''',
+]

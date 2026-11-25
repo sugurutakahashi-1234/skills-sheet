@@ -10,6 +10,9 @@
 # - rulesync-generate: 正本 .rulesync/ や rulesync.jsonc が変わったらエージェント指示を再生成して同じコミットに含める
 pre-commit:
   commands:
+    # 秘密の混入を commit の前に止める（個人のアカウントの非公開リポジトリでは GitHub の push protection が使えない）。--redact で値を残さない
+    gitleaks:
+      run: gitleaks git --staged --redact --no-banner
     career-years:
       run: bun scripts/update-career.ts
     commas:
@@ -34,3 +37,9 @@ pre-commit:
     rulesync-generate:
       glob: "{.rulesync/**,rulesync.jsonc,rulesync.lock}"
       run: bunx rulesync generate && git add CLAUDE.md AGENTS.md .claude .agents .rulesync rulesync.lock
+
+# コミットメッセージ検証（正本: ルール集 harness-ai-rules の rules/language-and-commits.md）
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx commitlint --edit {1}

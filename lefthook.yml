@@ -41,5 +41,7 @@ pre-commit:
 # コミットメッセージ検証（正本: ルール集 harness-ai-rules の rules/language-and-commits.md）
 commit-msg:
   commands:
-    commitlint:
-      run: bunx commitlint --edit {1}
+    # 依存の要らない 1 行の検査。リリースの自動化が無いので、type と形だけを見れば足りる（commitlint は使わない）
+    commit-message:
+      run: |
+        head -1 {1} | grep -qE '^((feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|improve)(\([^)]+\))?!?: [^ ].*|Merge .+|Revert ".+|(fixup|squash|amend)! .+)$' || { echo "commit の 1 行目は「type(scope): 日本語の subject」にする。type は feat fix docs style refactor perf test build ci chore revert improve（harness-ai-rules の rules/language-and-commits.md）"; exit 1; }

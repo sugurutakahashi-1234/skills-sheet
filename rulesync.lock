@@ -3,8 +3,8 @@
   "sources": {
     "heygen-com/hyperframes": {
       "requestedRef": "main",
-      "resolvedRef": "7c217d9fdf3e32c628953f7325ddd90e0ff94392",
-      "resolvedAt": "2026-11-26T15:03:30.856Z",
+      "resolvedRef": "4276039576d4bf7345f57f545723c8125eaed5a7",
+      "resolvedAt": "2026-11-27T20:06:18.735Z",
       "skills": {
         "hyperframes-cli": {
           "integrity": "sha256-ed3c2dd7d46d5f857bc8a68842f60969dce5dde6998477e0c4a96834c98c89a8"

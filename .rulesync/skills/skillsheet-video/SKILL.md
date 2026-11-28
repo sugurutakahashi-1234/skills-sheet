@@ -5,7 +5,7 @@ description: スキルシート（README.md）の紹介動画を作る・直す�
 
 # スキルシートの紹介動画
 
-進め方（序盤・中盤・終盤）と、選択票・本番の上で見本を撮る道具・場面の並びの雛形・拍の測り方・公開の仕方は `motion-video` スキルにある。ここには、この題材だけの決めを置く。
+進め方（序盤・中盤・終盤）と、案を判断ページで見せる手順・本番の上で見本を撮る道具・場面の並びの雛形・拍の測り方・公開の仕方は `motion-video` スキルにある。ここには、この題材だけの決めを置く。
 
 再開するときは、まず `.tmp/videos/STATE.md`（現在地）と `.tmp/videos/opus-3/HANDOFF.md`（作り手への引き継ぎ書）を読む。
 
@@ -34,7 +34,7 @@ description: スキルシート（README.md）の紹介動画を作る・直す�
 
 ## 作業場所とファイル
 
-- `.tmp/videos/`（コミットしない）: `STATE.md`（現在地）・`opus-3/`（採用した作品。`content.json` に中身、`HANDOFF.md` に引き継ぎ）・`versions/`（版の控え）・`mock*/`（仮アニメーションと選択票）・`bgm3/`（曲の候補）・`history.jsonl`（採った案と外した案）
+- `.tmp/videos/`（コミットしない）: `STATE.md`（現在地）・`opus-3/`（採用した作品。`content.json` に中身、`HANDOFF.md` に引き継ぎ）・`versions/`（版の控え）・`mock*/`（仮アニメーションの見本。前の版のころの選択票の HTML も残っている）・`bgm3/`（曲の候補）・`history.jsonl`（採った案と外した案）
 - 文言・ロゴ・拍・場面の長さと並び（`scenes`）の直しは `opus-3/content.json` を書き換えるだけで済み、まとめ役がその場で入れる。曲の測った値は `opus-3/music.json`。書き換えたら `bunx -p typescript tsc -p .tmp/videos/opus-3/tsconfig.json && bun .tmp/videos/opus-3/check-content.ts` で形と参照を確かめる。見本は `bun .tmp/videos/opus-3/sample.ts <名前> --patch '<JSON>' --at <時刻>` で本番の上で撮る。新しい見た目や動きは、`HANDOFF.md` を渡した作り手に頼む
 - サムネは `opus-3/thumb/thumbnail.png`（本人が選んだ「サムネ用に組んだ絵」。写真と「45 秒でわかる」「高橋 俊」を大きく）。Web 版の poster・README の動画の最初のコマ・OGP に使う
 - 書き出した動画はデスクトップに `スキルシート動画_<案>_<段階>.mp4` で置く（作業ディレクトリの奥に置くだけにしない）
